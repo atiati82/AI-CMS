@@ -15,6 +15,8 @@ import adminPagesRouter from './admin/pages';
 import adminProductsRouter from './admin/products';
 import adminClustersRouter from './admin/clusters';
 import adminArticlesRouter from './admin/articles';
+import adminDocumentsRouter from './admin/documents';
+import adminSettingsRouter from './admin/settings';
 
 // Import AI routes
 import aiEnrichmentRouter from './ai/enrichment';
@@ -43,11 +45,13 @@ export async function registerModularRoutes(
     app.use('/api/admin/products', adminProductsRouter);
     app.use('/api/admin/clusters', adminClustersRouter);
     app.use('/api/admin/science-articles', adminArticlesRouter);
+    app.use('/api/admin/documents', adminDocumentsRouter);
+    app.use('/api/admin', adminSettingsRouter);
 
     // AI routes
     app.use('/api/admin', aiEnrichmentRouter);
     app.use('/api/admin', aiGenerationRouter);
     app.use('/api/admin', aiImagesRouter);
 
-    console.log('✅ Modular routes registered (Phases 1-3: Public + Admin + AI)');
+    console.log('✅ Modular routes registered (Phases 1-4: Public + Admin + AI + Complex)');
 }
