@@ -23,6 +23,8 @@ import aiEnrichmentRouter from './ai/enrichment';
 import aiGenerationRouter from './ai/generation';
 import aiImagesRouter from './ai/images';
 import aiKnowledgeRouter from './ai/knowledge';
+import aiAgentsRouter from './ai/agents';
+import aiChatRouter from './ai/chat';
 
 // Import shop routes
 import shopProductsRouter from './shop/products';
@@ -59,11 +61,13 @@ export async function registerModularRoutes(
     app.use('/api/admin', aiGenerationRouter);
     app.use('/api/admin', aiImagesRouter);
     app.use('/api/ai', aiKnowledgeRouter);
+    app.use('/api/ai', aiAgentsRouter);
+    app.use('/api/ai', aiChatRouter);
 
     // Shop routes (E-commerce)
     app.use('/api/shop/products', shopProductsRouter);
     app.use('/api/shop/orders', shopOrdersRouter);
     app.use('/api/shop/cart', shopCartRouter);
 
-    console.log('✅ Modular routes registered (Phases 1-4 + E-commerce + Knowledge Base)');
+    console.log('✅ All 5 Plugin Systems Installed + Core Routes');
 }
