@@ -1,0 +1,10 @@
+    ?column?    | count 
+----------------+-------
+ products       |     2
+ orders         |     0
+ carts          |     0
+ knowledge_base |     0
+ agent_tasks    |     0
+ conversations  |     0
+(6 rows)
+
