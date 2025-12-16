@@ -19,10 +19,10 @@ export const authLimiter = rateLimit({
     skipSuccessfulRequests: true, // Don't count successful requests
 });
 
-// Rate limiter for AI endpoints (more generous but still limited)
+// Rate limiter for AI endpoints (generous for development and testing)
 export const aiLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: 10, // Limit each IP to 10 AI requests per minute
+    max: 100, // Limit each IP to 100 AI requests per minute (increased from 10 for better UX)
     message: 'Too many AI requests, please slow down.',
     standardHeaders: true,
     legacyHeaders: false,
