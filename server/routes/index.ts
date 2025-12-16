@@ -26,6 +26,7 @@ import aiKnowledgeRouter from './ai/knowledge';
 import aiAgentsRouter from './ai/agents';
 import aiChatRouter from './ai/chat';
 import aiLearningRouter from './ai/learning';
+import aiAuditRouter from './ai/audit';
 
 // Import shop routes
 import shopProductsRouter from './shop/products';
@@ -65,11 +66,12 @@ export async function registerModularRoutes(
     app.use('/api/ai', aiAgentsRouter);
     app.use('/api/ai', aiChatRouter);
     app.use('/api/ai', aiLearningRouter);
+    app.use('/api/ai', aiAuditRouter);
 
     // Shop routes (E-commerce)
     app.use('/api/shop/products', shopProductsRouter);
     app.use('/api/shop/orders', shopOrdersRouter);
     app.use('/api/shop/cart', shopCartRouter);
 
-    console.log('✅ All 5 Plugin Systems + Conversation Learning Installed');
+    console.log('✅ All Systems + DevOps Monitoring + Audit Logging Installed');
 }

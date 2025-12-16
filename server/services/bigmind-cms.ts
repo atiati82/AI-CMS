@@ -600,13 +600,13 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         const clusterName = clusterInfo?.name || 'Science';
 
         const featuredImagePrompt = `Ethereal, scientific visualization of ${args.title}. Dark cosmic background with deep navy and purple gradients. ${clusterColor === 'indigo' ? 'Glowing water molecules and flowing liquid crystals.' :
-            clusterColor === 'sky' ? 'Crystalline mineral structures with iridescent surfaces.' :
-              clusterColor === 'gold' ? 'Golden geometric patterns and sacred crystalline forms.' :
-                clusterColor === 'green' ? 'Bioelectric energy pulses and cellular networks.' :
-                  clusterColor === 'violet' ? 'Violet light rays and spiritual energy patterns.' :
-                    clusterColor === 'amber' ? 'Amber volcanic formations and primordial minerals.' :
-                      clusterColor === 'yellow' ? 'Sulfur crystals and ionic mineral formations.' :
-                        'Glowing ionic minerals and structured water crystals.'
+          clusterColor === 'sky' ? 'Crystalline mineral structures with iridescent surfaces.' :
+            clusterColor === 'gold' ? 'Golden geometric patterns and sacred crystalline forms.' :
+              clusterColor === 'green' ? 'Bioelectric energy pulses and cellular networks.' :
+                clusterColor === 'violet' ? 'Violet light rays and spiritual energy patterns.' :
+                  clusterColor === 'amber' ? 'Amber volcanic formations and primordial minerals.' :
+                    clusterColor === 'yellow' ? 'Sulfur crystals and ionic mineral formations.' :
+                      'Glowing ionic minerals and structured water crystals.'
           } Andara brand style: elegant, mystical yet scientific. High quality digital art, 16:9 aspect ratio.`;
 
         // Determine default template based on cluster (using valid PAGE_TEMPLATES)
@@ -1106,6 +1106,36 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         };
       }
 
+      case "searchKnowledge": {
+        const validation = validateArgs(args, ["query"]);
+        if (!validation.valid) return { error: validation.error };
+
+        // Import the searchKnowledge function from knowledge-base service
+        const { searchKnowledge } = await import("./knowledge-base");
+        const limit = args.limit || 5;
+
+        console.log(`[BigMind] Searching knowledge base for: "${args.query}" (limit: ${limit})`);
+        const results = await searchKnowledge(args.query, limit);
+
+        if (results.length === 0) {
+          return {
+            results: [],
+            message: "No relevant knowledge found. Consider ingesting more documents or refining your search query.",
+          };
+        }
+
+        return {
+          results: results.map(r => ({
+            title: r.title,
+            content: r.content,
+            source: r.source,
+            relevanceScore: r.score,
+          })),
+          count: results.length,
+          message: `Found ${results.length} relevant knowledge chunk(s)`,
+        };
+      }
+
       default:
         console.log(`[BigMind CMS] Unknown function: ${name}`);
         return { error: `Unknown function: ${name}` };
@@ -1116,7 +1146,9 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
   }
 }
 
-const BIGMIND_SYSTEM_PROMPT = `You are BigMind – the AI CMS Manager for Andara Ionic website.
+const BIGMIND_SYSTEM_PROMPT = `# BIGMIND CMS MANAGER
+
+You are BigMind, an advanced AI CMS Manager for the Andara Ionic CMS. You have full database access via function calling and can create, edit, search, and manage all content.
 
 ${ZONE_GUIDELINES}
 
@@ -1124,8 +1156,6 @@ ${VISUAL_INTERPRETER_PROMPT}
 
 ${MOTION_GRAMMAR}
 
-## Your Capabilities
-You have FULL access to the CMS database through function calls:
 - List, create, update, delete pages
 - Manage clusters and content organization  
 - Generate zone-appropriate content
