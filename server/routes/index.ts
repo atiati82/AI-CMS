@@ -22,6 +22,7 @@ import adminSettingsRouter from './admin/settings';
 import aiEnrichmentRouter from './ai/enrichment';
 import aiGenerationRouter from './ai/generation';
 import aiImagesRouter from './ai/images';
+import aiKnowledgeRouter from './ai/knowledge';
 
 // Import shop routes
 import shopProductsRouter from './shop/products';
@@ -57,11 +58,12 @@ export async function registerModularRoutes(
     app.use('/api/admin', aiEnrichmentRouter);
     app.use('/api/admin', aiGenerationRouter);
     app.use('/api/admin', aiImagesRouter);
+    app.use('/api/ai', aiKnowledgeRouter);
 
     // Shop routes (E-commerce)
     app.use('/api/shop/products', shopProductsRouter);
     app.use('/api/shop/orders', shopOrdersRouter);
     app.use('/api/shop/cart', shopCartRouter);
 
-    console.log('✅ Modular routes registered (Phases 1-4 + E-commerce Plugin)');
+    console.log('✅ Modular routes registered (Phases 1-4 + E-commerce + Knowledge Base)');
 }
