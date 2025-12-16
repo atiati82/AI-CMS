@@ -23,6 +23,11 @@ import aiEnrichmentRouter from './ai/enrichment';
 import aiGenerationRouter from './ai/generation';
 import aiImagesRouter from './ai/images';
 
+// Import shop routes
+import shopProductsRouter from './shop/products';
+import shopOrdersRouter from './shop/orders';
+import shopCartRouter from './shop/cart';
+
 /**
  * Register all modular routes
  * This is the new modular route registration system
@@ -53,5 +58,10 @@ export async function registerModularRoutes(
     app.use('/api/admin', aiGenerationRouter);
     app.use('/api/admin', aiImagesRouter);
 
-    console.log('✅ Modular routes registered (Phases 1-4: Public + Admin + AI + Complex)');
+    // Shop routes (E-commerce)
+    app.use('/api/shop/products', shopProductsRouter);
+    app.use('/api/shop/orders', shopOrdersRouter);
+    app.use('/api/shop/cart', shopCartRouter);
+
+    console.log('✅ Modular routes registered (Phases 1-4 + E-commerce Plugin)');
 }
