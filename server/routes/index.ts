@@ -9,6 +9,13 @@ import articlesRouter from './public/articles';
 import navigationRouter from './public/navigation';
 import designRouter from './public/design';
 
+// Import admin routes
+import adminAuthRouter from './admin/auth';
+import adminPagesRouter from './admin/pages';
+import adminProductsRouter from './admin/products';
+import adminClustersRouter from './admin/clusters';
+import adminArticlesRouter from './admin/articles';
+
 /**
  * Register all modular routes
  * This is the new modular route registration system
@@ -25,5 +32,12 @@ export async function registerModularRoutes(
     app.use('/api/navigation', navigationRouter);
     app.use('/api/design-settings', designRouter);
 
-    console.log('✅ Modular routes registered (Phase 1: Public routes)');
+    // Admin routes
+    app.use('/api/admin', adminAuthRouter);
+    app.use('/api/admin', adminPagesRouter);
+    app.use('/api/admin/products', adminProductsRouter);
+    app.use('/api/admin/clusters', adminClustersRouter);
+    app.use('/api/admin/science-articles', adminArticlesRouter);
+
+    console.log('✅ Modular routes registered (Phase 1: Public + Phase 2: Admin CRUD)');
 }
