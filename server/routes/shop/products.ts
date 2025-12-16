@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     try {
         const { status, category, limit } = req.query;
 
-        let query = 'SELECT * FROM products WHERE 1=1';
+        let query = 'SELECT * FROM shop_products WHERE 1=1';
         const params: any[] = [];
         let paramIndex = 1;
 
@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
 // GET /api/shop/products/:id
 router.get('/:id', async (req, res) => {
     try {
-        const result = await db.query('SELECT * FROM products WHERE id = $1', [req.params.id]);
+        const result = await db.query('SELECT * FROM shop_products WHERE id = $1', [req.params.id]);
 
         if (result.rows.length === 0) {
             return res.status(404).json({ ok: false, error: 'Product not found' });
@@ -70,7 +70,7 @@ router.post('/', requireAdmin, async (req, res) => {
         } = req.body;
 
         const result = await db.query(`
-      INSERT INTO products (
+      INSERT INTO shop_products (
         name, slug, description, price, compare_price,
         category, inventory, status, featured_image, images
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -120,7 +120,7 @@ router.patch('/:id', requireAdmin, async (req, res) => {
         values.push(req.params.id);
 
         const result = await db.query(`
-      UPDATE products
+      UPDATE shop_products
       SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP
       WHERE id = $${paramIndex}
       RETURNING *
@@ -143,7 +143,7 @@ router.patch('/:id', requireAdmin, async (req, res) => {
 // DELETE /api/shop/products/:id (Admin only)
 router.delete('/:id', requireAdmin, async (req, res) => {
     try {
-        const result = await db.query('DELETE FROM products WHERE id = $1 RETURNING id', [req.params.id]);
+        const result = await db.query('DELETE FROM shop_products WHERE id = $1 RETURNING id', [req.params.id]);
 
         if (result.rows.length === 0) {
             return res.status(404).json({ ok: false, error: 'Product not found' });

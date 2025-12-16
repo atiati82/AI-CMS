@@ -1,0 +1,15 @@
+13e7d5d backup: AI CMS v2.0 - All 5 Plugins Installed
+fd1625b feat: Phase 4-6 - AI Agents + BigMind Chat Complete!
+108a775 feat: Phase 3 - Knowledge Base & RAG System
+b6d77ba feat: Phase 2 - E-commerce Plugin (Products, Orders, Cart)
+0401808 feat: Phase 1 - Add plugin system database schema
+2a1c7e1 docs: Add Change Management System with 3 critical prompts
+0383e70 backup: AI CMS Fresh v1.0 - Complete system backup
+5ec5ed1 feat: Phase 4 routes refactoring - Extract complex routes
+53c7cbe docs: Add Admin Feature Registry design document
+a1f76c0 feat: Phase 3 routes refactoring - Extract AI routes
+674bf8e feat: Phase 2 routes refactoring - Extract admin routes
+f4dd9dd docs: Add Replit AI chat history for context
+7473cec feat: Phase 1 routes refactoring - Extract public routes
+4d83253 feat: Implement Phase 1 security improvements
+ea8c66d Initial commit: AI CMS with local development setup
