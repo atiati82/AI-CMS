@@ -16,6 +16,11 @@ import adminProductsRouter from './admin/products';
 import adminClustersRouter from './admin/clusters';
 import adminArticlesRouter from './admin/articles';
 
+// Import AI routes
+import aiEnrichmentRouter from './ai/enrichment';
+import aiGenerationRouter from './ai/generation';
+import aiImagesRouter from './ai/images';
+
 /**
  * Register all modular routes
  * This is the new modular route registration system
@@ -39,5 +44,10 @@ export async function registerModularRoutes(
     app.use('/api/admin/clusters', adminClustersRouter);
     app.use('/api/admin/science-articles', adminArticlesRouter);
 
-    console.log('✅ Modular routes registered (Phase 1: Public + Phase 2: Admin CRUD)');
+    // AI routes
+    app.use('/api/admin', aiEnrichmentRouter);
+    app.use('/api/admin', aiGenerationRouter);
+    app.use('/api/admin', aiImagesRouter);
+
+    console.log('✅ Modular routes registered (Phases 1-3: Public + Admin + AI)');
 }
