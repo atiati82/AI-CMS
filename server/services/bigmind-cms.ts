@@ -448,6 +448,18 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["pageId"],
     },
   },
+  {
+    name: "searchKnowledge",
+    description: "Search the RAG knowledge base for relevant information. Use this to find facts, research, and reference materials before answering questions. Returns relevant document chunks with their content and source.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        query: { type: Type.STRING, description: "Search query - what information are you looking for?" },
+        limit: { type: Type.NUMBER, description: "Optional: Maximum number of results to return (default 5)" },
+      },
+      required: ["query"],
+    },
+  },
 ];
 
 function validateArgs(args: Record<string, any>, required: string[]): { valid: boolean; error?: string } {
@@ -468,7 +480,7 @@ function getMatchContext(page: Page, query: string): string | null {
     page.aiStartupHtml?.replace(/<[^>]+>/g, ' ').substring(0, 500),
     page.content?.replace(/<[^>]+>/g, ' ').substring(0, 500),
   ].filter(Boolean);
-  
+
   for (const source of sources) {
     if (!source) continue;
     const lowerSource = source.toLowerCase();
@@ -487,20 +499,20 @@ function getMatchContext(page: Page, query: string): string | null {
 
 async function executeCmsFunction(name: string, args: Record<string, any>): Promise<any> {
   console.log(`[BigMind CMS] Executing: ${name}`, JSON.stringify(args));
-  
+
   try {
     switch (name) {
       case "listPages": {
         const allPages = await storage.getAllPages();
         let filtered = allPages;
-        
+
         if (args.cluster) {
           filtered = filtered.filter(p => p.clusterKey === args.cluster);
         }
         if (args.status) {
           filtered = filtered.filter(p => p.status === args.status);
         }
-        
+
         const limit = args.limit || 50;
         return filtered.slice(0, limit).map(p => ({
           id: p.id,
@@ -516,26 +528,26 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "searchPages": {
         const validation = validateArgs(args, ["query"]);
         if (validation) return validation;
-        
+
         const searchQuery = (args.query as string).toLowerCase();
         const allPages = await storage.getAllPages();
-        
+
         let results = allPages.filter(p => {
           const titleMatch = p.title?.toLowerCase().includes(searchQuery);
           const pathMatch = p.path?.toLowerCase().includes(searchQuery);
-          const contentMatch = p.aiStartupHtml?.toLowerCase().includes(searchQuery) || 
-                               p.content?.toLowerCase().includes(searchQuery);
-          const seoMatch = p.seoTitle?.toLowerCase().includes(searchQuery) || 
-                           p.seoDescription?.toLowerCase().includes(searchQuery);
+          const contentMatch = p.aiStartupHtml?.toLowerCase().includes(searchQuery) ||
+            p.content?.toLowerCase().includes(searchQuery);
+          const seoMatch = p.seoTitle?.toLowerCase().includes(searchQuery) ||
+            p.seoDescription?.toLowerCase().includes(searchQuery);
           const summaryMatch = p.summary?.toLowerCase().includes(searchQuery);
-          
+
           return titleMatch || pathMatch || contentMatch || seoMatch || summaryMatch;
         });
-        
+
         if (args.cluster) {
           results = results.filter(p => p.clusterKey === args.cluster);
         }
-        
+
         const limit = args.limit || 20;
         return results.slice(0, limit).map(p => ({
           id: p.id,
@@ -554,7 +566,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         if (!args.pageId && !args.path) {
           return { error: "Either pageId or path is required" };
         }
-        
+
         let page: Page | undefined;
         if (args.pageId) {
           page = await storage.getPage(args.pageId);
@@ -581,34 +593,33 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "createPage": {
         const validation = validateArgs(args, ["title", "path"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         // Generate featured image prompt based on title and cluster
         const clusterInfo = CLUSTER_ONTOLOGY.find((c: { key: string; name: string; zone: number; color: string }) => c.key === args.clusterKey);
         const clusterColor = clusterInfo?.color || 'cosmic';
         const clusterName = clusterInfo?.name || 'Science';
-        
-        const featuredImagePrompt = `Ethereal, scientific visualization of ${args.title}. Dark cosmic background with deep navy and purple gradients. ${
-          clusterColor === 'indigo' ? 'Glowing water molecules and flowing liquid crystals.' :
-          clusterColor === 'sky' ? 'Crystalline mineral structures with iridescent surfaces.' :
-          clusterColor === 'gold' ? 'Golden geometric patterns and sacred crystalline forms.' :
-          clusterColor === 'green' ? 'Bioelectric energy pulses and cellular networks.' :
-          clusterColor === 'violet' ? 'Violet light rays and spiritual energy patterns.' :
-          clusterColor === 'amber' ? 'Amber volcanic formations and primordial minerals.' :
-          clusterColor === 'yellow' ? 'Sulfur crystals and ionic mineral formations.' :
-          'Glowing ionic minerals and structured water crystals.'
-        } Andara brand style: elegant, mystical yet scientific. High quality digital art, 16:9 aspect ratio.`;
-        
+
+        const featuredImagePrompt = `Ethereal, scientific visualization of ${args.title}. Dark cosmic background with deep navy and purple gradients. ${clusterColor === 'indigo' ? 'Glowing water molecules and flowing liquid crystals.' :
+            clusterColor === 'sky' ? 'Crystalline mineral structures with iridescent surfaces.' :
+              clusterColor === 'gold' ? 'Golden geometric patterns and sacred crystalline forms.' :
+                clusterColor === 'green' ? 'Bioelectric energy pulses and cellular networks.' :
+                  clusterColor === 'violet' ? 'Violet light rays and spiritual energy patterns.' :
+                    clusterColor === 'amber' ? 'Amber volcanic formations and primordial minerals.' :
+                      clusterColor === 'yellow' ? 'Sulfur crystals and ionic mineral formations.' :
+                        'Glowing ionic minerals and structured water crystals.'
+          } Andara brand style: elegant, mystical yet scientific. High quality digital art, 16:9 aspect ratio.`;
+
         // Determine default template based on cluster (using valid PAGE_TEMPLATES)
         const defaultTemplate = args.clusterKey === 'water_science' ? 'article' :
           args.clusterKey === 'mineral_science' ? 'article' :
-          args.clusterKey === 'bioelectric_health' ? 'article' :
-          args.clusterKey === 'products' ? 'product' :
-          'article';
-        
+            args.clusterKey === 'bioelectric_health' ? 'article' :
+              args.clusterKey === 'products' ? 'product' :
+                'article';
+
         // Generate SEO description if not provided
-        const autoSeoDescription = args.seoDescription || 
+        const autoSeoDescription = args.seoDescription ||
           `Explore ${args.title} - discover the science behind ${clusterName.toLowerCase()} and its role in health, vitality, and cellular function.`;
-        
+
         const newPage: Partial<InsertPage> = {
           key: args.path.replace(/\//g, '-').replace(/^-/, ''),
           title: args.title,
@@ -623,7 +634,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         };
         const created = await storage.createPage(newPage as InsertPage);
         console.log(`[BigMind CMS] Created page: ${created.id} at ${created.path}`);
-        
+
         // Create a media asset slot for featured image with the auto-generated prompt
         let mediaAsset: { id: string } | null = null;
         try {
@@ -634,13 +645,13 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
             status: 'generating',
           });
           console.log(`[BigMind CMS] Created featured image asset slot for page: ${created.key}`);
-          
+
           // Trigger async image generation (non-blocking)
           (async () => {
             try {
               const { generateImage } = await import("./image-generator");
               const result = await generateImage(featuredImagePrompt);
-              
+
               if (result.success && result.publicUrl && mediaAsset) {
                 // Update the media asset with generated image
                 await storage.updatePageMediaAsset(mediaAsset.id, {
@@ -670,11 +681,11 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         } catch (assetErr) {
           console.error(`[BigMind CMS] Failed to create media asset slot:`, assetErr);
         }
-        
-        return { 
-          success: true, 
-          pageId: created.id, 
-          path: created.path, 
+
+        return {
+          success: true,
+          pageId: created.id,
+          path: created.path,
           message: `Page "${created.title}" created as draft. Featured image is being auto-generated in the background. Check the Media Library section to see progress or regenerate if needed.`,
           page: {
             id: created.id,
@@ -693,10 +704,10 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "updatePage": {
         const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const existingPage = await storage.getPage(args.pageId);
         if (!existingPage) return { error: "Page not found" };
-        
+
         const updates: Partial<InsertPage> = {};
         if (args.title) updates.title = args.title;
         if (args.seoTitle) updates.seoTitle = args.seoTitle;
@@ -705,12 +716,12 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         if (args.content) updates.content = args.content;
         if (args.status) updates.status = args.status;
         if (args.clusterKey) updates.clusterKey = args.clusterKey;
-        
+
         const updated = await storage.updatePage(args.pageId, updates);
         console.log(`[BigMind CMS] Updated page: ${updated.id}`);
-        return { 
-          success: true, 
-          pageId: updated.id, 
+        return {
+          success: true,
+          pageId: updated.id,
           message: `Page "${updated.title}" updated`,
           page: {
             id: updated.id,
@@ -727,10 +738,10 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "deletePage": {
         const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
-        
+
         console.log(`[BigMind CMS] DELETING page: ${page.id} - ${page.title} at ${page.path}`);
         await storage.deletePage(args.pageId);
         return { success: true, message: `Page "${page.title}" has been deleted`, deletedPath: page.path };
@@ -739,7 +750,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "listClusters": {
         const clusters = await storage.getAllClusters();
         const allPages = await storage.getAllPages();
-        
+
         return clusters.map(c => ({
           id: c.id,
           key: c.key,
@@ -752,7 +763,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "createCluster": {
         const validation = validateArgs(args, ["key", "name"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const cluster = await storage.createCluster({
           key: args.key,
           name: args.name,
@@ -798,7 +809,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
 
         const clusterStats: Record<string, number> = {};
         CLUSTER_ONTOLOGY.forEach(c => { clusterStats[c.key] = 0; });
-        
+
         pages.forEach(p => {
           const ck = p.clusterKey || "other";
           if (clusterStats[ck] !== undefined) clusterStats[ck]++;
@@ -823,12 +834,12 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "generatePageContent": {
         const validation = validateArgs(args, ["topic", "zone", "clusterKey"]);
         if (!validation.valid) return { error: validation.error };
-        
-        const zoneRules = args.zone === 1 
+
+        const zoneRules = args.zone === 1
           ? "Zone 1 rules: Factual, water-treatment language. No health claims."
           : args.zone === 2
-          ? "Zone 2 rules: Educational, use 'may support', 'is associated with'. Scientific tone."
-          : "Zone 3 rules: Visionary, story-driven. No medical promises.";
+            ? "Zone 2 rules: Educational, use 'may support', 'is associated with'. Scientific tone."
+            : "Zone 3 rules: Visionary, story-driven. No medical promises.";
 
         return {
           instruction: `Generate Andara HTML content for "${args.topic}" following ${zoneRules}`,
@@ -841,10 +852,10 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "suggestInternalLinks": {
         const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
-        
+
         const allPages = await storage.getAllPages();
         const samClusterPages = allPages
           .filter(p => p.clusterKey === page.clusterKey && p.id !== page.id)
@@ -866,7 +877,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "findContentGaps": {
         const pages = await storage.getAllPages();
         const existingPaths = new Set(pages.map(p => p.path));
-        
+
         const suggestedPages = [
           { path: "/science/water", title: "Water Science Overview", cluster: "water_science", zone: 2 },
           { path: "/science/ez-water", title: "EZ Water – The Fourth Phase", cluster: "water_science", zone: 2 },
@@ -881,7 +892,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         ];
 
         const gaps = suggestedPages.filter(s => !existingPaths.has(s.path));
-        
+
         if (args.cluster) {
           return gaps.filter(g => g.cluster === args.cluster);
         }
@@ -891,11 +902,11 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "searchDocuments": {
         const allDocs = await storage.getAllDocuments();
         let filtered = allDocs;
-        
+
         if (args.query) {
           const query = args.query.toLowerCase();
-          filtered = filtered.filter(d => 
-            d.title.toLowerCase().includes(query) || 
+          filtered = filtered.filter(d =>
+            d.title.toLowerCase().includes(query) ||
             (d.rawText && d.rawText.toLowerCase().includes(query)) ||
             (d.cleanText && d.cleanText.toLowerCase().includes(query))
           );
@@ -903,7 +914,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         if (args.sourceType) {
           filtered = filtered.filter(d => d.sourceType === args.sourceType);
         }
-        
+
         const limit = args.limit || 10;
         return filtered.slice(0, limit).map(d => {
           const text = d.cleanText || d.rawText || "";
@@ -923,10 +934,10 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "getDocument": {
         const validation = validateArgs(args, ["documentId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const doc = await storage.getDocument(args.documentId);
         if (!doc) return { error: "Document not found" };
-        
+
         const content = doc.cleanText || doc.rawText || "";
         return {
           id: doc.id,
@@ -962,31 +973,31 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "applyMotionPreset": {
         const validation = validateArgs(args, ["pageId", "motionArchetype", "targetElements"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
-        
+
         const motionConfig = {
           archetype: args.motionArchetype,
           elements: args.targetElements,
           appliedAt: new Date().toISOString(),
         };
-        
+
         const existingConfig = (page.visualConfig || {}) as Record<string, any>;
-        
+
         const updatedConfig = {
           ...existingConfig,
           motionPreset: args.motionArchetype,
           motionElements: args.targetElements,
           motionConfig,
         };
-        
+
         await storage.updatePage(args.pageId, {
           visualConfig: updatedConfig as any,
         });
-        
-        return { 
-          success: true, 
+
+        return {
+          success: true,
           message: `Applied ${args.motionArchetype} motion to ${args.targetElements.join(', ')} on page "${page.title}"`,
           appliedTo: args.targetElements,
         };
@@ -995,12 +1006,12 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "updateVisualConfig": {
         const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
-        
+
         const existingConfig = (page.visualConfig || {}) as Record<string, any>;
-        
+
         const updatedConfig = {
           ...existingConfig,
           ...(args.vibeKeywords && { vibeKeywords: args.vibeKeywords }),
@@ -1012,13 +1023,13 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
           ...(args.ambientMotion && { ambientMotion: args.ambientMotion }),
           updatedAt: new Date().toISOString(),
         };
-        
+
         await storage.updatePage(args.pageId, {
           visualConfig: updatedConfig as any,
         });
-        
-        return { 
-          success: true, 
+
+        return {
+          success: true,
           message: `Updated visual config for "${page.title}"`,
           config: updatedConfig,
         };
@@ -1027,7 +1038,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "applyStyleToPages": {
         const pageIds: string[] = args.pageIds || [];
         let targetPages: Page[] = [];
-        
+
         if (pageIds.length > 0) {
           for (const id of pageIds) {
             const page = await storage.getPage(id);
@@ -1036,35 +1047,35 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         } else if (args.clusterKey) {
           targetPages = await storage.getPagesByCluster(args.clusterKey);
         }
-        
+
         if (targetPages.length === 0) {
           return { error: "No pages found to update" };
         }
-        
+
         const updates: { pageId: string; title: string }[] = [];
-        
+
         for (const page of targetPages) {
           const updateData: Record<string, any> = {};
-          
+
           if (args.template) updateData.template = args.template;
-          
+
           const existingConfig = (page.visualConfig || {}) as Record<string, any>;
-          
+
           const newConfig = {
             ...existingConfig,
             ...(args.colorPalette && { colorPalette: args.colorPalette }),
             ...(args.motionPreset && { motionPreset: args.motionPreset }),
             batchUpdatedAt: new Date().toISOString(),
           };
-          
+
           updateData.visualConfig = newConfig;
-          
+
           await storage.updatePage(page.id, updateData);
           updates.push({ pageId: page.id, title: page.title });
         }
-        
-        return { 
-          success: true, 
+
+        return {
+          success: true,
           message: `Applied styles to ${updates.length} pages`,
           updatedPages: updates,
         };
@@ -1073,12 +1084,12 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
       case "getPageVisualConfig": {
         const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
-        
+
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
-        
+
         const visualConfig = (page.visualConfig || {}) as Record<string, any>;
-        
+
         return {
           pageId: page.id,
           title: page.title,
@@ -1257,7 +1268,7 @@ export async function chatWithFunctions(
   modelOverride?: string
 ): Promise<{ response: string; functionCalls: Array<{ name: string; result: any }> }> {
   const summarizedContext = await getSummarizedContext();
-  
+
   const contents: any[] = [
     {
       role: "user",
@@ -1280,19 +1291,19 @@ export async function chatWithFunctions(
 
   while (iterations < maxIterations) {
     iterations++;
-    
+
     const { client, model: configuredModel } = await getAiClient();
-    
+
     // Validate modelOverride: only use if its provider is available
     let model = configuredModel;
     if (modelOverride) {
       const overrideProvider = MODEL_PROVIDERS[modelOverride] || 'openai';
       const geminiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
       const openaiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-      
+
       const isGeminiAvailable = !!geminiKey;
       const isOpenAIAvailable = !!openaiKey;
-      
+
       if (overrideProvider === 'openai' && !isOpenAIAvailable) {
         console.log(`[BigMind] Model override ${modelOverride} requires OpenAI which is unavailable, using ${configuredModel}`);
         model = configuredModel;
@@ -1303,7 +1314,7 @@ export async function chatWithFunctions(
         model = modelOverride;
       }
     }
-    
+
     const response = await client.models.generateContent({
       model,
       contents,
@@ -1324,12 +1335,12 @@ export async function chatWithFunctions(
         hasFunctionCall = true;
         const fnName = part.functionCall.name || "";
         const fnArgs = part.functionCall.args || {};
-        
+
         console.log(`[BigMind] Calling function: ${fnName}`, fnArgs);
-        
+
         const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
         functionCalls.push({ name: fnName, result });
-        
+
         if (onFunctionCall) {
           onFunctionCall(fnName, result);
         }
@@ -1340,15 +1351,15 @@ export async function chatWithFunctions(
         });
         contents.push({
           role: "function",
-          parts: [{ 
-            functionResponse: { 
-              name: fnName, 
-              response: { result: JSON.stringify(result) } 
-            } 
+          parts: [{
+            functionResponse: {
+              name: fnName,
+              response: { result: JSON.stringify(result) }
+            }
           }]
         });
       }
-      
+
       if (part.text) {
         finalResponse = part.text;
       }
@@ -1368,13 +1379,13 @@ export async function streamChatWithFunctions(
   onFunctionCall?: (name: string, result: any) => void
 ): Promise<{ functionCalls: Array<{ name: string; result: any }> }> {
   const result = await chatWithFunctions(messages, onFunctionCall);
-  
+
   const words = result.response.split(" ");
   for (const word of words) {
     onChunk(word + " ");
     await new Promise(r => setTimeout(r, 20));
   }
-  
+
   return { functionCalls: result.functionCalls };
 }
 

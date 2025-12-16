@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, lazy, Suspense } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, getAuthToken, setAuthToken, clearAuthToken, getAuthHeaders } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+// Lazy load Settings tab (proof of concept for lazy loading optimization)
+const LazySettingsTab = lazy(() => import('./admin/tabs/SettingsTab'));
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,7 +17,7 @@ import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminSection, FormRow, FormField } from "@/components/admin/AdminSection";
 import { cn } from "@/lib/utils";
 import { parseBigMindResponse, type ParsedBigMindResponse, extractEnhancements, hasEnhancementContent, type ParsedEnhancement, extractBigmindRecommendations, hasBigmindRecommendations, type BigmindRecommendation } from "@/lib/bigmind-parser";
-import { 
+import {
   Edit, Save, Trash, Plus, ChevronRight, ChevronDown, ChevronUp,
   FileText, Package, Beaker, FolderTree, LayoutDashboard,
   LogOut, RefreshCw, Eye, EyeOff, X, ArrowLeft, FileUp,
@@ -338,18 +341,18 @@ const TEMPLATE_TYPE_CONFIG: Record<string, { label: string; color: string }> = {
 
 function formatAiMessage(content: string): string {
   let html = content;
-  
+
   // First, handle raw <code> tags from AI responses - convert to styled code
   html = html.replace(/<code>([^<]+)<\/code>/g, (_, code) => {
     return `\`${code}\``;
   });
-  
+
   // Hide/collapse technical code blocks (html, visual-config, page-metadata, image-prompts)
   // These are meant for parsing, not display - show a compact summary instead
   const technicalBlocks = ['html', 'visual-config', 'page-metadata', 'image-prompts'];
   html = html.replace(/```([\w-]+)?\n([\s\S]*?)```/g, (match, lang, code) => {
     const langLower = (lang || '').toLowerCase();
-    
+
     // For technical blocks, show a collapsed summary
     if (technicalBlocks.includes(langLower)) {
       const lineCount = code.split('\n').filter((l: string) => l.trim()).length;
@@ -362,7 +365,7 @@ function formatAiMessage(content: string): string {
       const label = blockLabels[langLower] || lang || 'Code';
       return `<div class="my-2 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg text-xs text-primary flex items-center gap-2"><span class="font-medium">${label}</span><span class="text-muted-foreground">(${lineCount} lines - use "Review & Apply" below)</span></div>`;
     }
-    
+
     // For other code blocks, show collapsed with first few lines
     const lines = code.split('\n');
     if (lines.length > 8) {
@@ -370,18 +373,18 @@ function formatAiMessage(content: string): string {
       const escaped = preview.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       return `<details class="my-2"><summary class="cursor-pointer text-xs text-muted-foreground hover:text-foreground">${lang || 'Code'} (${lines.length} lines - click to expand)</summary><pre class="mt-2 text-xs max-h-48 overflow-auto"><code class="language-${lang || ''}">${escaped}\n... (${lines.length - 5} more lines)</code></pre></details>`;
     }
-    
+
     // Short code blocks - show normally
     const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return `<pre class="my-2 text-xs max-h-32 overflow-auto"><code class="language-${lang || ''}">${escaped}</code></pre>`;
   });
-  
+
   // Inline code
   html = html.replace(/`([^`]+)`/g, (_, code) => {
     const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return `<code class="bg-muted/50 px-1 py-0.5 rounded text-sm font-mono">${escaped}</code>`;
   });
-  
+
   // Helper to apply inline formatting (bold, italic, links)
   const applyInlineFormatting = (text: string): string => {
     // Escape HTML entities first
@@ -392,23 +395,23 @@ function formatAiMessage(content: string): string {
     result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
     return result;
   };
-  
+
   const lines = html.split('\n');
   const result: string[] = [];
   let inList = false;
   let listType = '';
   let listIndent = 0;
-  
+
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
-    
+
     // Skip pre blocks entirely
     if (line.startsWith('<pre>')) {
       if (inList) { result.push(listType === 'ol' ? '</ol>' : '</ul>'); inList = false; }
       result.push(line);
       continue;
     }
-    
+
     // Headers
     if (/^#{1,3}\s+(.+)$/.test(line)) {
       if (inList) { result.push(listType === 'ol' ? '</ol>' : '</ul>'); inList = false; }
@@ -420,7 +423,7 @@ function formatAiMessage(content: string): string {
       }
       continue;
     }
-    
+
     // Blockquotes
     if (/^>\s*(.*)$/.test(line)) {
       if (inList) { result.push(listType === 'ol' ? '</ol>' : '</ul>'); inList = false; }
@@ -430,7 +433,7 @@ function formatAiMessage(content: string): string {
       }
       continue;
     }
-    
+
     // Ordered list (with optional indentation)
     const olMatch = line.match(/^(\s*)\d+\.\s+(.+)$/);
     if (olMatch) {
@@ -446,7 +449,7 @@ function formatAiMessage(content: string): string {
       result.push(`<li>${applyInlineFormatting(content)}</li>`);
       continue;
     }
-    
+
     // Unordered list (with optional indentation - support nested lists)
     const ulMatch = line.match(/^(\s*)[-*•]\s+(.+)$/);
     if (ulMatch) {
@@ -462,19 +465,19 @@ function formatAiMessage(content: string): string {
       result.push(`<li>${applyInlineFormatting(content)}</li>`);
       continue;
     }
-    
+
     // Close list if we hit a non-list line
     if (inList) {
       result.push(listType === 'ol' ? '</ol>' : '</ul>');
       inList = false;
     }
-    
+
     // Empty lines
     if (line.trim() === '') {
       result.push('');
       continue;
     }
-    
+
     // Regular paragraph with inline formatting
     const formatted = applyInlineFormatting(line);
     if (!formatted.startsWith('<h') && !formatted.startsWith('<blockquote') && !formatted.startsWith('<pre')) {
@@ -483,7 +486,7 @@ function formatAiMessage(content: string): string {
       result.push(formatted);
     }
   }
-  
+
   if (inList) result.push(listType === 'ol' ? '</ol>' : '</ul>');
   return result.join('\n');
 }
@@ -517,70 +520,70 @@ interface ExtractedAiData {
 }
 
 function extractAllFromAiResponse(response: string): ExtractedAiData {
-  const result: ExtractedAiData = { 
-    images: [], 
-    visualConfig: {} 
+  const result: ExtractedAiData = {
+    images: [],
+    visualConfig: {}
   };
-  
+
   // Extract from visual-config block - support multiple formats
   const visualConfigMatch = response.match(/```visual-config\n([\s\S]*?)```/i) ||
-                            response.match(/``visual-config\n?([\s\S]*?)``/i) ||
-                            response.match(/<code>visual-config\n?([\s\S]*?)<\/code>/i) ||
-                            response.match(/visual-config\n(VIBE KEYWORDS:[\s\S]*?)(?:\n\n\n|\n```|$)/i);
-  
+    response.match(/``visual-config\n?([\s\S]*?)``/i) ||
+    response.match(/<code>visual-config\n?([\s\S]*?)<\/code>/i) ||
+    response.match(/visual-config\n(VIBE KEYWORDS:[\s\S]*?)(?:\n\n\n|\n```|$)/i);
+
   // Helper to parse values with or without brackets
   const parseListValue = (text: string): string[] => {
     return text.replace(/^\[|\]$/g, '').split(',').map(s => s.trim().replace(/["']/g, '')).filter(Boolean);
   };
-  
+
   if (visualConfigMatch) {
     const configBlock = visualConfigMatch[1];
-    
+
     // VIBE KEYWORDS - support both [brackets] and plain format
     const vibeMatch = configBlock.match(/VIBE\s*KEYWORDS?:\s*\[([^\]]+)\]/i) ||
-                      configBlock.match(/VIBE\s*KEYWORDS?:\s*([^\n]+)/i);
+      configBlock.match(/VIBE\s*KEYWORDS?:\s*([^\n]+)/i);
     if (vibeMatch) {
       result.visualConfig.vibeKeywords = parseListValue(vibeMatch[1]);
     }
-    
+
     // EMOTIONAL TONE - support both formats
     const toneMatch = configBlock.match(/EMOTIONAL\s*TONE:\s*\[([^\]]+)\]/i) ||
-                      configBlock.match(/EMOTIONAL\s*TONE:\s*([^\n]+)/i);
+      configBlock.match(/EMOTIONAL\s*TONE:\s*([^\n]+)/i);
     if (toneMatch) {
       result.visualConfig.emotionalTone = parseListValue(toneMatch[1]);
     }
-    
+
     const paletteMatch = configBlock.match(/COLOR\s*PALETTE:\s*([^\n]+)/i);
     if (paletteMatch) {
       result.visualConfig.colorPalette = paletteMatch[1].trim();
     }
-    
+
     const layoutMatch = configBlock.match(/LAYOUT(?:S?)[\s_]DETECTED:\s*([^\n]+)/i);
     if (layoutMatch) {
       result.visualConfig.layoutsDetected = parseListValue(layoutMatch[1]);
     }
-    
+
     const motionPresetMatch = configBlock.match(/MOTION\s*PRESET:\s*([^\n]+)/i);
     if (motionPresetMatch) {
       result.visualConfig.motionPreset = motionPresetMatch[1].trim();
     }
-    
+
     const entranceMatch = configBlock.match(/ENTRANCE:\s*([^\n]+)/i);
     if (entranceMatch) {
       result.visualConfig.entranceMotion = entranceMatch[1].trim();
     }
-    
+
     const hoverMatch = configBlock.match(/HOVER:\s*([^\n]+)/i);
     if (hoverMatch) {
       result.visualConfig.hoverMotion = hoverMatch[1].trim();
     }
-    
+
     const ambientMatch = configBlock.match(/AMBIENT:\s*([^\n]+)/i);
     if (ambientMatch) {
       result.visualConfig.ambientMotion = ambientMatch[1].trim();
     }
   }
-  
+
   // Also try loose format parsing (not in code block)
   if (!result.visualConfig.vibeKeywords) {
     const looseVibeMatch = response.match(/VIBE\s*KEYWORDS?:\s*([^\n]+)/i);
@@ -606,27 +609,27 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       result.visualConfig.motionPreset = looseMotionMatch[1].trim();
     }
   }
-  
+
   // Extract from image-prompts block - support multiple formats
   const imagePromptsMatch = response.match(/```image-prompts\n([\s\S]*?)```/i) ||
-                            response.match(/``image-prompts\n?([\s\S]*?)``/i) ||
-                            response.match(/<\/code><\/pre>image-prompts\n?([\s\S]*?)(?=\n\n\n|$)/i) ||
-                            response.match(/image-prompts\n((?:Hero|Section|Featured|Background)[^\n]*:[\s\S]*?)(?:\n\n\n|$)/i);
+    response.match(/``image-prompts\n?([\s\S]*?)``/i) ||
+    response.match(/<\/code><\/pre>image-prompts\n?([\s\S]*?)(?=\n\n\n|$)/i) ||
+    response.match(/image-prompts\n((?:Hero|Section|Featured|Background)[^\n]*:[\s\S]*?)(?:\n\n\n|$)/i);
   if (imagePromptsMatch) {
     const promptsBlock = imagePromptsMatch[1];
     // Handle multi-line prompts
     const entries: { label: string; prompt: string }[] = [];
     let currentLabel = '';
     let currentPrompt = '';
-    
+
     const lines = promptsBlock.split('\n');
     for (const line of lines) {
       const trimmedLine = line.trim();
       if (!trimmedLine) continue;
-      
+
       const colonIdx = trimmedLine.indexOf(':');
       const potentialLabel = colonIdx > 0 ? trimmedLine.substring(0, colonIdx).trim() : '';
-      
+
       // Check if this looks like a new label
       const isNewEntry = colonIdx > 0 && (
         /^(Hero|Section|Featured|Background|Icon|Gallery)/i.test(potentialLabel) ||
@@ -634,7 +637,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
         /^[A-Z][a-z]+\s+\d+/i.test(potentialLabel) ||
         /^[A-Z][a-z]+\s+Visual/i.test(potentialLabel)
       );
-      
+
       if (isNewEntry) {
         if (currentLabel && currentPrompt) {
           entries.push({ label: currentLabel, prompt: currentPrompt.trim() });
@@ -648,7 +651,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
     if (currentLabel && currentPrompt) {
       entries.push({ label: currentLabel, prompt: currentPrompt.trim() });
     }
-    
+
     for (const { label, prompt } of entries) {
       if (prompt.length > 10) {
         if (label.toLowerCase().includes('featured')) {
@@ -660,7 +663,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       }
     }
   }
-  
+
   // Fallback: extract individual image mentions
   const featuredRegex = /(?:Featured\s*Image|Main\s*Image)(?:\s*(?:Prompt|Description|Suggestion))?[:\s]*["']?([^"'\n]+)/gi;
   let match;
@@ -675,12 +678,12 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       }
     }
   }
-  
+
   const heroPatterns = [
     { regex: /(?:Hero\s*(?:Image|Visual|Background))(?:\s*(?:Prompt|Description|Suggestion))?[:\s]*["']?([^"'\n]+)/gi, type: 'hero' },
     { regex: /(?:Hero\s*background|Background\s*image)[:\s]*["']?([^"'\n]+)/gi, type: 'background' },
   ];
-  
+
   for (const { regex, type } of heroPatterns) {
     let match;
     while ((match = regex.exec(response)) !== null) {
@@ -696,7 +699,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       }
     }
   }
-  
+
   // Extract Section images
   const sectionImageRegex = /Section\s*\d+\s*(?:Image|Visual)[:\s]*["']?([^"'\n]+)/gi;
   while ((match = sectionImageRegex.exec(response)) !== null) {
@@ -705,7 +708,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       result.images.push({ label: match[0].split(':')[0].trim(), prompt });
     }
   }
-  
+
   // Extract Icon Set
   const iconSetMatch = response.match(/Icon\s*Set[:\s]*["']?([^"'\n]+)/i);
   if (iconSetMatch) {
@@ -714,7 +717,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       result.images.push({ label: 'Icon Set', prompt });
     }
   }
-  
+
   // Fallback for visual descriptions in content
   if (!result.featuredImage && !result.heroImage) {
     const dropletMatch = response.match(/(?:droplet|water\s+molecule|crystalline|mineral|ionic)[\s\w,]*(?:glowing|floating|suspended|illuminated|reflecting)[^.!?\n]*/i);
@@ -722,7 +725,7 @@ function extractAllFromAiResponse(response: string): ExtractedAiData {
       result.heroImage = dropletMatch[0].trim();
     }
   }
-  
+
   return result;
 }
 
@@ -739,7 +742,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
   const tasks: EnhancementTask[] = [];
   const config: Record<string, any> = {};
   let htmlBody = '';
-  
+
   // Unescape HTML entities if content is escaped
   const unescapeHtml = (str: string) => str
     .replace(/&lt;/g, '<')
@@ -747,18 +750,18 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&amp;/g, '&');
-  
+
   // Check if content appears to be escaped HTML
   const isEscaped = content.includes('&lt;') && content.includes('&gt;');
   const normalizedContent = isEscaped ? unescapeHtml(content) : content;
-  
+
   const htmlCommentMatch = normalizedContent.match(/<!--[\s\S]*?ANDARA VISUAL CONFIG:[\s\S]*?-->/);
   const fencedMatch = normalizedContent.match(/```[\s\S]*?ANDARA VISUAL CONFIG:[\s\S]*?```/);
   const configBlock = htmlCommentMatch?.[0] || fencedMatch?.[0] || '';
   if (configBlock) {
-    const afterConfig = htmlCommentMatch 
+    const afterConfig = htmlCommentMatch
       ? content.substring(content.indexOf('-->') + 3).trim()
-      : fencedMatch 
+      : fencedMatch
         ? content.substring(content.indexOf('```', content.indexOf('ANDARA VISUAL CONFIG')) + 3).trim()
         : '';
     if (afterConfig && (afterConfig.includes('<main') || afterConfig.includes('<section') || afterConfig.includes('<div'))) {
@@ -794,7 +797,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
   // --- Enhanced HTML Content Detection for Andara pages ---
   // Use normalizedContent (unescaped) for all pattern matching
   // Use simpler, more reliable regex patterns
-  
+
   // 1. Page Title from H1 - match first h1
   const h1Match = normalizedContent.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   if (h1Match && !tasks.find(t => t.id === 'title')) {
@@ -803,7 +806,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
       tasks.push({ id: 'title', label: 'Page Title', description: title.substring(0, 80), field: 'title', detected: true, value: title });
     }
   }
-  
+
   // 2. SEO Description - find first paragraph after h1, or subline class, or lead class
   let seoDesc = '';
   // Try subline first
@@ -825,26 +828,26 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
     seoDesc = seoDesc.substring(0, 160);
     tasks.push({ id: 'seoDescription', label: 'SEO Description', description: seoDesc.substring(0, 60) + '...', field: 'seoDescription', detected: true, value: seoDesc });
   }
-  
+
   // 3. Hero image placeholder detection
   const hasMediaPlaceholder = normalizedContent.includes('media-placeholder') || normalizedContent.includes('hero-image') || normalizedContent.includes('placeholder');
   if (hasMediaPlaceholder && !tasks.find(t => t.id === 'heroImage')) {
     tasks.push({ id: 'heroImage', label: 'Hero Image Needed', description: 'Placeholder found', field: 'heroImage', detected: true, missing: true, value: 'Generate hero image' });
   }
-  
+
   // 4. Section count - count all <section> tags
   const allSections = normalizedContent.match(/<section[^>]*>/gi);
   if (allSections && allSections.length > 0 && !tasks.find(t => t.id === 'sections')) {
     tasks.push({ id: 'sections', label: 'Content Sections', description: `${allSections.length} sections`, field: 'sections', detected: true, value: String(allSections.length) });
   }
-  
+
   // 5. Internal links - find href starting with /
   const internalLinkMatches = normalizedContent.match(/href="\/[^"]+"/g);
   if (internalLinkMatches && internalLinkMatches.length > 0 && !tasks.find(t => t.id === 'internalLinks')) {
     const uniqueLinks = Array.from(new Set(internalLinkMatches.map(l => l.replace(/href="|"/g, ''))));
     tasks.push({ id: 'internalLinks', label: 'Internal Links', description: `${uniqueLinks.length} links`, field: 'internalLinks', detected: true, value: uniqueLinks });
   }
-  
+
   // 6. CTA buttons - anchor with cta in class
   if (normalizedContent.includes('cta')) {
     const ctaMatches = normalizedContent.match(/<a[^>]*>[^<]*<\/a>/gi) || [];
@@ -857,7 +860,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
       }
     }
   }
-  
+
   // 7. Key bullets/points - count li items in first ul
   const firstUl = normalizedContent.match(/<ul[^>]*>([\s\S]*?)<\/ul>/i);
   if (firstUl && !tasks.find(t => t.id === 'keyPoints')) {
@@ -866,7 +869,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
       tasks.push({ id: 'keyPoints', label: 'Key Points', description: `${bulletCount} bullet points`, field: 'keyPoints', detected: true, value: String(bulletCount) });
     }
   }
-  
+
   // 8. Grid/card items - look for card or grid-item classes
   if (normalizedContent.includes('card') || normalizedContent.includes('grid')) {
     const cardMatches = normalizedContent.match(/class="[^"]*(?:card|grid-item|grid__item)[^"]*"/gi);
@@ -874,39 +877,39 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
       tasks.push({ id: 'gridItems', label: 'Feature Cards', description: `${cardMatches.length} cards/items`, field: 'gridItems', detected: true, value: String(cardMatches.length) });
     }
   }
-  
+
   // 9. H2 headings - count major content sections
   const h2Matches = normalizedContent.match(/<h2[^>]*>/gi);
   if (h2Matches && h2Matches.length > 0 && !tasks.find(t => t.id === 'headings')) {
     tasks.push({ id: 'headings', label: 'Section Headings', description: `${h2Matches.length} H2 headings`, field: 'headings', detected: true, value: String(h2Matches.length) });
   }
-  
+
   // 10. Page ID from main id attribute
   const mainIdMatch = normalizedContent.match(/<main[^>]+id="([^"]+)"/i);
   if (mainIdMatch && !tasks.find(t => t.id === 'pageId')) {
     tasks.push({ id: 'pageId', label: 'Page ID', description: mainIdMatch[1], field: 'key', detected: true, value: mainIdMatch[1] });
   }
-  
+
   // 11. Aria labels for accessibility
   const ariaLabelMatches = normalizedContent.match(/aria-label="[^"]+"/gi);
   if (ariaLabelMatches && ariaLabelMatches.length > 0 && !tasks.find(t => t.id === 'accessibility')) {
     tasks.push({ id: 'accessibility', label: 'Accessibility', description: `${ariaLabelMatches.length} aria-labels`, field: 'accessibility', detected: true, value: String(ariaLabelMatches.length) });
   }
-  
+
   // 12. Cluster detection from page class (andara-page--science etc)
-  const pageClassMatch = normalizedContent.match(/andara-page--([a-z-]+)/i) || 
-                         normalizedContent.match(/andara-([a-z]+)-page/i);
+  const pageClassMatch = normalizedContent.match(/andara-page--([a-z-]+)/i) ||
+    normalizedContent.match(/andara-([a-z]+)-page/i);
   if (pageClassMatch && !tasks.find(t => t.id === 'cluster')) {
     const clusterValue = pageClassMatch[1];
     tasks.push({ id: 'cluster', label: 'Content Cluster', description: clusterValue, field: 'clusterKey', detected: true, value: clusterValue.toLowerCase() });
   }
-  
+
   // 13. Detect page template type from class
   const templateMatch = normalizedContent.match(/andara-page--([a-z-]+)/i);
   if (templateMatch && !tasks.find(t => t.id === 'template')) {
     tasks.push({ id: 'template', label: 'Page Template', description: templateMatch[1], field: 'template', detected: true, value: templateMatch[1] });
   }
-  
+
   // 14. Generate Visual Config fields from content analysis
   // Extract key themes from h1, h2 headings for vibe keywords
   const allHeadings = normalizedContent.match(/<h[12][^>]*>([^<]+)</gi) || [];
@@ -916,7 +919,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
   if (detectedVibes.length > 0 && !tasks.find(t => t.id === 'vibeKeywords')) {
     tasks.push({ id: 'vibeKeywords', label: 'Vibe Keywords', description: detectedVibes.slice(0, 5).join(', '), field: 'vibeKeywords', detected: true, value: detectedVibes.slice(0, 5) });
   }
-  
+
   // 15. Emotional tone based on content themes
   const toneMap: Record<string, string[]> = {
     'wonder': ['discover', 'explore', 'reveal', 'unlock', 'secret'],
@@ -933,7 +936,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
   if (detectedTones.length > 0 && !tasks.find(t => t.id === 'emotionalTone')) {
     tasks.push({ id: 'emotionalTone', label: 'Emotional Tone', description: detectedTones.join(', '), field: 'emotionalTone', detected: true, value: detectedTones });
   }
-  
+
   // 16. Animation ideas based on content type
   const animationMap: Record<string, string[]> = {
     'water': ['water flow', 'ripple effects', 'wave motion'],
@@ -949,7 +952,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
   if (detectedAnimations.length > 0 && !tasks.find(t => t.id === 'animationIdeas')) {
     tasks.push({ id: 'animationIdeas', label: 'Animation Ideas', description: detectedAnimations.slice(0, 3).join(', '), field: 'animationIdeas', detected: true, value: detectedAnimations.slice(0, 3) });
   }
-  
+
   // 17. Generate AI Image Prompt from title and cluster
   const titleForPrompt = tasks.find(t => t.id === 'title')?.value;
   const clusterForPrompt = tasks.find(t => t.id === 'cluster')?.value;
@@ -957,7 +960,7 @@ function parseVisualConfigFromContent(content: string): { tasks: EnhancementTask
     const imagePrompt = `Ethereal, scientific visualization of ${titleForPrompt}. Dark cosmic background with deep navy and purple gradients. Glowing ionic minerals and structured water crystals. ${clusterForPrompt ? `Theme: ${clusterForPrompt}.` : ''} Andara brand style: elegant, mystical yet scientific. High quality digital art, 16:9 aspect ratio.`;
     tasks.push({ id: 'aiImagePrompt', label: 'AI Image Prompt', description: 'Generated from title', field: 'aiImagePrompt', detected: true, value: imagePrompt });
   }
-  
+
   return { tasks, config, htmlBody };
 }
 
@@ -1028,10 +1031,10 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
             {statusConfig.label}
           </Badge>
           {canIndex && (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => onIndex(document.id)} 
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onIndex(document.id)}
               disabled={isIndexing}
               data-testid={`button-index-document-${document.id}`}
             >
@@ -1051,7 +1054,7 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
           </Button>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
         <span className="flex items-center gap-1">
           <FileText className="w-3.5 h-3.5" />
@@ -1065,7 +1068,7 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
           {new Date(document.createdAt).toLocaleDateString()}
         </span>
       </div>
-      
+
       {document.tags && document.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {document.tags.map((tag) => (
@@ -1073,7 +1076,7 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
           ))}
         </div>
       )}
-      
+
       {document.status === 'failed' && document.errorMessage && (
         <div className="mt-3 p-2 bg-red-50 text-red-700 text-xs rounded-lg">
           {document.errorMessage}
@@ -1083,17 +1086,17 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
   );
 }
 
-function DocumentsTab({ 
-  documents, 
-  onEdit, 
-  onCreate, 
+function DocumentsTab({
+  documents,
+  onEdit,
+  onCreate,
   onDelete,
   onIndex,
   indexingId,
   onRefresh
-}: { 
-  documents: Document[]; 
-  onEdit: (doc: Document) => void; 
+}: {
+  documents: Document[];
+  onEdit: (doc: Document) => void;
   onCreate: () => void;
   onDelete: (id: string) => void;
   onIndex: (id: string) => void;
@@ -1111,46 +1114,46 @@ function DocumentsTab({
 
   const handleFileUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    
+
     setIsUploading(true);
     setUploadProgress(`Processing ${files.length} file(s)...`);
-    
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       setUploadProgress(`Uploading ${file.name} (${i + 1}/${files.length})...`);
-      
+
       try {
         const formData = new FormData();
         formData.append('file', file);
-        
+
         const res = await fetch('/api/admin/documents/upload', {
           method: 'POST',
           headers: getAuthHeaders(),
           body: formData,
         });
-        
+
         const data = await res.json();
-        
+
         if (!res.ok) {
           const errorMsg = data.error || 'Upload failed';
           const hintMsg = data.hint ? `\n${data.hint}` : '';
           throw new Error(`${errorMsg}${hintMsg}`);
         }
-        
-        toast({ 
-          title: "Uploaded", 
-          description: `${file.name}: ${data.wordCount.toLocaleString()} words extracted` 
+
+        toast({
+          title: "Uploaded",
+          description: `${file.name}: ${data.wordCount.toLocaleString()} words extracted`
         });
       } catch (err: any) {
-        toast({ 
-          title: "Upload Failed", 
+        toast({
+          title: "Upload Failed",
           description: `${file.name}: ${err.message}`,
           variant: "destructive",
           duration: 8000
         });
       }
     }
-    
+
     setIsUploading(false);
     setUploadProgress(null);
     onRefresh();
@@ -1171,9 +1174,9 @@ function DocumentsTab({
     e.preventDefault();
     setIsDragging(false);
   };
-  
+
   const filteredDocuments = documents.filter(doc => {
-    const matchesSearch = !searchTerm || 
+    const matchesSearch = !searchTerm ||
       doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doc.tags?.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === "all" || doc.status === statusFilter;
@@ -1197,8 +1200,8 @@ function DocumentsTab({
           <p className="text-sm text-muted-foreground">Knowledge base for AI-powered content generation</p>
         </div>
         <div className="flex gap-2">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
             data-testid="button-upload-file"
@@ -1223,12 +1226,11 @@ function DocumentsTab({
       />
 
       {/* Drop zone */}
-      <div 
-        className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${
-          isDragging 
-            ? 'border-cyan-400 bg-cyan-400/10' 
-            : 'border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
-        } ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}
+      <div
+        className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${isDragging
+          ? 'border-cyan-400 bg-cyan-400/10'
+          : 'border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600'
+          } ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -1255,8 +1257,8 @@ function DocumentsTab({
       </div>
 
       <div className="flex flex-wrap gap-2 items-center">
-        <Input 
-          placeholder="Search documents..." 
+        <Input
+          placeholder="Search documents..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-xs"
@@ -1293,7 +1295,7 @@ function DocumentsTab({
           <FileUp className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="font-medium mb-2">No documents found</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            {documents.length === 0 
+            {documents.length === 0
               ? "Add your first document to build the knowledge base"
               : "Try adjusting your filters"
             }
@@ -1307,10 +1309,10 @@ function DocumentsTab({
       ) : (
         <div className="grid gap-4">
           {filteredDocuments.map((doc) => (
-            <DocumentCard 
-              key={doc.id} 
-              document={doc} 
-              onEdit={onEdit} 
+            <DocumentCard
+              key={doc.id}
+              document={doc}
+              onEdit={onEdit}
               onDelete={onDelete}
               onIndex={onIndex}
               isIndexing={indexingId === doc.id}
@@ -1439,13 +1441,12 @@ function DocumentEditorModal({
                     type="button"
                     onClick={() => !isComingSoon && setFormData(prev => ({ ...prev, sourceType: key, sourceUrl: null }))}
                     disabled={isComingSoon}
-                    className={`p-3 rounded-lg border flex flex-col items-center gap-2 transition-colors relative ${
-                      isComingSoon
-                        ? 'border-border opacity-50 cursor-not-allowed'
-                        : formData.sourceType === key 
-                          ? 'border-primary bg-primary/5' 
-                          : 'border-border hover:border-primary/50'
-                    }`}
+                    className={`p-3 rounded-lg border flex flex-col items-center gap-2 transition-colors relative ${isComingSoon
+                      ? 'border-border opacity-50 cursor-not-allowed'
+                      : formData.sourceType === key
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
+                      }`}
                     data-testid={`button-source-type-${key}`}
                   >
                     <Icon className={`w-5 h-5 ${config.color}`} />
@@ -1473,8 +1474,8 @@ function DocumentEditorModal({
                 data-testid="input-document-url"
               />
               <p className="text-xs text-muted-foreground">
-                {formData.sourceType === 'youtube' 
-                  ? 'Transcript will be fetched automatically' 
+                {formData.sourceType === 'youtube'
+                  ? 'Transcript will be fetched automatically'
                   : 'Content will be extracted from the page'}
               </p>
             </div>
@@ -1551,9 +1552,9 @@ function DocumentEditorModal({
                   <p className="font-medium">Document Chunks</p>
                   <p className="text-sm text-muted-foreground">{document.chunkCount} chunks indexed</p>
                 </div>
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   size="sm"
                   onClick={() => onViewChunks(document.id)}
                   data-testid="button-view-chunks"
@@ -1665,12 +1666,12 @@ function calculateOpportunityScore(kw: SeoKeyword): number {
   return Math.round((relevance * 0.4) + (invertedDifficulty * 0.35) + (normalizedVolume * 0.25));
 }
 
-function SeoKeywordCard({ 
-  keyword, 
-  onStatusChange, 
-  onDelete 
-}: { 
-  keyword: SeoKeyword; 
+function SeoKeywordCard({
+  keyword,
+  onStatusChange,
+  onDelete
+}: {
+  keyword: SeoKeyword;
   onStatusChange: (id: string, status: SeoKeyword["status"]) => void;
   onDelete: (id: string) => void;
 }) {
@@ -1752,9 +1753,9 @@ function SeoKeywordCard({
               <SelectItem value="rejected">Rejected</SelectItem>
             </SelectContent>
           </Select>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-7 w-7"
             onClick={() => {
               if (confirm('Delete this keyword?')) onDelete(keyword.id);
@@ -1880,8 +1881,8 @@ function SeoKeywordsTab({
                 )}
               </SelectContent>
             </Select>
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               onClick={() => selectedDocId && onScanDocument(selectedDocId)}
               disabled={!selectedDocId || isScanning}
               data-testid="button-scan-document"
@@ -1948,7 +1949,7 @@ function SeoKeywordsTab({
           <Target className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="font-medium mb-2">No keywords found</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            {keywords.length === 0 
+            {keywords.length === 0
               ? "Add keywords manually or scan your documents to discover opportunities"
               : "Try adjusting your filters"
             }
@@ -2154,8 +2155,8 @@ function MagicPageDetailsModal({
               <Label className="text-xs text-muted-foreground mb-2 block">Outline</Label>
               <div className="bg-muted/50 rounded-lg p-4 space-y-1">
                 {suggestion.outline.sections.map((section, idx) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     style={{ paddingLeft: `${(section.level - 1) * 16}px` }}
                     className="text-sm"
                   >
@@ -2172,7 +2173,7 @@ function MagicPageDetailsModal({
           {suggestion.draftContent && (
             <div className="space-y-4">
               <Label className="text-xs text-muted-foreground">Draft Content Preview</Label>
-              
+
               {suggestion.draftContent.hero && (
                 <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg p-4">
                   <h2 className="text-xl font-bold">{suggestion.draftContent.hero.title}</h2>
@@ -2256,7 +2257,7 @@ function MagicPagesTab({
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [viewingDetails, setViewingDetails] = useState<MagicPageSuggestion | null>(null);
 
-  const filteredSuggestions = suggestions.filter(s => 
+  const filteredSuggestions = suggestions.filter(s =>
     statusFilter === "all" || s.status === statusFilter
   );
 
@@ -2295,7 +2296,7 @@ function MagicPagesTab({
               <Sparkles className="w-4 h-4 text-primary" /> Generate New Suggestions
             </h3>
             <p className="text-sm text-muted-foreground mt-1">
-              {plannedKeywords.length > 0 
+              {plannedKeywords.length > 0
                 ? `Found ${plannedKeywords.length} keywords ready for page creation`
                 : "Add keywords in the SEO tab to generate page suggestions"
               }
@@ -2383,16 +2384,16 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    
+
     try {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      
+
       const data = await res.json();
-      
+
       if (res.ok && data.token) {
         setAuthToken(data.token);
         onLogin();
@@ -2416,9 +2417,9 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label>Username</Label>
-            <Input 
-              type="text" 
-              value={username} 
+            <Input
+              type="text"
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="admin"
               data-testid="input-username"
@@ -2426,11 +2427,11 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
           </div>
           <div>
             <Label>Password</Label>
-            <Input 
-              type="password" 
-              value={password} 
+            <Input
+              type="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••" 
+              placeholder="••••••••"
               data-testid="input-password"
             />
           </div>
@@ -2444,17 +2445,17 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
   );
 }
 
-function StatCard({ 
-  label, 
-  value, 
-  icon: Icon, 
+function StatCard({
+  label,
+  value,
+  icon: Icon,
   gradient = "from-blue-500 to-blue-600",
   trend,
   trendLabel,
   subtitle
-}: { 
-  label: string; 
-  value: number | string; 
+}: {
+  label: string;
+  value: number | string;
   icon: any;
   gradient?: string;
   trend?: number;
@@ -2463,11 +2464,11 @@ function StatCard({
 }) {
   const isPositive = trend && trend > 0;
   const isNegative = trend && trend < 0;
-  
+
   return (
     <div className="relative overflow-hidden bg-card border border-border/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group">
       <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gradient-to-br opacity-10 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(135deg, var(--admin-accent), var(--admin-accent-hover))` }} />
-      
+
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-muted-foreground mb-1">{label}</p>
@@ -2499,17 +2500,17 @@ function StatCard({
 function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number; onEdit: (page: Page) => void }) {
   const [isExpanded, setIsExpanded] = useState(level < 2);
   const hasChildren = page.children && page.children.length > 0;
-  
+
   return (
     <div>
       {/* Desktop tree view */}
-      <div 
+      <div
         className="hidden md:flex items-center gap-2 py-2 px-3 hover:bg-muted/50 rounded-lg cursor-pointer group"
         style={{ paddingLeft: `${level * 20 + 12}px` }}
         data-testid={`page-tree-item-${page.key}`}
       >
         {hasChildren ? (
-          <button 
+          <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="p-0.5 hover:bg-muted rounded"
             data-testid={`button-expand-${page.key}`}
@@ -2519,27 +2520,27 @@ function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number;
         ) : (
           <span className="w-5" />
         )}
-        
+
         <FileText className="w-4 h-4 text-muted-foreground" />
-        
+
         <span className="flex-1 text-sm font-medium truncate" onClick={() => onEdit(page)}>
           {page.title}
         </span>
-        
-        <Badge 
-          variant={page.status === "published" ? "default" : "secondary"} 
+
+        <Badge
+          variant={page.status === "published" ? "default" : "secondary"}
           className="text-xs"
         >
           {page.status}
         </Badge>
-        
+
         <span className="text-xs text-muted-foreground hidden group-hover:inline">
           {page.template}
         </span>
-        
-        <Button 
-          variant="ghost" 
-          size="icon" 
+
+        <Button
+          variant="ghost"
+          size="icon"
           className="opacity-0 group-hover:opacity-100 h-7 w-7"
           onClick={() => onEdit(page)}
           data-testid={`button-edit-page-${page.key}`}
@@ -2547,9 +2548,9 @@ function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number;
           <Edit className="w-3.5 h-3.5" />
         </Button>
       </div>
-      
+
       {/* Mobile card view */}
-      <div 
+      <div
         className="md:hidden"
         style={{ marginLeft: `${Math.min(level * 16, 48)}px` }}
         data-testid={`page-card-${page.key}`}
@@ -2559,7 +2560,7 @@ function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number;
           className="w-full p-4 bg-card border rounded-xl text-left active:bg-muted/30 min-h-[56px] flex items-center gap-3"
         >
           {hasChildren ? (
-            <button 
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 setIsExpanded(!isExpanded);
@@ -2577,11 +2578,11 @@ function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number;
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className="font-medium text-[15px] leading-tight truncate">{page.title}</span>
-              <div 
+              <div
                 className={cn(
                   "w-2 h-2 rounded-full shrink-0",
                   page.status === "published" ? "bg-green-500" : "bg-amber-500"
-                )} 
+                )}
               />
             </div>
             <p className="text-[13px] text-muted-foreground truncate mt-0.5">{page.path}</p>
@@ -2589,7 +2590,7 @@ function PageTreeNode({ page, level = 0, onEdit }: { page: Page; level?: number;
           <ChevronRight className="w-5 h-5 text-muted-foreground shrink-0" />
         </button>
       </div>
-      
+
       {isExpanded && hasChildren && (
         <div className="mt-2 space-y-2">
           {page.children!.map(child => (
@@ -2606,8 +2607,8 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
     return <div className="text-center py-12 text-muted-foreground">Loading stats...</div>;
   }
 
-  const publishRate = stats.totalPages > 0 
-    ? Math.round((stats.publishedPages / stats.totalPages) * 100) 
+  const publishRate = stats.totalPages > 0
+    ? Math.round((stats.publishedPages / stats.totalPages) * 100)
     : 0;
 
   return (
@@ -2627,46 +2628,46 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
       <div>
         <h2 className="text-lg font-semibold mb-4 text-foreground">Content Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <StatCard 
-            label="Total Pages" 
-            value={stats.totalPages} 
-            icon={FileText} 
+          <StatCard
+            label="Total Pages"
+            value={stats.totalPages}
+            icon={FileText}
             gradient="from-blue-500 to-blue-600"
             subtitle="All content pages"
           />
-          <StatCard 
-            label="Published" 
-            value={stats.publishedPages} 
-            icon={Eye} 
+          <StatCard
+            label="Published"
+            value={stats.publishedPages}
+            icon={Eye}
             gradient="from-green-500 to-emerald-600"
             trend={publishRate}
             trendLabel="publish rate"
           />
-          <StatCard 
-            label="Drafts" 
-            value={stats.draftPages} 
-            icon={EyeOff} 
+          <StatCard
+            label="Drafts"
+            value={stats.draftPages}
+            icon={EyeOff}
             gradient="from-amber-500 to-orange-600"
             subtitle="Awaiting review"
           />
-          <StatCard 
-            label="Products" 
-            value={stats.totalProducts} 
-            icon={Package} 
+          <StatCard
+            label="Products"
+            value={stats.totalProducts}
+            icon={Package}
             gradient="from-purple-500 to-violet-600"
             subtitle="Active listings"
           />
-          <StatCard 
-            label="Science Articles" 
-            value={stats.totalArticles} 
-            icon={Beaker} 
+          <StatCard
+            label="Science Articles"
+            value={stats.totalArticles}
+            icon={Beaker}
             gradient="from-cyan-500 to-teal-600"
             subtitle="Knowledge base"
           />
-          <StatCard 
-            label="Clusters" 
-            value={stats.totalClusters} 
-            icon={FolderTree} 
+          <StatCard
+            label="Clusters"
+            value={stats.totalClusters}
+            icon={FolderTree}
             gradient="from-rose-500 to-pink-600"
             subtitle="Content groups"
           />
@@ -2690,18 +2691,18 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
                 margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.5} />
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                   axisLine={{ stroke: 'hsl(var(--border))' }}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                   axisLine={{ stroke: 'hsl(var(--border))' }}
                 />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
                     borderRadius: '8px',
                     boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
@@ -2743,15 +2744,15 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
                     borderRadius: '8px',
                   }}
                 />
-                <Legend 
-                  verticalAlign="bottom" 
+                <Legend
+                  verticalAlign="bottom"
                   height={36}
                   formatter={(value) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>}
                 />
@@ -2765,26 +2766,26 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
       <div className="bg-card border border-border/50 rounded-2xl p-6 shadow-sm">
         <h3 className="font-semibold mb-4 text-foreground">Quick Actions</h3>
         <div className="flex flex-wrap gap-3">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={onCreatePage} 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onCreatePage}
             className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 hover:border-blue-500/50 hover:bg-blue-500/20"
             data-testid="button-add-page"
           >
             <Plus className="w-4 h-4 mr-2" /> New Page
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             className="bg-gradient-to-r from-purple-500/10 to-purple-600/10 border-purple-500/30 hover:border-purple-500/50 hover:bg-purple-500/20"
             data-testid="button-add-product"
           >
             <Plus className="w-4 h-4 mr-2" /> New Product
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/10 border-cyan-500/30 hover:border-cyan-500/50 hover:bg-cyan-500/20"
             data-testid="button-add-article"
           >
@@ -2799,21 +2800,21 @@ function DashboardTab({ stats, onCreatePage }: { stats: ContentStats | null; onC
 function PagesTab({ pages, onEdit, onCreate }: { pages: Page[]; onEdit: (page: Page) => void; onCreate: () => void }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  
+
   const filterPages = (pageList: Page[]): Page[] => {
     return pageList
       .map(page => {
         const filteredChildren = page.children ? filterPages(page.children) : [];
-        
-        const matchesSearch = !searchTerm || 
+
+        const matchesSearch = !searchTerm ||
           page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           page.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
           page.key.toLowerCase().includes(searchTerm.toLowerCase());
-        
+
         const matchesStatus = statusFilter === "all" || page.status === statusFilter;
-        
+
         const hasMatchingChildren = filteredChildren.length > 0;
-        
+
         if ((matchesSearch && matchesStatus) || hasMatchingChildren) {
           return {
             ...page,
@@ -2824,15 +2825,15 @@ function PagesTab({ pages, onEdit, onCreate }: { pages: Page[]; onEdit: (page: P
       })
       .filter((page): page is Page => page !== null);
   };
-  
+
   const filteredPages = filterPages(pages);
-  
+
   const countPages = (pageList: Page[]): number => {
     return pageList.reduce((acc, page) => {
       return acc + 1 + (page.children ? countPages(page.children) : 0);
     }, 0);
   };
-  
+
   const totalCount = countPages(pages);
   const filteredCount = countPages(filteredPages);
 
@@ -2843,8 +2844,8 @@ function PagesTab({ pages, onEdit, onCreate }: { pages: Page[]; onEdit: (page: P
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search pages..." 
+            <Input
+              placeholder="Search pages..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-9 h-11"
@@ -2867,8 +2868,8 @@ function PagesTab({ pages, onEdit, onCreate }: { pages: Page[]; onEdit: (page: P
       {/* Desktop header */}
       <div className="hidden md:flex justify-between items-center gap-4">
         <div className="flex-1 flex gap-3">
-          <Input 
-            placeholder="Search pages..." 
+          <Input
+            placeholder="Search pages..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-md"
@@ -2927,7 +2928,7 @@ function PagesTab({ pages, onEdit, onCreate }: { pages: Page[]; onEdit: (page: P
       </div>
 
       {/* Mobile FAB */}
-      <Button 
+      <Button
         className="md:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl z-40 bg-primary"
         onClick={onCreate}
         data-testid="button-add-new-page-fab"
@@ -2952,16 +2953,16 @@ function ProductsTab({ products, onEdit, onCreate }: { products: Product[]; onEd
           <h2 className="text-xl font-bold">Products</h2>
           <p className="text-sm text-muted-foreground">{products.length} product{products.length !== 1 ? 's' : ''} in catalog</p>
         </div>
-        <Button 
-          size="sm" 
-          onClick={onCreate} 
+        <Button
+          size="sm"
+          onClick={onCreate}
           className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white shadow-lg"
           data-testid="button-add-product-main"
         >
           <Plus className="w-4 h-4 mr-2" /> Add Product
         </Button>
       </div>
-      
+
       {/* Mobile card list */}
       <div className="md:hidden space-y-2 pb-20">
         {products.map(product => (
@@ -2989,9 +2990,9 @@ function ProductsTab({ products, onEdit, onCreate }: { products: Product[]; onEd
       {/* Desktop card grid */}
       <div className="hidden md:grid gap-5">
         {products.map(product => (
-          <div 
-            key={product.id} 
-            className="group relative bg-card border border-border/50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:border-purple-500/30 transition-all duration-300" 
+          <div
+            key={product.id}
+            className="group relative bg-card border border-border/50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:border-purple-500/30 transition-all duration-300"
             data-testid={`product-card-${product.slug}`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -3015,18 +3016,18 @@ function ProductsTab({ products, onEdit, onCreate }: { products: Product[]; onEd
                       <FileText className="w-3 h-3 mr-1" /> Linked
                     </Badge>
                   )}
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     className="opacity-60 group-hover:opacity-100 hover:bg-purple-500/10"
-                    onClick={() => onEdit(product)} 
+                    onClick={() => onEdit(product)}
                     data-testid={`button-edit-product-${product.slug}`}
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-6 pt-4 border-t border-border/50">
                 <div>
                   <Label className="text-xs text-muted-foreground uppercase tracking-wider">Price</Label>
@@ -3041,7 +3042,7 @@ function ProductsTab({ products, onEdit, onCreate }: { products: Product[]; onEd
           </div>
         ))}
       </div>
-      
+
       {products.length === 0 && (
         <div className="text-center py-12 md:py-16 bg-card border border-border/50 rounded-xl md:rounded-2xl">
           <Package className="w-10 h-10 md:w-12 md:h-12 text-muted-foreground mx-auto mb-3 md:mb-4" />
@@ -3054,7 +3055,7 @@ function ProductsTab({ products, onEdit, onCreate }: { products: Product[]; onEd
       )}
 
       {/* Mobile FAB */}
-      <Button 
+      <Button
         className="md:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg z-40 bg-gradient-to-r from-purple-500 to-violet-600"
         onClick={onCreate}
         data-testid="button-add-product-fab"
@@ -3083,9 +3084,9 @@ function ArticlesTab({ articles, clusters, onEdit, onCreate }: { articles: Artic
           <h2 className="text-xl font-bold">Science Articles</h2>
           <p className="text-sm text-muted-foreground">{articles.length} article{articles.length !== 1 ? 's' : ''} in library</p>
         </div>
-        <Button 
-          size="sm" 
-          onClick={onCreate} 
+        <Button
+          size="sm"
+          onClick={onCreate}
           className="bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white shadow-lg"
           data-testid="button-add-article-main"
         >
@@ -3122,9 +3123,9 @@ function ArticlesTab({ articles, clusters, onEdit, onCreate }: { articles: Artic
       {/* Desktop card grid */}
       <div className="hidden md:grid gap-5">
         {articles.map(article => (
-          <div 
-            key={article.id} 
-            className="group relative bg-card border border-border/50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:border-cyan-500/30 transition-all duration-300" 
+          <div
+            key={article.id}
+            className="group relative bg-card border border-border/50 p-6 rounded-2xl shadow-sm hover:shadow-lg hover:border-cyan-500/30 transition-all duration-300"
             data-testid={`article-card-${article.slug}`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -3153,11 +3154,11 @@ function ArticlesTab({ articles, clusters, onEdit, onCreate }: { articles: Artic
                       <FileText className="w-3 h-3 mr-1" /> Linked
                     </Badge>
                   )}
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     className="opacity-60 group-hover:opacity-100 hover:bg-cyan-500/10"
-                    onClick={() => onEdit(article)} 
+                    onClick={() => onEdit(article)}
                     data-testid={`button-edit-article-${article.slug}`}
                   >
                     <Edit className="w-4 h-4" />
@@ -3178,7 +3179,7 @@ function ArticlesTab({ articles, clusters, onEdit, onCreate }: { articles: Artic
           </div>
         ))}
       </div>
-      
+
       {articles.length === 0 && (
         <div className="text-center py-12 bg-card border border-border/50 rounded-xl">
           <Beaker className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
@@ -3191,7 +3192,7 @@ function ArticlesTab({ articles, clusters, onEdit, onCreate }: { articles: Artic
       )}
 
       {/* Mobile FAB */}
-      <Button 
+      <Button
         className="md:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl z-40 bg-gradient-to-r from-cyan-500 to-teal-600"
         onClick={onCreate}
         data-testid="button-add-article-fab"
@@ -3360,9 +3361,9 @@ function ClustersTab({ clusters, onUpdateCluster }: { clusters: Cluster[]; onUpd
         aiVideoPromptPattern: vibeForm.aiVideoPromptPattern || undefined,
         designerNotes: vibeForm.designerNotes || undefined,
       };
-      await onUpdateCluster(selectedCluster.id, { 
+      await onUpdateCluster(selectedCluster.id, {
         visualVibe,
-        color: vibeForm.color || null 
+        color: vibeForm.color || null
       });
       setIsVibeDialogOpen(false);
     } catch (error) {
@@ -3405,9 +3406,9 @@ function ClustersTab({ clusters, onUpdateCluster }: { clusters: Cluster[]; onUpd
                       <span className="text-xs text-muted-foreground">{cluster.slug}</span>
                     </div>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => handleOpenVibeDialog(cluster)}
                     data-testid={`button-edit-cluster-${cluster.slug}`}
                   >
@@ -3441,9 +3442,9 @@ function ClustersTab({ clusters, onUpdateCluster }: { clusters: Cluster[]; onUpd
                       <span className="text-xs text-muted-foreground">{cluster.slug}</span>
                     </div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => handleOpenVibeDialog(cluster)}
                     data-testid={`button-add-vibe-${cluster.slug}`}
                   >
@@ -3471,7 +3472,7 @@ function ClustersTab({ clusters, onUpdateCluster }: { clusters: Cluster[]; onUpd
           Browse and preview the 10 Andara motion archetypes. These animations are applied to page elements through the BigMind AI or Visual Config system.
         </p>
         <MotionLibraryPreview compact />
-        
+
         {/* Pages with Motion Configs */}
         <div className="mt-6 space-y-3">
           <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
@@ -3520,8 +3521,8 @@ function ClustersTab({ clusters, onUpdateCluster }: { clusters: Cluster[]; onUpd
                   data-testid="input-cluster-color-hex"
                 />
                 {vibeForm.color && (
-                  <div 
-                    className="w-10 h-10 rounded-lg border shadow-sm" 
+                  <div
+                    className="w-10 h-10 rounded-lg border shadow-sm"
                     style={{ backgroundColor: vibeForm.color }}
                     data-testid="preview-cluster-color"
                   />
@@ -4351,8 +4352,8 @@ function OrdersTab() {
 
   const filteredOrders = orders?.filter(order => {
     if (statusFilter !== "all" && order.status !== statusFilter) return false;
-    if (searchTerm && !order.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) && 
-        !order.id.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+    if (searchTerm && !order.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      !order.id.toLowerCase().includes(searchTerm.toLowerCase())) return false;
     return true;
   }) || [];
 
@@ -4459,8 +4460,8 @@ function OrdersTab() {
                     {new Date(order.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Select 
-                      value={order.status} 
+                    <Select
+                      value={order.status}
                       onValueChange={(status) => updateStatusMutation.mutate({ id: order.id, status })}
                     >
                       <SelectTrigger className="w-[130px] h-8" data-testid={`select-status-${order.id}`}>
@@ -4617,8 +4618,8 @@ function DesignTokensEditor() {
                 {clusters.map(c => (
                   <SelectItem key={c.key} value={c.key}>
                     <div className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
+                      <div
+                        className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: c.color || '#6366f1' }}
                       />
                       {c.name}
@@ -4640,14 +4641,13 @@ function DesignTokensEditor() {
                     <button
                       key={t.id}
                       onClick={() => setSelectedCluster(t.clusterKey)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${
-                        selectedCluster === t.clusterKey 
-                          ? 'bg-primary/10 text-primary border border-primary/20' 
-                          : 'hover:bg-muted'
-                      }`}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors ${selectedCluster === t.clusterKey
+                        ? 'bg-primary/10 text-primary border border-primary/20'
+                        : 'hover:bg-muted'
+                        }`}
                       data-testid={`token-${t.clusterKey}`}
                     >
-                      <div 
+                      <div
                         className="w-4 h-4 rounded border border-white/20"
                         style={{ background: `linear-gradient(135deg, ${t.primaryColor}, ${t.secondaryColor})` }}
                       />
@@ -4670,8 +4670,8 @@ function DesignTokensEditor() {
             <div className="bg-card border rounded-xl p-5 space-y-5">
               <div className="flex items-center justify-between">
                 <h4 className="font-medium">Tokens for: {selectedCluster}</h4>
-                <Button 
-                  onClick={handleSave} 
+                <Button
+                  onClick={handleSave}
                   disabled={saveMutation.isPending}
                   className="bg-primary hover:bg-primary/90"
                   data-testid="button-save-tokens"
@@ -4743,7 +4743,7 @@ function DesignTokensEditor() {
                   placeholder="linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)"
                   data-testid="input-bg-gradient"
                 />
-                <div 
+                <div
                   className="h-12 rounded-lg border"
                   style={{ background: editingToken.bgGradient }}
                 />
@@ -4761,8 +4761,8 @@ function DesignTokensEditor() {
                 </div>
                 <div className="space-y-2">
                   <Label className="text-xs">Motion Profile</Label>
-                  <Select 
-                    value={editingToken.motionProfile} 
+                  <Select
+                    value={editingToken.motionProfile}
                     onValueChange={(v) => setEditingToken({ ...editingToken, motionProfile: v })}
                   >
                     <SelectTrigger data-testid="select-motion-profile">
@@ -4791,7 +4791,7 @@ function DesignTokensEditor() {
 
               <div className="p-4 bg-muted/30 rounded-lg">
                 <h5 className="font-medium text-sm mb-3">Preview</h5>
-                <div 
+                <div
                   className="p-4 border"
                   style={{
                     background: editingToken.bgGradient,
@@ -4799,7 +4799,7 @@ function DesignTokensEditor() {
                     boxShadow: editingToken.shadowStyle,
                   }}
                 >
-                  <div 
+                  <div
                     className="text-xl font-bold mb-2"
                     style={{ color: editingToken.primaryColor }}
                   >
@@ -4810,7 +4810,7 @@ function DesignTokensEditor() {
                   </p>
                   <button
                     className="mt-3 px-4 py-2 rounded text-white text-sm font-medium"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${editingToken.primaryColor}, ${editingToken.secondaryColor})`,
                       borderRadius: `calc(${editingToken.cardRadius} / 2)`,
                     }}
@@ -4881,7 +4881,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
           elementMotions: newElementMotions,
         },
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
       toast({ title: "Motion Assigned", description: `${selectedMotion} applied to ${elementKey}` });
     } catch (error) {
@@ -4903,7 +4903,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
           elementMotions: newElementMotions,
         },
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
       toast({ title: "Motion Removed", description: `Motion removed from ${elementKey}` });
     } catch (error) {
@@ -4929,7 +4929,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
     try {
       const currentConfig = selectedPage?.visualConfig || {};
       const existingMotions = currentConfig.elementMotions || {};
-      
+
       // Merge: only apply defaults to unassigned slots
       const mergedMotions = { ...defaultMotions };
       for (const key of Object.keys(existingMotions)) {
@@ -4937,14 +4937,14 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
           mergedMotions[key] = existingMotions[key]; // Preserve existing
         }
       }
-      
+
       await apiRequest('PUT', `/api/pages/${selectedPageForMotion}`, {
         visualConfig: {
           ...currentConfig,
           elementMotions: mergedMotions,
         },
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
       const newCount = Object.keys(mergedMotions).length - Object.keys(existingMotions).length;
       toast({ title: "Auto-Assigned", description: `${newCount > 0 ? newCount + ' new motions applied' : 'All slots already assigned'}` });
@@ -4964,7 +4964,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
           elementMotions: {},
         },
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
       toast({ title: "Cleared", description: "All motion assignments removed" });
     } catch (error) {
@@ -5014,7 +5014,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-card border rounded-xl p-6">
-              <MotionLibraryPreview 
+              <MotionLibraryPreview
                 onSelectArchetype={setSelectedMotion}
                 selectedArchetype={selectedMotion || undefined}
               />
@@ -5027,7 +5027,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
                 <Layers className="w-4 h-4" />
                 Element Motion Linker
               </h3>
-              
+
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="pageSelect" className="text-sm">Select Page</Label>
@@ -5076,11 +5076,10 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
                         return (
                           <div
                             key={slot.key}
-                            className={`p-2 rounded-lg border cursor-pointer transition-all group ${
-                              assignedMotion 
-                                ? 'border-primary/50 bg-primary/10' 
-                                : 'border-border hover:border-primary/30'
-                            }`}
+                            className={`p-2 rounded-lg border cursor-pointer transition-all group ${assignedMotion
+                              ? 'border-primary/50 bg-primary/10'
+                              : 'border-border hover:border-primary/30'
+                              }`}
                             onClick={() => {
                               if (selectedMotion) {
                                 handleAssignMotion(slot.key);
@@ -5176,7 +5175,7 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
 
 function AnalyticsTab() {
   const [dateRange, setDateRange] = useState<'7d' | '28d' | '90d'>('28d');
-  
+
   const { data: gscStatus, isLoading: isLoadingStatus } = useQuery<{ configured: boolean; siteUrl: string | null }>({
     queryKey: ['/api/admin/seo/status'],
     queryFn: async () => {
@@ -5251,25 +5250,25 @@ function AnalyticsTab() {
           <p className="text-sm text-muted-foreground">{gscStatus.siteUrl}</p>
         </div>
         <div className="flex gap-2">
-          <Button 
-            variant={dateRange === '7d' ? 'default' : 'outline'} 
-            size="sm" 
+          <Button
+            variant={dateRange === '7d' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setDateRange('7d')}
             data-testid="button-date-7d"
           >
             7 Days
           </Button>
-          <Button 
-            variant={dateRange === '28d' ? 'default' : 'outline'} 
-            size="sm" 
+          <Button
+            variant={dateRange === '28d' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setDateRange('28d')}
             data-testid="button-date-28d"
           >
             28 Days
           </Button>
-          <Button 
-            variant={dateRange === '90d' ? 'default' : 'outline'} 
-            size="sm" 
+          <Button
+            variant={dateRange === '90d' ? 'default' : 'outline'}
+            size="sm"
             onClick={() => setDateRange('90d')}
             data-testid="button-date-90d"
           >
@@ -5373,12 +5372,12 @@ function BigMindTab() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [attachedFile, setAttachedFile] = useState<{ name: string; content: string } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  
+
   // Resizable chat height
   const [chatHeight, setChatHeight] = useState(450);
   const [isResizing, setIsResizing] = useState(false);
   const resizeRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing || !resizeRef.current) return;
@@ -5386,16 +5385,16 @@ function BigMindTab() {
       const newHeight = e.clientY - containerRect.top;
       setChatHeight(Math.max(200, Math.min(800, newHeight)));
     };
-    
+
     const handleMouseUp = () => {
       setIsResizing(false);
     };
-    
+
     if (isResizing) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     }
-    
+
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -5403,11 +5402,11 @@ function BigMindTab() {
   }, [isResizing]);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   // Chat session persistence
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [showSessionList, setShowSessionList] = useState(false);
-  
+
   // Fetch chat sessions
   const { data: chatSessions, refetch: refetchChatSessions } = useQuery<BigmindChatSession[]>({
     queryKey: ['/api/admin/bigmind/sessions'],
@@ -5416,14 +5415,14 @@ function BigMindTab() {
       return res.json();
     },
   });
-  
+
   // Load messages when session changes
   useEffect(() => {
     if (currentSessionId) {
       loadSessionMessages(currentSessionId);
     }
   }, [currentSessionId]);
-  
+
   // Auto-load most recent session when BigMind tab opens
   useEffect(() => {
     if (chatSessions && chatSessions.length > 0 && !currentSessionId) {
@@ -5433,7 +5432,7 @@ function BigMindTab() {
       }
     }
   }, [chatSessions, currentSessionId]);
-  
+
   const loadSessionMessages = async (sessionId: string) => {
     try {
       const res = await apiRequest('GET', `/api/admin/bigmind/sessions/${sessionId}/messages`);
@@ -5448,7 +5447,7 @@ function BigMindTab() {
       console.error('Failed to load session messages:', error);
     }
   };
-  
+
   const createNewSession = async () => {
     try {
       const res = await apiRequest('POST', '/api/admin/bigmind/sessions', {
@@ -5464,12 +5463,12 @@ function BigMindTab() {
       console.error('Failed to create session:', error);
     }
   };
-  
+
   const switchToSession = (sessionId: string) => {
     setCurrentSessionId(sessionId);
     setShowSessionList(false);
   };
-  
+
   const saveMessageToDb = async (role: string, content: string, functionCalls?: any) => {
     if (!currentSessionId) return;
     try {
@@ -5483,7 +5482,7 @@ function BigMindTab() {
       console.error('Failed to save message:', error);
     }
   };
-  
+
   const updateSessionTitle = async (sessionId: string, firstMessage: string) => {
     const title = firstMessage.substring(0, 50) + (firstMessage.length > 50 ? '...' : '');
     try {
@@ -5493,7 +5492,7 @@ function BigMindTab() {
       console.error('Failed to update session title:', error);
     }
   };
-  
+
   const deleteSession = async (sessionId: string) => {
     try {
       await apiRequest('DELETE', `/api/admin/bigmind/sessions/${sessionId}`);
@@ -5507,7 +5506,7 @@ function BigMindTab() {
       toast({ title: "Error", description: "Failed to delete session", variant: "destructive" });
     }
   };
-  
+
   const [studioPrompt, setStudioPrompt] = useState("");
   const [studioTitle, setStudioTitle] = useState("");
   const [studioPath, setStudioPath] = useState("");
@@ -5516,7 +5515,7 @@ function BigMindTab() {
   const [activeSession, setActiveSession] = useState<MagicPageSession | null>(null);
   const [applyingMessageIdx, setApplyingMessageIdx] = useState<number | null>(null);
   const [parsedOutput, setParsedOutput] = useState<ParsedBigMindResponse | null>(null);
-  
+
   // Enhancement selector state
   const [showEnhancementPanel, setShowEnhancementPanel] = useState<number | null>(null);
   const [pendingEnhancements, setPendingEnhancements] = useState<ParsedEnhancement[]>([]);
@@ -5525,13 +5524,13 @@ function BigMindTab() {
   const [createNewPage, setCreateNewPage] = useState(true);
   const [savingRecommendationsIdx, setSavingRecommendationsIdx] = useState<number | null>(null);
   const [showSuggestionsPanel, setShowSuggestionsPanel] = useState(false);
-  
+
   // Suggested images state
   const [showSuggestedImages, setShowSuggestedImages] = useState<number | null>(null);
   const [editableImagePrompts, setEditableImagePrompts] = useState<Record<string, string>>({});
   const [generatingImageId, setGeneratingImageId] = useState<string | null>(null);
   const [generatedImages, setGeneratedImages] = useState<Record<string, string>>({});
-  
+
   // Live preview panel state - shows current page being designed
   const [activePreview, setActivePreview] = useState<{
     content: string;
@@ -5557,7 +5556,7 @@ function BigMindTab() {
     };
   } | null>(null);
   const [showPreviewPanel, setShowPreviewPanel] = useState(true);
-  
+
   // Motion element types for the link manager
   const MOTION_ELEMENTS = [
     { key: 'hero', label: 'Hero Section', icon: Layers },
@@ -5663,12 +5662,12 @@ function BigMindTab() {
     const memoizedInfo = messageEnhancementInfo.get(messageIdx);
     const parsed = memoizedInfo?.parsed || parseBigMindResponse(messageContent);
     const extracted = memoizedInfo?.extracted || extractEnhancements(messageContent, parsed);
-    
+
     if (!extracted.hasApplyableContent) {
       toast({ title: "No Suggestions", description: "No applyable enhancements found in this message.", variant: "destructive" });
       return;
     }
-    
+
     setPendingEnhancements(extracted.enhancements);
     setSelectedEnhancements(new Set(extracted.enhancements.map(e => e.id)));
     setShowEnhancementPanel(messageIdx);
@@ -5679,15 +5678,15 @@ function BigMindTab() {
 
   const applySelectedEnhancements = async () => {
     if (!parsedOutput) return;
-    
+
     setApplyingMessageIdx(showEnhancementPanel);
     try {
       const selectedList = pendingEnhancements.filter(e => selectedEnhancements.has(e.id));
-      
+
       if (createNewPage) {
         const pageKey = parsedOutput.pageMetadata.urlSlug?.replace(/\//g, '-').replace(/^-/, '') || `bigmind-${Date.now()}`;
         const pagePath = parsedOutput.pageMetadata.urlSlug || `/bigmind/${Date.now()}`;
-        
+
         const pageData: Record<string, any> = {
           key: pageKey,
           title: parsedOutput.pageMetadata.h1Title || 'BigMind Generated Page',
@@ -5701,16 +5700,16 @@ function BigMindTab() {
           aiStartupHtml: parsedOutput.htmlContent || null,
           status: 'draft',
         };
-        
+
         for (const enh of selectedList) {
           if (enh.fieldName && enh.suggestedValue) {
             pageData[enh.fieldName] = enh.suggestedValue;
           }
         }
-        
+
         const pageRes = await apiRequest('POST', '/api/pages', pageData);
         const newPage = await pageRes.json();
-        
+
         // Try to create image prompts - don't fail the whole operation if this fails
         const imagePrompts = selectedList.filter(e => e.enhancementType === 'image_prompt');
         let imagePromptsCreated = 0;
@@ -5728,13 +5727,13 @@ function BigMindTab() {
             console.warn('Failed to create image prompt:', imgError);
           }
         }
-        
+
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-        const imageNote = imagePrompts.length > 0 
+        const imageNote = imagePrompts.length > 0
           ? ` (${imagePromptsCreated}/${imagePrompts.length} image prompts saved)`
           : '';
-        toast({ 
-          title: "Page Created!", 
+        toast({
+          title: "Page Created!",
           description: `Created new page with ${selectedList.length} enhancements applied.${imageNote}`
         });
       } else if (targetPageId) {
@@ -5748,13 +5747,13 @@ function BigMindTab() {
             status: 'pending'
           });
         }
-        
-        toast({ 
-          title: "Enhancements Saved!", 
+
+        toast({
+          title: "Enhancements Saved!",
           description: `${selectedList.length} enhancements saved for review in Page Editor.`
         });
       }
-      
+
       setShowEnhancementPanel(null);
       setPendingEnhancements([]);
       setSelectedEnhancements(new Set());
@@ -5785,16 +5784,16 @@ function BigMindTab() {
       const isSafeField = enh.fieldName && SAFE_SINGLE_APPLY_FIELDS.includes(enh.fieldName);
       const isHtmlContent = enh.enhancementType === 'hero_content' || enh.enhancementType === 'section_content' || enh.fieldName === 'content' || enh.fieldName === 'aiStartupHtml';
       const isVisualConfig = enh.enhancementType === 'tag' && enh.fieldName?.startsWith('visualConfig');
-      
+
       if (!pageId) {
-        toast({ 
-          title: "Select a Page", 
+        toast({
+          title: "Select a Page",
           description: "Please select an existing page to apply this enhancement, or use 'Apply All Selected' to create a new page.",
-          variant: "destructive" 
+          variant: "destructive"
         });
         return;
       }
-      
+
       // For HTML content, we need special handling - save as enhancement for review
       if (isHtmlContent) {
         await apiRequest('POST', `/api/admin/pages/${pageId}/enhancements`, {
@@ -5805,10 +5804,10 @@ function BigMindTab() {
           confidence: enh.confidence,
           status: 'pending'
         });
-        
+
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-        toast({ 
-          title: "Enhancement Saved", 
+        toast({
+          title: "Enhancement Saved",
           description: "HTML content saved for review in Page Editor."
         });
       } else if (isVisualConfig) {
@@ -5816,7 +5815,7 @@ function BigMindTab() {
         try {
           const lines = enh.suggestedValue.split('\n');
           const updateData: Record<string, any> = {};
-          
+
           for (const line of lines) {
             const [key, ...valueParts] = line.split(':');
             const value = valueParts.join(':').trim();
@@ -5830,12 +5829,12 @@ function BigMindTab() {
               else if (fieldKey.includes('ambient')) updateData.ambientMotion = value;
             }
           }
-          
+
           if (Object.keys(updateData).length > 0) {
             await apiRequest('PUT', `/api/pages/${pageId}`, updateData);
             queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-            toast({ 
-              title: "Applied!", 
+            toast({
+              title: "Applied!",
               description: "Visual config updated on page."
             });
           }
@@ -5847,13 +5846,13 @@ function BigMindTab() {
         // Safe field - apply directly
         const updateData: Record<string, any> = {};
         updateData[enh.fieldName] = enh.suggestedValue;
-        
+
         await apiRequest('PUT', `/api/pages/${pageId}`, updateData);
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
         queryClient.invalidateQueries({ queryKey: ['/api/admin/pages'] });
-        
-        toast({ 
-          title: "Applied!", 
+
+        toast({
+          title: "Applied!",
           description: `${enh.enhancementType.replace(/_/g, ' ')} updated on page.`
         });
       } else {
@@ -5866,14 +5865,14 @@ function BigMindTab() {
           confidence: enh.confidence,
           status: 'pending'
         });
-        
+
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-        toast({ 
-          title: "Saved for Review", 
+        toast({
+          title: "Saved for Review",
           description: `${enh.enhancementType.replace(/_/g, ' ')} saved for review in Page Editor.`
         });
       }
-      
+
       // Remove from pending list
       setPendingEnhancements(prev => prev.filter(e => e.id !== enh.id));
       setSelectedEnhancements(prev => {
@@ -5894,15 +5893,15 @@ function BigMindTab() {
     setGeneratingImageId(imagePrompt.id);
     try {
       const promptText = editableImagePrompts[imagePrompt.id] || imagePrompt.prompt;
-      
+
       const res = await apiRequest('POST', '/api/admin/generate-image', {
         prompt: promptText,
         slotKey: imagePrompt.slotKey,
         slotType: imagePrompt.slotType,
       });
-      
+
       const result = await res.json();
-      
+
       if (result.success && (result.publicUrl || result.filePath)) {
         const imageUrl = result.publicUrl || result.filePath;
         setGeneratedImages(prev => ({
@@ -5942,7 +5941,7 @@ function BigMindTab() {
     setApplyingMessageIdx(messageIdx);
     try {
       const parsed = parseBigMindResponse(messageContent);
-      
+
       if (!parsed.htmlContent && !parsed.pageMetadata.h1Title) {
         toast({ title: "No Page Content", description: "This message doesn't contain page content to apply.", variant: "destructive" });
         return;
@@ -5950,7 +5949,7 @@ function BigMindTab() {
 
       const pageKey = parsed.pageMetadata.urlSlug?.replace(/\//g, '-').replace(/^-/, '') || `bigmind-${Date.now()}`;
       const pagePath = parsed.pageMetadata.urlSlug || `/bigmind/${Date.now()}`;
-      
+
       const pageRes = await apiRequest('POST', '/api/pages', {
         key: pageKey,
         title: parsed.pageMetadata.h1Title || 'BigMind Generated Page',
@@ -5986,8 +5985,8 @@ function BigMindTab() {
 
       setParsedOutput(parsed);
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-      toast({ 
-        title: "Page Created!", 
+      toast({
+        title: "Page Created!",
         description: `Created "${parsed.pageMetadata.h1Title}" with ${parsed.imagePrompts.length} image slots.`
       });
     } catch (error) {
@@ -5999,16 +5998,16 @@ function BigMindTab() {
   };
 
   const hasApplyableContent = (content: string): boolean => {
-    return content.includes('```html') || 
-           content.includes('```visual-config') || 
-           content.includes('```page-metadata') ||
-           content.includes('```image-prompts') ||
-           content.includes('**URL slug:**') ||
-           content.includes('TITLE:') ||
-           content.includes('SEO_TITLE:') ||
-           content.includes('AI LAYOUT PROMPT:');
+    return content.includes('```html') ||
+      content.includes('```visual-config') ||
+      content.includes('```page-metadata') ||
+      content.includes('```image-prompts') ||
+      content.includes('**URL slug:**') ||
+      content.includes('TITLE:') ||
+      content.includes('SEO_TITLE:') ||
+      content.includes('AI LAYOUT PROMPT:');
   };
-  
+
   const { data: sessions, refetch: refetchSessions } = useQuery<MagicPageSession[]>({
     queryKey: ['/api/admin/magic-sessions'],
     queryFn: async () => {
@@ -6016,7 +6015,7 @@ function BigMindTab() {
       return res.json();
     },
   });
-  
+
   const { data: aiSettings, refetch: refetchAiSettings } = useQuery<AdminAiSetting[]>({
     queryKey: ['/api/admin/ai-settings'],
     queryFn: async () => {
@@ -6084,26 +6083,26 @@ function BigMindTab() {
         throw new Error('Failed to get response');
       }
       const data = await res.json();
-      
+
       if (useCmsMode && data.functionCalls?.length > 0) {
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
         queryClient.invalidateQueries({ queryKey: ['/api/clusters'] });
         queryClient.invalidateQueries({ queryKey: ['/api/science-articles'] });
         queryClient.invalidateQueries({ queryKey: ['/api/products'] });
       }
-      
-      const assistantMessage = { 
-        role: "assistant" as const, 
+
+      const assistantMessage = {
+        role: "assistant" as const,
         content: data.response,
-        functionCalls: data.functionCalls 
+        functionCalls: data.functionCalls
       };
       setMessages([...newMessages, assistantMessage]);
-      
+
       // Save assistant response
       if (sessionId) {
         saveMessageToDb('assistant', data.response, data.functionCalls);
       }
-      
+
       // Auto-show suggestions panel if response contains recommendations
       const hasRecommendations = data.response && (
         data.response.includes('RECOMMENDATION') ||
@@ -6160,30 +6159,30 @@ function BigMindTab() {
       if (file.name.endsWith('.pdf') || file.type === 'application/pdf') {
         const formData = new FormData();
         formData.append('file', file);
-        
+
         const res = await fetch('/api/admin/documents/upload', {
           method: 'POST',
           headers: getAuthHeaders(),
           body: formData,
         });
-        
+
         const data = await res.json();
-        
+
         if (!res.ok) {
           const errorMsg = data.error || 'Failed to extract PDF text';
           const hintMsg = data.hint ? ` ${data.hint}` : '';
           throw new Error(`${errorMsg}${hintMsg}`);
         }
-        
-        setAttachedFile({ 
-          name: file.name, 
-          content: data.document.cleanText || data.document.rawText || '' 
+
+        setAttachedFile({
+          name: file.name,
+          content: data.document.cleanText || data.document.rawText || ''
         });
         toast({
           title: "PDF transcribed",
           description: `"${file.name}" - ${data.wordCount.toLocaleString()} words extracted and ready`,
         });
-        
+
         // Invalidate documents query to show new document
         queryClient.invalidateQueries({ queryKey: ['/api/admin/documents'] });
       } else {
@@ -6213,7 +6212,7 @@ function BigMindTab() {
     if ((!inputValue.trim() && !attachedFile) || isLoading) return;
 
     let messageContent = inputValue.trim();
-    
+
     if (attachedFile) {
       const docRes = await apiRequest('POST', '/api/documents', {
         title: attachedFile.name,
@@ -6222,9 +6221,9 @@ function BigMindTab() {
         tags: ['chat-upload'],
       });
       const doc = await docRes.json();
-      
+
       messageContent = `[Attached document: "${attachedFile.name}" (saved to library with ID: ${doc.id})]\n\n${messageContent || `Please analyze this document: ${attachedFile.name}`}`;
-      
+
       queryClient.invalidateQueries({ queryKey: ['/api/documents'] });
     }
 
@@ -6267,7 +6266,7 @@ function BigMindTab() {
         throw new Error('Failed to get response');
       }
       const data = await res.json();
-      
+
       if (useCmsMode && data.functionCalls?.length > 0) {
         queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
         queryClient.invalidateQueries({ queryKey: ['/api/clusters'] });
@@ -6275,14 +6274,14 @@ function BigMindTab() {
         queryClient.invalidateQueries({ queryKey: ['/api/products'] });
         queryClient.invalidateQueries({ queryKey: ['/api/documents'] });
       }
-      
-      const assistantMessage = { 
-        role: "assistant" as const, 
+
+      const assistantMessage = {
+        role: "assistant" as const,
         content: data.response,
-        functionCalls: data.functionCalls 
+        functionCalls: data.functionCalls
       };
       setMessages([...newMessages, assistantMessage]);
-      
+
       // Save assistant response
       if (sessionId) {
         saveMessageToDb('assistant', data.response, data.functionCalls);
@@ -6312,10 +6311,10 @@ function BigMindTab() {
         sourceContent: studioPrompt,
       });
       const session = await res.json();
-      
+
       const genRes = await apiRequest('POST', `/api/admin/magic-sessions/${session.id}/generate`);
       const generated = await genRes.json();
-      
+
       setActiveSession(generated);
       setGeneratedPreview(generated.generatedHtml);
       refetchSessions();
@@ -6340,12 +6339,12 @@ function BigMindTab() {
         content: activeSession.generatedHtml,
       });
       const newPage = await newPageRes.json();
-      
+
       await apiRequest('PUT', `/api/admin/magic-sessions/${activeSession.id}`, {
         appliedPageId: newPage.id,
         status: 'applied'
       });
-      
+
       toast({ title: "Page Created", description: `Created "${studioTitle}" as a draft page` });
       queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
       refetchSessions();
@@ -6432,18 +6431,18 @@ function BigMindTab() {
               </SelectContent>
             </Select>
             <div className="flex-1" />
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               onClick={createNewSession}
               data-testid="button-new-chat"
             >
               <Plus className="w-4 h-4 mr-2" /> New Chat
             </Button>
             <div className="relative">
-              <Button 
-                variant="outline" 
-                size="sm" 
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => setShowSessionList(!showSessionList)}
                 data-testid="button-chat-history"
               >
@@ -6456,7 +6455,7 @@ function BigMindTab() {
                   </div>
                   <div className="p-2">
                     {chatSessions.map((session) => (
-                      <div 
+                      <div
                         key={session.id}
                         className={`p-3 rounded-lg cursor-pointer hover:bg-muted flex items-center justify-between gap-2 ${currentSessionId === session.id ? 'bg-primary/10 border border-primary/30' : ''}`}
                         onClick={() => switchToSession(session.id)}
@@ -6496,13 +6495,13 @@ function BigMindTab() {
                 </div>
               )}
             </div>
-            <Button 
-              variant={showSuggestionsPanel ? "default" : "outline"} 
-              size="sm" 
+            <Button
+              variant={showSuggestionsPanel ? "default" : "outline"}
+              size="sm"
               onClick={() => setShowSuggestionsPanel(!showSuggestionsPanel)}
               data-testid="button-suggestions-panel"
             >
-              <Lightbulb className="w-4 h-4 mr-2" /> 
+              <Lightbulb className="w-4 h-4 mr-2" />
               Suggestions {pendingSuggestions.length > 0 && `(${pendingSuggestions.length})`}
             </Button>
             {messages.length > 0 && (
@@ -6524,7 +6523,7 @@ function BigMindTab() {
                   <X className="w-4 h-4" />
                 </Button>
               </div>
-              
+
               {pendingSuggestions.length === 0 ? (
                 <p className="text-sm text-muted-foreground text-center py-4">
                   No pending suggestions. Chat with BigMind and click "Save Recommendations" to capture AI ideas.
@@ -6532,8 +6531,8 @@ function BigMindTab() {
               ) : (
                 <div className="space-y-3 max-h-80 overflow-y-auto">
                   {pendingSuggestions.map((suggestion: any) => (
-                    <div 
-                      key={suggestion.id} 
+                    <div
+                      key={suggestion.id}
                       className="bg-muted/50 rounded-lg p-3 space-y-2"
                       data-testid={`suggestion-card-${suggestion.id}`}
                     >
@@ -6627,917 +6626,766 @@ function BigMindTab() {
           )}
 
           <div className="space-y-4">
-          {/* Chat Container - Resizable */}
-          <div 
-            ref={resizeRef}
-            className="bg-card border rounded-xl overflow-hidden relative" 
-            style={{ height: `${chatHeight}px` }}
-            data-testid="resizable-chat-container"
-          >
-        <div className="h-full flex flex-col">
-          <div className="flex-1 overflow-y-auto p-4 space-y-4" data-testid="chat-messages">
-            {messages.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                <Brain className="w-16 h-16 text-muted-foreground/30 mb-4" />
-                <h3 className="font-semibold text-lg mb-2">
-                  {useCmsMode ? "BigMind CMS Manager" : "BigMind Library"}
-                </h3>
-                <p className="text-muted-foreground text-sm max-w-md mb-6">
-                  {useCmsMode 
-                    ? "I can create, edit, and manage your entire content database. Ask me to add pages, update articles, or organize clusters." 
-                    : "I have full knowledge of your site structure. Ask me about gaps, linking opportunities, or ideas."}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-lg">
-                  {useCmsMode ? (
-                    <>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Create a new page about structured water benefits at /science/structured-water-benefits")}
-                        data-testid="button-suggested-create"
-                      >
-                        <Plus className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">Create a new page</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Show me the site stats and which clusters need content")}
-                        data-testid="button-suggested-stats"
-                      >
-                        <BarChart2 className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">Site stats & gaps</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("List all pages in the water-science cluster")}
-                        data-testid="button-suggested-list"
-                      >
-                        <FileText className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">List cluster pages</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Create 3 new educational articles about ionic minerals")}
-                        data-testid="button-suggested-bulk"
-                      >
-                        <Wand2 className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">Bulk create content</span>
-                      </Button>
-                    </>
+            {/* Chat Container - Resizable */}
+            <div
+              ref={resizeRef}
+              className="bg-card border rounded-xl overflow-hidden relative"
+              style={{ height: `${chatHeight}px` }}
+              data-testid="resizable-chat-container"
+            >
+              <div className="h-full flex flex-col">
+                <div className="flex-1 overflow-y-auto p-4 space-y-4" data-testid="chat-messages">
+                  {messages.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                      <Brain className="w-16 h-16 text-muted-foreground/30 mb-4" />
+                      <h3 className="font-semibold text-lg mb-2">
+                        {useCmsMode ? "BigMind CMS Manager" : "BigMind Library"}
+                      </h3>
+                      <p className="text-muted-foreground text-sm max-w-md mb-6">
+                        {useCmsMode
+                          ? "I can create, edit, and manage your entire content database. Ask me to add pages, update articles, or organize clusters."
+                          : "I have full knowledge of your site structure. Ask me about gaps, linking opportunities, or ideas."}
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-lg">
+                        {useCmsMode ? (
+                          <>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Create a new page about structured water benefits at /science/structured-water-benefits")}
+                              data-testid="button-suggested-create"
+                            >
+                              <Plus className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">Create a new page</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Show me the site stats and which clusters need content")}
+                              data-testid="button-suggested-stats"
+                            >
+                              <BarChart2 className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">Site stats & gaps</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("List all pages in the water-science cluster")}
+                              data-testid="button-suggested-list"
+                            >
+                              <FileText className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">List cluster pages</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Create 3 new educational articles about ionic minerals")}
+                              data-testid="button-suggested-bulk"
+                            >
+                              <Wand2 className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">Bulk create content</span>
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("What pages are missing from the site?")}
+                              data-testid="button-suggested-missing"
+                            >
+                              <Sparkles className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">What pages are missing?</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Which clusters need more content?")}
+                              data-testid="button-suggested-clusters"
+                            >
+                              <FolderTree className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">Clusters needing content</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Suggest internal linking opportunities")}
+                              data-testid="button-suggested-linking"
+                            >
+                              <Link className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">Linking opportunities</span>
+                            </Button>
+                            <Button
+                              variant="outline"
+                              className="text-left justify-start h-auto py-3 px-4"
+                              onClick={() => setInputValue("Suggest 3 new Magic Page ideas with titles and slugs")}
+                              data-testid="button-suggested-magic"
+                            >
+                              <Wand2 className="w-4 h-4 mr-2 shrink-0" />
+                              <span className="text-sm">New Magic Page ideas</span>
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   ) : (
                     <>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("What pages are missing from the site?")}
-                        data-testid="button-suggested-missing"
-                      >
-                        <Sparkles className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">What pages are missing?</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Which clusters need more content?")}
-                        data-testid="button-suggested-clusters"
-                      >
-                        <FolderTree className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">Clusters needing content</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Suggest internal linking opportunities")}
-                        data-testid="button-suggested-linking"
-                      >
-                        <Link className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">Linking opportunities</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="text-left justify-start h-auto py-3 px-4"
-                        onClick={() => setInputValue("Suggest 3 new Magic Page ideas with titles and slugs")}
-                        data-testid="button-suggested-magic"
-                      >
-                        <Wand2 className="w-4 h-4 mr-2 shrink-0" />
-                        <span className="text-sm">New Magic Page ideas</span>
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <>
-                {messages.map((msg, index) => (
-                  <div 
-                    key={index} 
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    data-testid={`chat-message-${index}`}
-                  >
-                    <div 
-                      className={`max-w-[85%] rounded-xl px-4 py-3 ${
-                        msg.role === 'user' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-muted'
-                      }`}
-                    >
-                      {msg.role === 'assistant' ? (
-                        <div className="space-y-3">
-                          {/* Enhancement indicator badge */}
-                          {messageEnhancementInfo.has(index) && (
-                            <div className="flex items-center gap-2 pb-2 mb-2 border-b border-border/30">
-                              <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20">
-                                <Sparkles className="w-3 h-3" />
-                                {messageEnhancementInfo.get(index)!.count} enhancement{messageEnhancementInfo.get(index)!.count !== 1 ? 's' : ''} ready
-                              </span>
-                            </div>
-                          )}
-                          {msg.functionCalls && msg.functionCalls.length > 0 && (
-                            <div className="space-y-2 pb-3 mb-3 border-b border-border/50">
-                              <div className="text-xs font-medium text-muted-foreground mb-2">Actions performed:</div>
-                              {msg.functionCalls.map((fc, fcIdx) => {
-                                const pageTitle = fc.result?.page?.title || (fc as any).args?.title || '';
-                                const pagePath = fc.result?.page?.path || (fc as any).args?.path || '';
-                                const isCreatePage = fc.name === 'createPage';
-                                const isUpdatePage = fc.name === 'updatePage';
-                                const isFindGaps = fc.name === 'findContentGaps';
-                                
-                                return (
-                                  <div key={fcIdx} className={`flex items-start gap-2 p-2 rounded-lg ${fc.result?.success ? 'bg-green-500/10' : fc.result?.error ? 'bg-red-500/10' : 'bg-muted/50'}`}>
-                                    {isCreatePage ? (
-                                      <Plus className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
-                                    ) : isUpdatePage ? (
-                                      <Edit className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                                    ) : isFindGaps ? (
-                                      <Search className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
-                                    ) : (
-                                      <Database className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                                    )}
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center gap-2">
-                                        <span className="font-mono text-xs font-medium">
-                                          {fc.name}
-                                        </span>
-                                        {fc.result?.success && (
-                                          <CheckCircle2 className="w-3 h-3 text-green-500" />
-                                        )}
-                                        {fc.result?.error && (
-                                          <XCircle className="w-3 h-3 text-red-500" />
-                                        )}
-                                      </div>
-                                      {(isCreatePage || isUpdatePage) && pageTitle && (
-                                        <div className="text-xs text-muted-foreground mt-0.5">
-                                          "{pageTitle}" {pagePath && <span className="opacity-70">→ {pagePath}</span>}
-                                        </div>
-                                      )}
-                                      {fc.result?.error && (
-                                        <div className="text-xs text-red-500 mt-0.5">{fc.result.error}</div>
-                                      )}
-                                    </div>
+                      {messages.map((msg, index) => (
+                        <div
+                          key={index}
+                          className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                          data-testid={`chat-message-${index}`}
+                        >
+                          <div
+                            className={`max-w-[85%] rounded-xl px-4 py-3 ${msg.role === 'user'
+                              ? 'bg-primary text-primary-foreground'
+                              : 'bg-muted'
+                              }`}
+                          >
+                            {msg.role === 'assistant' ? (
+                              <div className="space-y-3">
+                                {/* Enhancement indicator badge */}
+                                {messageEnhancementInfo.has(index) && (
+                                  <div className="flex items-center gap-2 pb-2 mb-2 border-b border-border/30">
+                                    <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20">
+                                      <Sparkles className="w-3 h-3" />
+                                      {messageEnhancementInfo.get(index)!.count} enhancement{messageEnhancementInfo.get(index)!.count !== 1 ? 's' : ''} ready
+                                    </span>
                                   </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                          <div className="prose prose-sm dark:prose-invert max-w-none ai-markdown-content [&_h1]:text-lg [&_h1]:font-bold [&_h1]:mt-3 [&_h1]:mb-2 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:mb-2 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1 [&_p]:my-2 [&_ul]:my-2 [&_ul]:pl-4 [&_ol]:my-2 [&_ol]:pl-4 [&_li]:my-1 [&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-cyan-300 [&_pre]:bg-gray-800/50 [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_blockquote]:border-l-2 [&_blockquote]:border-purple-500 [&_blockquote]:pl-3 [&_blockquote]:italic [&_strong]:font-semibold [&_em]:text-muted-foreground">
-                            <div dangerouslySetInnerHTML={{ __html: formatAiMessage(msg.content) }} />
-                          </div>
-                          {msg.functionCalls?.some(fc => 
-                            (fc.name === 'createPage' || fc.name === 'updatePage' || fc.name === 'generatePageContent') && 
-                            fc.result?.success
-                          ) && (() => {
-                            const pageCall = msg.functionCalls?.find(fc => 
-                              (fc.name === 'createPage' || fc.name === 'updatePage' || fc.name === 'generatePageContent') && 
-                              fc.result?.success
-                            );
-                            const pageData = pageCall?.result?.page || pageCall?.result;
-                            const content = pageData?.content || pageData?.aiStartupHtml || pageData?.html;
-                            if (!content) return null;
-                            
-                            const isActiveInPreview = activePreview?.pageId === pageData?.id;
-                            
-                            return (
-                              <div className="mt-3 pt-3 border-t border-border/30">
-                                <Button
-                                  variant={isActiveInPreview ? "default" : "outline"}
-                                  size="sm"
-                                  className="w-full justify-start gap-2"
-                                  onClick={() => {
-                                    setActivePreview({
-                                      content,
-                                      title: pageData?.title,
-                                      path: pageData?.path,
-                                      cluster: pageData?.clusterKey,
-                                      pageId: pageData?.id,
-                                      status: pageData?.status,
-                                      suggestions: [
-                                        { id: 'seo-1', type: 'seo', title: 'Add meta description', summary: 'Improve SEO with a compelling description', applied: false },
-                                        { id: 'visual-1', type: 'visual', title: 'Add featured image', summary: 'Generate an AI image for the hero section', applied: false },
-                                        { id: 'motion-1', type: 'motion', title: 'Apply motion effects', summary: 'Add Liquid-Crystal Float animation', applied: false },
-                                      ]
-                                    });
-                                    setShowPreviewPanel(true);
-                                  }}
-                                  data-testid={`button-view-preview-${index}`}
-                                >
-                                  <Eye className="w-4 h-4" />
-                                  {isActiveInPreview ? 'Viewing in Preview Panel' : 'View in Preview Panel'}
-                                  <ChevronDown className="w-4 h-4 ml-auto" />
-                                </Button>
-                              </div>
-                            );
-                          })()}
-                          {/* Apply from BigMind button for messages with page content */}
-                          {messageEnhancementInfo.has(index) && (
-                            <div className="mt-3 pt-3 border-t border-border/50">
-                              {showEnhancementPanel === index ? (
-                                <div className="space-y-3 bg-background/50 rounded-lg p-3 border" data-testid={`enhancement-panel-${index}`}>
-                                  <div className="flex items-center justify-between">
-                                    <h4 className="font-medium text-sm flex items-center gap-2">
-                                      <Sparkles className="w-4 h-4 text-primary" />
-                                      Enhancements Preview
-                                    </h4>
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      className="h-6 w-6 p-0"
-                                      onClick={() => setShowEnhancementPanel(null)}
-                                    >
-                                      <X className="w-4 h-4" />
-                                    </Button>
-                                  </div>
-                                  
-                                  {/* Page selector at top */}
-                                  <div className="flex items-center gap-3 p-2 bg-muted/50 rounded-lg">
-                                    <label className="flex items-center gap-2 text-xs cursor-pointer">
-                                      <input
-                                        type="radio"
-                                        checked={createNewPage}
-                                        onChange={() => setCreateNewPage(true)}
-                                        className="w-3 h-3"
-                                      />
-                                      New page
-                                    </label>
-                                    <label className="flex items-center gap-2 text-xs cursor-pointer">
-                                      <input
-                                        type="radio"
-                                        checked={!createNewPage}
-                                        onChange={() => setCreateNewPage(false)}
-                                        className="w-3 h-3"
-                                      />
-                                      Existing:
-                                    </label>
-                                    {!createNewPage && (
-                                      <Select value={targetPageId} onValueChange={setTargetPageId}>
-                                        <SelectTrigger className="h-7 text-xs flex-1 max-w-[200px]">
-                                          <SelectValue placeholder="Select page..." />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          {pagesList?.map((page: any) => (
-                                            <SelectItem key={page.id} value={page.id}>
-                                              {page.title}
-                                            </SelectItem>
-                                          ))}
-                                        </SelectContent>
-                                      </Select>
-                                    )}
-                                  </div>
-                                  
-                                  <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                                    {pendingEnhancements.map((enh) => (
-                                      <div 
-                                        key={enh.id} 
-                                        className="p-3 rounded-lg bg-muted/50 border border-border/50"
-                                        data-testid={`enhancement-item-${enh.id}`}
-                                      >
-                                        <div className="flex items-start justify-between gap-2 mb-2">
-                                          <div className="flex items-center gap-2">
-                                            <input
-                                              type="checkbox"
-                                              checked={selectedEnhancements.has(enh.id)}
-                                              onChange={(e) => {
-                                                const newSet = new Set(selectedEnhancements);
-                                                if (e.target.checked) {
-                                                  newSet.add(enh.id);
-                                                } else {
-                                                  newSet.delete(enh.id);
-                                                }
-                                                setSelectedEnhancements(newSet);
-                                              }}
-                                              className="mt-0.5"
-                                            />
-                                            <span className="text-xs font-medium px-2 py-1 rounded bg-primary/15 text-primary border border-primary/20">
-                                              {enh.enhancementType.replace(/_/g, ' ').toUpperCase()}
-                                            </span>
-                                            {enh.fieldName && (
-                                              <span className="text-xs text-muted-foreground">
-                                                → {enh.fieldName}
+                                )}
+                                {msg.functionCalls && msg.functionCalls.length > 0 && (
+                                  <div className="space-y-2 pb-3 mb-3 border-b border-border/50">
+                                    <div className="text-xs font-medium text-muted-foreground mb-2">Actions performed:</div>
+                                    {msg.functionCalls.map((fc, fcIdx) => {
+                                      const pageTitle = fc.result?.page?.title || (fc as any).args?.title || '';
+                                      const pagePath = fc.result?.page?.path || (fc as any).args?.path || '';
+                                      const isCreatePage = fc.name === 'createPage';
+                                      const isUpdatePage = fc.name === 'updatePage';
+                                      const isFindGaps = fc.name === 'findContentGaps';
+
+                                      return (
+                                        <div key={fcIdx} className={`flex items-start gap-2 p-2 rounded-lg ${fc.result?.success ? 'bg-green-500/10' : fc.result?.error ? 'bg-red-500/10' : 'bg-muted/50'}`}>
+                                          {isCreatePage ? (
+                                            <Plus className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
+                                          ) : isUpdatePage ? (
+                                            <Edit className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                                          ) : isFindGaps ? (
+                                            <Search className="w-4 h-4 text-purple-500 mt-0.5 shrink-0" />
+                                          ) : (
+                                            <Database className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                                          )}
+                                          <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                              <span className="font-mono text-xs font-medium">
+                                                {fc.name}
                                               </span>
+                                              {fc.result?.success && (
+                                                <CheckCircle2 className="w-3 h-3 text-green-500" />
+                                              )}
+                                              {fc.result?.error && (
+                                                <XCircle className="w-3 h-3 text-red-500" />
+                                              )}
+                                            </div>
+                                            {(isCreatePage || isUpdatePage) && pageTitle && (
+                                              <div className="text-xs text-muted-foreground mt-0.5">
+                                                "{pageTitle}" {pagePath && <span className="opacity-70">→ {pagePath}</span>}
+                                              </div>
+                                            )}
+                                            {fc.result?.error && (
+                                              <div className="text-xs text-red-500 mt-0.5">{fc.result.error}</div>
                                             )}
                                           </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                                <div className="prose prose-sm dark:prose-invert max-w-none ai-markdown-content [&_h1]:text-lg [&_h1]:font-bold [&_h1]:mt-3 [&_h1]:mb-2 [&_h2]:text-base [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:mb-2 [&_h3]:text-sm [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1 [&_p]:my-2 [&_ul]:my-2 [&_ul]:pl-4 [&_ol]:my-2 [&_ol]:pl-4 [&_li]:my-1 [&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-cyan-300 [&_pre]:bg-gray-800/50 [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_blockquote]:border-l-2 [&_blockquote]:border-purple-500 [&_blockquote]:pl-3 [&_blockquote]:italic [&_strong]:font-semibold [&_em]:text-muted-foreground">
+                                  <div dangerouslySetInnerHTML={{ __html: formatAiMessage(msg.content) }} />
+                                </div>
+                                {msg.functionCalls?.some(fc =>
+                                  (fc.name === 'createPage' || fc.name === 'updatePage' || fc.name === 'generatePageContent') &&
+                                  fc.result?.success
+                                ) && (() => {
+                                  const pageCall = msg.functionCalls?.find(fc =>
+                                    (fc.name === 'createPage' || fc.name === 'updatePage' || fc.name === 'generatePageContent') &&
+                                    fc.result?.success
+                                  );
+                                  const pageData = pageCall?.result?.page || pageCall?.result;
+                                  const content = pageData?.content || pageData?.aiStartupHtml || pageData?.html;
+                                  if (!content) return null;
+
+                                  const isActiveInPreview = activePreview?.pageId === pageData?.id;
+
+                                  return (
+                                    <div className="mt-3 pt-3 border-t border-border/30">
+                                      <Button
+                                        variant={isActiveInPreview ? "default" : "outline"}
+                                        size="sm"
+                                        className="w-full justify-start gap-2"
+                                        onClick={() => {
+                                          setActivePreview({
+                                            content,
+                                            title: pageData?.title,
+                                            path: pageData?.path,
+                                            cluster: pageData?.clusterKey,
+                                            pageId: pageData?.id,
+                                            status: pageData?.status,
+                                            suggestions: [
+                                              { id: 'seo-1', type: 'seo', title: 'Add meta description', summary: 'Improve SEO with a compelling description', applied: false },
+                                              { id: 'visual-1', type: 'visual', title: 'Add featured image', summary: 'Generate an AI image for the hero section', applied: false },
+                                              { id: 'motion-1', type: 'motion', title: 'Apply motion effects', summary: 'Add Liquid-Crystal Float animation', applied: false },
+                                            ]
+                                          });
+                                          setShowPreviewPanel(true);
+                                        }}
+                                        data-testid={`button-view-preview-${index}`}
+                                      >
+                                        <Eye className="w-4 h-4" />
+                                        {isActiveInPreview ? 'Viewing in Preview Panel' : 'View in Preview Panel'}
+                                        <ChevronDown className="w-4 h-4 ml-auto" />
+                                      </Button>
+                                    </div>
+                                  );
+                                })()}
+                                {/* Apply from BigMind button for messages with page content */}
+                                {messageEnhancementInfo.has(index) && (
+                                  <div className="mt-3 pt-3 border-t border-border/50">
+                                    {showEnhancementPanel === index ? (
+                                      <div className="space-y-3 bg-background/50 rounded-lg p-3 border" data-testid={`enhancement-panel-${index}`}>
+                                        <div className="flex items-center justify-between">
+                                          <h4 className="font-medium text-sm flex items-center gap-2">
+                                            <Sparkles className="w-4 h-4 text-primary" />
+                                            Enhancements Preview
+                                          </h4>
+                                          <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="h-6 w-6 p-0"
+                                            onClick={() => setShowEnhancementPanel(null)}
+                                          >
+                                            <X className="w-4 h-4" />
+                                          </Button>
+                                        </div>
+
+                                        {/* Page selector at top */}
+                                        <div className="flex items-center gap-3 p-2 bg-muted/50 rounded-lg">
+                                          <label className="flex items-center gap-2 text-xs cursor-pointer">
+                                            <input
+                                              type="radio"
+                                              checked={createNewPage}
+                                              onChange={() => setCreateNewPage(true)}
+                                              className="w-3 h-3"
+                                            />
+                                            New page
+                                          </label>
+                                          <label className="flex items-center gap-2 text-xs cursor-pointer">
+                                            <input
+                                              type="radio"
+                                              checked={!createNewPage}
+                                              onChange={() => setCreateNewPage(false)}
+                                              className="w-3 h-3"
+                                            />
+                                            Existing:
+                                          </label>
+                                          {!createNewPage && (
+                                            <Select value={targetPageId} onValueChange={setTargetPageId}>
+                                              <SelectTrigger className="h-7 text-xs flex-1 max-w-[200px]">
+                                                <SelectValue placeholder="Select page..." />
+                                              </SelectTrigger>
+                                              <SelectContent>
+                                                {pagesList?.map((page: any) => (
+                                                  <SelectItem key={page.id} value={page.id}>
+                                                    {page.title}
+                                                  </SelectItem>
+                                                ))}
+                                              </SelectContent>
+                                            </Select>
+                                          )}
+                                        </div>
+
+                                        <div className="space-y-3 max-h-[400px] overflow-y-auto">
+                                          {pendingEnhancements.map((enh) => (
+                                            <div
+                                              key={enh.id}
+                                              className="p-3 rounded-lg bg-muted/50 border border-border/50"
+                                              data-testid={`enhancement-item-${enh.id}`}
+                                            >
+                                              <div className="flex items-start justify-between gap-2 mb-2">
+                                                <div className="flex items-center gap-2">
+                                                  <input
+                                                    type="checkbox"
+                                                    checked={selectedEnhancements.has(enh.id)}
+                                                    onChange={(e) => {
+                                                      const newSet = new Set(selectedEnhancements);
+                                                      if (e.target.checked) {
+                                                        newSet.add(enh.id);
+                                                      } else {
+                                                        newSet.delete(enh.id);
+                                                      }
+                                                      setSelectedEnhancements(newSet);
+                                                    }}
+                                                    className="mt-0.5"
+                                                  />
+                                                  <span className="text-xs font-medium px-2 py-1 rounded bg-primary/15 text-primary border border-primary/20">
+                                                    {enh.enhancementType.replace(/_/g, ' ').toUpperCase()}
+                                                  </span>
+                                                  {enh.fieldName && (
+                                                    <span className="text-xs text-muted-foreground">
+                                                      → {enh.fieldName}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                                <Button
+                                                  size="sm"
+                                                  variant="outline"
+                                                  className="h-7 text-xs gap-1"
+                                                  onClick={() => applySingleEnhancement(enh, targetPageId || undefined)}
+                                                  disabled={applyingEnhancementId === enh.id || (!createNewPage && !targetPageId)}
+                                                  data-testid={`button-apply-single-${enh.id}`}
+                                                >
+                                                  {applyingEnhancementId === enh.id ? (
+                                                    <Loader2 className="w-3 h-3 animate-spin" />
+                                                  ) : (
+                                                    <Play className="w-3 h-3" />
+                                                  )}
+                                                  Apply
+                                                </Button>
+                                              </div>
+
+                                              {/* Preview content */}
+                                              <div className="mt-2 p-2 rounded bg-background/80 border text-xs max-h-32 overflow-y-auto">
+                                                {(enh.enhancementType === 'hero_content' || enh.enhancementType === 'section_content') ? (
+                                                  <div
+                                                    className="prose prose-xs dark:prose-invert max-w-none [&_*]:text-xs"
+                                                    dangerouslySetInnerHTML={{
+                                                      __html: enh.suggestedValue.substring(0, 500) + (enh.suggestedValue.length > 500 ? '...' : '')
+                                                    }}
+                                                  />
+                                                ) : (enh.enhancementType === 'tag' && enh.fieldName?.startsWith('visualConfig')) ? (
+                                                  <pre className="text-[10px] text-muted-foreground whitespace-pre-wrap">
+                                                    {enh.suggestedValue.substring(0, 300)}{enh.suggestedValue.length > 300 ? '...' : ''}
+                                                  </pre>
+                                                ) : (
+                                                  <p className="text-muted-foreground whitespace-pre-wrap">
+                                                    {enh.suggestedValue.substring(0, 300)}{enh.suggestedValue.length > 300 ? '...' : ''}
+                                                  </p>
+                                                )}
+                                              </div>
+
+                                              {enh.reason && (
+                                                <p className="text-[10px] text-muted-foreground mt-2 italic">
+                                                  {enh.reason}
+                                                </p>
+                                              )}
+                                            </div>
+                                          ))}
+                                        </div>
+
+                                        <div className="flex gap-2 pt-2 border-t">
+                                          <Button
+                                            size="sm"
+                                            onClick={applySelectedEnhancements}
+                                            disabled={selectedEnhancements.size === 0 || (!createNewPage && !targetPageId) || applyingMessageIdx === index}
+                                            className="gap-2"
+                                            data-testid="button-apply-enhancements"
+                                          >
+                                            {applyingMessageIdx === index ? (
+                                              <>
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                Applying...
+                                              </>
+                                            ) : (
+                                              <>
+                                                <CheckCircle2 className="w-4 h-4" />
+                                                Apply {selectedEnhancements.size} Selected
+                                              </>
+                                            )}
+                                          </Button>
                                           <Button
                                             size="sm"
                                             variant="outline"
-                                            className="h-7 text-xs gap-1"
-                                            onClick={() => applySingleEnhancement(enh, targetPageId || undefined)}
-                                            disabled={applyingEnhancementId === enh.id || (!createNewPage && !targetPageId)}
-                                            data-testid={`button-apply-single-${enh.id}`}
+                                            onClick={() => setShowEnhancementPanel(null)}
                                           >
-                                            {applyingEnhancementId === enh.id ? (
-                                              <Loader2 className="w-3 h-3 animate-spin" />
-                                            ) : (
-                                              <Play className="w-3 h-3" />
-                                            )}
-                                            Apply
+                                            Cancel
                                           </Button>
                                         </div>
-                                        
-                                        {/* Preview content */}
-                                        <div className="mt-2 p-2 rounded bg-background/80 border text-xs max-h-32 overflow-y-auto">
-                                          {(enh.enhancementType === 'hero_content' || enh.enhancementType === 'section_content') ? (
-                                            <div 
-                                              className="prose prose-xs dark:prose-invert max-w-none [&_*]:text-xs"
-                                              dangerouslySetInnerHTML={{ 
-                                                __html: enh.suggestedValue.substring(0, 500) + (enh.suggestedValue.length > 500 ? '...' : '') 
-                                              }} 
-                                            />
-                                          ) : (enh.enhancementType === 'tag' && enh.fieldName?.startsWith('visualConfig')) ? (
-                                            <pre className="text-[10px] text-muted-foreground whitespace-pre-wrap">
-                                              {enh.suggestedValue.substring(0, 300)}{enh.suggestedValue.length > 300 ? '...' : ''}
-                                            </pre>
-                                          ) : (
-                                            <p className="text-muted-foreground whitespace-pre-wrap">
-                                              {enh.suggestedValue.substring(0, 300)}{enh.suggestedValue.length > 300 ? '...' : ''}
-                                            </p>
-                                          )}
-                                        </div>
-                                        
-                                        {enh.reason && (
-                                          <p className="text-[10px] text-muted-foreground mt-2 italic">
-                                            {enh.reason}
-                                          </p>
-                                        )}
                                       </div>
-                                    ))}
-                                  </div>
+                                    ) : (
+                                      <div className="flex gap-2 flex-wrap">
+                                        <Button
+                                          size="sm"
+                                          variant="outline"
+                                          onClick={() => showEnhancementSelector(msg.content, index)}
+                                          disabled={applyingMessageIdx === index}
+                                          className="gap-2"
+                                          data-testid={`button-apply-bigmind-${index}`}
+                                        >
+                                          {applyingMessageIdx === index ? (
+                                            <>
+                                              <Loader2 className="w-4 h-4 animate-spin" />
+                                              Applying...
+                                            </>
+                                          ) : (
+                                            <>
+                                              <Sparkles className="w-4 h-4" />
+                                              Review &amp; Apply to Page
+                                            </>
+                                          )}
+                                        </Button>
+                                        {hasBigmindRecommendations(msg.content) && (
+                                          <Button
+                                            size="sm"
+                                            variant="secondary"
+                                            onClick={() => saveRecommendationsFromMessage(msg.content, index)}
+                                            disabled={savingRecommendationsIdx === index}
+                                            className="gap-2"
+                                            data-testid={`button-save-recommendations-${index}`}
+                                          >
+                                            {savingRecommendationsIdx === index ? (
+                                              <>
+                                                <Loader2 className="w-4 h-4 animate-spin" />
+                                                Saving...
+                                              </>
+                                            ) : (
+                                              <>
+                                                <Database className="w-4 h-4" />
+                                                Save Recommendations
+                                              </>
+                                            )}
+                                          </Button>
+                                        )}
+                                        {/* Suggested Images button */}
+                                        {messageEnhancementInfo.get(index)?.parsed.imagePrompts &&
+                                          messageEnhancementInfo.get(index)!.parsed.imagePrompts.length > 0 && (
+                                            <Button
+                                              size="sm"
+                                              variant="outline"
+                                              onClick={() => showImagePrompts(index, messageEnhancementInfo.get(index)!.parsed.imagePrompts)}
+                                              className="gap-2"
+                                              data-testid={`button-suggested-images-${index}`}
+                                            >
+                                              <ImageIcon className="w-4 h-4" />
+                                              {messageEnhancementInfo.get(index)!.parsed.imagePrompts.length} Image{messageEnhancementInfo.get(index)!.parsed.imagePrompts.length !== 1 ? 's' : ''}
+                                            </Button>
+                                          )}
+                                      </div>
+                                    )}
 
-                                  <div className="flex gap-2 pt-2 border-t">
-                                    <Button
-                                      size="sm"
-                                      onClick={applySelectedEnhancements}
-                                      disabled={selectedEnhancements.size === 0 || (!createNewPage && !targetPageId) || applyingMessageIdx === index}
-                                      className="gap-2"
-                                      data-testid="button-apply-enhancements"
-                                    >
-                                      {applyingMessageIdx === index ? (
-                                        <>
-                                          <Loader2 className="w-4 h-4 animate-spin" />
-                                          Applying...
-                                        </>
-                                      ) : (
-                                        <>
-                                          <CheckCircle2 className="w-4 h-4" />
-                                          Apply {selectedEnhancements.size} Selected
-                                        </>
-                                      )}
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      variant="outline"
-                                      onClick={() => setShowEnhancementPanel(null)}
-                                    >
-                                      Cancel
-                                    </Button>
+                                    {/* Suggested Images Panel */}
+                                    {showSuggestedImages === index && messageEnhancementInfo.get(index)?.parsed.imagePrompts && (
+                                      <div className="mt-3 space-y-3 bg-background/50 rounded-lg p-3 border" data-testid={`suggested-images-panel-${index}`}>
+                                        <div className="flex items-center justify-between">
+                                          <h4 className="font-medium text-sm flex items-center gap-2">
+                                            <ImageIcon className="w-4 h-4 text-primary" />
+                                            Suggested Images
+                                          </h4>
+                                          <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="h-6 w-6 p-0"
+                                            onClick={() => setShowSuggestedImages(null)}
+                                          >
+                                            <X className="w-4 h-4" />
+                                          </Button>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                          {messageEnhancementInfo.get(index)!.parsed.imagePrompts.map((imgPrompt) => (
+                                            <div key={imgPrompt.id} className="space-y-2 p-3 rounded-lg bg-muted/50 border">
+                                              <div className="flex items-center gap-2 text-xs">
+                                                <Badge variant="outline" className="text-[10px]">
+                                                  {imgPrompt.slotType}
+                                                </Badge>
+                                                <span className="text-muted-foreground">{imgPrompt.location}</span>
+                                              </div>
+
+                                              <Textarea
+                                                value={editableImagePrompts[imgPrompt.id] || imgPrompt.prompt}
+                                                onChange={(e) => setEditableImagePrompts(prev => ({
+                                                  ...prev,
+                                                  [imgPrompt.id]: e.target.value
+                                                }))}
+                                                className="min-h-[80px] text-xs"
+                                                placeholder="Edit image prompt..."
+                                                data-testid={`input-image-prompt-${imgPrompt.id}`}
+                                              />
+
+                                              <div className="flex items-center gap-2">
+                                                <Button
+                                                  size="sm"
+                                                  onClick={() => handleGenerateImage(imgPrompt)}
+                                                  disabled={generatingImageId === imgPrompt.id}
+                                                  className="gap-2"
+                                                  data-testid={`button-generate-image-${imgPrompt.id}`}
+                                                >
+                                                  {generatingImageId === imgPrompt.id ? (
+                                                    <>
+                                                      <Loader2 className="w-3 h-3 animate-spin" />
+                                                      Generating...
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <Sparkles className="w-3 h-3" />
+                                                      Generate Image
+                                                    </>
+                                                  )}
+                                                </Button>
+
+                                                {generatedImages[imgPrompt.id] && (
+                                                  <span className="text-xs text-green-500 flex items-center gap-1">
+                                                    <CheckCircle2 className="w-3 h-3" />
+                                                    Generated
+                                                  </span>
+                                                )}
+                                              </div>
+
+                                              {generatedImages[imgPrompt.id] && (
+                                                <div className="mt-2 rounded-lg overflow-hidden border">
+                                                  <img
+                                                    src={generatedImages[imgPrompt.id]}
+                                                    alt={imgPrompt.location}
+                                                    className="w-full h-32 object-cover"
+                                                  />
+                                                </div>
+                                              )}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
+                                )}
+                              </div>
+                            ) : (
+                              <p className="text-sm">{msg.content}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                      {isLoading && (
+                        <div className="flex justify-start" data-testid="chat-loading">
+                          <div className="bg-muted rounded-xl px-4 py-3 flex items-center gap-2">
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span className="text-sm text-muted-foreground">Thinking...</span>
+                          </div>
+                        </div>
+                      )}
+                      <div ref={messagesEndRef} />
+                    </>
+                  )}
+                </div>
+
+                <div className="border-t p-4 bg-muted/30">
+                  {attachedFile && (
+                    <div className="flex items-center gap-2 mb-2 p-2 bg-primary/10 rounded-lg text-sm">
+                      <FileUp className="w-4 h-4 text-primary" />
+                      <span className="flex-1 truncate">{attachedFile.name}</span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0"
+                        onClick={() => setAttachedFile(null)}
+                        data-testid="button-remove-file"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".txt,.md,.html,.json,.csv,.xml,.pdf,.doc,.docx"
+                      className="hidden"
+                      onChange={handleFileSelect}
+                      data-testid="input-file-upload"
+                    />
+                    <div className="flex-1 relative">
+                      <Textarea
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={useCmsMode
+                          ? "Tell BigMind what to create, edit, or manage..."
+                          : "Ask BigMind about your site content..."}
+                        className="min-h-[60px] resize-none pr-10"
+                        disabled={isLoading}
+                        data-testid="input-chat-message"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 bottom-1 h-8 w-8 text-muted-foreground hover:text-foreground"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={isLoading || isUploading}
+                        title="Attach a file"
+                        data-testid="button-attach-file"
+                      >
+                        {isUploading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Paperclip className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={handleSendWithFile}
+                      disabled={(!inputValue.trim() && !attachedFile) || isLoading}
+                      className="h-auto"
+                      data-testid="button-send-chat"
+                    >
+                      {isLoading ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <Send className="w-5 h-5" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Resize Handle */}
+              <div
+                className={cn(
+                  "absolute bottom-0 left-0 right-0 h-2 cursor-ns-resize transition-colors flex items-center justify-center group",
+                  isResizing ? "bg-primary/20" : "hover:bg-primary/10"
+                )}
+                onMouseDown={() => setIsResizing(true)}
+                data-testid="chat-resize-handle"
+              >
+                <div className={cn(
+                  "w-12 h-1 rounded-full transition-colors",
+                  isResizing ? "bg-primary" : "bg-muted-foreground/30 group-hover:bg-primary/50"
+                )} />
+              </div>
+            </div>
+
+            {/* Live Preview Panel - Shows page being designed */}
+            {activePreview && (
+              <div className="bg-card border rounded-xl overflow-hidden" data-testid="preview-panel">
+                <div className="flex items-center justify-between p-3 border-b bg-muted/30">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <Eye className="w-4 h-4 text-primary" />
+                      <span className="font-medium text-sm">Live Preview</span>
+                    </div>
+                    {activePreview.title && (
+                      <span className="text-sm text-muted-foreground">— {activePreview.title}</span>
+                    )}
+                    {activePreview.status && (
+                      <Badge variant={activePreview.status === 'published' ? 'default' : 'secondary'} className="text-xs">
+                        {activePreview.status}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7"
+                      onClick={() => setShowPreviewPanel(!showPreviewPanel)}
+                      data-testid="button-toggle-preview"
+                    >
+                      {showPreviewPanel ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 w-7 p-0"
+                      onClick={() => setActivePreview(null)}
+                      data-testid="button-close-preview"
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {showPreviewPanel && (
+                  <div className="p-4 space-y-4">
+                    {/* Suggestion Cards with Apply Buttons */}
+                    {activePreview.suggestions && activePreview.suggestions.length > 0 && (
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-medium flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                          Enhancement Suggestions
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                          {activePreview.suggestions.map((suggestion) => (
+                            <div
+                              key={suggestion.id}
+                              className={cn(
+                                "p-3 rounded-lg border transition-all",
+                                suggestion.applied
+                                  ? "bg-green-500/10 border-green-500/30"
+                                  : "bg-muted/50 hover:bg-muted"
+                              )}
+                              data-testid={`suggestion-${suggestion.id}`}
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2">
+                                    <span className={cn(
+                                      "text-xs font-medium px-1.5 py-0.5 rounded",
+                                      suggestion.type === 'seo' && "bg-orange-500/20 text-orange-500",
+                                      suggestion.type === 'visual' && "bg-pink-500/20 text-pink-500",
+                                      suggestion.type === 'content' && "bg-blue-500/20 text-blue-500",
+                                      suggestion.type === 'motion' && "bg-cyan-500/20 text-cyan-500",
+                                    )}>
+                                      {suggestion.type}
+                                    </span>
+                                    {suggestion.applied && (
+                                      <CheckCircle2 className="w-3 h-3 text-green-500" />
+                                    )}
+                                  </div>
+                                  <p className="text-sm font-medium mt-1">{suggestion.title}</p>
+                                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                                    {suggestion.summary}
+                                  </p>
                                 </div>
-                              ) : (
-                                <div className="flex gap-2 flex-wrap">
+                                {!suggestion.applied && (
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    onClick={() => showEnhancementSelector(msg.content, index)}
-                                    disabled={applyingMessageIdx === index}
-                                    className="gap-2"
-                                    data-testid={`button-apply-bigmind-${index}`}
+                                    className="h-7 text-xs shrink-0"
+                                    onClick={() => {
+                                      setActivePreview(prev => prev ? {
+                                        ...prev,
+                                        suggestions: prev.suggestions?.map(s =>
+                                          s.id === suggestion.id ? { ...s, applied: true } : s
+                                        )
+                                      } : null);
+                                      toast({
+                                        title: "Enhancement Applied",
+                                        description: suggestion.title,
+                                      });
+                                    }}
+                                    data-testid={`button-apply-${suggestion.id}`}
                                   >
-                                    {applyingMessageIdx === index ? (
-                                      <>
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                        Applying...
-                                      </>
-                                    ) : (
-                                      <>
-                                        <Sparkles className="w-4 h-4" />
-                                        Review &amp; Apply to Page
-                                      </>
-                                    )}
+                                    Apply
                                   </Button>
-                                  {hasBigmindRecommendations(msg.content) && (
-                                    <Button
-                                      size="sm"
-                                      variant="secondary"
-                                      onClick={() => saveRecommendationsFromMessage(msg.content, index)}
-                                      disabled={savingRecommendationsIdx === index}
-                                      className="gap-2"
-                                      data-testid={`button-save-recommendations-${index}`}
-                                    >
-                                      {savingRecommendationsIdx === index ? (
-                                        <>
-                                          <Loader2 className="w-4 h-4 animate-spin" />
-                                          Saving...
-                                        </>
-                                      ) : (
-                                        <>
-                                          <Database className="w-4 h-4" />
-                                          Save Recommendations
-                                        </>
-                                      )}
-                                    </Button>
-                                  )}
-                                  {/* Suggested Images button */}
-                                  {messageEnhancementInfo.get(index)?.parsed.imagePrompts && 
-                                   messageEnhancementInfo.get(index)!.parsed.imagePrompts.length > 0 && (
-                                    <Button
-                                      size="sm"
-                                      variant="outline"
-                                      onClick={() => showImagePrompts(index, messageEnhancementInfo.get(index)!.parsed.imagePrompts)}
-                                      className="gap-2"
-                                      data-testid={`button-suggested-images-${index}`}
-                                    >
-                                      <ImageIcon className="w-4 h-4" />
-                                      {messageEnhancementInfo.get(index)!.parsed.imagePrompts.length} Image{messageEnhancementInfo.get(index)!.parsed.imagePrompts.length !== 1 ? 's' : ''}
-                                    </Button>
-                                  )}
-                                </div>
-                              )}
-                              
-                              {/* Suggested Images Panel */}
-                              {showSuggestedImages === index && messageEnhancementInfo.get(index)?.parsed.imagePrompts && (
-                                <div className="mt-3 space-y-3 bg-background/50 rounded-lg p-3 border" data-testid={`suggested-images-panel-${index}`}>
-                                  <div className="flex items-center justify-between">
-                                    <h4 className="font-medium text-sm flex items-center gap-2">
-                                      <ImageIcon className="w-4 h-4 text-primary" />
-                                      Suggested Images
-                                    </h4>
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      className="h-6 w-6 p-0"
-                                      onClick={() => setShowSuggestedImages(null)}
-                                    >
-                                      <X className="w-4 h-4" />
-                                    </Button>
-                                  </div>
-                                  
-                                  <div className="space-y-4">
-                                    {messageEnhancementInfo.get(index)!.parsed.imagePrompts.map((imgPrompt) => (
-                                      <div key={imgPrompt.id} className="space-y-2 p-3 rounded-lg bg-muted/50 border">
-                                        <div className="flex items-center gap-2 text-xs">
-                                          <Badge variant="outline" className="text-[10px]">
-                                            {imgPrompt.slotType}
-                                          </Badge>
-                                          <span className="text-muted-foreground">{imgPrompt.location}</span>
-                                        </div>
-                                        
-                                        <Textarea
-                                          value={editableImagePrompts[imgPrompt.id] || imgPrompt.prompt}
-                                          onChange={(e) => setEditableImagePrompts(prev => ({
-                                            ...prev,
-                                            [imgPrompt.id]: e.target.value
-                                          }))}
-                                          className="min-h-[80px] text-xs"
-                                          placeholder="Edit image prompt..."
-                                          data-testid={`input-image-prompt-${imgPrompt.id}`}
-                                        />
-                                        
-                                        <div className="flex items-center gap-2">
-                                          <Button
-                                            size="sm"
-                                            onClick={() => handleGenerateImage(imgPrompt)}
-                                            disabled={generatingImageId === imgPrompt.id}
-                                            className="gap-2"
-                                            data-testid={`button-generate-image-${imgPrompt.id}`}
-                                          >
-                                            {generatingImageId === imgPrompt.id ? (
-                                              <>
-                                                <Loader2 className="w-3 h-3 animate-spin" />
-                                                Generating...
-                                              </>
-                                            ) : (
-                                              <>
-                                                <Sparkles className="w-3 h-3" />
-                                                Generate Image
-                                              </>
-                                            )}
-                                          </Button>
-                                          
-                                          {generatedImages[imgPrompt.id] && (
-                                            <span className="text-xs text-green-500 flex items-center gap-1">
-                                              <CheckCircle2 className="w-3 h-3" />
-                                              Generated
-                                            </span>
-                                          )}
-                                        </div>
-                                        
-                                        {generatedImages[imgPrompt.id] && (
-                                          <div className="mt-2 rounded-lg overflow-hidden border">
-                                            <img 
-                                              src={generatedImages[imgPrompt.id]} 
-                                              alt={imgPrompt.location}
-                                              className="w-full h-32 object-cover"
-                                            />
-                                          </div>
-                                        )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <p className="text-sm">{msg.content}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                {isLoading && (
-                  <div className="flex justify-start" data-testid="chat-loading">
-                    <div className="bg-muted rounded-xl px-4 py-3 flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm text-muted-foreground">Thinking...</span>
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </>
-            )}
-          </div>
-
-          <div className="border-t p-4 bg-muted/30">
-            {attachedFile && (
-              <div className="flex items-center gap-2 mb-2 p-2 bg-primary/10 rounded-lg text-sm">
-                <FileUp className="w-4 h-4 text-primary" />
-                <span className="flex-1 truncate">{attachedFile.name}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0"
-                  onClick={() => setAttachedFile(null)}
-                  data-testid="button-remove-file"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            )}
-            <div className="flex gap-2">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".txt,.md,.html,.json,.csv,.xml,.pdf,.doc,.docx"
-                className="hidden"
-                onChange={handleFileSelect}
-                data-testid="input-file-upload"
-              />
-              <div className="flex-1 relative">
-                <Textarea
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={useCmsMode 
-                    ? "Tell BigMind what to create, edit, or manage..." 
-                    : "Ask BigMind about your site content..."}
-                  className="min-h-[60px] resize-none pr-10"
-                  disabled={isLoading}
-                  data-testid="input-chat-message"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 bottom-1 h-8 w-8 text-muted-foreground hover:text-foreground"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isLoading || isUploading}
-                  title="Attach a file"
-                  data-testid="button-attach-file"
-                >
-                  {isUploading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Paperclip className="w-4 h-4" />
-                  )}
-                </Button>
-              </div>
-              <Button 
-                onClick={handleSendWithFile} 
-                disabled={(!inputValue.trim() && !attachedFile) || isLoading}
-                className="h-auto"
-                data-testid="button-send-chat"
-              >
-                {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <Send className="w-5 h-5" />
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Resize Handle */}
-        <div 
-          className={cn(
-            "absolute bottom-0 left-0 right-0 h-2 cursor-ns-resize transition-colors flex items-center justify-center group",
-            isResizing ? "bg-primary/20" : "hover:bg-primary/10"
-          )}
-          onMouseDown={() => setIsResizing(true)}
-          data-testid="chat-resize-handle"
-        >
-          <div className={cn(
-            "w-12 h-1 rounded-full transition-colors",
-            isResizing ? "bg-primary" : "bg-muted-foreground/30 group-hover:bg-primary/50"
-          )} />
-        </div>
-      </div>
-
-          {/* Live Preview Panel - Shows page being designed */}
-          {activePreview && (
-            <div className="bg-card border rounded-xl overflow-hidden" data-testid="preview-panel">
-              <div className="flex items-center justify-between p-3 border-b bg-muted/30">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-4 h-4 text-primary" />
-                    <span className="font-medium text-sm">Live Preview</span>
-                  </div>
-                  {activePreview.title && (
-                    <span className="text-sm text-muted-foreground">— {activePreview.title}</span>
-                  )}
-                  {activePreview.status && (
-                    <Badge variant={activePreview.status === 'published' ? 'default' : 'secondary'} className="text-xs">
-                      {activePreview.status}
-                    </Badge>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-7"
-                    onClick={() => setShowPreviewPanel(!showPreviewPanel)}
-                    data-testid="button-toggle-preview"
-                  >
-                    {showPreviewPanel ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-7 w-7 p-0"
-                    onClick={() => setActivePreview(null)}
-                    data-testid="button-close-preview"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-              
-              {showPreviewPanel && (
-                <div className="p-4 space-y-4">
-                  {/* Suggestion Cards with Apply Buttons */}
-                  {activePreview.suggestions && activePreview.suggestions.length > 0 && (
-                    <div className="space-y-2">
-                      <h4 className="text-sm font-medium flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-primary" />
-                        Enhancement Suggestions
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                        {activePreview.suggestions.map((suggestion) => (
-                          <div
-                            key={suggestion.id}
-                            className={cn(
-                              "p-3 rounded-lg border transition-all",
-                              suggestion.applied 
-                                ? "bg-green-500/10 border-green-500/30" 
-                                : "bg-muted/50 hover:bg-muted"
-                            )}
-                            data-testid={`suggestion-${suggestion.id}`}
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span className={cn(
-                                    "text-xs font-medium px-1.5 py-0.5 rounded",
-                                    suggestion.type === 'seo' && "bg-orange-500/20 text-orange-500",
-                                    suggestion.type === 'visual' && "bg-pink-500/20 text-pink-500",
-                                    suggestion.type === 'content' && "bg-blue-500/20 text-blue-500",
-                                    suggestion.type === 'motion' && "bg-cyan-500/20 text-cyan-500",
-                                  )}>
-                                    {suggestion.type}
-                                  </span>
-                                  {suggestion.applied && (
-                                    <CheckCircle2 className="w-3 h-3 text-green-500" />
-                                  )}
-                                </div>
-                                <p className="text-sm font-medium mt-1">{suggestion.title}</p>
-                                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                                  {suggestion.summary}
-                                </p>
+                                )}
                               </div>
-                              {!suggestion.applied && (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  className="h-7 text-xs shrink-0"
-                                  onClick={() => {
-                                    setActivePreview(prev => prev ? {
-                                      ...prev,
-                                      suggestions: prev.suggestions?.map(s => 
-                                        s.id === suggestion.id ? { ...s, applied: true } : s
-                                      )
-                                    } : null);
-                                    toast({
-                                      title: "Enhancement Applied",
-                                      description: suggestion.title,
-                                    });
-                                  }}
-                                  data-testid={`button-apply-${suggestion.id}`}
-                                >
-                                  Apply
-                                </Button>
-                              )}
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Page Content Preview */}
-                  <div className="rounded-lg border overflow-hidden" style={{ maxHeight: '300px' }}>
-                    <PageContentPreview
-                      content={activePreview.content}
-                      title={activePreview.title}
-                      path={activePreview.path}
-                      cluster={activePreview.cluster}
-                      pageId={activePreview.pageId}
-                      status={activePreview.status}
-                      showActions={true}
-                      defaultExpanded={true}
-                      maxHeight="300px"
-                      onPublish={async () => {
-                        if (activePreview.pageId) {
-                          try {
-                            await apiRequest('PUT', `/api/pages/${activePreview.pageId}`, { status: 'published' });
-                            queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
-                            setActivePreview(prev => prev ? { ...prev, status: 'published' } : null);
-                            toast({ title: "Published!", description: `${activePreview.title} is now live.` });
-                          } catch (e) {
-                            toast({ title: "Error", description: "Failed to publish", variant: "destructive" });
-                          }
-                        }
-                      }}
-                    />
-                  </div>
-                  
-                  {/* Motion Layout Link Manager */}
-                  <div className="space-y-3 p-4 bg-muted/30 rounded-lg border">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-medium flex items-center gap-2">
-                        <Film className="w-4 h-4 text-primary" />
-                        Motion Layout Links
-                      </h4>
-                      <div className="flex gap-2">
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          className="h-7 text-xs"
-                          onClick={() => {
-                            setActivePreview(prev => prev ? {
-                              ...prev,
-                              motionLinks: {
-                                hero: 'liquid-crystal-float',
-                                content: 'subtle-shimmer',
-                                cards: 'krystal-bloom',
-                                buttons: 'energetic-pulse',
-                                background: 'parallax-depth',
-                                images: 'ripple-emergence',
-                              }
-                            } : null);
-                            toast({ title: "Auto-linked", description: "Default motions applied to all elements" });
-                          }}
-                          data-testid="button-auto-link-motion"
-                        >
-                          <Zap className="w-3 h-3 mr-1" />
-                          Auto-link
-                        </Button>
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="ghost"
-                          className="h-7 text-xs"
-                          onClick={() => {
-                            setActivePreview(prev => prev ? { ...prev, motionLinks: {} } : null);
-                          }}
-                          data-testid="button-clear-motion"
-                        >
-                          Clear All
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {MOTION_ELEMENTS.map((element) => {
-                        const ElementIcon = element.icon;
-                        const linkedMotion = activePreview.motionLinks?.[element.key as keyof typeof activePreview.motionLinks];
-                        const motionInfo = MOTION_ARCHETYPES.find(m => m.key === linkedMotion);
-                        
-                        return (
-                          <div
-                            key={element.key}
-                            className={cn(
-                              "p-2 rounded-lg border transition-all cursor-pointer",
-                              linkedMotion
-                                ? "bg-primary/10 border-primary/30"
-                                : "bg-background hover:bg-muted/50"
-                            )}
-                            data-testid={`motion-slot-${element.key}`}
-                          >
-                            <div className="flex items-center gap-2 mb-2">
-                              <ElementIcon className="w-4 h-4 text-muted-foreground" />
-                              <span className="text-xs font-medium">{element.label}</span>
-                            </div>
-                            <Select
-                              value={linkedMotion || "none"}
-                              onValueChange={(value) => {
-                                setActivePreview(prev => prev ? {
-                                  ...prev,
-                                  motionLinks: {
-                                    ...prev.motionLinks,
-                                    [element.key]: value === "none" ? undefined : value,
-                                  }
-                                } : null);
-                                if (value !== "none") {
-                                  const motion = MOTION_ARCHETYPES.find(m => m.key === value);
-                                  toast({
-                                    title: "Motion Applied",
-                                    description: `${motion?.name || value} linked to ${element.label}`,
-                                  });
-                                }
-                              }}
-                            >
-                              <SelectTrigger className="h-7 text-xs">
-                                <SelectValue placeholder="Select motion" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="none">
-                                  <span className="text-muted-foreground">None</span>
-                                </SelectItem>
-                                {MOTION_ARCHETYPES.map((motion) => (
-                                  <SelectItem key={motion.key} value={motion.key}>
-                                    <div className="flex items-center gap-2">
-                                      <motion.icon className="w-3 h-3" />
-                                      <span>{motion.name}</span>
-                                    </div>
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            {motionInfo && (
-                              <p className="text-[10px] text-muted-foreground mt-1 line-clamp-1">
-                                {motionInfo.description}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    
-                    {/* Show count of linked motions */}
-                    {activePreview.motionLinks && Object.values(activePreview.motionLinks).filter(Boolean).length > 0 && (
-                      <div className="text-xs text-muted-foreground flex items-center gap-2 pt-2 border-t">
-                        <CheckCircle2 className="w-3 h-3 text-green-500" />
-                        {Object.values(activePreview.motionLinks).filter(Boolean).length} of {MOTION_ELEMENTS.length} elements linked
+                          ))}
+                        </div>
                       </div>
                     )}
-                  </div>
 
-                  {/* Ready to Publish indicator */}
-                  {activePreview.suggestions && activePreview.suggestions.every(s => s.applied) && (
-                    <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-green-500" />
-                        <span className="font-medium text-green-700 dark:text-green-400">
-                          All enhancements applied - Ready to publish!
-                        </span>
-                      </div>
-                      {activePreview.pageId && activePreview.status !== 'published' && (
-                        <Button
-                          size="sm"
-                          className="bg-green-600 hover:bg-green-700"
-                          onClick={async () => {
+                    {/* Page Content Preview */}
+                    <div className="rounded-lg border overflow-hidden" style={{ maxHeight: '300px' }}>
+                      <PageContentPreview
+                        content={activePreview.content}
+                        title={activePreview.title}
+                        path={activePreview.path}
+                        cluster={activePreview.cluster}
+                        pageId={activePreview.pageId}
+                        status={activePreview.status}
+                        showActions={true}
+                        defaultExpanded={true}
+                        maxHeight="300px"
+                        onPublish={async () => {
+                          if (activePreview.pageId) {
                             try {
                               await apiRequest('PUT', `/api/pages/${activePreview.pageId}`, { status: 'published' });
                               queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
@@ -7546,19 +7394,169 @@ function BigMindTab() {
                             } catch (e) {
                               toast({ title: "Error", description: "Failed to publish", variant: "destructive" });
                             }
-                          }}
-                          data-testid="button-publish-page"
-                        >
-                          <Globe className="w-4 h-4 mr-2" />
-                          Publish Now
-                        </Button>
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {/* Motion Layout Link Manager */}
+                    <div className="space-y-3 p-4 bg-muted/30 rounded-lg border">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium flex items-center gap-2">
+                          <Film className="w-4 h-4 text-primary" />
+                          Motion Layout Links
+                        </h4>
+                        <div className="flex gap-2">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() => {
+                              setActivePreview(prev => prev ? {
+                                ...prev,
+                                motionLinks: {
+                                  hero: 'liquid-crystal-float',
+                                  content: 'subtle-shimmer',
+                                  cards: 'krystal-bloom',
+                                  buttons: 'energetic-pulse',
+                                  background: 'parallax-depth',
+                                  images: 'ripple-emergence',
+                                }
+                              } : null);
+                              toast({ title: "Auto-linked", description: "Default motions applied to all elements" });
+                            }}
+                            data-testid="button-auto-link-motion"
+                          >
+                            <Zap className="w-3 h-3 mr-1" />
+                            Auto-link
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            className="h-7 text-xs"
+                            onClick={() => {
+                              setActivePreview(prev => prev ? { ...prev, motionLinks: {} } : null);
+                            }}
+                            data-testid="button-clear-motion"
+                          >
+                            Clear All
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        {MOTION_ELEMENTS.map((element) => {
+                          const ElementIcon = element.icon;
+                          const linkedMotion = activePreview.motionLinks?.[element.key as keyof typeof activePreview.motionLinks];
+                          const motionInfo = MOTION_ARCHETYPES.find(m => m.key === linkedMotion);
+
+                          return (
+                            <div
+                              key={element.key}
+                              className={cn(
+                                "p-2 rounded-lg border transition-all cursor-pointer",
+                                linkedMotion
+                                  ? "bg-primary/10 border-primary/30"
+                                  : "bg-background hover:bg-muted/50"
+                              )}
+                              data-testid={`motion-slot-${element.key}`}
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                <ElementIcon className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-xs font-medium">{element.label}</span>
+                              </div>
+                              <Select
+                                value={linkedMotion || "none"}
+                                onValueChange={(value) => {
+                                  setActivePreview(prev => prev ? {
+                                    ...prev,
+                                    motionLinks: {
+                                      ...prev.motionLinks,
+                                      [element.key]: value === "none" ? undefined : value,
+                                    }
+                                  } : null);
+                                  if (value !== "none") {
+                                    const motion = MOTION_ARCHETYPES.find(m => m.key === value);
+                                    toast({
+                                      title: "Motion Applied",
+                                      description: `${motion?.name || value} linked to ${element.label}`,
+                                    });
+                                  }
+                                }}
+                              >
+                                <SelectTrigger className="h-7 text-xs">
+                                  <SelectValue placeholder="Select motion" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="none">
+                                    <span className="text-muted-foreground">None</span>
+                                  </SelectItem>
+                                  {MOTION_ARCHETYPES.map((motion) => (
+                                    <SelectItem key={motion.key} value={motion.key}>
+                                      <div className="flex items-center gap-2">
+                                        <motion.icon className="w-3 h-3" />
+                                        <span>{motion.name}</span>
+                                      </div>
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              {motionInfo && (
+                                <p className="text-[10px] text-muted-foreground mt-1 line-clamp-1">
+                                  {motionInfo.description}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Show count of linked motions */}
+                      {activePreview.motionLinks && Object.values(activePreview.motionLinks).filter(Boolean).length > 0 && (
+                        <div className="text-xs text-muted-foreground flex items-center gap-2 pt-2 border-t">
+                          <CheckCircle2 className="w-3 h-3 text-green-500" />
+                          {Object.values(activePreview.motionLinks).filter(Boolean).length} of {MOTION_ELEMENTS.length} elements linked
+                        </div>
                       )}
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+
+                    {/* Ready to Publish indicator */}
+                    {activePreview.suggestions && activePreview.suggestions.every(s => s.applied) && (
+                      <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-green-500" />
+                          <span className="font-medium text-green-700 dark:text-green-400">
+                            All enhancements applied - Ready to publish!
+                          </span>
+                        </div>
+                        {activePreview.pageId && activePreview.status !== 'published' && (
+                          <Button
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={async () => {
+                              try {
+                                await apiRequest('PUT', `/api/pages/${activePreview.pageId}`, { status: 'published' });
+                                queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
+                                setActivePreview(prev => prev ? { ...prev, status: 'published' } : null);
+                                toast({ title: "Published!", description: `${activePreview.title} is now live.` });
+                              } catch (e) {
+                                toast({ title: "Error", description: "Failed to publish", variant: "destructive" });
+                              }
+                            }}
+                            data-testid="button-publish-page"
+                          >
+                            <Globe className="w-4 h-4 mr-2" />
+                            Publish Now
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </>
       )}
@@ -7574,7 +7572,7 @@ function BigMindTab() {
               <p className="text-sm text-muted-foreground">
                 Describe the page you want to create, and AI will design it for you.
               </p>
-              
+
               <div className="space-y-3">
                 <div>
                   <Label htmlFor="studio-title">Page Title</Label>
@@ -7635,13 +7633,13 @@ function BigMindTab() {
               </h3>
               {generatedPreview ? (
                 <div className="space-y-4">
-                  <div 
+                  <div
                     className="border rounded-lg p-4 bg-muted/30 max-h-[400px] overflow-auto"
                     dangerouslySetInnerHTML={{ __html: generatedPreview }}
                     data-testid="preview-container"
                   />
                   <div className="flex gap-2">
-                    <Button 
+                    <Button
                       onClick={handleApplyToPage}
                       className="flex-1"
                       data-testid="button-apply-page"
@@ -7881,8 +7879,8 @@ function MaintenancePanel() {
             Automatically checks code quality, route alignment, and dependencies
           </p>
         </div>
-        <Button 
-          onClick={handleRunMaintenance} 
+        <Button
+          onClick={handleRunMaintenance}
           disabled={isRunning}
           data-testid="button-run-maintenance"
         >
@@ -7913,7 +7911,7 @@ function MaintenancePanel() {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Checkbox 
+              <Checkbox
                 id="daily-enabled"
                 checked={dailyEnabled}
                 onCheckedChange={(checked) => handleToggleDaily(checked as boolean)}
@@ -7979,8 +7977,8 @@ function MaintenancePanel() {
 
           <div className="space-y-2">
             {latestReport.results.map((result, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg"
                 data-testid={`result-${result.name}`}
               >
@@ -8051,7 +8049,7 @@ function MaintenancePanel() {
           <h4 className="font-medium mb-3">Recent History</h4>
           <div className="space-y-2">
             {history.slice(1).map((report) => (
-              <div 
+              <div
                 key={report.id}
                 className="flex items-center justify-between p-2 hover:bg-muted/50 rounded"
               >
@@ -8183,8 +8181,8 @@ function SettingsTab({
   };
 
   const handleSave = async (settingDef: typeof DEFAULT_SETTINGS[0]) => {
-    const value = editedValues[settingDef.key] !== undefined 
-      ? editedValues[settingDef.key] 
+    const value = editedValues[settingDef.key] !== undefined
+      ? editedValues[settingDef.key]
       : getSettingValue(settingDef.key, settingDef.defaultValue);
     await onSave(settingDef.key, value, settingDef.description, settingDef.category);
     setEditedValues(prev => {
@@ -8210,8 +8208,8 @@ function SettingsTab({
             <p className="text-xs text-muted-foreground mt-0.5">{settingDef.description}</p>
           </div>
           {hasChanges && (
-            <Button 
-              size="sm" 
+            <Button
+              size="sm"
               onClick={() => handleSave(settingDef)}
               disabled={isSaving}
               data-testid={`button-save-setting-${settingDef.key}`}
@@ -8220,7 +8218,7 @@ function SettingsTab({
             </Button>
           )}
         </div>
-        
+
         {settingDef.inputType === 'password' ? (
           <div className="flex gap-2">
             <Input
@@ -8328,11 +8326,10 @@ function SettingsTab({
                 <button
                   key={cat.key}
                   onClick={() => setActiveCategory(cat.key)}
-                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors text-left ${
-                    activeCategory === cat.key 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'hover:bg-muted'
-                  }`}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors text-left ${activeCategory === cat.key
+                    ? 'bg-primary text-primary-foreground'
+                    : 'hover:bg-muted'
+                    }`}
                   data-testid={`button-category-${cat.key}`}
                 >
                   <Icon className="w-4 h-4" />
@@ -8364,8 +8361,8 @@ function SettingsTab({
                       </p>
                     </div>
                     {magicPrompt !== magicPromptOriginal && (
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         onClick={handleSaveMagicPrompt}
                         disabled={isSavingMagic}
                         data-testid="button-save-magic-prompt"
@@ -8414,8 +8411,8 @@ You are an expert content writer for Andara Ionic, a company specializing in pri
                       </p>
                     </div>
                     {enrichmentPrompt !== enrichmentPromptOriginal && (
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         onClick={handleSaveEnrichmentPrompt}
                         disabled={isSavingEnrichment}
                         data-testid="button-save-enrichment-prompt"
@@ -8494,7 +8491,7 @@ function TemplatePreviewFrame({ htmlContent, className }: { htmlContent: string;
   const sanitizedHtml = htmlContent
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/\s(onclick|onload|onerror|onmouseover|onmouseout|onfocus|onblur|onsubmit|onchange|onkeydown|onkeyup|onkeypress)\s*=/gi, ' data-sanitized=');
-  
+
   const srcdoc = `
     <!DOCTYPE html>
     <html>
@@ -8517,7 +8514,7 @@ function TemplatePreviewFrame({ htmlContent, className }: { htmlContent: string;
   `;
 
   return (
-    <iframe 
+    <iframe
       srcDoc={srcdoc}
       className={className}
       sandbox=""
@@ -8538,7 +8535,7 @@ function TemplatePreviewModal({
   onEdit: (template: HtmlTemplate) => void;
 }) {
   if (!template) return null;
-  
+
   const typeConfig = TEMPLATE_TYPE_CONFIG[template.templateType] || { label: template.templateType, color: 'bg-gray-100 text-gray-700' };
 
   return (
@@ -8551,7 +8548,7 @@ function TemplatePreviewModal({
             <Badge className={`${typeConfig.color} text-xs ml-2`}>{typeConfig.label}</Badge>
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="flex gap-4 flex-1 min-h-0 overflow-hidden">
           <div className="flex-1 flex flex-col min-h-0">
             <div className="flex justify-between items-center mb-2">
@@ -8563,17 +8560,17 @@ function TemplatePreviewModal({
               </div>
             </div>
             <div className="flex-1 border rounded-lg bg-white overflow-hidden min-h-[400px]">
-              <TemplatePreviewFrame 
-                htmlContent={template.htmlContent} 
+              <TemplatePreviewFrame
+                htmlContent={template.htmlContent}
                 className="w-full h-full border-0"
               />
             </div>
           </div>
-          
+
           <div className="w-80 shrink-0 flex flex-col gap-4 overflow-y-auto">
             <div className="bg-muted/50 rounded-lg p-4 space-y-3">
               <h4 className="font-semibold text-sm">Template Details</h4>
-              
+
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Slug</span>
@@ -8599,14 +8596,14 @@ function TemplatePreviewModal({
                 </div>
               </div>
             </div>
-            
+
             {template.description && (
               <div className="bg-muted/50 rounded-lg p-4">
                 <h4 className="font-semibold text-sm mb-2">Description</h4>
                 <p className="text-sm text-muted-foreground">{template.description}</p>
               </div>
             )}
-            
+
             {template.tags && template.tags.length > 0 && (
               <div className="bg-muted/50 rounded-lg p-4">
                 <h4 className="font-semibold text-sm mb-2">Tags</h4>
@@ -8617,7 +8614,7 @@ function TemplatePreviewModal({
                 </div>
               </div>
             )}
-            
+
             <div className="bg-muted/50 rounded-lg p-4">
               <h4 className="font-semibold text-sm mb-2">HTML Code</h4>
               <pre className="text-xs bg-background rounded p-2 overflow-x-auto max-h-48 overflow-y-auto">
@@ -8649,7 +8646,7 @@ function TemplatesTab({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const filteredTemplates = templates.filter(template => {
-    const matchesSearch = !searchTerm || 
+    const matchesSearch = !searchTerm ||
       template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       template.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
       template.tags?.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -8689,8 +8686,8 @@ function TemplatesTab({
 
       <div className="flex flex-wrap gap-2 items-center justify-between">
         <div className="flex gap-2 items-center">
-          <Input 
-            placeholder="Search templates..." 
+          <Input
+            placeholder="Search templates..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="max-w-xs"
@@ -8709,8 +8706,8 @@ function TemplatesTab({
           </Select>
         </div>
         <div className="flex border rounded-lg overflow-hidden">
-          <Button 
-            variant={viewMode === 'grid' ? 'secondary' : 'ghost'} 
+          <Button
+            variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('grid')}
             className="rounded-none"
@@ -8718,8 +8715,8 @@ function TemplatesTab({
           >
             <LayoutTemplate className="w-4 h-4" />
           </Button>
-          <Button 
-            variant={viewMode === 'list' ? 'secondary' : 'ghost'} 
+          <Button
+            variant={viewMode === 'list' ? 'secondary' : 'ghost'}
             size="sm"
             onClick={() => setViewMode('list')}
             className="rounded-none"
@@ -8735,7 +8732,7 @@ function TemplatesTab({
           <Code2 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="font-medium mb-2">No templates found</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            {templates.length === 0 
+            {templates.length === 0
               ? "Create your first HTML template"
               : "Try adjusting your filters"
             }
@@ -8751,16 +8748,16 @@ function TemplatesTab({
           {filteredTemplates.map((template) => {
             const typeConfig = TEMPLATE_TYPE_CONFIG[template.templateType] || { label: template.templateType, color: 'bg-gray-100 text-gray-700' };
             return (
-              <div 
-                key={template.id} 
+              <div
+                key={template.id}
                 className="bg-card border rounded-xl overflow-hidden shadow-sm hover:border-primary/30 hover:shadow-md transition-all group"
                 data-testid={`template-card-${template.id}`}
               >
-                <div 
+                <div
                   className="h-36 bg-muted/50 relative cursor-pointer overflow-hidden"
                   onClick={() => handlePreview(template)}
                 >
-                  <TemplatePreviewFrame 
+                  <TemplatePreviewFrame
                     htmlContent={template.htmlContent}
                     className="w-full h-full border-0 pointer-events-none scale-75 origin-top-left"
                   />
@@ -8770,7 +8767,7 @@ function TemplatesTab({
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-4">
                   <div className="flex justify-between items-start gap-2 mb-2">
                     <div className="flex-1 min-w-0">
@@ -8779,7 +8776,7 @@ function TemplatesTab({
                     </div>
                     <Badge className={`${typeConfig.color} text-xs shrink-0`}>{typeConfig.label}</Badge>
                   </div>
-                  
+
                   {template.description && (
                     <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{template.description}</p>
                   )}
@@ -8790,33 +8787,33 @@ function TemplatesTab({
                       {template.htmlContent.length.toLocaleString()}
                     </span>
                     <div className="flex items-center gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-7 w-7"
-                        onClick={() => handlePreview(template)} 
+                        onClick={() => handlePreview(template)}
                         data-testid={`button-preview-template-${template.id}`}
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-7 w-7"
-                        onClick={() => onEdit(template)} 
+                        onClick={() => onEdit(template)}
                         data-testid={`button-edit-template-${template.id}`}
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         size="icon"
-                        className="h-7 w-7" 
+                        className="h-7 w-7"
                         onClick={() => {
                           if (confirm('Are you sure you want to delete this template?')) {
                             onDelete(template.id);
                           }
-                        }} 
+                        }}
                         data-testid={`button-delete-template-${template.id}`}
                       >
                         <Trash className="w-3.5 h-3.5 text-destructive" />
@@ -8833,16 +8830,16 @@ function TemplatesTab({
           {filteredTemplates.map((template) => {
             const typeConfig = TEMPLATE_TYPE_CONFIG[template.templateType] || { label: template.templateType, color: 'bg-gray-100 text-gray-700' };
             return (
-              <div 
-                key={template.id} 
+              <div
+                key={template.id}
                 className="bg-card border rounded-xl p-4 shadow-sm hover:border-primary/30 transition-colors flex gap-4"
                 data-testid={`template-card-${template.id}`}
               >
-                <div 
+                <div
                   className="w-32 h-20 bg-muted/50 rounded-lg overflow-hidden shrink-0 cursor-pointer relative group"
                   onClick={() => handlePreview(template)}
                 >
-                  <TemplatePreviewFrame 
+                  <TemplatePreviewFrame
                     htmlContent={template.htmlContent}
                     className="w-full h-full border-0 pointer-events-none scale-50 origin-top-left"
                   />
@@ -8850,7 +8847,7 @@ function TemplatesTab({
                     <Eye className="w-4 h-4 text-white" />
                   </div>
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-2 mb-1">
                     <div className="flex items-center gap-2 min-w-0">
@@ -8858,42 +8855,42 @@ function TemplatesTab({
                       <Badge className={`${typeConfig.color} text-xs shrink-0`}>{typeConfig.label}</Badge>
                     </div>
                     <div className="flex items-center gap-1 shrink-0">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-7 w-7"
-                        onClick={() => handlePreview(template)} 
+                        onClick={() => handlePreview(template)}
                         data-testid={`button-preview-template-${template.id}`}
                       >
                         <Eye className="w-3.5 h-3.5" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-7 w-7"
-                        onClick={() => onEdit(template)} 
+                        onClick={() => onEdit(template)}
                         data-testid={`button-edit-template-${template.id}`}
                       >
                         <Edit className="w-3.5 h-3.5" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         size="icon"
-                        className="h-7 w-7" 
+                        className="h-7 w-7"
                         onClick={() => {
                           if (confirm('Are you sure you want to delete this template?')) {
                             onDelete(template.id);
                           }
-                        }} 
+                        }}
                         data-testid={`button-delete-template-${template.id}`}
                       >
                         <Trash className="w-3.5 h-3.5 text-destructive" />
                       </Button>
                     </div>
                   </div>
-                  
+
                   <p className="text-xs text-muted-foreground font-mono mb-1">{template.slug}</p>
-                  
+
                   {template.description && (
                     <p className="text-xs text-muted-foreground line-clamp-1">{template.description}</p>
                   )}
@@ -9064,8 +9061,8 @@ function TemplateEditorModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="template-type">Template Type *</Label>
-              <Select 
-                value={formData.templateType} 
+              <Select
+                value={formData.templateType}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, templateType: value }))}
               >
                 <SelectTrigger id="template-type" data-testid="select-template-type">
@@ -9486,7 +9483,7 @@ function ProductEditorModal({
             <h4 className="text-sm font-medium text-muted-foreground">SEO Settings</h4>
             <div className="space-y-2">
               <Label htmlFor="product-seo-title">SEO Title</Label>
-              <Input 
+              <Input
                 id="product-seo-title"
                 value={formData.seoTitle || ''}
                 onChange={(e) => setFormData(prev => ({ ...prev, seoTitle: e.target.value || null }))}
@@ -9497,7 +9494,7 @@ function ProductEditorModal({
             </div>
             <div className="space-y-2">
               <Label htmlFor="product-seo-description">SEO Description</Label>
-              <Textarea 
+              <Textarea
                 id="product-seo-description"
                 value={formData.seoDescription || ''}
                 onChange={(e) => setFormData(prev => ({ ...prev, seoDescription: e.target.value || null }))}
@@ -9921,7 +9918,7 @@ function SeoCopilotButton({ pageId, pageKey }: { pageId: string; pageKey: string
       toast({ title: "Save First", description: "Please save the page before analyzing SEO", variant: "destructive" });
       return;
     }
-    
+
     setIsAnalyzing(true);
     try {
       const res = await apiRequest('POST', `/api/admin/seo-brain/analyze/${pageId}`);
@@ -9959,7 +9956,7 @@ function SeoCopilotButton({ pageId, pageKey }: { pageId: string; pageKey: string
           </span>
         )}
       </Button>
-      
+
       {isOpen && (
         <div className="absolute right-0 top-full mt-2 w-80 bg-slate-800 border border-white/10 rounded-lg shadow-xl z-50 p-3 space-y-3">
           <div className="flex items-center justify-between">
@@ -9974,7 +9971,7 @@ function SeoCopilotButton({ pageId, pageKey }: { pageId: string; pageKey: string
               {isAnalyzing ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
             </Button>
           </div>
-          
+
           {isLoading ? (
             <div className="py-4 text-center">
               <Loader2 className="w-5 h-5 animate-spin mx-auto text-violet-400" />
@@ -9996,7 +9993,7 @@ function SeoCopilotButton({ pageId, pageKey }: { pageId: string; pageKey: string
               No suggestions yet. Click refresh to analyze.
             </p>
           )}
-          
+
           <button
             type="button"
             onClick={() => setIsOpen(false)}
@@ -10010,20 +10007,20 @@ function SeoCopilotButton({ pageId, pageKey }: { pageId: string; pageKey: string
   );
 }
 
-function PageEditorModal({ 
-  page, 
+function PageEditorModal({
+  page,
   pages,
   clusters,
-  isOpen, 
+  isOpen,
   onClose,
   onSave,
   onDelete,
   isNew = false
-}: { 
-  page: Page | null; 
+}: {
+  page: Page | null;
   pages: Page[];
   clusters: Cluster[];
-  isOpen: boolean; 
+  isOpen: boolean;
   onClose: () => void;
   onSave: (data: PageFormData, isNew: boolean) => void;
   onDelete?: (id: string) => void;
@@ -10119,44 +10116,44 @@ function PageEditorModal({
     setGeneratingAssetId(asset.id);
     try {
       await apiRequest('PUT', `/api/admin/page-media/${asset.id}`, { status: 'generating' });
-      
+
       const res = await fetch('/api/admin/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
         body: JSON.stringify({ prompt: asset.prompt }),
       });
       const data = await res.json();
-      
+
       if (!res.ok) throw new Error(data.error || 'Generation failed');
-      
-      await apiRequest('PUT', `/api/admin/page-media/${asset.id}`, { 
+
+      await apiRequest('PUT', `/api/admin/page-media/${asset.id}`, {
         status: 'generated',
         generatedUrl: data.publicUrl,
         generatorModel: 'imagen-3.0-generate-002'
       });
-      
+
       if (formData.aiStartupHtml && data.publicUrl) {
         const slotPatterns = [
           new RegExp(`<div[^>]*data-ai-slot="${asset.slotKey}"[^>]*>[\\s\\S]*?<\\/div>`, 'gi'),
           new RegExp(`<div[^>]*class="[^"]*ai-image-placeholder[^"]*"[^>]*data-slot="${asset.slotKey}"[^>]*>[\\s\\S]*?<\\/div>`, 'gi'),
           new RegExp(`<!-- AI LAYOUT PROMPT.*?${asset.slotKey}.*?-->\\s*<div[^>]*class="[^"]*placeholder[^"]*"[^>]*>[\\s\\S]*?<\\/div>`, 'gi'),
         ];
-        
+
         let updatedHtml = formData.aiStartupHtml;
         const imgTag = `<img src="${data.publicUrl}" alt="${asset.slotKey}" class="w-full h-auto rounded-lg object-cover" data-generated-slot="${asset.slotKey}" />`;
-        
+
         for (const pattern of slotPatterns) {
           if (pattern.test(updatedHtml)) {
             updatedHtml = updatedHtml.replace(pattern, imgTag);
             break;
           }
         }
-        
+
         if (updatedHtml !== formData.aiStartupHtml) {
           setFormData(prev => ({ ...prev, aiStartupHtml: updatedHtml }));
         }
       }
-      
+
       refetchMediaAssets();
       toast({ title: "Generated!", description: `Image for "${asset.slotKey}" is ready` });
     } catch (err: any) {
@@ -10178,19 +10175,19 @@ function PageEditorModal({
     try {
       const res = await fetch('/api/admin/generate-image', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...getAuthHeaders()
         },
         body: JSON.stringify({ prompt: featuredImagePrompt.trim() }),
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         throw new Error(data.error || 'Failed to generate image');
       }
-      
+
       setFeaturedImagePreview({ url: data.publicUrl, filePath: data.filePath });
       toast({ title: "Success", description: "Featured image generated! Click 'Use This' to set it." });
     } catch (err: any) {
@@ -10211,19 +10208,19 @@ function PageEditorModal({
     try {
       const res = await fetch('/api/admin/generate-image', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           ...getAuthHeaders()
         },
         body: JSON.stringify({ prompt: prompt.trim() }),
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         throw new Error(data.error || 'Failed to generate image');
       }
-      
+
       setGeneratedImagePreview({ url: data.publicUrl, filePath: data.filePath });
       toast({ title: "Success", description: "Image generated! Click 'Insert' to add it to the page." });
     } catch (err: any) {
@@ -10235,10 +10232,10 @@ function PageEditorModal({
 
   const handleInsertGeneratedImage = () => {
     if (!generatedImagePreview) return;
-    
+
     const altText = formData.visualConfig?.aiImagePrompt?.slice(0, 100) || 'Generated image';
     const imgTag = `<img src="${generatedImagePreview.url}" alt="${altText}" class="andara-hero__image" style="width: 100%; height: auto; border-radius: 12px;" />`;
-    
+
     if (rawHtmlMode && formData.content) {
       const placeholderRegex = /\[(?:Hero visual|Visual|Image|Diagram|Figure)[^\]]*\]/gi;
       const updatedContent = formData.content.replace(placeholderRegex, imgTag);
@@ -10366,7 +10363,7 @@ function PageEditorModal({
             {isNew ? 'Create New Page' : `Edit: ${page?.title}`}
           </DialogTitle>
           {!isNew && formData.path && (
-            <a 
+            <a
               href={formData.path}
               target="_blank"
               rel="noopener noreferrer"
@@ -10383,7 +10380,7 @@ function PageEditorModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="title" variant="dark">Title *</Label>
-              <Input 
+              <Input
                 id="title"
                 variant="dark"
                 value={formData.title}
@@ -10401,10 +10398,10 @@ function PageEditorModal({
                 data-testid="input-page-title"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="key" variant="dark">Key *</Label>
-              <Input 
+              <Input
                 id="key"
                 variant="dark"
                 value={formData.key}
@@ -10419,7 +10416,7 @@ function PageEditorModal({
 
           <div className="space-y-2">
             <Label htmlFor="path" variant="dark">URL Path *</Label>
-            <Input 
+            <Input
               id="path"
               variant="dark"
               value={formData.path}
@@ -10433,8 +10430,8 @@ function PageEditorModal({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label variant="dark">Page Type</Label>
-              <Select 
-                value={formData.pageType} 
+              <Select
+                value={formData.pageType}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, pageType: value }))}
               >
                 <SelectTrigger variant="dark" data-testid="select-page-type">
@@ -10450,8 +10447,8 @@ function PageEditorModal({
 
             <div className="space-y-2">
               <Label variant="dark">Template</Label>
-              <Select 
-                value={formData.template} 
+              <Select
+                value={formData.template}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, template: value }))}
               >
                 <SelectTrigger variant="dark" data-testid="select-template">
@@ -10467,8 +10464,8 @@ function PageEditorModal({
 
             <div className="space-y-2">
               <Label variant="dark">Status</Label>
-              <Select 
-                value={formData.status} 
+              <Select
+                value={formData.status}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, status: value }))}
               >
                 <SelectTrigger variant="dark" data-testid="select-status">
@@ -10486,8 +10483,8 @@ function PageEditorModal({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label variant="dark">Parent Page</Label>
-              <Select 
-                value={formData.parentKey || "__none__"} 
+              <Select
+                value={formData.parentKey || "__none__"}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, parentKey: value === "__none__" ? null : value }))}
               >
                 <SelectTrigger variant="dark" data-testid="select-parent">
@@ -10506,8 +10503,8 @@ function PageEditorModal({
 
             <div className="space-y-2">
               <Label variant="dark">Content Cluster</Label>
-              <Select 
-                value={formData.clusterKey || "__none__"} 
+              <Select
+                value={formData.clusterKey || "__none__"}
                 onValueChange={(value) => setFormData(prev => ({ ...prev, clusterKey: value === "__none__" ? null : value }))}
               >
                 <SelectTrigger variant="dark" data-testid="select-cluster">
@@ -10524,7 +10521,7 @@ function PageEditorModal({
 
             <div className="space-y-2">
               <Label htmlFor="priority" variant="dark">Priority (1-10)</Label>
-              <Input 
+              <Input
                 id="priority"
                 variant="dark"
                 type="number"
@@ -10539,7 +10536,7 @@ function PageEditorModal({
 
           <div className="space-y-2">
             <Label htmlFor="summary" variant="dark">Summary</Label>
-            <Textarea 
+            <Textarea
               id="summary"
               variant="dark"
               value={formData.summary || ''}
@@ -10564,7 +10561,7 @@ function PageEditorModal({
                       const { tasks } = parseVisualConfigFromContent(formData.content || '');
                       const updates: Partial<typeof formData> = {};
                       let fieldsUpdated = 0;
-                      
+
                       tasks.forEach((task: EnhancementTask) => {
                         if (task.detected && task.value) {
                           if (task.id === 'title' && !formData.title) {
@@ -10594,7 +10591,7 @@ function PageEditorModal({
                           }
                         }
                       });
-                      
+
                       // Extract SEO focus keyword from title
                       const titleTask = tasks.find((t: EnhancementTask) => t.id === 'title');
                       if (titleTask?.value && !formData.seoFocus) {
@@ -10604,7 +10601,7 @@ function PageEditorModal({
                           fieldsUpdated++;
                         }
                       }
-                      
+
                       // Auto-generate path from title if not set
                       if (titleTask?.value && !formData.path) {
                         const slug = String(titleTask.value).toLowerCase()
@@ -10614,7 +10611,7 @@ function PageEditorModal({
                         updates.path = `/${slug}`;
                         fieldsUpdated++;
                       }
-                      
+
                       // Build Visual Config from detected values
                       const vibeTask = tasks.find((t: EnhancementTask) => t.id === 'vibeKeywords');
                       const toneTask = tasks.find((t: EnhancementTask) => t.id === 'emotionalTone');
@@ -10622,7 +10619,7 @@ function PageEditorModal({
                       const imagePromptTask = tasks.find((t: EnhancementTask) => t.id === 'aiImagePrompt');
                       const clusterTask = tasks.find((t: EnhancementTask) => t.id === 'cluster');
                       const pageIdTask = tasks.find((t: EnhancementTask) => t.id === 'pageId');
-                      
+
                       const hasVisualConfigUpdates = vibeTask || toneTask || animTask || imagePromptTask;
                       if (hasVisualConfigUpdates) {
                         const currentVC = formData.visualConfig;
@@ -10645,7 +10642,7 @@ function PageEditorModal({
                         updates.visualConfig = newVisualConfig;
                         fieldsUpdated += 5;
                       }
-                      
+
                       if (Object.keys(updates).length > 0) {
                         setFormData(prev => ({ ...prev, ...updates }));
                         toast({
@@ -10703,7 +10700,7 @@ function PageEditorModal({
                 Raw HTML mode preserves all CSS classes and styling. Use this for AI-generated Andara pages. Click "Interpret Content" to auto-fill form fields.
               </p>
             )}
-            
+
             {formData.content && (
               <div className="mt-4">
                 <PageContentPreview
@@ -10732,7 +10729,7 @@ function PageEditorModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="seoFocus" variant="dark">SEO Focus Keyword</Label>
-                  <Input 
+                  <Input
                     id="seoFocus"
                     variant="dark"
                     value={formData.seoFocus || ''}
@@ -10741,10 +10738,10 @@ function PageEditorModal({
                     data-testid="input-seo-focus"
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="seoTitle" variant="dark">SEO Title</Label>
-                  <Input 
+                  <Input
                     id="seoTitle"
                     variant="dark"
                     value={formData.seoTitle || ''}
@@ -10758,7 +10755,7 @@ function PageEditorModal({
 
               <div className="space-y-2">
                 <Label htmlFor="seoDescription" variant="dark">SEO Description</Label>
-                <Textarea 
+                <Textarea
                   id="seoDescription"
                   variant="dark"
                   value={formData.seoDescription || ''}
@@ -10812,7 +10809,7 @@ function PageEditorModal({
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <Input 
+                    <Input
                       id="featuredImage"
                       variant="dark"
                       value={formData.featuredImage || ''}
@@ -10834,20 +10831,20 @@ function PageEditorModal({
                   {featuredImagePreview && (
                     <div className="mt-2 p-3 bg-white/5 rounded-lg border border-white/10">
                       <p className="text-xs text-gray-400 mb-2">Generated Preview:</p>
-                      <img 
-                        src={featuredImagePreview.url} 
-                        alt="Generated preview" 
+                      <img
+                        src={featuredImagePreview.url}
+                        alt="Generated preview"
                         className="w-full max-w-xs rounded-lg border border-white/20"
                       />
                     </div>
                   )}
                   <p className="text-xs text-gray-400">Image shown in social shares and listings</p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="icon" variant="dark">Page Icon</Label>
-                    <Input 
+                    <Input
                       id="icon"
                       variant="dark"
                       value={formData.icon || ''}
@@ -10878,7 +10875,7 @@ function PageEditorModal({
                       </span>
                     )}
                   </button>
-                  
+
                   {mediaGalleryOpen && (
                     <div className="space-y-3 pl-6">
                       {!mediaAssets || mediaAssets.length === 0 ? (
@@ -10886,8 +10883,8 @@ function PageEditorModal({
                       ) : (
                         <div className="grid gap-3">
                           {mediaAssets.map((asset) => (
-                            <div 
-                              key={asset.id} 
+                            <div
+                              key={asset.id}
                               className="bg-white/5 rounded-lg p-3 border border-white/10"
                               data-testid={`media-asset-${asset.id}`}
                             >
@@ -10903,8 +10900,8 @@ function PageEditorModal({
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
                                   {asset.status === 'generated' && asset.generatedUrl ? (
-                                    <img 
-                                      src={asset.generatedUrl} 
+                                    <img
+                                      src={asset.generatedUrl}
                                       alt={asset.slotKey}
                                       className="w-16 h-16 rounded object-cover border border-white/20"
                                     />
@@ -11010,36 +11007,36 @@ function PageEditorModal({
               if (!dateStr) return fallback;
               const date = new Date(dateStr);
               if (isNaN(date.getTime())) return fallback;
-              return date.toLocaleDateString('en-US', { 
+              return date.toLocaleDateString('en-US', {
                 year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
               });
             };
             return (
-            <div className="border-t border-white/10 pt-6">
-              <h3 className="font-medium mb-4 flex items-center gap-2 text-white">
-                <Clock className="w-4 h-4" /> Date Information
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-white/5 rounded-lg border border-white/10">
-                <div>
-                  <Label className="text-xs text-gray-400 uppercase tracking-wider">Created</Label>
-                  <p className="text-sm font-medium text-white" data-testid="text-page-created-at">
-                    {formatDate(page.createdAt)}
-                  </p>
-                </div>
-                <div>
-                  <Label className="text-xs text-gray-400 uppercase tracking-wider">Last Updated</Label>
-                  <p className="text-sm font-medium text-white" data-testid="text-page-updated-at">
-                    {formatDate(page.updatedAt)}
-                  </p>
-                </div>
-                <div>
-                  <Label className="text-xs text-gray-400 uppercase tracking-wider">Published</Label>
-                  <p className="text-sm font-medium text-white" data-testid="text-page-published-at">
-                    {formatDate(page.publishedAt, 'Not published')}
-                  </p>
+              <div className="border-t border-white/10 pt-6">
+                <h3 className="font-medium mb-4 flex items-center gap-2 text-white">
+                  <Clock className="w-4 h-4" /> Date Information
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                  <div>
+                    <Label className="text-xs text-gray-400 uppercase tracking-wider">Created</Label>
+                    <p className="text-sm font-medium text-white" data-testid="text-page-created-at">
+                      {formatDate(page.createdAt)}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-400 uppercase tracking-wider">Last Updated</Label>
+                    <p className="text-sm font-medium text-white" data-testid="text-page-updated-at">
+                      {formatDate(page.updatedAt)}
+                    </p>
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-400 uppercase tracking-wider">Published</Label>
+                    <p className="text-sm font-medium text-white" data-testid="text-page-published-at">
+                      {formatDate(page.publishedAt, 'Not published')}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
             );
           })()}
 
@@ -11054,10 +11051,10 @@ function PageEditorModal({
                   variant="outline"
                   size="sm"
                   className="border-white/10 bg-white/5 text-white hover:bg-white/10"
-                  onClick={() => setFormData(prev => ({ 
-                    ...prev, 
-                    visualConfig: { 
-                      ...defaultVisualConfig, 
+                  onClick={() => setFormData(prev => ({
+                    ...prev,
+                    visualConfig: {
+                      ...defaultVisualConfig,
                       pageId: prev.key,
                       cluster: prev.clusterKey || ''
                     }
@@ -11080,16 +11077,16 @@ function PageEditorModal({
                 </Button>
               )}
             </div>
-            
+
             {formData.visualConfig && (
               <div className="space-y-4 p-4 bg-white/5 rounded-lg border border-white/10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="visualPriority" variant="dark">Visual Priority</Label>
-                    <Select 
-                      value={formData.visualConfig.priority} 
-                      onValueChange={(value: 'P1' | 'P2' | 'P3') => setFormData(prev => ({ 
-                        ...prev, 
+                    <Select
+                      value={formData.visualConfig.priority}
+                      onValueChange={(value: 'P1' | 'P2' | 'P3') => setFormData(prev => ({
+                        ...prev,
                         visualConfig: prev.visualConfig ? { ...prev.visualConfig, priority: value } : null
                       }))}
                     >
@@ -11104,15 +11101,15 @@ function PageEditorModal({
                     </Select>
                     <p className="text-xs text-gray-400">Asset creation priority level</p>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="vibeCluster" variant="dark">Content Cluster</Label>
-                    <Input 
+                    <Input
                       id="vibeCluster"
                       variant="dark"
                       value={formData.visualConfig.cluster}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
                         visualConfig: prev.visualConfig ? { ...prev.visualConfig, cluster: e.target.value } : null
                       }))}
                       placeholder="e.g., water-science"
@@ -11124,14 +11121,14 @@ function PageEditorModal({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="vibeKeywords" variant="dark">Vibe Keywords</Label>
-                    <Input 
+                    <Input
                       id="vibeKeywords"
                       variant="dark"
                       value={(formData.visualConfig.vibeKeywords || []).join(', ')}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        visualConfig: prev.visualConfig ? { 
-                          ...prev.visualConfig, 
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        visualConfig: prev.visualConfig ? {
+                          ...prev.visualConfig,
                           vibeKeywords: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
                         } : null
                       }))}
@@ -11143,14 +11140,14 @@ function PageEditorModal({
 
                   <div className="space-y-2">
                     <Label htmlFor="emotionalTone" variant="dark">Emotional Tone</Label>
-                    <Input 
+                    <Input
                       id="emotionalTone"
                       variant="dark"
                       value={(formData.visualConfig.emotionalTone || []).join(', ')}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        visualConfig: prev.visualConfig ? { 
-                          ...prev.visualConfig, 
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        visualConfig: prev.visualConfig ? {
+                          ...prev.visualConfig,
                           emotionalTone: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
                         } : null
                       }))}
@@ -11162,14 +11159,14 @@ function PageEditorModal({
 
                   <div className="space-y-2">
                     <Label htmlFor="animationIdeas" variant="dark">Animation Ideas</Label>
-                    <Input 
+                    <Input
                       id="animationIdeas"
                       variant="dark"
                       value={(formData.visualConfig.animationIdeas || []).join(', ')}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        visualConfig: prev.visualConfig ? { 
-                          ...prev.visualConfig, 
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        visualConfig: prev.visualConfig ? {
+                          ...prev.visualConfig,
                           animationIdeas: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
                         } : null
                       }))}
@@ -11189,10 +11186,10 @@ function PageEditorModal({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="motionPreset" variant="dark">Motion Preset</Label>
-                      <Select 
-                        value={(formData.visualConfig as any)?.motionPreset || 'none'} 
-                        onValueChange={(value: string) => setFormData(prev => ({ 
-                          ...prev, 
+                      <Select
+                        value={(formData.visualConfig as any)?.motionPreset || 'none'}
+                        onValueChange={(value: string) => setFormData(prev => ({
+                          ...prev,
                           visualConfig: prev.visualConfig ? { ...prev.visualConfig, motionPreset: value === 'none' ? '' : value } as any : null
                         }))}
                       >
@@ -11210,15 +11207,15 @@ function PageEditorModal({
                       </Select>
                       <p className="text-xs text-gray-400">Primary animation style for page elements</p>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="entranceMotion" variant="dark">Entrance Motion</Label>
-                      <Input 
+                      <Input
                         id="entranceMotion"
                         variant="dark"
                         value={(formData.visualConfig as any)?.entranceMotion || ''}
-                        onChange={(e) => setFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
                           visualConfig: prev.visualConfig ? { ...prev.visualConfig, entranceMotion: e.target.value } as any : null
                         }))}
                         placeholder="fadeUp, stagger.container..."
@@ -11226,15 +11223,15 @@ function PageEditorModal({
                       />
                       <p className="text-xs text-gray-400">e.g., fadeUp, scaleIn, slideFromLeft</p>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="hoverMotion" variant="dark">Hover Motion</Label>
-                      <Input 
+                      <Input
                         id="hoverMotion"
                         variant="dark"
                         value={(formData.visualConfig as any)?.hoverMotion || ''}
-                        onChange={(e) => setFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
                           visualConfig: prev.visualConfig ? { ...prev.visualConfig, hoverMotion: e.target.value } as any : null
                         }))}
                         placeholder="hover.lift, hover.glow..."
@@ -11242,15 +11239,15 @@ function PageEditorModal({
                       />
                       <p className="text-xs text-gray-400">e.g., hover.lift, hover.glow, hover.scale</p>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="ambientMotion" variant="dark">Ambient Motion</Label>
-                      <Input 
+                      <Input
                         id="ambientMotion"
                         variant="dark"
                         value={(formData.visualConfig as any)?.ambientMotion || ''}
-                        onChange={(e) => setFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
                           visualConfig: prev.visualConfig ? { ...prev.visualConfig, ambientMotion: e.target.value } as any : null
                         }))}
                         placeholder="ambient.float, ambient.pulse..."
@@ -11259,12 +11256,12 @@ function PageEditorModal({
                       <p className="text-xs text-gray-400">e.g., ambient.float, ambient.shimmer</p>
                     </div>
                   </div>
-                  
+
                   {/* Animated Motion Preview */}
                   {(formData.visualConfig as any)?.motionPreset && (() => {
                     const selectedArchetype = MOTION_ARCHETYPES.find(a => a.key === (formData.visualConfig as any)?.motionPreset);
                     if (!selectedArchetype) return null;
-                    
+
                     return (
                       <div className="mt-3 p-4 bg-gradient-to-br from-purple-900/20 to-indigo-900/20 rounded-xl border border-purple-500/30" data-testid="motion-preview-animated">
                         <div className="flex items-center justify-between mb-3">
@@ -11274,22 +11271,22 @@ function PageEditorModal({
                           </div>
                           <span className="text-xs text-gray-400">{selectedArchetype.description}</span>
                         </div>
-                        
+
                         {/* Live Animated Preview Box */}
                         <div className="flex items-center justify-center p-6 bg-black/30 rounded-lg min-h-[120px]">
-                          <SingleMotionPreview 
-                            archetypeKey={(formData.visualConfig as any)?.motionPreset} 
-                            size="lg" 
+                          <SingleMotionPreview
+                            archetypeKey={(formData.visualConfig as any)?.motionPreset}
+                            size="lg"
                           />
                         </div>
-                        
+
                         <p className="text-[10px] text-gray-500 mt-2 text-center">
                           Live preview of the "{selectedArchetype.name}" motion archetype
                         </p>
                       </div>
                     );
                   })()}
-                  
+
                   {/* Motion Layout Link Manager */}
                   <div className="mt-4 pt-4 border-t border-white/10">
                     <div className="flex items-center justify-between mb-3">
@@ -11353,7 +11350,7 @@ function PageEditorModal({
                         </Button>
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {[
                         { key: 'hero', label: 'Hero Section', defaultMotion: 'fadeUp' },
@@ -11366,14 +11363,14 @@ function PageEditorModal({
                         const elementMotions = (formData.visualConfig as any)?.elementMotions || {};
                         const currentMotion = elementMotions[slot.key];
                         const isLinked = !!currentMotion;
-                        
+
                         return (
                           <div
                             key={slot.key}
                             className={cn(
                               "p-2 rounded-lg border text-xs cursor-pointer transition-all",
-                              isLinked 
-                                ? "bg-purple-500/10 border-purple-500/30 text-purple-300" 
+                              isLinked
+                                ? "bg-purple-500/10 border-purple-500/30 text-purple-300"
                                 : "bg-white/5 border-white/10 text-gray-400 hover:border-white/20"
                             )}
                             onClick={() => {
@@ -11384,9 +11381,9 @@ function PageEditorModal({
                                   ...prev.visualConfig,
                                   elementMotions: {
                                     ...(prev.visualConfig as any)?.elementMotions,
-                                    [slot.key]: isLinked ? undefined : { 
-                                      entrance: slot.defaultMotion, 
-                                      preset 
+                                    [slot.key]: isLinked ? undefined : {
+                                      entrance: slot.defaultMotion,
+                                      preset
                                     }
                                   }
                                 } as any : null
@@ -11411,7 +11408,7 @@ function PageEditorModal({
                         );
                       })}
                     </div>
-                    
+
                     {Object.keys((formData.visualConfig as any)?.elementMotions || {}).filter(k => (formData.visualConfig as any)?.elementMotions[k]).length > 0 && (
                       <div className="mt-2 flex justify-end">
                         <Button
@@ -11434,7 +11431,7 @@ function PageEditorModal({
                         </Button>
                       </div>
                     )}
-                    
+
                     {/* AI Enhancer Suggestions Panel */}
                     <div className="mt-4 pt-4 border-t border-white/10">
                       <h5 className="text-xs font-medium text-gray-400 uppercase tracking-wider flex items-center gap-2 mb-3">
@@ -11477,7 +11474,7 @@ function PageEditorModal({
                             </Button>
                           </div>
                         )}
-                        
+
                         {/* Visual config suggestions */}
                         {!(formData.visualConfig as any)?.vibeKeywords?.length && (
                           <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-start justify-between gap-3" data-testid="suggestion-add-vibe">
@@ -11505,7 +11502,7 @@ function PageEditorModal({
                             </Button>
                           </div>
                         )}
-                        
+
                         {/* SEO suggestions */}
                         {!formData.seoTitle && formData.title && (
                           <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 flex items-start justify-between gap-3" data-testid="suggestion-add-seo-title">
@@ -11528,7 +11525,7 @@ function PageEditorModal({
                             </Button>
                           </div>
                         )}
-                        
+
                         {/* Emotional tone suggestion */}
                         {!(formData.visualConfig as any)?.emotionalTone?.length && (
                           <div className="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-start justify-between gap-3" data-testid="suggestion-add-emotional-tone">
@@ -11556,19 +11553,19 @@ function PageEditorModal({
                             </Button>
                           </div>
                         )}
-                        
+
                         {/* All suggestions applied message */}
-                        {(formData.visualConfig as any)?.motionPreset && 
-                         (formData.visualConfig as any)?.vibeKeywords?.length > 0 && 
-                         formData.seoTitle && 
-                         (formData.visualConfig as any)?.emotionalTone?.length > 0 && (
-                          <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-center" data-testid="all-suggestions-applied">
-                            <div className="flex items-center justify-center gap-2 text-xs text-green-300">
-                              <CheckCircle className="w-4 h-4" />
-                              All enhancement suggestions applied!
+                        {(formData.visualConfig as any)?.motionPreset &&
+                          (formData.visualConfig as any)?.vibeKeywords?.length > 0 &&
+                          formData.seoTitle &&
+                          (formData.visualConfig as any)?.emotionalTone?.length > 0 && (
+                            <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-center" data-testid="all-suggestions-applied">
+                              <div className="flex items-center justify-center gap-2 text-xs text-green-300">
+                                <CheckCircle className="w-4 h-4" />
+                                All enhancement suggestions applied!
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
                       </div>
                     </div>
                   </div>
@@ -11626,12 +11623,12 @@ function PageEditorModal({
                       )}
                     </div>
                   </div>
-                  <Textarea 
+                  <Textarea
                     id="aiImagePrompt"
                     variant="dark"
                     value={formData.visualConfig.aiImagePrompt}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
                       visualConfig: prev.visualConfig ? { ...prev.visualConfig, aiImagePrompt: e.target.value } : null
                     }))}
                     placeholder="Detailed prompt for generating hero images..."
@@ -11640,9 +11637,9 @@ function PageEditorModal({
                   />
                   {generatedImagePreview && (
                     <div className="mt-2 rounded-lg overflow-hidden border border-emerald-500/30 bg-black/20">
-                      <img 
-                        src={generatedImagePreview.url} 
-                        alt="Generated preview" 
+                      <img
+                        src={generatedImagePreview.url}
+                        alt="Generated preview"
                         className="w-full max-h-[200px] object-contain"
                         data-testid="img-generated-preview"
                       />
@@ -11655,12 +11652,12 @@ function PageEditorModal({
 
                 <div className="space-y-2">
                   <Label htmlFor="aiVideoPrompt" variant="dark">AI Video Prompt</Label>
-                  <Textarea 
+                  <Textarea
                     id="aiVideoPrompt"
                     variant="dark"
                     value={formData.visualConfig.aiVideoPrompt}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
                       visualConfig: prev.visualConfig ? { ...prev.visualConfig, aiVideoPrompt: e.target.value } : null
                     }))}
                     placeholder="Detailed prompt for generating background videos..."
@@ -11671,12 +11668,12 @@ function PageEditorModal({
 
                 <div className="space-y-2">
                   <Label htmlFor="designerNotes" variant="dark">Designer Notes</Label>
-                  <Textarea 
+                  <Textarea
                     id="designerNotes"
                     variant="dark"
                     value={formData.visualConfig.designerNotes}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
                       visualConfig: prev.visualConfig ? { ...prev.visualConfig, designerNotes: e.target.value } : null
                     }))}
                     placeholder="Additional notes for designers or developers..."
@@ -11701,9 +11698,9 @@ function PageEditorModal({
                   size="sm"
                   className="h-7 text-xs border-white/20 bg-white/5"
                   onClick={() => {
-                    setFormData(prev => ({ 
-                      ...prev, 
-                      aiChatMessages: [], 
+                    setFormData(prev => ({
+                      ...prev,
+                      aiChatMessages: [],
                       aiChatInput: '',
                       extractedImagePrompts: []
                     } as any));
@@ -11723,9 +11720,9 @@ function PageEditorModal({
                       const messages = (formData as any).aiChatMessages || [];
                       if (messages.length === 0) return;
                       const summary = messages[0]?.content?.slice(0, 50) || 'Chat session';
-                      toast({ 
-                        title: "Chat saved", 
-                        description: `"${summary}..." - ${messages.length} messages` 
+                      toast({
+                        title: "Chat saved",
+                        description: `"${summary}..." - ${messages.length} messages`
                       });
                     }}
                     data-testid="button-save-chat"
@@ -11735,17 +11732,17 @@ function PageEditorModal({
                 )}
               </div>
             </div>
-            
+
             {/* Chat Messages - Gemini-style formatted */}
             <div className="space-y-4 p-4 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 rounded-lg border border-purple-500/30">
               <div className="max-h-[300px] overflow-y-auto space-y-4 mb-4" data-testid="ai-chat-messages">
                 {((formData as any).aiChatMessages || []).map((msg: { role: string; content: string }, idx: number) => (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     className={cn(
                       "rounded-xl text-sm",
-                      msg.role === 'user' 
-                        ? 'bg-indigo-500/20 ml-12 p-3 text-white' 
+                      msg.role === 'user'
+                        ? 'bg-indigo-500/20 ml-12 p-3 text-white'
                         : 'bg-white/5 mr-4 p-4 text-gray-200 border border-white/10'
                     )}
                   >
@@ -11775,7 +11772,7 @@ function PageEditorModal({
                       <span className="text-xs font-medium text-gray-400">AI Assistant</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-400">
-                      <Loader2 className="w-4 h-4 animate-spin" /> 
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       <span>Thinking...</span>
                       <span className="inline-flex gap-1">
                         <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -11812,41 +11809,41 @@ function PageEditorModal({
                   onClick={async () => {
                     const userMessage = (formData as any).aiChatInput?.trim();
                     if (!userMessage) return;
-                    
+
                     const messages = [...((formData as any).aiChatMessages || []), { role: 'user', content: userMessage }];
                     setFormData(prev => ({ ...prev, aiChatMessages: messages, aiChatInput: '', isGenerating: true } as any));
-                    
+
                     try {
                       const token = getAuthToken();
                       const res = await fetch('/api/admin-chat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                        body: JSON.stringify({ 
+                        body: JSON.stringify({
                           messages: messages.map(m => ({ role: m.role, content: m.content })),
                           pageContext: { title: formData.title, path: formData.path, cluster: formData.clusterKey }
                         }),
                       });
                       if (!res.ok) throw new Error('Failed to get AI response');
                       const data = await res.json();
-                      
+
                       const extractedData = extractAllFromAiResponse(data.response);
                       if (extractedData.featuredImage && !featuredImagePrompt) {
                         setFeaturedImagePrompt(extractedData.featuredImage);
                       }
-                      
-                      setFormData(prev => ({ 
-                        ...prev, 
+
+                      setFormData(prev => ({
+                        ...prev,
                         aiChatMessages: [...messages, { role: 'assistant', content: data.response }],
                         extractedImagePrompts: extractedData.images,
                         extractedVisualConfig: extractedData.visualConfig,
-                        isGenerating: false 
+                        isGenerating: false
                       } as any));
                     } catch (error) {
                       console.error('AI chat error:', error);
-                      setFormData(prev => ({ 
-                        ...prev, 
+                      setFormData(prev => ({
+                        ...prev,
                         aiChatMessages: [...messages, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }],
-                        isGenerating: false 
+                        isGenerating: false
                       } as any));
                     }
                   }}
@@ -11923,7 +11920,7 @@ function PageEditorModal({
                             onCheckedChange={(checked) => {
                               setFormData(prev => ({
                                 ...prev,
-                                selectedEnhancementTasks: checked 
+                                selectedEnhancementTasks: checked
                                   ? [...selectedTasks, task.id]
                                   : selectedTasks.filter((id: string) => id !== task.id)
                               } as any));
@@ -11971,9 +11968,9 @@ function PageEditorModal({
                             setRawHtmlMode(true);
                           }
                           if (Object.keys(visualConfigUpdates).length > 0) {
-                            updates.visualConfig = { 
-                              ...(formData.visualConfig || { pageId: '', cluster: '', priority: 'P2', vibeKeywords: [], emotionalTone: [], animationIdeas: [], aiImagePrompt: '', aiVideoPrompt: '', designerNotes: '' }), 
-                              ...visualConfigUpdates 
+                            updates.visualConfig = {
+                              ...(formData.visualConfig || { pageId: '', cluster: '', priority: 'P2', vibeKeywords: [], emotionalTone: [], animationIdeas: [], aiImagePrompt: '', aiVideoPrompt: '', designerNotes: '' }),
+                              ...visualConfigUpdates
                             };
                           }
                           const updateCount = Object.keys(updates).length + Object.keys(visualConfigUpdates).length;
@@ -12007,16 +12004,16 @@ function PageEditorModal({
                       onClick={() => {
                         const extracted = (formData as any).extractedVisualConfig || {};
                         const currentConfig = formData.visualConfig || { pageId: '', cluster: '', priority: 'P2', vibeKeywords: [], emotionalTone: [], animationIdeas: [], aiImagePrompt: '', aiVideoPrompt: '', designerNotes: '' };
-                        
+
                         const updates: any = { ...currentConfig };
                         if (extracted.vibeKeywords?.length) updates.vibeKeywords = extracted.vibeKeywords;
                         if (extracted.emotionalTone?.length) updates.emotionalTone = extracted.emotionalTone;
                         if (extracted.motionPreset) updates.designerNotes = `Motion: ${extracted.motionPreset}\n${extracted.entranceMotion ? `Entrance: ${extracted.entranceMotion}\n` : ''}${extracted.hoverMotion ? `Hover: ${extracted.hoverMotion}\n` : ''}${extracted.ambientMotion ? `Ambient: ${extracted.ambientMotion}` : ''}`.trim();
                         if (extracted.layoutsDetected?.length) updates.animationIdeas = extracted.layoutsDetected;
-                        
+
                         const heroPrompt = (formData as any).extractedImagePrompts?.find((i: any) => i.label.toLowerCase().includes('hero'))?.prompt;
                         if (heroPrompt) updates.aiImagePrompt = heroPrompt;
-                        
+
                         setFormData(prev => ({ ...prev, visualConfig: updates }));
                         toast({ title: 'Visual Config Applied', description: `Updated vibe keywords, emotional tone, motion presets and layouts` });
                       }}
@@ -12117,7 +12114,7 @@ function PageEditorModal({
                 <Label className="text-xs text-gray-400 mb-2 flex items-center gap-2">
                   <Paperclip className="w-3.5 h-3.5" /> Attach Files
                 </Label>
-                <div 
+                <div
                   className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center hover:border-purple-500/50 transition-colors cursor-pointer"
                   onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); }}
                   onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); e.currentTarget.classList.add('border-purple-500', 'bg-purple-500/10'); }}
@@ -12184,9 +12181,9 @@ function PageEditorModal({
           <div className="flex justify-between items-center pt-4 border-t border-white/10">
             <div>
               {!isNew && page && onDelete && (
-                <Button 
-                  type="button" 
-                  variant="destructive" 
+                <Button
+                  type="button"
+                  variant="destructive"
                   onClick={handleDelete}
                   data-testid="button-delete-page"
                 >
@@ -12246,7 +12243,7 @@ export default function AdminPage() {
       setIsCheckingAuth(false);
       return;
     }
-    fetch("/api/admin/me", { 
+    fetch("/api/admin/me", {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => {
@@ -12331,12 +12328,14 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/pages?tree=true"], refetchType: 'all' });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"], refetchType: 'all' });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
         refetchType: 'all'
       });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
       toast({ title: "Page created", description: "The page has been created successfully." });
@@ -12363,12 +12362,14 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/pages?tree=true"], refetchType: 'all' });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"], refetchType: 'all' });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
         refetchType: 'all'
       });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
       toast({ title: "Page saved", description: "Your changes have been saved successfully." });
@@ -12395,12 +12396,14 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/pages?tree=true"], refetchType: 'all' });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"], refetchType: 'all' });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-path'),
         refetchType: 'all'
       });
-      queryClient.invalidateQueries({ predicate: (query) => 
-        typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
       toast({ title: "Page deleted", description: "The page has been deleted." });
@@ -12768,12 +12771,12 @@ export default function AdminPage() {
 
   const handleSavePage = async (data: PageFormData, isNew: boolean) => {
     const tasks: Array<{ task: string; status: 'pending' | 'success' | 'error'; timestamp: Date }> = [];
-    
+
     const addTask = (task: string, status: 'pending' | 'success' | 'error' = 'pending') => {
       tasks.push({ task, status, timestamp: new Date() });
       setSaveLogTasks([...tasks]);
     };
-    
+
     const updateTaskStatus = (taskIndex: number, status: 'success' | 'error') => {
       tasks[taskIndex].status = status;
       setSaveLogTasks([...tasks]);
@@ -13103,7 +13106,7 @@ export default function AdminPage() {
         isSidebarCollapsed={isSidebarCollapsed}
       />
 
-      <main 
+      <main
         className={cn(
           "pt-20 pb-8 px-4 md:px-6 transition-all duration-300 min-h-screen",
           "ml-0 md:ml-[70px]",
@@ -13132,9 +13135,9 @@ export default function AdminPage() {
         )}
 
         {activeTab === "documents" && (
-          <DocumentsTab 
-            documents={documents} 
-            onEdit={handleEditDocument} 
+          <DocumentsTab
+            documents={documents}
+            onEdit={handleEditDocument}
             onCreate={handleCreateNewDocument}
             onDelete={handleDeleteDocument}
             onIndex={handleIndexDocument}
@@ -13148,7 +13151,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "seo" && (
-          <SeoKeywordsTab 
+          <SeoKeywordsTab
             keywords={seoKeywords}
             documents={documents}
             onStatusChange={handleSeoStatusChange}
@@ -13160,7 +13163,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "magic" && (
-          <MagicPagesTab 
+          <MagicPagesTab
             suggestions={magicPages}
             seoKeywords={seoKeywords}
             onGenerateSuggestions={handleGenerateSuggestions}
@@ -13174,7 +13177,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "linking" && (
-          <LinkingTab 
+          <LinkingTab
             linkingRules={linkingRules}
             ctaTemplates={ctaTemplates}
             clusters={clusters}
@@ -13193,7 +13196,7 @@ export default function AdminPage() {
         )}
 
         {activeTab === "templates" && (
-          <TemplatesTab 
+          <TemplatesTab
             templates={htmlTemplates}
             onCreate={handleCreateTemplate}
             onEdit={handleEditTemplate}
@@ -13202,11 +13205,20 @@ export default function AdminPage() {
         )}
 
         {activeTab === "settings" && (
-          <SettingsTab 
-            settings={cmsSettings}
-            onSave={handleSaveSetting}
-            isSaving={isSavingSettings}
-          />
+          <Suspense fallback={
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-sm text-muted-foreground">Loading Settings...</p>
+              </div>
+            </div>
+          }>
+            <LazySettingsTab
+              settings={cmsSettings}
+              onSave={handleSaveSetting}
+              isSaving={isSavingSettings}
+            />
+          </Suspense>
         )}
 
         {activeTab === "bigmind" && (
@@ -13289,8 +13301,8 @@ export default function AdminPage() {
           </DialogHeader>
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {saveLogTasks.map((task, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="flex items-center gap-3 p-2 rounded-lg bg-muted/50"
                 data-testid={`log-task-${index}`}
               >
@@ -13315,7 +13327,7 @@ export default function AdminPage() {
             ))}
           </div>
           <div className="flex justify-end mt-4">
-            <Button 
+            <Button
               onClick={() => setSaveLogOpen(false)}
               data-testid="button-close-save-log"
             >
