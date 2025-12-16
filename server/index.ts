@@ -7,6 +7,7 @@ import connectPgSimple from "connect-pg-simple";
 import pg from "pg";
 import path from "path";
 import { registerRoutes } from "./routes";
+import { registerModularRoutes } from "./routes/index";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import { v4 as uuidv4 } from "uuid";
@@ -151,6 +152,10 @@ app.use((req, res, next) => {
   // Serve generated images and attached assets
   app.use('/attached_assets', express.static(path.resolve(process.cwd(), 'attached_assets')));
 
+  // Register new modular routes (Phase 1: Public routes)
+  await registerModularRoutes(httpServer, app);
+
+  // Register old monolithic routes (will be phased out)
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
