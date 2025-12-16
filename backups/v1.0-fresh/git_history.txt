@@ -1,0 +1,8 @@
+5ec5ed1 feat: Phase 4 routes refactoring - Extract complex routes
+53c7cbe docs: Add Admin Feature Registry design document
+a1f76c0 feat: Phase 3 routes refactoring - Extract AI routes
+674bf8e feat: Phase 2 routes refactoring - Extract admin routes
+f4dd9dd docs: Add Replit AI chat history for context
+7473cec feat: Phase 1 routes refactoring - Extract public routes
+4d83253 feat: Implement Phase 1 security improvements
+ea8c66d Initial commit: AI CMS with local development setup
