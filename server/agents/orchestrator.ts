@@ -96,11 +96,11 @@ async function delegateTask(input: any): Promise<AgentResult> {
 }
 
 // Initialize all agents
-export function initializeAgents(): void {
-    const { contentAgent } = require('./content');
-    const { seoAgent } = require('./seo');
-    const { designAgent, devopsAgent } = require('./design');
+import { contentAgent } from './content';
+import { seoAgent } from './seo';
+import { designAgent, devopsAgent } from './design';
 
+export function initializeAgents(): void {
     agentRegistry.register(contentAgent);
     agentRegistry.register(seoAgent);
     agentRegistry.register(designAgent);
