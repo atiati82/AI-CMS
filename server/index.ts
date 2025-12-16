@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import { validateEnvironment } from './middleware/envValidator';
+import { apiLimiter } from './middleware/rateLimiter';
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
@@ -10,6 +12,9 @@ import { createServer } from "http";
 import { v4 as uuidv4 } from "uuid";
 import { getStripeSync } from "./services/stripeClient";
 import { WebhookHandlers } from "./services/webhookHandlers";
+
+// Validate environment variables before starting server
+validateEnvironment();
 
 const app = express();
 const httpServer = createServer(app);
@@ -75,16 +80,19 @@ app.use(
   })
 );
 
+// Apply rate limiting to all API routes
+app.use('/api', apiLimiter);
+
 app.use(
   express.json({
-    limit: '300mb',
+    limit: '50mb', // Reduced from 300mb for security
     verify: (req, _res, buf) => {
       req.rawBody = buf;
     },
   }),
 );
 
-app.use(express.urlencoded({ extended: false, limit: '300mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' })); // Reduced from 300mb
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
