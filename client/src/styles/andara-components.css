@@ -1,0 +1,1954 @@
+/* =====================================================
+   ANDARA COMPONENTS CSS
+   A comprehensive component system for AI-generated pages
+   Based on Andara Template v0.8 cosmic dark theme
+   ===================================================== */
+
+/* --- CSS Custom Properties --- */
+:root {
+  --andara-bg-primary: #020617;
+  --andara-bg-secondary: #0f172a;
+  --andara-bg-tertiary: #1e293b;
+  --andara-bg-card: rgba(15, 23, 42, 0.7);
+  --andara-bg-card-hover: rgba(30, 41, 59, 0.8);
+  
+  --andara-text-primary: #f8fafc;
+  --andara-text-secondary: #cbd5e1;
+  --andara-text-muted: #94a3b8;
+  --andara-text-subtle: #64748b;
+  --andara-text-purple: #462778;
+  
+  --andara-accent-emerald: #10b981;
+  --andara-accent-emerald-glow: rgba(16, 185, 129, 0.25);
+  --andara-accent-cyan: #06b6d4;
+  --andara-accent-cyan-glow: rgba(6, 182, 212, 0.2);
+  --andara-accent-indigo: #6366f1;
+  --andara-accent-indigo-glow: rgba(99, 102, 241, 0.2);
+  --andara-accent-gold: #fbbf24;
+  
+  /* Andara Gold Gradient System (from logo) */
+  --andara-gold-deep: #c0963b;
+  --andara-gold-antique: #ce9e26;
+  --andara-gold-amber: #f2c76c;
+  --andara-gold-yellow: #e0b655;
+  --andara-gold-cream: #fdf8d0;
+  --andara-gold-soft: #e2b85e;
+  --andara-gold-champagne: #e9c882;
+  --andara-gold-light: #f3e0a0;
+  --andara-gold-pale: #f7eaae;
+  --andara-gold-highlight: #fbf3be;
+  
+  /* Gold Gradient Definitions */
+  --andara-gradient-gold: linear-gradient(135deg, 
+    #c0963b 0%, 
+    #ce9e26 23%, 
+    #f2c76c 41%, 
+    #e0b655 59%, 
+    #fdf8d0 77%, 
+    #e9c882 100%);
+  --andara-gradient-gold-vertical: linear-gradient(180deg,
+    #fdf8d0 0%,
+    #f2c76c 30%,
+    #e0b655 50%,
+    #ce9e26 75%,
+    #c0963b 100%);
+  --andara-gradient-gold-soft: linear-gradient(135deg,
+    #f7eaae 0%,
+    #f3e0a0 25%,
+    #e9c882 50%,
+    #f2c76c 75%,
+    #fdf8d0 100%);
+  --andara-gradient-gold-button: linear-gradient(180deg,
+    #fdf8d0 0%,
+    #f2c76c 15%,
+    #e9c882 50%,
+    #e0b655 85%,
+    #ce9e26 100%);
+  
+  /* Gold Glow Effects */
+  --andara-gold-glow: rgba(226, 184, 94, 0.4);
+  --andara-gold-glow-strong: rgba(242, 199, 108, 0.6);
+  --andara-shadow-gold: 0 4px 20px rgba(206, 158, 38, 0.3);
+  --andara-shadow-gold-glow: 0 0 30px rgba(242, 199, 108, 0.25);
+  
+  --andara-border-subtle: rgba(51, 65, 85, 0.5);
+  --andara-border-hover: rgba(52, 211, 153, 0.4);
+  --andara-border-gold: rgba(226, 184, 94, 0.5);
+  
+  --andara-radius-sm: 0.5rem;
+  --andara-radius-md: 1rem;
+  --andara-radius-lg: 1.5rem;
+  --andara-radius-xl: 2rem;
+  --andara-radius-pill: 9999px;
+  
+  --andara-shadow-glow: 0 0 40px rgba(52, 211, 153, 0.15);
+  --andara-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  
+  --andara-container-max: 1200px;
+  --andara-container-narrow: 900px;
+  --andara-container-wide: 1400px;
+}
+
+/* =====================================================
+   LIQUID GLASS HEADER
+   Frosted glass effect with subtle gold accents
+   ===================================================== */
+.andara-glass-header {
+  background: linear-gradient(
+    180deg,
+    rgba(2, 6, 23, 0.85) 0%,
+    rgba(15, 23, 42, 0.75) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 184, 94, 0.15);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.andara-glass-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(226, 184, 94, 0.3) 20%,
+    rgba(253, 248, 208, 0.4) 50%,
+    rgba(226, 184, 94, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* =====================================================
+   LIQUID GLASS FOOTER
+   Frosted glass effect matching header style
+   ===================================================== */
+.andara-glass-footer {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(2, 6, 23, 0.95) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(226, 184, 94, 0.15);
+  box-shadow: 
+    0 -4px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.andara-glass-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(226, 184, 94, 0.2) 20%,
+    rgba(253, 248, 208, 0.3) 50%,
+    rgba(226, 184, 94, 0.2) 80%,
+    transparent 100%
+  );
+}
+
+/* =====================================================
+   LIQUID GLASS DROPDOWN MENU
+   True liquid glass effect with refraction and depth
+   ===================================================== */
+.andara-glass-menu {
+  position: relative;
+  background: 
+    radial-gradient(
+      ellipse 80% 50% at 50% 0%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 70% 100%,
+      rgba(226, 184, 94, 0.05) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.7) 0%,
+      rgba(15, 23, 42, 0.75) 50%,
+      rgba(2, 6, 23, 0.8) 100%
+    );
+  backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.andara-glass-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 20%,
+    rgba(253, 248, 208, 0.5) 50%,
+    rgba(255, 255, 255, 0.4) 80%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.andara-glass-menu::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.03) 45%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.03) 55%,
+      transparent 60%
+    );
+  pointer-events: none;
+  animation: liquid-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes liquid-shimmer {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(-10%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(10%);
+  }
+}
+
+/* =====================================================
+   LIQUID GLASS CARD
+   Article/content cards with gold shine effect
+   ===================================================== */
+.andara-glass-card {
+  position: relative;
+  background: 
+    radial-gradient(
+      ellipse 100% 60% at 50% -20%,
+      rgba(226, 184, 94, 0.06) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(30, 41, 59, 0.75) 0%,
+      rgba(15, 23, 42, 0.85) 50%,
+      rgba(2, 6, 23, 0.9) 100%
+    );
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(226, 184, 94, 0.15);
+  border-radius: 0.875rem;
+  padding: 1.25rem;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.25),
+    0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 16px rgba(226, 184, 94, 0.02);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.andara-glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(226, 184, 94, 0.25) 25%,
+    rgba(253, 248, 208, 0.4) 50%,
+    rgba(226, 184, 94, 0.25) 75%,
+    transparent 100%
+  );
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.andara-glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(226, 184, 94, 0.03) 45%,
+      rgba(253, 248, 208, 0.05) 50%,
+      rgba(226, 184, 94, 0.03) 55%,
+      transparent 70%
+    );
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.3s ease, transform 0.6s ease;
+}
+
+.andara-glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(226, 184, 94, 0.35);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(226, 184, 94, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 24px rgba(226, 184, 94, 0.04);
+}
+
+.andara-glass-card:hover::before {
+  opacity: 1;
+}
+
+.andara-glass-card:hover::after {
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+/* Card tag styling */
+.andara-card-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--andara-gold-amber);
+  background: rgba(226, 184, 94, 0.1);
+  border: 1px solid rgba(226, 184, 94, 0.2);
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.andara-glass-card:hover .andara-card-tag {
+  background: rgba(226, 184, 94, 0.15);
+  border-color: rgba(226, 184, 94, 0.35);
+}
+
+/* Card title */
+.andara-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(248, 250, 252, 0.95);
+  margin: 0.75rem 0 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.andara-glass-card:hover .andara-card-title {
+  color: var(--andara-gold-light);
+}
+
+/* Card description */
+.andara-card-desc {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgba(148, 163, 184, 0.9);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+/* Card link */
+.andara-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--andara-gold-amber);
+  transition: all 0.2s ease;
+}
+
+.andara-glass-card:hover .andara-card-link {
+  color: var(--andara-gold-light);
+  text-shadow: 0 0 12px rgba(226, 184, 94, 0.4);
+}
+
+.andara-card-link svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.andara-glass-card:hover .andara-card-link svg {
+  transform: translateX(3px);
+}
+
+/* Menu section headers */
+.andara-menu-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--andara-gold-amber);
+  opacity: 0.8;
+}
+
+/* Menu divider */
+.andara-menu-divider {
+  height: 1px;
+  margin: 0.5rem 0.75rem;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(100, 116, 139, 0.3) 20%,
+    rgba(100, 116, 139, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* Menu item styling */
+.andara-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+  margin: 0.125rem 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(248, 250, 252, 0.85);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.andara-menu-item:hover {
+  background: rgba(226, 184, 94, 0.1);
+  color: var(--andara-gold-amber);
+  text-shadow: 0 0 12px rgba(226, 184, 94, 0.3);
+}
+
+.andara-menu-item:active {
+  background: rgba(226, 184, 94, 0.15);
+  transform: scale(0.98);
+}
+
+.andara-menu-item:focus-visible {
+  outline: 2px solid var(--andara-gold-amber);
+  outline-offset: 2px;
+  background: rgba(226, 184, 94, 0.1);
+}
+
+/* Menu item icon */
+.andara-menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  background: rgba(100, 116, 139, 0.15);
+  color: var(--andara-text-muted);
+  transition: all 0.2s ease;
+}
+
+.andara-menu-item:hover .andara-menu-item-icon {
+  background: rgba(226, 184, 94, 0.15);
+  color: var(--andara-gold-amber);
+}
+
+/* Compact menu item (no icon) */
+.andara-menu-item--compact {
+  padding: 0.5rem 1rem 0.5rem 2.75rem;
+  font-size: 0.8125rem;
+  color: rgba(203, 213, 225, 0.8);
+}
+
+.andara-menu-item--compact:hover {
+  color: var(--andara-gold-light);
+}
+
+/* =====================================================
+   PAGE WRAPPER
+   ===================================================== */
+.andara-page {
+  min-height: 100vh;
+  background: var(--andara-bg-primary);
+  color: var(--andara-text-secondary);
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.7;
+}
+
+.andara-page--science {
+  background: linear-gradient(180deg, var(--andara-bg-primary) 0%, var(--andara-bg-secondary) 50%, var(--andara-bg-primary) 100%);
+}
+
+/* =====================================================
+   HERO SECTION
+   ===================================================== */
+.andara-hero {
+  position: relative;
+  padding: 6rem 1.5rem 5rem;
+  overflow: hidden;
+}
+
+.andara-hero--primary {
+  background: linear-gradient(135deg, var(--andara-bg-primary) 0%, var(--andara-bg-secondary) 100%);
+  border-bottom: 1px solid var(--andara-border-subtle);
+}
+
+.andara-hero--primary::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
+  background: 
+    radial-gradient(ellipse at 20% 30%, var(--andara-accent-indigo-glow) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, var(--andara-accent-cyan-glow) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, var(--andara-accent-emerald-glow) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.andara-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--andara-container-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .andara-hero {
+    padding: 8rem 2rem 6rem;
+  }
+  
+  .andara-hero__inner {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 4rem;
+  }
+}
+
+.andara-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.andara-hero__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--andara-accent-emerald);
+  margin: 0;
+}
+
+.andara-hero__headline {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--andara-text-primary);
+  margin: 0;
+}
+
+.andara-hero__headline--gold {
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* =====================================================
+   H1 GOLD HEADING STYLES
+   Logo-style headings with Surrounding font and gold gradient
+   ===================================================== */
+.andara-h1,
+.andara-page h1 {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 1.5rem;
+}
+
+.andara-h1--white,
+.andara-page h1.andara-h1--white {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: var(--andara-text-primary);
+}
+
+.andara-h1--purple {
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  color: var(--andara-text-purple);
+}
+
+.andara-h2 {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--andara-text-primary);
+  margin: 0 0 1rem;
+}
+
+.andara-h2--gold {
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.andara-h3 {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--andara-text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.andara-h3--gold {
+  background: var(--andara-gradient-gold-soft);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.andara-hero__subline {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+.andara-hero__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.andara-hero__bullets li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--andara-text-secondary);
+}
+
+.andara-hero__bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--andara-accent-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--andara-accent-emerald-glow);
+}
+
+.andara-hero__media {
+  margin: 0;
+}
+
+.andara-hero__media-placeholder {
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--andara-text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.andara-hero__media-caption {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--andara-text-muted);
+  text-align: center;
+  font-style: italic;
+}
+
+/* =====================================================
+   STANDARD SECTION
+   ===================================================== */
+.andara-section {
+  position: relative;
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .andara-section {
+    padding: 6rem 2rem;
+  }
+}
+
+.andara-section__inner {
+  max-width: var(--andara-container-max);
+  margin: 0 auto;
+}
+
+.andara-section--narrow .andara-section__inner {
+  max-width: var(--andara-container-narrow);
+}
+
+.andara-section--wide .andara-section__inner {
+  max-width: var(--andara-container-wide);
+}
+
+.andara-section__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.andara-section__headline {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--andara-text-primary);
+  margin: 0 0 1rem;
+}
+
+.andara-section__subline {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+.andara-section__items {
+  margin-top: 2rem;
+}
+
+/* Section Variants */
+.andara-section--alt {
+  background: var(--andara-bg-secondary);
+}
+
+.andara-section--gradient {
+  background: linear-gradient(180deg, var(--andara-bg-primary) 0%, var(--andara-bg-secondary) 100%);
+}
+
+/* =====================================================
+   GRID SYSTEM
+   ===================================================== */
+.andara-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.andara-grid--02 {
+  grid-template-columns: 1fr;
+}
+
+.andara-grid--03 {
+  grid-template-columns: 1fr;
+}
+
+.andara-grid--04 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .andara-grid--02 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .andara-grid--04 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .andara-grid--03 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .andara-grid--04 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.andara-grid__item {
+  background: var(--andara-bg-card);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-lg);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.andara-grid__item:hover {
+  background: var(--andara-bg-card-hover);
+  border-color: var(--andara-border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--andara-shadow-glow);
+}
+
+.andara-grid__title {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.andara-grid__text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--andara-text-secondary);
+  margin: 0 0 1rem;
+}
+
+.andara-grid__text:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   FIGURE / MEDIA
+   ===================================================== */
+.andara-figure {
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.andara-figure__visual {
+  background: linear-gradient(135deg, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-xl);
+  padding: 3rem 2rem;
+  color: var(--andara-text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.andara-figure__visual img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--andara-radius-lg);
+}
+
+.andara-figure__caption {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--andara-text-muted);
+  font-style: italic;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Figure Variants */
+.andara-figure--diagram .andara-figure__visual {
+  background: radial-gradient(ellipse at center, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-figure--graph .andara-figure__visual {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.andara-figure--wiring .andara-figure__visual {
+  background: 
+    radial-gradient(ellipse at 30% 50%, var(--andara-accent-cyan-glow) 0%, transparent 50%),
+    linear-gradient(135deg, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+}
+
+/* =====================================================
+   HIGHLIGHT BOX
+   ===================================================== */
+.andara-highlight-box {
+  margin: 2.5rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+  border: 1px solid var(--andara-border-subtle);
+  border-left: 4px solid var(--andara-accent-emerald);
+  border-radius: var(--andara-radius-md);
+}
+
+.andara-highlight-box--compare {
+  border-left-color: var(--andara-accent-indigo);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-highlight-box--warning {
+  border-left-color: var(--andara-accent-gold);
+}
+
+.andara-highlight-box__text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+/* =====================================================
+   CARDS
+   ===================================================== */
+.andara-card {
+  background: var(--andara-bg-card);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-lg);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.andara-card:hover {
+  border-color: var(--andara-border-hover);
+  box-shadow: var(--andara-shadow-glow);
+}
+
+.andara-card--featured {
+  background: linear-gradient(135deg, var(--andara-bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.andara-card__icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--andara-accent-cyan-glow) 0%, var(--andara-accent-indigo-glow) 100%);
+  border-radius: var(--andara-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--andara-accent-cyan);
+}
+
+.andara-card__title {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.andara-card__text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+/* =====================================================
+   CALL TO ACTION
+   ===================================================== */
+.andara-cta {
+  position: relative;
+  padding: 5rem 1.5rem;
+  background: linear-gradient(180deg, var(--andara-bg-secondary) 0%, var(--andara-bg-primary) 100%);
+  overflow: hidden;
+}
+
+.andara-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, var(--andara-accent-emerald-glow) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.andara-cta__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.andara-cta__headline {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--andara-text-primary);
+  margin: 0 0 1.5rem;
+}
+
+.andara-cta__text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--andara-text-secondary);
+  margin: 0 0 2rem;
+}
+
+.andara-cta__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--andara-accent-emerald);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.andara-cta__button:hover {
+  background: #059669;
+  box-shadow: 0 0 30px var(--andara-accent-emerald-glow);
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   FAQ / ACCORDION
+   ===================================================== */
+.andara-faq {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.andara-section--faq .andara-faq,
+.andara-page .andara-faq,
+.andara-page-wrapper .andara-faq {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.andara-faq__item,
+.andara-page-wrapper .andara-faq__item,
+.andara-page .andara-faq__item,
+article.andara-faq__item {
+  border: 1px solid rgba(100, 116, 139, 0.5) !important;
+  border-radius: var(--andara-radius-md);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  background: rgba(30, 41, 59, 0.7) !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  padding: 0;
+}
+
+.andara-faq__item:hover,
+.andara-page-wrapper .andara-faq__item:hover,
+article.andara-faq__item:hover {
+  border-color: var(--andara-accent-emerald) !important;
+  background: rgba(30, 41, 59, 0.9) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.15);
+}
+
+.andara-faq__question {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.andara-faq__question:hover {
+  color: var(--andara-accent-emerald);
+}
+
+.andara-faq__answer {
+  padding: 0 1.5rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--andara-text-secondary);
+}
+
+/* =====================================================
+   TEXT UTILITIES
+   ===================================================== */
+.andara-text-lead {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--andara-text-primary);
+}
+
+.andara-text-small {
+  font-size: 0.875rem;
+  color: var(--andara-text-muted);
+}
+
+.andara-text-center {
+  text-align: center;
+}
+
+.andara-text-accent {
+  color: var(--andara-accent-emerald);
+}
+
+/* =====================================================
+   SPACING UTILITIES
+   ===================================================== */
+.andara-mt-0 { margin-top: 0; }
+.andara-mt-1 { margin-top: 0.5rem; }
+.andara-mt-2 { margin-top: 1rem; }
+.andara-mt-3 { margin-top: 1.5rem; }
+.andara-mt-4 { margin-top: 2rem; }
+.andara-mt-5 { margin-top: 3rem; }
+
+.andara-mb-0 { margin-bottom: 0; }
+.andara-mb-1 { margin-bottom: 0.5rem; }
+.andara-mb-2 { margin-bottom: 1rem; }
+.andara-mb-3 { margin-bottom: 1.5rem; }
+.andara-mb-4 { margin-bottom: 2rem; }
+.andara-mb-5 { margin-bottom: 3rem; }
+
+/* =====================================================
+   RESPONSIVE VISIBILITY
+   ===================================================== */
+@media (max-width: 767px) {
+  .andara-hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .andara-hide-desktop {
+    display: none !important;
+  }
+}
+
+/* =====================================================
+   SECTION THEME MODIFIERS
+   Semantic section variants for different content types
+   ===================================================== */
+.andara-section--what-it-is,
+.andara-section--overview {
+  background: var(--andara-bg-primary);
+}
+
+.andara-section--cell-voltage,
+.andara-section--technical {
+  background: linear-gradient(180deg, var(--andara-bg-secondary) 0%, var(--andara-bg-primary) 100%);
+}
+
+.andara-section--benefits,
+.andara-section--features {
+  background: linear-gradient(180deg, var(--andara-bg-primary) 0%, var(--andara-bg-secondary) 50%, var(--andara-bg-primary) 100%);
+}
+
+.andara-section--comparison {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-section--timeline {
+  background: var(--andara-bg-secondary);
+  border-top: 1px solid var(--andara-border-subtle);
+  border-bottom: 1px solid var(--andara-border-subtle);
+}
+
+/* =====================================================
+   TIMELINE / PROCESS COMPONENT
+   ===================================================== */
+.andara-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.andara-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--andara-accent-cyan) 0%, var(--andara-accent-emerald) 100%);
+}
+
+.andara-timeline__item {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.andara-timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.andara-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--andara-accent-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--andara-accent-emerald-glow);
+}
+
+.andara-timeline__title {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.andara-timeline__text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+/* =====================================================
+   STATS / METRICS COMPONENT
+   ===================================================== */
+.andara-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.andara-stats__item {
+  padding: 1.5rem;
+  background: var(--andara-bg-card);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-lg);
+}
+
+.andara-stats__number {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--andara-accent-emerald);
+  line-height: 1;
+  margin: 0 0 0.5rem;
+}
+
+.andara-stats__label {
+  font-size: 0.875rem;
+  color: var(--andara-text-muted);
+  margin: 0;
+}
+
+/* =====================================================
+   ORDERED/UNORDERED LISTS
+   ===================================================== */
+.andara-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.andara-list__item {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--andara-text-secondary);
+  line-height: 1.7;
+}
+
+.andara-list__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--andara-accent-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--andara-accent-emerald-glow);
+}
+
+.andara-list--numbered {
+  counter-reset: andara-counter;
+}
+
+.andara-list--numbered .andara-list__item {
+  padding-left: 2.5rem;
+}
+
+.andara-list--numbered .andara-list__item::before {
+  counter-increment: andara-counter;
+  content: counter(andara-counter);
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--andara-accent-indigo);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0.15em;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* =====================================================
+   BLOCKQUOTE / PULLQUOTE
+   ===================================================== */
+.andara-blockquote {
+  margin: 2.5rem 0;
+  padding: 2rem 2rem 2rem 3rem;
+  background: linear-gradient(135deg, var(--andara-bg-card) 0%, rgba(6, 182, 212, 0.05) 100%);
+  border-left: 4px solid var(--andara-accent-cyan);
+  border-radius: var(--andara-radius-md);
+  position: relative;
+}
+
+.andara-blockquote::before {
+  content: '"';
+  position: absolute;
+  left: 0.75rem;
+  top: 0.5rem;
+  font-size: 3rem;
+  color: var(--andara-accent-cyan);
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.andara-blockquote__text {
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--andara-text-primary);
+  margin: 0 0 1rem;
+}
+
+.andara-blockquote__cite {
+  font-size: 0.875rem;
+  color: var(--andara-text-muted);
+  font-style: normal;
+}
+
+/* =====================================================
+   TABLE STYLES
+   ===================================================== */
+.andara-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--andara-bg-card);
+  border-radius: var(--andara-radius-lg);
+  overflow: hidden;
+}
+
+.andara-table th,
+.andara-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--andara-border-subtle);
+}
+
+.andara-table th {
+  background: var(--andara-bg-tertiary);
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.andara-table td {
+  color: var(--andara-text-secondary);
+}
+
+.andara-table tr:last-child td {
+  border-bottom: none;
+}
+
+.andara-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* =====================================================
+   COMPARISON TABLE
+   ===================================================== */
+.andara-comparison {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .andara-comparison {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.andara-comparison__column {
+  background: var(--andara-bg-card);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-lg);
+  overflow: hidden;
+}
+
+.andara-comparison__header {
+  padding: 1.25rem 1.5rem;
+  background: var(--andara-bg-tertiary);
+  border-bottom: 1px solid var(--andara-border-subtle);
+}
+
+.andara-comparison__title {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  margin: 0;
+}
+
+.andara-comparison__body {
+  padding: 1.5rem;
+}
+
+.andara-comparison--before .andara-comparison__header {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, var(--andara-bg-tertiary) 100%);
+  border-left: 4px solid #ef4444;
+}
+
+.andara-comparison--after .andara-comparison__header {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, var(--andara-bg-tertiary) 100%);
+  border-left: 4px solid var(--andara-accent-emerald);
+}
+
+/* =====================================================
+   ICON BOX / FEATURE BOX
+   ===================================================== */
+.andara-icon-box {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: var(--andara-bg-card);
+  border: 1px solid var(--andara-border-subtle);
+  border-radius: var(--andara-radius-lg);
+  transition: all 0.3s ease;
+}
+
+.andara-icon-box:hover {
+  border-color: var(--andara-border-hover);
+  background: var(--andara-bg-card-hover);
+}
+
+.andara-icon-box__icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--andara-accent-cyan-glow) 0%, var(--andara-accent-indigo-glow) 100%);
+  border-radius: var(--andara-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--andara-accent-cyan);
+}
+
+.andara-icon-box__content {
+  flex: 1;
+}
+
+.andara-icon-box__title {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--andara-text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.andara-icon-box__text {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--andara-text-secondary);
+  margin: 0;
+}
+
+/* =====================================================
+   BADGE / TAG
+   ===================================================== */
+.andara-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  background: var(--andara-bg-tertiary);
+  color: var(--andara-text-secondary);
+  border: 1px solid var(--andara-border-subtle);
+}
+
+.andara-badge--emerald {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--andara-accent-emerald);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.andara-badge--cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--andara-accent-cyan);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.andara-badge--indigo {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--andara-accent-indigo);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.andara-badge--gold {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--andara-accent-gold);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+/* =====================================================
+   GRID TIMELINE VARIANT
+   ===================================================== */
+.andara-grid--timeline {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .andara-grid--timeline {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .andara-grid--timeline {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.andara-grid__item--step {
+  position: relative;
+  padding-top: 3.5rem;
+}
+
+.andara-grid__step-number {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, var(--andara-accent-cyan) 0%, var(--andara-accent-indigo) 100%);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--andara-accent-cyan-glow);
+}
+
+.andara-grid__link {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.andara-grid__link a {
+  color: var(--andara-accent-emerald);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.andara-grid__link a:hover {
+  color: var(--andara-accent-cyan);
+}
+
+.andara-grid--library-footer .andara-grid__item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =====================================================
+   HIGHLIGHT BOX VARIANTS
+   ===================================================== */
+.andara-highlight-box--disclaimer {
+  border-left-color: var(--andara-accent-gold);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-highlight-box--cta {
+  border-left-color: var(--andara-accent-emerald);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-highlight-box--cta a {
+  color: var(--andara-accent-emerald);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.andara-highlight-box--cta a:hover {
+  color: var(--andara-accent-cyan);
+}
+
+.andara-highlight-box--neural-footer {
+  border-left-color: var(--andara-accent-cyan);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, var(--andara-bg-secondary) 100%);
+  text-align: center;
+}
+
+/* =====================================================
+   FIGURE TIMELINE VARIANT
+   ===================================================== */
+.andara-figure--timeline .andara-figure__visual {
+  background: 
+    linear-gradient(90deg, var(--andara-accent-cyan-glow) 0%, var(--andara-accent-indigo-glow) 50%, var(--andara-accent-emerald-glow) 100%),
+    linear-gradient(135deg, var(--andara-bg-tertiary) 0%, var(--andara-bg-secondary) 100%);
+}
+
+/* =====================================================
+   SECTION VARIANTS - BIOELECTRICITY PAGE
+   ===================================================== */
+.andara-section--water-minerals {
+  background: var(--andara-bg-primary);
+}
+
+.andara-section--terrain {
+  background: linear-gradient(180deg, var(--andara-bg-secondary) 0%, var(--andara-bg-primary) 100%);
+}
+
+.andara-section--use-cases {
+  background: var(--andara-bg-primary);
+}
+
+.andara-section--product-link {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, var(--andara-bg-secondary) 100%);
+}
+
+.andara-section--faq {
+  background: var(--andara-bg-primary);
+}
+
+.andara-section--library-footer {
+  background: linear-gradient(180deg, var(--andara-bg-secondary) 0%, var(--andara-bg-primary) 100%);
+  border-top: 1px solid var(--andara-border-subtle);
+}
+
+.andara-section--final-cta {
+  position: relative;
+  background: linear-gradient(180deg, var(--andara-bg-primary) 0%, var(--andara-bg-secondary) 50%, var(--andara-bg-primary) 100%);
+  overflow: hidden;
+}
+
+.andara-section--final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%;
+  height: 150%;
+  background: 
+    radial-gradient(ellipse at 30% 50%, var(--andara-accent-indigo-glow) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 50%, var(--andara-accent-emerald-glow) 0%, transparent 40%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* =====================================================
+   FINAL CTA COMPONENT
+   ===================================================== */
+.andara-final-cta__content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.andara-final-cta__headline {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--andara-text-primary);
+  margin: 0 0 1.5rem;
+}
+
+.andara-final-cta__text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--andara-text-secondary);
+  margin: 0 0 2.5rem;
+}
+
+.andara-final-cta__cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .andara-final-cta__cta-group {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.andara-final-cta__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.andara-final-cta__cta--primary {
+  background: var(--andara-accent-emerald);
+  color: white;
+  border: 2px solid var(--andara-accent-emerald);
+}
+
+.andara-final-cta__cta--primary:hover {
+  background: #059669;
+  border-color: #059669;
+  box-shadow: 0 0 30px var(--andara-accent-emerald-glow);
+  transform: translateY(-2px);
+}
+
+.andara-final-cta__cta--ghost {
+  background: transparent;
+  color: var(--andara-text-secondary);
+  border: 2px solid var(--andara-border-subtle);
+}
+
+.andara-final-cta__cta--ghost:hover {
+  border-color: var(--andara-accent-cyan);
+  color: var(--andara-accent-cyan);
+}
+
+/* =====================================================
+   ANDARA GOLD BUTTON STYLES
+   Replicating the logo button design
+   ===================================================== */
+.andara-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--andara-text-purple);
+  background: var(--andara-gradient-gold-button);
+  border: none;
+  border-radius: var(--andara-radius-pill);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--andara-shadow-gold);
+  position: relative;
+  overflow: hidden;
+}
+
+.andara-btn-gold::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.andara-btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--andara-shadow-gold-glow), var(--andara-shadow-gold);
+}
+
+.andara-btn-gold:hover::before {
+  left: 100%;
+}
+
+.andara-btn-gold:active {
+  transform: translateY(0);
+}
+
+.andara-btn-gold--sm {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+.andara-btn-gold--lg {
+  padding: 1.125rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+.andara-btn-gold--xl {
+  padding: 1.25rem 3rem;
+  font-size: 1.25rem;
+}
+
+/* Gold Button Outline Variant */
+.andara-btn-gold-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--andara-gold-amber);
+  background: transparent;
+  border: 2px solid var(--andara-gold-soft);
+  border-radius: var(--andara-radius-pill);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.andara-btn-gold-outline:hover {
+  background: var(--andara-gradient-gold-button);
+  color: var(--andara-text-purple);
+  border-color: transparent;
+  box-shadow: var(--andara-shadow-gold);
+}
+
+/* =====================================================
+   ANDARA GOLD TEXT GRADIENT
+   Apply gold gradient to text elements
+   ===================================================== */
+.andara-text-gold-gradient {
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.andara-text-gold-gradient-soft {
+  background: var(--andara-gradient-gold-soft);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.andara-text-gold {
+  color: var(--andara-gold-amber);
+}
+
+.andara-text-purple {
+  color: var(--andara-text-purple);
+}
+
+/* Gold Branding Text (Surrounding font) */
+.andara-brand-text {
+  font-family: 'Surrounding', 'Open Sans', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.andara-brand-text--gold {
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.andara-brand-text--purple {
+  color: var(--andara-text-purple);
+}
+
+/* Tagline style (Open Sans) */
+.andara-tagline {
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--andara-text-purple);
+}
+
+/* =====================================================
+   GOLD CTA VARIANT FOR FINAL CTA
+   ===================================================== */
+.andara-final-cta__cta--gold {
+  background: var(--andara-gradient-gold-button);
+  color: var(--andara-text-purple);
+  border: none;
+  font-weight: 700;
+}
+
+.andara-final-cta__cta--gold:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--andara-shadow-gold-glow), var(--andara-shadow-gold);
+}
