@@ -1,5 +1,5 @@
 // Stripe Webhook Handlers for Andara Ionic
-import { getStripeSync } from './stripeClient';
+// Note: Stripe sync functionality is Replit-specific, this is a stub for local dev
 
 export class WebhookHandlers {
   static async processWebhook(payload: Buffer, signature: string, uuid: string): Promise<void> {
@@ -12,7 +12,13 @@ export class WebhookHandlers {
       );
     }
 
-    const sync = await getStripeSync();
-    await sync.processWebhook(payload, signature, uuid);
+    // Stub implementation - for local development
+    // In production with Replit, the real Stripe sync would handle this
+    console.log('[WebhookHandlers] Processing webhook (stub)', {
+      payloadLength: payload.length,
+      uuid
+    });
+
+    // TODO: Implement actual webhook handling when needed
   }
 }

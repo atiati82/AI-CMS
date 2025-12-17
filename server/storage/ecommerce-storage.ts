@@ -1,21 +1,15 @@
 import { db } from '../db';
-import { products, orders, carts } from '@shared/schema';
-import { eq, and, sql, desc } from 'drizzle-orm';
+import { products, orders } from '@shared/schema';
+import { eq, desc, ilike, or, sql } from 'drizzle-orm';
 
 // ============================================================================
-// PRODUCTS STORAGE
+// PRODUCTS STORAGE (using actual schema.ts products table)
 // ============================================================================
 
 export const productsStorage = {
-    async getAll(options: { status?: string; category?: string; limit?: number } = {}) {
+    async getAll(options: { limit?: number } = {}) {
         let query = db.select().from(products);
 
-        if (options.status) {
-            query = query.where(eq(products.status, options.status)) as any;
-        }
-        if (options.category) {
-            query = query.where(eq(products.category, options.category)) as any;
-        }
         if (options.limit) {
             query = query.limit(options.limit) as any;
         }
@@ -36,21 +30,36 @@ export const productsStorage = {
     async create(data: {
         name: string;
         slug: string;
-        description?: string;
-        price: string;
-        comparePrice?: string;
-        category?: string;
-        inventory?: number;
-        status?: string;
-        featuredImage?: string;
+        sizeMl: number;
+        descriptionShort: string;
+        descriptionLong: string;
+        price: number;
+        pricePerLiter: number;
+        highlights?: string[];
         images?: string[];
+        tags?: string[];
+        bundles?: any[];
+        pageKey?: string;
+        templateId?: string;
+        seoTitle?: string;
+        seoDescription?: string;
     }) {
         const result = await db.insert(products).values({
-            ...data,
+            name: data.name,
+            slug: data.slug,
+            sizeMl: data.sizeMl,
+            descriptionShort: data.descriptionShort,
+            descriptionLong: data.descriptionLong,
             price: data.price,
-            comparePrice: data.comparePrice,
-            inventory: data.inventory || 0,
-            status: data.status || 'draft',
+            pricePerLiter: data.pricePerLiter,
+            highlights: data.highlights || [],
+            images: data.images || [],
+            tags: data.tags || [],
+            bundles: data.bundles || [],
+            pageKey: data.pageKey,
+            templateId: data.templateId,
+            seoTitle: data.seoTitle,
+            seoDescription: data.seoDescription,
         }).returning();
         return result[0];
     },
@@ -69,22 +78,17 @@ export const productsStorage = {
     },
 
     async search(query: string, limit: number = 50) {
-        // Simple search - can be enhanced with full-text search
         return db.select().from(products)
-            .where(sql`${products.name} ILIKE ${'%' + query + '%'}`)
+            .where(or(
+                ilike(products.name, `%${query}%`),
+                ilike(products.descriptionShort, `%${query}%`)
+            ))
             .limit(limit);
-    },
-
-    async updateInventory(id: string, change: number) {
-        return db.update(products)
-            .set({ inventory: sql`${products.inventory} + ${change}` })
-            .where(eq(products.id, id))
-            .returning();
     },
 };
 
 // ============================================================================
-// ORDERS STORAGE
+// ORDERS STORAGE (using actual schema.ts orders table)
 // ============================================================================
 
 export const ordersStorage = {
@@ -112,30 +116,35 @@ export const ordersStorage = {
     },
 
     async create(data: {
+        orderNumber: string;
         customerEmail: string;
         customerName?: string;
-        items: Array<{ productId: string; quantity: number; price: number }>;
-        shippingAddress?: any;
+        items: Array<{ productId: string; productName: string; quantity: number; unitAmount: number; currency: string }>;
+        subtotal: number;
+        tax?: number;
+        shipping?: number;
+        total: number;
+        currency?: string;
+        stripeCheckoutSessionId?: string;
     }) {
-        // Generate order number
-        const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
-
-        // Calculate totals
-        const subtotal = data.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.1; // 10% tax
-        const shipping = subtotal > 100 ? 0 : 10; // Free shipping over $100
-        const total = subtotal + tax + shipping;
-
         const result = await db.insert(orders).values({
-            orderNumber,
+            orderNumber: data.orderNumber,
             customerEmail: data.customerEmail,
             customerName: data.customerName,
-            items: data.items as any,
-            shippingAddress: data.shippingAddress as any,
-            subtotal: subtotal.toFixed(2),
-            tax: tax.toFixed(2),
-            shipping: shipping.toFixed(2),
-            total: total.toFixed(2),
+            items: data.items.map(item => ({
+                priceId: '',
+                productId: item.productId,
+                productName: item.productName,
+                quantity: item.quantity,
+                unitAmount: item.unitAmount,
+                currency: item.currency,
+            })),
+            subtotal: data.subtotal,
+            tax: data.tax || 0,
+            shipping: data.shipping || 0,
+            total: data.total,
+            currency: data.currency || 'usd',
+            stripeCheckoutSessionId: data.stripeCheckoutSessionId,
             status: 'pending',
         }).returning();
 
@@ -143,12 +152,13 @@ export const ordersStorage = {
     },
 
     async updateStatus(id: string, newStatus: string) {
-        const updates: any = { status: newStatus };
+        const updates: Record<string, any> = { status: newStatus };
 
         // Set timestamps based on status
         if (newStatus === 'paid') updates.paidAt = new Date();
         if (newStatus === 'shipped') updates.shippedAt = new Date();
         if (newStatus === 'delivered') updates.deliveredAt = new Date();
+        if (newStatus === 'cancelled') updates.cancelledAt = new Date();
 
         const result = await db.update(orders)
             .set(updates)
@@ -166,69 +176,69 @@ export const ordersStorage = {
 };
 
 // ============================================================================
-// CARTS STORAGE
+// CARTS STORAGE (in-memory cart for now - no carts table in schema)
 // ============================================================================
+
+// Simple in-memory cart storage (for session-based carts)
+const cartStore = new Map<string, { items: Array<{ productId: string; quantity: number }>, expiresAt: Date }>();
 
 export const cartsStorage = {
     async getBySession(sessionId: string) {
-        const result = await db.select().from(carts).where(eq(carts.sessionId, sessionId));
-        return result[0] || null;
+        const cart = cartStore.get(sessionId);
+        if (!cart || cart.expiresAt < new Date()) {
+            cartStore.delete(sessionId);
+            return null;
+        }
+        return { sessionId, items: cart.items };
     },
 
     async create(sessionId: string) {
         const expiresAt = new Date();
-        expiresAt.setDate(expiresAt.getDate() + 7); // 7 days from now
+        expiresAt.setDate(expiresAt.getDate() + 7);
 
-        const result = await db.insert(carts).values({
-            sessionId,
-            items: [] as any,
-            expiresAt,
-        }).returning();
-
-        return result[0];
+        cartStore.set(sessionId, { items: [], expiresAt });
+        return { sessionId, items: [] };
     },
 
     async updateItems(sessionId: string, items: Array<{ productId: string; quantity: number }>) {
-        const result = await db.update(carts)
-            .set({ items: items as any })
-            .where(eq(carts.sessionId, sessionId))
-            .returning();
+        const cart = cartStore.get(sessionId);
+        if (!cart) return null;
 
-        return result[0] || null;
+        cart.items = items;
+        return { sessionId, items };
     },
 
     async addItem(sessionId: string, productId: string, quantity: number) {
-        // Get or create cart
-        let cart = await this.getBySession(sessionId);
-        if (!cart) {
-            cart = await this.create(sessionId);
+        let cart = cartStore.get(sessionId);
+        if (!cart || cart.expiresAt < new Date()) {
+            await this.create(sessionId);
+            cart = cartStore.get(sessionId)!;
         }
 
-        // Update items
-        const items = cart.items as Array<{ productId: string; quantity: number }>;
-        const existingItem = items.find(item => item.productId === productId);
-
+        const existingItem = cart.items.find(item => item.productId === productId);
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
-            items.push({ productId, quantity });
+            cart.items.push({ productId, quantity });
         }
 
-        return this.updateItems(sessionId, items);
+        return { sessionId, items: cart.items };
     },
 
     async removeItem(sessionId: string, productId: string) {
-        const cart = await this.getBySession(sessionId);
+        const cart = cartStore.get(sessionId);
         if (!cart) return null;
 
-        const items = (cart.items as Array<{ productId: string; quantity: number }>)
-            .filter(item => item.productId !== productId);
-
-        return this.updateItems(sessionId, items);
+        cart.items = cart.items.filter(item => item.productId !== productId);
+        return { sessionId, items: cart.items };
     },
 
     async clear(sessionId: string) {
-        return this.updateItems(sessionId, []);
+        const cart = cartStore.get(sessionId);
+        if (!cart) return null;
+
+        cart.items = [];
+        return { sessionId, items: [] };
     },
 };
 

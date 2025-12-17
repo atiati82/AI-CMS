@@ -1,7 +1,7 @@
-import { 
-  type Product, 
-  type InsertProduct, 
-  type ScienceArticle, 
+import {
+  type Product,
+  type InsertProduct,
+  type ScienceArticle,
   type InsertScienceArticle,
   type Cluster,
   type InsertCluster,
@@ -424,14 +424,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
-    const [created] = await db.insert(products).values(product).returning();
+    const [created] = await db.insert(products).values(product as any).returning();
     return created;
   }
 
   async updateProduct(id: string, product: Partial<InsertProduct>): Promise<Product> {
     const [updated] = await db
       .update(products)
-      .set(product)
+      .set(product as any)
       .where(eq(products.id, id))
       .returning();
     return updated;
@@ -462,14 +462,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCluster(cluster: InsertCluster): Promise<Cluster> {
-    const [created] = await db.insert(clusters).values(cluster).returning();
+    const [created] = await db.insert(clusters).values(cluster as any).returning();
     return created;
   }
 
   async updateCluster(id: string, cluster: Partial<InsertCluster>): Promise<Cluster> {
     const [updated] = await db
       .update(clusters)
-      .set(cluster)
+      .set(cluster as any)
       .where(eq(clusters.id, id))
       .returning();
     return updated;
@@ -525,7 +525,7 @@ export class DatabaseStorage implements IStorage {
 
   async getPageTree(): Promise<PageWithChildren[]> {
     const allPages = await this.getAllPages();
-    
+
     const buildTree = (parentKey: string | null): PageWithChildren[] => {
       return allPages
         .filter(p => p.parentKey === parentKey)
@@ -557,7 +557,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPage(page: InsertPage): Promise<Page> {
-    const [created] = await db.insert(pages).values(page).returning();
+    const [created] = await db.insert(pages).values(page as any).returning();
     return created;
   }
 
@@ -568,7 +568,7 @@ export class DatabaseStorage implements IStorage {
         filteredUpdates[key] = value;
       }
     }
-    
+
     const [updated] = await db
       .update(pages)
       .set(filteredUpdates)
@@ -583,7 +583,7 @@ export class DatabaseStorage implements IStorage {
 
   async bulkCreatePages(pagesData: InsertPage[]): Promise<Page[]> {
     if (pagesData.length === 0) return [];
-    const created = await db.insert(pages).values(pagesData).returning();
+    const created = await db.insert(pages).values(pagesData as any).returning();
     return created;
   }
 
@@ -617,17 +617,17 @@ export class DatabaseStorage implements IStorage {
     limit?: number;
   }): Promise<ScienceArticle[]> {
     const { tags, clusterId, relatedProductIds, limit = 5 } = options;
-    
+
     const conditions = [];
-    
+
     if (clusterId) {
       conditions.push(eq(scienceArticles.clusterId, clusterId));
     }
-    
+
     if (tags && tags.length > 0) {
       conditions.push(sql`${scienceArticles.tags} && ${tags}`);
     }
-    
+
     if (relatedProductIds && relatedProductIds.length > 0) {
       conditions.push(sql`${scienceArticles.relatedProductIds} && ${relatedProductIds}`);
     }
@@ -652,7 +652,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createScienceArticle(article: InsertScienceArticle): Promise<ScienceArticle> {
-    const [created] = await db.insert(scienceArticles).values(article).returning();
+    const [created] = await db.insert(scienceArticles).values(article as any).returning();
     return created;
   }
 
@@ -729,11 +729,11 @@ export class DatabaseStorage implements IStorage {
     // Use word-boundary matching for better search results
     // Split query into words and match each word with word boundaries
     const words = query.trim().split(/\s+/).filter(Boolean);
-    
+
     if (words.length === 0) {
       return db.select().from(documents).orderBy(desc(documents.createdAt)).limit(limit);
     }
-    
+
     // Create patterns that match whole words (using word boundaries with wildcards)
     const conditions = words.map(word => {
       // Pattern matches word at start, end, or surrounded by non-word chars
@@ -744,7 +744,7 @@ export class DatabaseStorage implements IStorage {
         ilike(documents.cleanText, wordPattern)
       );
     });
-    
+
     // All words must match (AND logic for multi-word queries)
     return db
       .select()
@@ -793,14 +793,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createDocumentChunk(chunk: InsertDocumentChunk): Promise<DocumentChunk> {
-    const [created] = await db.insert(documentChunks).values(chunk).returning();
+    const [created] = await db.insert(documentChunks).values(chunk as any).returning();
     await this.updateDocumentChunkCount(chunk.documentId);
     return created;
   }
 
   async bulkCreateDocumentChunks(chunks: InsertDocumentChunk[]): Promise<DocumentChunk[]> {
     if (chunks.length === 0) return [];
-    const created = await db.insert(documentChunks).values(chunks).returning();
+    const created = await db.insert(documentChunks).values(chunks as any).returning();
     const documentIds = [...new Set(chunks.map(c => c.documentId))];
     for (const docId of documentIds) {
       await this.updateDocumentChunkCount(docId);
@@ -855,7 +855,7 @@ export class DatabaseStorage implements IStorage {
 
   async getHighOpportunityKeywords(options: { minRelevance?: number; maxDifficulty?: number; minVolume?: number; limit?: number } = {}): Promise<SeoKeyword[]> {
     const { minRelevance = 50, maxDifficulty = 60, minVolume = 20, limit = 50 } = options;
-    
+
     return db
       .select()
       .from(seoKeywords)
@@ -927,7 +927,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createMagicPageSuggestion(suggestion: InsertMagicPageSuggestion): Promise<MagicPageSuggestion> {
-    const [created] = await db.insert(magicPageSuggestions).values(suggestion).returning();
+    const [created] = await db.insert(magicPageSuggestions).values(suggestion as any).returning();
     return created;
   }
 
@@ -970,15 +970,15 @@ export class DatabaseStorage implements IStorage {
 
   async setCmsSetting(key: string, value: any, description?: string, category?: string): Promise<CmsSetting> {
     const existing = await this.getCmsSetting(key);
-    
+
     if (existing) {
       const [updated] = await db
         .update(cmsSettings)
-        .set({ 
-          value, 
-          description: description !== undefined ? description : existing.description, 
+        .set({
+          value,
+          description: description !== undefined ? description : existing.description,
           category: category !== undefined ? category : existing.category,
-          updatedAt: new Date() 
+          updatedAt: new Date()
         })
         .where(eq(cmsSettings.key, key))
         .returning();
@@ -1080,15 +1080,15 @@ export class DatabaseStorage implements IStorage {
   async getMatchingCtaTemplates(options: { clusterKey?: string; keywords?: string[] }): Promise<CtaTemplate[]> {
     const { clusterKey, keywords } = options;
     const conditions = [eq(ctaTemplates.isActive, true)];
-    
+
     if (clusterKey) {
       conditions.push(sql`${ctaTemplates.triggerClusters} && ARRAY[${clusterKey}]::text[]`);
     }
-    
+
     if (keywords && keywords.length > 0) {
       conditions.push(sql`${ctaTemplates.triggerKeywords} && ${keywords}::text[]`);
     }
-    
+
     if (conditions.length === 1) {
       return db
         .select()
@@ -1096,7 +1096,7 @@ export class DatabaseStorage implements IStorage {
         .where(conditions[0])
         .orderBy(asc(ctaTemplates.priority));
     }
-    
+
     return db
       .select()
       .from(ctaTemplates)
@@ -1105,7 +1105,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCtaTemplate(template: InsertCtaTemplate): Promise<CtaTemplate> {
-    const [created] = await db.insert(ctaTemplates).values(template).returning();
+    const [created] = await db.insert(ctaTemplates).values(template as any).returning();
     return created;
   }
 
@@ -1136,7 +1136,7 @@ export class DatabaseStorage implements IStorage {
 
   async updateMagicAiSettings(basePrompt: string): Promise<MagicAiSettings> {
     const existing = await this.getMagicAiSettings();
-    
+
     if (existing) {
       const [updated] = await db
         .update(magicAiSettings)
@@ -1177,7 +1177,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createHtmlTemplate(template: InsertHtmlTemplate): Promise<HtmlTemplate> {
-    const [created] = await db.insert(htmlTemplates).values(template).returning();
+    const [created] = await db.insert(htmlTemplates).values(template as any).returning();
     return created;
   }
 
@@ -1244,7 +1244,7 @@ export class DatabaseStorage implements IStorage {
 
   async bulkCreatePageImagePrompts(prompts: InsertPageImagePrompt[]): Promise<PageImagePrompt[]> {
     if (prompts.length === 0) return [];
-    return db.insert(pageImagePrompts).values(prompts).returning();
+    return db.insert(pageImagePrompts).values(prompts as any).returning();
   }
 
   // --- ADMIN AI SETTINGS (BigMind preferences) ---
@@ -1274,7 +1274,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAdminAiSetting(setting: InsertAdminAiSetting): Promise<AdminAiSetting> {
-    const [created] = await db.insert(adminAiSettings).values(setting).returning();
+    const [created] = await db.insert(adminAiSettings).values(setting as any).returning();
     return created;
   }
 
@@ -1316,7 +1316,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createMagicPageSession(session: InsertMagicPageSession): Promise<MagicPageSession> {
-    const [created] = await db.insert(magicPageSessions).values(session).returning();
+    const [created] = await db.insert(magicPageSessions).values(session as any).returning();
     return created;
   }
 
@@ -1350,7 +1350,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBigmindSession(session: InsertBigmindSession): Promise<BigmindSession> {
-    const [created] = await db.insert(bigmindSessions).values(session).returning();
+    const [created] = await db.insert(bigmindSessions).values(session as any).returning();
     return created;
   }
 
@@ -1383,7 +1383,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBigmindMessage(message: InsertBigmindMessage): Promise<BigmindMessage> {
-    const [created] = await db.insert(bigmindMessages).values(message).returning();
+    const [created] = await db.insert(bigmindMessages).values(message as any).returning();
     // Update session message count and last message timestamp
     await db
       .update(bigmindSessions)
@@ -1419,7 +1419,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageAiSession(session: InsertPageAiSession): Promise<PageAiSession> {
-    const [created] = await db.insert(pageAiSessions).values(session).returning();
+    const [created] = await db.insert(pageAiSessions).values(session as any).returning();
     return created;
   }
 
@@ -1452,7 +1452,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageAiMessage(message: InsertPageAiMessage): Promise<PageAiMessage> {
-    const [created] = await db.insert(pageAiMessages).values(message).returning();
+    const [created] = await db.insert(pageAiMessages).values(message as any).returning();
     // Update session message count and last message timestamp
     await db
       .update(pageAiSessions)
@@ -1697,17 +1697,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateOrderStatus(id: string, status: string, additionalFields?: Partial<InsertOrder>): Promise<Order> {
-    const updates: Record<string, unknown> = { 
-      status, 
+    const updates: Record<string, unknown> = {
+      status,
       updatedAt: new Date(),
       ...additionalFields
     };
-    
+
     if (status === 'paid') updates.paidAt = new Date();
     if (status === 'shipped') updates.shippedAt = new Date();
     if (status === 'delivered') updates.deliveredAt = new Date();
     if (status === 'cancelled') updates.cancelledAt = new Date();
-    
+
     const [updated] = await db
       .update(orders)
       .set(updates)
@@ -1736,7 +1736,7 @@ export class DatabaseStorage implements IStorage {
     const totalRevenue = allOrders
       .filter(o => ['paid', 'processing', 'shipped', 'delivered'].includes(o.status))
       .reduce((sum, o) => sum + o.total, 0);
-    
+
     return {
       totalOrders: allOrders.length,
       pendingOrders,
@@ -1764,7 +1764,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageSeo(seo: InsertPageSeo): Promise<PageSeo> {
-    const [created] = await db.insert(pageSeo).values(seo).returning();
+    const [created] = await db.insert(pageSeo).values(seo as any).returning();
     return created;
   }
 
@@ -1828,10 +1828,10 @@ export class DatabaseStorage implements IStorage {
   async getTopPerformingPages(options?: { limit?: number; metric?: 'clicks' | 'impressions' | 'ctr' }): Promise<Array<{ pageId: string; value: number }>> {
     const metric = options?.metric || 'clicks';
     const limit = options?.limit || 10;
-    const column = metric === 'clicks' ? pageSearchMetrics.clicks : 
-                   metric === 'impressions' ? pageSearchMetrics.impressions : 
-                   pageSearchMetrics.ctr;
-    
+    const column = metric === 'clicks' ? pageSearchMetrics.clicks :
+      metric === 'impressions' ? pageSearchMetrics.impressions :
+        pageSearchMetrics.ctr;
+
     const results = await db
       .select({
         pageId: pageSearchMetrics.pageId,
@@ -1841,7 +1841,7 @@ export class DatabaseStorage implements IStorage {
       .groupBy(pageSearchMetrics.pageId)
       .orderBy(desc(sql`SUM(${column})`))
       .limit(limit);
-    
+
     return results;
   }
 
@@ -1872,7 +1872,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageAiSuggestion(suggestion: InsertPageAiSuggestion): Promise<PageAiSuggestion> {
-    const [created] = await db.insert(pageAiSuggestions).values(suggestion).returning();
+    const [created] = await db.insert(pageAiSuggestions).values(suggestion as any).returning();
     return created;
   }
 
@@ -2047,7 +2047,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createProposedPage(page: InsertProposedPage): Promise<ProposedPage> {
-    const [created] = await db.insert(proposedPages).values(page).returning();
+    const [created] = await db.insert(proposedPages).values(page as any).returning();
     return created;
   }
 
@@ -2098,7 +2098,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageLayout(layout: InsertPageLayout): Promise<PageLayout> {
-    const [created] = await db.insert(pageLayouts).values(layout).returning();
+    const [created] = await db.insert(pageLayouts).values(layout as any).returning();
     return created;
   }
 
@@ -2143,14 +2143,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createSeoOptimizationRun(run: InsertSeoOptimizationRun): Promise<SeoOptimizationRun> {
-    const [created] = await db.insert(seoOptimizationRuns).values(run).returning();
+    const [created] = await db.insert(seoOptimizationRuns).values(run as any).returning();
     return created;
   }
 
   async updateSeoOptimizationRun(id: string, run: Partial<InsertSeoOptimizationRun>): Promise<SeoOptimizationRun> {
     const [updated] = await db
       .update(seoOptimizationRuns)
-      .set(run)
+      .set(run as any)
       .where(eq(seoOptimizationRuns.id, id))
       .returning();
     return updated;

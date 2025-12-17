@@ -12535,7 +12535,7 @@ export default function AdminPage() {
           typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
-      toast({ title: "Page created", description: "The page has been created successfully." });
+      toast({ title: "✅ Page Created", description: "Your new page is ready for editing." });
     },
     onError: (error: Error) => {
       if (error.message.includes('Authentication')) {
@@ -12569,7 +12569,7 @@ export default function AdminPage() {
           typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
-      toast({ title: "Page saved", description: "Your changes have been saved successfully." });
+      toast({ title: "💾 Changes Saved", description: "Your page updates have been saved." });
     },
     onError: (error: Error) => {
       if (error.message.includes('Authentication')) {
@@ -12603,7 +12603,7 @@ export default function AdminPage() {
           typeof query.queryKey[0] === 'string' && query.queryKey[0].startsWith('/api/pages/by-key'),
         refetchType: 'all'
       });
-      toast({ title: "Page deleted", description: "The page has been deleted." });
+      toast({ title: "🗑️ Page Deleted", description: "The page has been permanently removed." });
     },
     onError: (error: Error) => {
       if (error.message.includes('Authentication')) {
@@ -12623,6 +12623,10 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "🛍️ Product Created", description: "New product added to your shop." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to create product", variant: "destructive" });
     },
   });
 
@@ -12633,6 +12637,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
+      toast({ title: "💾 Product Saved", description: "Product details updated." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update product", variant: "destructive" });
     },
   });
 
@@ -12644,6 +12652,10 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "🗑️ Product Deleted", description: "Product removed from shop." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete product", variant: "destructive" });
     },
   });
 
@@ -12654,7 +12666,7 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/clusters"] });
-      toast({ title: "Cluster updated", description: "Visual vibe saved successfully." });
+      toast({ title: "✨ Cluster Updated", description: "Visual vibe saved successfully." });
     },
     onError: (error: Error) => {
       toast({ title: "Error", description: error.message || "Failed to update cluster", variant: "destructive" });
@@ -12673,6 +12685,10 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/science-articles"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "📚 Article Created", description: "New science article published." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to create article", variant: "destructive" });
     },
   });
 
@@ -12683,6 +12699,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/science-articles"] });
+      toast({ title: "💾 Article Saved", description: "Article content updated." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update article", variant: "destructive" });
     },
   });
 
@@ -12694,6 +12714,10 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/science-articles"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "🗑️ Article Deleted", description: "Article permanently removed." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete article", variant: "destructive" });
     },
   });
 
@@ -12704,6 +12728,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      toast({ title: "📄 Document Created", description: "New document added to knowledge base." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to create document", variant: "destructive" });
     },
   });
 
@@ -12714,6 +12742,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      toast({ title: "💾 Document Saved", description: "Document content updated." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update document", variant: "destructive" });
     },
   });
 
@@ -12724,6 +12756,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      toast({ title: "🗑️ Document Deleted", description: "Document removed from knowledge base." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete document", variant: "destructive" });
     },
   });
 
@@ -12734,6 +12770,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      toast({ title: "📥 Document Indexed", description: "Document ingested into RAG knowledge base." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Indexing Failed", description: error.message || "Failed to index document", variant: "destructive" });
     },
   });
 
@@ -12744,6 +12784,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-keywords"] });
+      toast({ title: "🔍 Keyword Added", description: "SEO keyword saved for tracking." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to add keyword", variant: "destructive" });
     },
   });
 
@@ -12754,6 +12798,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-keywords"] });
+      toast({ title: "💾 Keyword Updated", description: "SEO keyword details saved." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update keyword", variant: "destructive" });
     },
   });
 
@@ -12764,6 +12812,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-keywords"] });
+      toast({ title: "🗑️ Keyword Deleted", description: "SEO keyword removed." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete keyword", variant: "destructive" });
     },
   });
 
@@ -12774,6 +12826,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-keywords"] });
+      toast({ title: "🔍 Document Scanned", description: "Keywords extracted from document." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Scan Failed", description: error.message || "Failed to scan document", variant: "destructive" });
     },
   });
 
@@ -12785,6 +12841,10 @@ export default function AdminPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/magic-pages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-keywords"] });
+      toast({ title: "🪄 Suggestions Generated", description: "AI found new page opportunities." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Generation Failed", description: error.message || "Failed to generate suggestions", variant: "destructive" });
     },
   });
 
@@ -12795,6 +12855,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/magic-pages"] });
+      toast({ title: "📝 Outline Generated", description: "Page structure created." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to generate outline", variant: "destructive" });
     },
   });
 
@@ -12805,6 +12869,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/magic-pages"] });
+      toast({ title: "✍️ Draft Generated", description: "Page content ready for review." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to generate draft", variant: "destructive" });
     },
   });
 
@@ -12817,6 +12885,10 @@ export default function AdminPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/magic-pages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/pages?tree=true"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ title: "🚀 Page Published!", description: "Magic page is now live on your site." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Publish Failed", description: error.message || "Failed to publish page", variant: "destructive" });
     },
   });
 
@@ -12827,6 +12899,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/magic-pages"] });
+      toast({ title: "❎ Page Rejected", description: "Magic page suggestion dismissed." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to reject page", variant: "destructive" });
     },
   });
 
@@ -12837,6 +12913,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/linking-rules"] });
+      toast({ title: "🔗 Rule Created", description: "Internal linking rule added." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to create rule", variant: "destructive" });
     },
   });
 
@@ -12847,6 +12927,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/linking-rules"] });
+      toast({ title: "💾 Rule Updated", description: "Linking rule saved." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update rule", variant: "destructive" });
     },
   });
 
@@ -12857,6 +12941,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/linking-rules"] });
+      toast({ title: "🗑️ Rule Deleted", description: "Linking rule removed." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete rule", variant: "destructive" });
     },
   });
 
@@ -12865,8 +12953,12 @@ export default function AdminPage() {
       const res = await apiRequest("POST", "/api/admin/linking-rules/auto-generate", {});
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/linking-rules"] });
+      toast({ title: "✨ Rules Auto-Generated", description: `${data?.rulesCreated || 'New'} linking rules created by AI.` });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to generate rules", variant: "destructive" });
     },
   });
 
@@ -12877,6 +12969,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/cta-templates"] });
+      toast({ title: "📣 CTA Created", description: "New call-to-action template added." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to create CTA", variant: "destructive" });
     },
   });
 
@@ -12887,6 +12983,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/cta-templates"] });
+      toast({ title: "💾 CTA Updated", description: "Template saved." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to update CTA", variant: "destructive" });
     },
   });
 
@@ -12897,6 +12997,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/cta-templates"] });
+      toast({ title: "🗑️ CTA Deleted", description: "Template removed." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to delete CTA", variant: "destructive" });
     },
   });
 
@@ -12907,6 +13011,10 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/settings"] });
+      toast({ title: "⚙️ Setting Saved", description: "Your configuration has been updated." });
+    },
+    onError: (error: Error) => {
+      toast({ title: "❌ Error", description: error.message || "Failed to save setting", variant: "destructive" });
     },
   });
 
@@ -12917,7 +13025,7 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/html-templates"] });
-      toast({ title: "Template created", description: "The template has been created successfully." });
+      toast({ title: "📃 Template Created", description: "New HTML template added." });
     },
   });
 
