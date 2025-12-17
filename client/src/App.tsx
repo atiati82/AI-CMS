@@ -23,6 +23,8 @@ import PrimordialPage from "@/pages/primordial";
 
 import DnaMineralCodesPage from "@/pages/dna-mineral-codes";
 import BioelectricityInvisibleVoltagePage from "@/pages/bioelectricity-invisible-voltage";
+import ModernChatDemo from "@/pages/modern-chat-demo";
+import FunctionDocsPage from "@/pages/function-docs";
 
 function Router() {
   return (
@@ -38,6 +40,8 @@ function Router() {
       <Route path="/science/:slug" component={ArticlePage} />
       <Route path="/science/:cluster/:slug" component={ArticlePage} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/modern-chat-demo" component={ModernChatDemo} />
+      <Route path="/function-docs" component={FunctionDocsPage} />
       <Route path="/sitemap" component={SitemapPage} />
       <Route path="/shop" component={ShopPage} />
       <Route path="/shop/:slug" component={ProductPage} />

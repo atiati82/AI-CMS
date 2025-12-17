@@ -73,5 +73,10 @@ export async function registerModularRoutes(
     app.use('/api/shop/orders', shopOrdersRouter);
     app.use('/api/shop/cart', shopCartRouter);
 
+    // Redirect function documentation to frontend page
+    app.get('/FUNCTION_DOCUMENTATION.md', (req, res) => {
+        res.redirect('/function-docs');
+    });
+
     console.log('✅ All Systems + DevOps Monitoring + Audit Logging Installed');
 }

@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import {
     Save, Eye, EyeOff, Settings, Wand2, Key, BarChart2, Search, RefreshCw,
-    Loader2, Play, Clock, Database, CheckCircle2, AlertCircle, XCircle
+    Loader2, Play, Clock, Database, CheckCircle2, AlertCircle, XCircle, Code, Cpu
 } from 'lucide-react';
 import {
     Select,
@@ -25,6 +25,7 @@ interface SettingsTabProps {
     settings: CmsSetting[];
     onSave: (key: string, value: any, description: string, category: string) => Promise<void>;
     isSaving: boolean;
+    onTabChange?: (tab: string) => void;
 }
 
 //Constants
@@ -34,6 +35,7 @@ const SETTINGS_CATEGORIES = [
     { key: 'thresholds', label: 'Thresholds', icon: BarChart2, description: 'Scoring and generation thresholds' },
     { key: 'seo', label: 'SEO Settings', icon: Search, description: 'SEO scanner configuration' },
     { key: 'maintenance', label: 'Maintenance', icon: RefreshCw, description: 'AI-powered codebase maintenance' },
+    { key: 'developer', label: 'Developer Tools', icon: Code, description: 'AI agents and function documentation' },
     { key: 'general', label: 'General', icon: Settings, description: 'General CMS settings' },
 ];
 
@@ -244,6 +246,7 @@ export default function SettingsTab({
     settings,
     onSave,
     isSaving,
+    onTabChange,
 }: SettingsTabProps) {
     const [activeCategory, setActiveCategory] = useState('magic_ai');
     const [editedValues, setEditedValues] = useState<Record<string, any>>({});
@@ -502,7 +505,59 @@ export default function SettingsTab({
                     </div>
 
                     <div className="space-y-4">
-                        {activeCategory === 'maintenance' ? (
+                        {activeCategory === 'developer' ? (
+                            <div className="space-y-4">
+                                <div className="bg-card border rounded-lg p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-3 bg-primary/10 rounded-lg">
+                                            <Cpu className="w-8 h-8 text-primary" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-lg font-semibold mb-2">AI Agents</h3>
+                                            <p className="text-sm text-muted-foreground mb-4">
+                                                View and manage AI agents (SEO, Content, Design, DevOps) with capabilities and task execution.
+                                            </p>
+                                            <Button
+                                                onClick={() => onTabChange?.("ai-agents")}
+                                                variant="default"
+                                            >
+                                                <Cpu className="w-4 h-4 mr-2" />
+                                                Open AI Agents
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-card border rounded-lg p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-3 bg-primary/10 rounded-lg">
+                                            <Code className="w-8 h-8 text-primary" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-lg font-semibold mb-2">Function Schematic</h3>
+                                            <p className="text-sm text-muted-foreground mb-4">
+                                                Complete documentation of all AI functions, services, and API endpoints in the system.
+                                            </p>
+                                            <div className="flex gap-2">
+                                                <Button
+                                                    onClick={() => window.open("/function-docs", "_blank")}
+                                                    variant="outline"
+                                                >
+                                                    <Code className="w-4 h-4 mr-2" />
+                                                    View Documentation
+                                                </Button>
+                                                <Button
+                                                    onClick={() => onTabChange?.("ai-agents")}
+                                                    variant="ghost"
+                                                >
+                                                    Or view AI Agents →
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : activeCategory === 'maintenance' ? (
                             <MaintenancePanel />
                         ) : activeCategory === 'magic_ai' ? (
                             <div className="space-y-4">
