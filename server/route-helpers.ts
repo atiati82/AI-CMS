@@ -53,16 +53,13 @@ export function createUpdateHandler<T>(
 }
 
 export function createDeleteHandler(
-  deleteFn: (id: string) => Promise<boolean>,
+  deleteFn: (id: string) => Promise<void>,
   notFoundMessage: string,
   errorMessage: string
 ): AsyncHandler {
   return async (req, res) => {
     try {
-      const success = await deleteFn(req.params.id);
-      if (!success) {
-        return res.status(404).json({ error: notFoundMessage });
-      }
+      await deleteFn(req.params.id);
       res.json({ success: true });
     } catch (error) {
       console.error(errorMessage, error);

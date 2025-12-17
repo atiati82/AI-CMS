@@ -11,4 +11,13 @@ if (!process.env.DATABASE_URL) {
 }
 
 export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+
+// Drizzle ORM instance
+const drizzleDb = drizzle(pool, { schema });
+
+// Extended db object with raw query support for legacy code
+export const db = Object.assign(drizzleDb, {
+  // Legacy raw SQL query method - use Drizzle methods when possible
+  query: (text: string, params?: any[]) => pool.query(text, params),
+});
+
