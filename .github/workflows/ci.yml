@@ -1,0 +1,55 @@
+name: CI - TypeScript Check & Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  typecheck:
+    name: TypeScript Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript check
+        run: npm run check
+        continue-on-error: true  # Don't fail on TS errors yet, just report
+
+      - name: TypeScript status
+        run: |
+          echo "TypeScript check completed. Review output above for any errors."
+
+  build:
+    name: Build Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npx vite build
+        env:
+          NODE_ENV: production

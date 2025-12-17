@@ -4,8 +4,10 @@ import { aiLimiter } from '../../middleware/rateLimiter';
 
 const router = Router();
 
-// Apply AI rate limiting
-router.use(aiLimiter);
+// Apply AI rate limiting only in production
+if (process.env.NODE_ENV === 'production') {
+    router.use(aiLimiter);
+}
 
 // POST /api/admin/generate-image
 router.post('/generate-image', requireAdmin, async (req, res) => {

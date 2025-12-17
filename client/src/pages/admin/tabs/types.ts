@@ -45,7 +45,7 @@ export type Product = {
 export type CmsSetting = {
     key: string;
     value: any;
-    description: string;
+    description: string | null;
     category: string;
 };
 

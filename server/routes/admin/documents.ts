@@ -79,7 +79,13 @@ router.post('/:id/chunks', requireAdmin, async (req, res) => {
             return res.status(400).json({ error: 'chunks must be an array' });
         }
 
-        const createdChunks = await storage.createDocumentChunks(req.params.id, chunks);
+        const documentId = req.params.id;
+        const chunksWithDocId = chunks.map((chunk: any, index: number) => ({
+            ...chunk,
+            documentId,
+            chunkIndex: chunk.chunkIndex ?? index
+        }));
+        const createdChunks = await storage.bulkCreateDocumentChunks(chunksWithDocId);
         res.json(createdChunks);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create chunks' });
