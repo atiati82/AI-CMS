@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { storage } from '../../storage';
 import { requireAdmin } from '../middleware/auth';
-import { authLimiter } from '../../middleware/rateLimiter';
+import { apiLimiter } from '../../middleware/rateLimiter';
 import { insertPageSchema } from '@shared/schema';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
@@ -9,8 +9,8 @@ import { createCrudHandler, createDeleteHandler } from '../../route-helpers';
 
 const router = Router();
 
-// Apply stricter rate limiting to admin routes
-router.use(authLimiter);
+// Apply general rate limiting to admin routes (authLimiter is too strict - only 5/15min)
+router.use(apiLimiter);
 
 // GET /api/admin/stats
 router.get('/stats', requireAdmin, async (req, res) => {
