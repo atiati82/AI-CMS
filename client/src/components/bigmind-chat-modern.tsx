@@ -166,23 +166,22 @@ export function BigMindChatModern({
     return (
         <div className={cn("flex flex-col h-full bg-background", className)}>
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-muted/30">
+            <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/30">
                 <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                        <Brain className="w-5 h-5 text-primary" />
-                        <h2 className="font-semibold text-lg">BigMind AI</h2>
+                        <Brain className="w-4 h-4 text-primary" />
+                        <h2 className="font-semibold text-sm">BigMind AI</h2>
                     </div>
-                    <Sparkles className="w-4 h-4 text-yellow-500" />
                 </div>
 
                 <div className="flex items-center gap-2">
                     <Select value={selectedModel} onValueChange={setSelectedModel}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[140px] h-8 text-xs">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                             {AI_MODELS.map((model) => (
-                                <SelectItem key={model.id} value={model.id}>
+                                <SelectItem key={model.id} value={model.id} className="text-xs">
                                     {model.name}
                                 </SelectItem>
                             ))}
@@ -190,8 +189,8 @@ export function BigMindChatModern({
                     </Select>
 
                     {persistSessions && (
-                        <Button variant="outline" size="sm" onClick={createNewSession}>
-                            <Plus className="w-4 h-4 mr-1" />
+                        <Button variant="outline" size="sm" onClick={createNewSession} className="h-8 text-xs px-2">
+                            <Plus className="w-3 h-3 mr-1" />
                             New Chat
                         </Button>
                     )}

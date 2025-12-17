@@ -646,6 +646,48 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["pageId"],
     },
   },
+  // === SEO & SCHEMA MARKUP ===
+  {
+    name: "generateSchemaMarkup",
+    description: "Auto-generate JSON-LD structured data for SEO. Supports Product, Article, FAQ, Organization schemas.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to generate schema for" },
+        schemaType: { type: Type.STRING, description: "Schema type: 'Product', 'Article', 'FAQPage', 'Organization', 'WebPage'" },
+        customData: { type: Type.OBJECT, properties: {}, description: "Optional: Override default values" },
+      },
+      required: ["pageId", "schemaType"],
+    },
+  },
+  // === MULTI-LANGUAGE ===
+  {
+    name: "translatePage",
+    description: "Translate a page to another language using AI. Creates a new page with translated content.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to translate" },
+        targetLanguage: { type: Type.STRING, description: "Target language code (e.g., 'es', 'fr', 'de', 'zh', 'ja')" },
+        createNewPage: { type: Type.BOOLEAN, description: "If true, create new page. If false, return translation only. Default: true" },
+      },
+      required: ["pageId", "targetLanguage"],
+    },
+  },
+  // === MULTI-AGENT ORCHESTRATION ===
+  {
+    name: "chainAgents",
+    description: "Execute a complex task using multiple AI agents in sequence. Agents: content, seo, design, devops.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        task: { type: Type.STRING, description: "High-level task description (e.g., 'Create product launch campaign')" },
+        agents: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Agents to use in order: ['content', 'seo', 'design']" },
+        context: { type: Type.OBJECT, properties: {}, description: "Optional: Additional context for agents" },
+      },
+      required: ["task", "agents"],
+    },
+  },
 ];
 
 function validateArgs(args: Record<string, any>, required: string[]): { valid: boolean; error?: string } {
@@ -1961,6 +2003,304 @@ Respond with ONLY the alt text, nothing else.`;
         };
       }
 
+      // === SCHEMA MARKUP HANDLER ===
+      case "generateSchemaMarkup": {
+        const validation = validateArgs(args, ["pageId", "schemaType"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const customData = args.customData || {};
+        const baseUrl = process.env.BASE_URL || "https://andaraionic.com";
+        let schema: any = {
+          "@context": "https://schema.org",
+        };
+
+        switch (args.schemaType) {
+          case "Product":
+            schema = {
+              ...schema,
+              "@type": "Product",
+              name: customData.name || page.title,
+              description: customData.description || page.seoDescription || page.summary,
+              url: `${baseUrl}${page.path}`,
+              image: customData.image || `${baseUrl}/og-image.jpg`,
+              brand: {
+                "@type": "Brand",
+                name: customData.brand || "Andara Ionic"
+              },
+              offers: customData.offers || {
+                "@type": "Offer",
+                price: "29.99",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock"
+              }
+            };
+            break;
+
+          case "Article":
+            schema = {
+              ...schema,
+              "@type": "Article",
+              headline: customData.headline || page.title,
+              description: customData.description || page.seoDescription,
+              url: `${baseUrl}${page.path}`,
+              datePublished: customData.datePublished || page.createdAt,
+              dateModified: customData.dateModified || page.updatedAt,
+              author: {
+                "@type": "Person",
+                name: customData.author || "Andara Ionic Team"
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Andara Ionic",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${baseUrl}/logo.png`
+                }
+              }
+            };
+            break;
+
+          case "FAQPage":
+            const content = page.content || page.aiStartupHtml || "";
+            const faqMatches = content.match(/<h[23]>(.*?)<\/h[23]>/g) || [];
+            const mainEntity = faqMatches.slice(0, 5).map((q: string) => ({
+              "@type": "Question",
+              name: q.replace(/<[^>]+>/g, ''),
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Answer content here" // Would extract from following paragraph
+              }
+            }));
+
+            schema = {
+              ...schema,
+              "@type": "FAQPage",
+              mainEntity: customData.mainEntity || mainEntity
+            };
+            break;
+
+          case "Organization":
+            schema = {
+              ...schema,
+              "@type": "Organization",
+              name: "Andara Ionic",
+              url: baseUrl,
+              logo: `${baseUrl}/logo.png`,
+              description: "Premium primordial ionic sulfate mineral water",
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "Customer Service",
+                email: "support@andaraionic.com"
+              },
+              ...customData
+            };
+            break;
+
+          case "WebPage":
+          default:
+            schema = {
+              ...schema,
+              "@type": "WebPage",
+              name: page.title,
+              description: page.seoDescription,
+              url: `${baseUrl}${page.path}`,
+              ...customData
+            };
+        }
+
+        const schemaJson = JSON.stringify(schema, null, 2);
+
+        return {
+          success: true,
+          pageId: args.pageId,
+          schemaType: args.schemaType,
+          schema: schemaJson,
+          message: "Schema markup generated. Add this to your page's <head> section.",
+          instructions: `<script type="application/ld+json">\n${schemaJson}\n</script>`
+        };
+      }
+
+      // === TRANSLATION HANDLER ===
+      case "translatePage": {
+        const validation = validateArgs(args, ["pageId", "targetLanguage"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const createNewPage = args.createNewPage !== false; // Default true
+        const targetLang = args.targetLanguage.toLowerCase();
+
+        const langNames: Record<string, string> = {
+          es: "Spanish", fr: "French", de: "German", zh: "Chinese",
+          ja: "Japanese", ko: "Korean", pt: "Portuguese", it: "Italian",
+          ru: "Russian", ar: "Arabic"
+        };
+
+        const langName = langNames[targetLang] || targetLang;
+
+        try {
+          const { getAiClient } = await import("./andara-chat");
+          const { client } = await getAiClient();
+
+          const content = page.content || page.aiStartupHtml || "";
+          const plainText = content.replace(/<[^>]+>/g, '\n').replace(/\s+/g, ' ').trim();
+
+          const prompt = `Translate the following content to ${langName}. Maintain the same tone and style. Return ONLY the translated text, no explanations.
+
+Title: ${page.title}
+SEO Description: ${page.seoDescription || ""}
+
+Content:
+${plainText.substring(0, 3000)}`;
+
+          const response = await client.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: [{ role: "user", parts: [{ text: prompt }] }]
+          });
+
+          const translatedText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const lines = translatedText.split('\n').filter(l => l.trim());
+
+          const translatedTitle = lines[0] || `${page.title} (${langName})`;
+          const translatedDesc = lines[1] || page.seoDescription;
+          const translatedContent = lines.slice(2).join('\n');
+
+          if (createNewPage) {
+            const newPath = `${page.path}-${targetLang}`;
+            const newPage: Partial<InsertPage> = {
+              key: newPath.replace(/\//g, '-').replace(/^-/, ''),
+              title: translatedTitle,
+              path: newPath,
+              clusterKey: page.clusterKey,
+              template: page.template,
+              status: "draft",
+              seoTitle: translatedTitle,
+              seoDescription: translatedDesc,
+              aiStartupHtml: `<div class="andara-page">${translatedContent}</div>`,
+              content: page.content,
+              visualConfig: {
+                ...((page.visualConfig || {}) as Record<string, any>),
+                language: targetLang,
+                translatedFrom: page.id,
+              } as any,
+            };
+
+            const created = await storage.createPage(newPage as InsertPage);
+
+            return {
+              success: true,
+              originalPageId: args.pageId,
+              translatedPageId: created.id,
+              translatedPath: created.path,
+              language: targetLang,
+              message: `Page translated to ${langName}. New page created at ${created.path}`,
+            };
+          } else {
+            return {
+              success: true,
+              pageId: args.pageId,
+              language: targetLang,
+              translatedTitle,
+              translatedDescription: translatedDesc,
+              translatedContent,
+              message: `Translation complete. Use createPage or updatePage to apply.`,
+            };
+          }
+        } catch (error: any) {
+          return {
+            success: false,
+            error: `Translation failed: ${error.message}`,
+          };
+        }
+      }
+
+      // === MULTI-AGENT CHAIN HANDLER ===
+      case "chainAgents": {
+        const validation = validateArgs(args, ["task", "agents"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const task = args.task as string;
+        const agentNames = args.agents as string[];
+        const context = args.context || {};
+
+        const results: Array<{ agent: string; output: any; success: boolean }> = [];
+        let accumulatedContext = { ...context, originalTask: task };
+
+        try {
+          // Import agent modules
+          const { contentAgent } = await import("../agents/content");
+          const { seoAgent } = await import("../agents/seo");
+          const { designAgent } = await import("../agents/design");
+          const { devopsAgent } = await import("../agents/design"); // DevOps is in design.ts
+
+          const agentMap: Record<string, any> = {
+            content: contentAgent,
+            seo: seoAgent,
+            design: designAgent,
+            devops: devopsAgent,
+          };
+
+          for (const agentName of agentNames) {
+            const agent = agentMap[agentName.toLowerCase()];
+            if (!agent) {
+              results.push({
+                agent: agentName,
+                output: { error: `Agent '${agentName}' not found` },
+                success: false
+              });
+              continue;
+            }
+
+            console.log(`[BigMind CMS] Executing agent: ${agentName}`);
+
+            const agentTask = {
+              type: 'execute_task',
+              input: {
+                task,
+                previousResults: results,
+                context: accumulatedContext
+              }
+            };
+
+            const result = await agent.execute(agentTask);
+
+            results.push({
+              agent: agentName,
+              output: result.data || result,
+              success: result.success !== false
+            });
+
+            // Accumulate context for next agent
+            if (result.data) {
+              accumulatedContext = { ...accumulatedContext, [`${agentName}Result`]: result.data };
+            }
+          }
+
+          const allSuccessful = results.every(r => r.success);
+
+          return {
+            success: allSuccessful,
+            task,
+            agentsExecuted: agentNames,
+            results,
+            summary: `Executed ${results.length} agent(s). ${results.filter(r => r.success).length} successful.`,
+            message: allSuccessful
+              ? "All agents completed successfully"
+              : "Some agents encountered errors. Check results for details.",
+          };
+        } catch (error: any) {
+          return {
+            success: false,
+            error: `Multi-agent chain failed: ${error.message}`,
+            results,
+          };
+        }
+      }
+
       default:
         console.log(`[BigMind CMS] Unknown function: ${name}`);
         return { error: `Unknown function: ${name}` };
@@ -2122,7 +2462,14 @@ export async function chatWithFunctions(
   onFunctionCall?: (name: string, result: any) => void,
   modelOverride?: string
 ): Promise<{ response: string; functionCalls: Array<{ name: string; result: any }> }> {
-  const summarizedContext = await getSummarizedContext();
+  // Robustly get context (don't fail chat if context gathering fails)
+  let summarizedContext = "";
+  try {
+    summarizedContext = await getSummarizedContext();
+  } catch (err) {
+    console.error("[BigMind] Failed to get site context:", err);
+    summarizedContext = "Site context unavailable due to error.";
+  }
 
   // Try with external AI first
   try {
@@ -2158,43 +2505,44 @@ export async function chatWithFunctions(
         const geminiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
         const openaiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
 
-        const isGeminiAvailable = !!geminiKey;
-        const isOpenAIAvailable = !!openaiKey;
-
-        if (overrideProvider === 'openai' && !isOpenAIAvailable) {
-          console.log(`[BigMind] Model override ${modelOverride} requires OpenAI which is unavailable, using ${configuredModel}`);
-          model = configuredModel;
-        } else if (overrideProvider === 'gemini' && !isGeminiAvailable) {
-          console.log(`[BigMind] Model override ${modelOverride} requires Gemini which is unavailable, using ${configuredModel}`);
-          model = configuredModel;
-        } else {
+        if (overrideProvider === 'gemini' && geminiKey) {
+          model = modelOverride;
+        } else if (overrideProvider === 'openai' && openaiKey) {
           model = modelOverride;
         }
       }
 
+      console.log(`[BigMind] Sending request to ${model} (iteration ${iterations})`);
+
       const response = await client.models.generateContent({
-        model,
-        contents,
+        model: model,
+        contents: contents,
         config: {
           tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
         },
       });
 
-      const candidate = response.candidates?.[0];
-      if (!candidate?.content?.parts) {
-        finalResponse = "I couldn't process that request.";
-        break;
+      // Handle response...
+      const text = response.candidates?.[0]?.content?.parts?.find(p => p.text)?.text || "";
+      const functionCallsInResponse = response.candidates?.[0]?.content?.parts?.filter(p => p.functionCall) || [];
+
+      // Add assistant response to history
+      if (text) {
+        contents.push({ role: "model", parts: [{ text }] });
+        finalResponse += text;
       }
 
       let hasFunctionCall = false;
-      for (const part of candidate.content.parts) {
+
+      for (const part of functionCallsInResponse) {
         if (part.functionCall) {
           hasFunctionCall = true;
           const fnName = part.functionCall.name || "";
           const fnArgs = part.functionCall.args || {};
 
-          console.log(`[BigMind] Calling function: ${fnName}`, fnArgs);
+          console.log(`[BigMind] Function call: ${fnName}`, fnArgs);
 
+          // Execute function
           const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
           functionCalls.push({ name: fnName, result });
 
@@ -2216,10 +2564,6 @@ export async function chatWithFunctions(
             }]
           });
         }
-
-        if (part.text) {
-          finalResponse = part.text;
-        }
       }
 
       if (!hasFunctionCall) {
@@ -2227,37 +2571,46 @@ export async function chatWithFunctions(
       }
     }
 
-    return { response: finalResponse, functionCalls };
+    return { response: finalResponse || "I processed your request but have no text response.", functionCalls };
 
   } catch (error) {
     // Failover to local RAG system
     console.error('[BigMind] External AI failed, using fallback RAG system:', error);
-    const { generateFallbackResponse, generateSmartFallback } = await import('./fallback-ai');
 
-    // Get the last user message
-    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-    if (!lastUserMessage) {
+    try {
+      const { generateFallbackResponse, generateSmartFallback } = await import('./fallback-ai');
+
+      // Get the last user message
+      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+      if (!lastUserMessage) {
+        return {
+          response: "I encountered an error connecting to the AI service. Please try again.",
+          functionCalls: [],
+        };
+      }
+
+      // Try smart fallback first
+      const smartResponse = generateSmartFallback(lastUserMessage.content);
+      if (smartResponse) {
+        return {
+          response: smartResponse + "\n\n---\n*Using local fallback system (external AI unavailable)*",
+          functionCalls: [],
+        };
+      }
+
+      // Otherwise use knowledge base
+      const fallbackResult = await generateFallbackResponse(lastUserMessage.content);
       return {
-        response: "I apologize, but I encountered an error and couldn't process your request. The external AI system is unavailable.",
+        response: fallbackResult.response,
+        functionCalls: [],
+      };
+    } catch (fallbackError) {
+      console.error('[BigMind] Critical: Fallback system also failed:', fallbackError);
+      return {
+        response: "I apologize, but both the external AI and the local fallback system are currently unavailable. Please check the server logs for details.",
         functionCalls: [],
       };
     }
-
-    // Try smart fallback first
-    const smartResponse = generateSmartFallback(lastUserMessage.content);
-    if (smartResponse) {
-      return {
-        response: smartResponse + "\n\n---\n*Using local fallback system (external AI unavailable)*",
-        functionCalls: [],
-      };
-    }
-
-    // Otherwise use knowledge base
-    const fallbackResult = await generateFallbackResponse(lastUserMessage.content);
-    return {
-      response: fallbackResult.response,
-      functionCalls: [],
-    };
   }
 }
 
