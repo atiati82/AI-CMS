@@ -9,8 +9,10 @@ import { createCrudHandler, createDeleteHandler } from '../../route-helpers';
 
 const router = Router();
 
-// Apply general rate limiting to admin routes (authLimiter is too strict - only 5/15min)
-router.use(apiLimiter);
+// Apply general rate limiting only in production (matches index.ts pattern)
+if (process.env.NODE_ENV === 'production') {
+    router.use(apiLimiter);
+}
 
 // GET /api/admin/stats
 router.get('/stats', requireAdmin, async (req, res) => {
