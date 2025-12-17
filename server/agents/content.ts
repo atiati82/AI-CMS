@@ -65,7 +65,7 @@ async function extractKeywords(input: any): Promise<AgentResult> {
     const words = text.toLowerCase().match(/\b\w{4,}\b/g) || [];
     const frequency: Record<string, number> = {};
 
-    words.forEach(word => {
+    words.forEach((word: string) => {
         frequency[word] = (frequency[word] || 0) + 1;
     });
 
