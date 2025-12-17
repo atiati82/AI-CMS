@@ -344,8 +344,8 @@ const TEMPLATE_TYPE_CONFIG: Record<string, { label: string; color: string }> = {
 function formatAiMessage(content: string): string {
   let html = content;
 
-  // First, handle raw <code> tags from AI responses - convert to styled code
-  html = html.replace(/<code>([^<]+)<\/code>/g, (_, code) => {
+  // First, handle raw <code> tags from AI responses (with or without class attribute) - convert to styled code
+  html = html.replace(/<code[^>]*>([^<]+)<\/code>/g, (_, code) => {
     return `\`${code}\``;
   });
 

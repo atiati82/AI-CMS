@@ -1,5 +1,7 @@
 import { Agent, AgentTask, AgentResult, createSuccessResult, createErrorResult } from './base';
 import { db } from '../db';
+import { pages } from '@shared/schema';
+import { eq } from 'drizzle-orm';
 
 // SEO Agent - Handles SEO analysis, scoring, and optimization
 export const seoAgent: Agent = {
@@ -35,29 +37,28 @@ export const seoAgent: Agent = {
 async function calculateSeoScore(input: any): Promise<AgentResult> {
     const { pageId } = input;
 
-    const result = await db.query('SELECT * FROM pages WHERE id = $1', [pageId]);
-    if (result.rows.length === 0) {
+    const [page] = await db.select().from(pages).where(eq(pages.id, pageId));
+    if (!page) {
         return createErrorResult('Page not found');
     }
 
-    const page = result.rows[0];
     let score = 0;
     const breakdown: Record<string, number> = {};
 
     // Title (20 points)
-    if (page.seo_title && page.seo_title.length >= 50 && page.seo_title.length <= 60) {
+    if (page.seoTitle && page.seoTitle.length >= 50 && page.seoTitle.length <= 60) {
         breakdown.title = 20;
         score += 20;
-    } else if (page.seo_title) {
+    } else if (page.seoTitle) {
         breakdown.title = 10;
         score += 10;
     }
 
     // Description (20 points)
-    if (page.seo_description && page.seo_description.length >= 150 && page.seo_description.length <= 160) {
+    if (page.seoDescription && page.seoDescription.length >= 150 && page.seoDescription.length <= 160) {
         breakdown.description = 20;
         score += 20;
-    } else if (page.seo_description) {
+    } else if (page.seoDescription) {
         breakdown.description = 10;
         score += 10;
     }
@@ -72,13 +73,13 @@ async function calculateSeoScore(input: any): Promise<AgentResult> {
     }
 
     // Images (15 points)
-    if (page.featured_image) {
+    if (page.featuredImage) {
         breakdown.images = 15;
         score += 15;
     }
 
     // Internal links (10 points)
-    const linkCount = (page.internal_links || []).length;
+    const linkCount = (page.internalLinks || []).length;
     if (linkCount >= 3) {
         breakdown.links = 10;
         score += 10;
@@ -88,7 +89,7 @@ async function calculateSeoScore(input: any): Promise<AgentResult> {
     }
 
     // Technical (10 points)
-    if (page.slug && page.path) {
+    if (page.path) {
         breakdown.technical = 10;
         score += 10;
     }
@@ -99,12 +100,10 @@ async function calculateSeoScore(input: any): Promise<AgentResult> {
 async function optimizePage(input: any): Promise<AgentResult> {
     const { pageId } = input;
 
-    const result = await db.query('SELECT * FROM pages WHERE id = $1', [pageId]);
-    if (result.rows.length === 0) {
+    const [page] = await db.select().from(pages).where(eq(pages.id, pageId));
+    if (!page) {
         return createErrorResult('Page not found');
     }
-
-    const page = result.rows[0];
 
     // Generate optimized SEO metadata
     const seoTitle = page.title.substring(0, 60);
@@ -113,10 +112,9 @@ async function optimizePage(input: any): Promise<AgentResult> {
         `Learn about ${page.title}`;
 
     // Update page
-    await db.query(
-        'UPDATE pages SET seo_title = $1, seo_description = $2 WHERE id = $3',
-        [seoTitle, seoDescription, pageId]
-    );
+    await db.update(pages)
+        .set({ seoTitle, seoDescription })
+        .where(eq(pages.id, pageId));
 
     return createSuccessResult({ seoTitle, seoDescription });
 }
@@ -124,21 +122,20 @@ async function optimizePage(input: any): Promise<AgentResult> {
 async function findSeoIssues(input: any): Promise<AgentResult> {
     const { pageId } = input;
 
-    const result = await db.query('SELECT * FROM pages WHERE id = $1', [pageId]);
-    if (result.rows.length === 0) {
+    const [page] = await db.select().from(pages).where(eq(pages.id, pageId));
+    if (!page) {
         return createErrorResult('Page not found');
     }
 
-    const page = result.rows[0];
     const issues: any[] = [];
 
-    if (!page.seo_title) {
+    if (!page.seoTitle) {
         issues.push({ type: 'title_missing', severity: 'critical', message: 'SEO title is missing' });
-    } else if (page.seo_title.length < 50) {
+    } else if (page.seoTitle.length < 50) {
         issues.push({ type: 'title_length', severity: 'warning', message: 'SEO title is too short' });
     }
 
-    if (!page.seo_description) {
+    if (!page.seoDescription) {
         issues.push({ type: 'description_missing', severity: 'critical', message: 'Meta description is missing' });
     }
 

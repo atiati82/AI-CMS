@@ -258,15 +258,15 @@ export function BigMindChatModern({
                                     <ReactMarkdown
                                         remarkPlugins={[remarkGfm]}
                                         components={{
-                                            code({ node, inline, className, children, ...props }) {
+                                            code({ node, className, children, ...props }) {
                                                 const match = /language-(\w+)/.exec(className || '');
-                                                return !inline && match ? (
+                                                const isInline = !match && !String(children).includes('\n');
+                                                return !isInline && match ? (
                                                     <SyntaxHighlighter
                                                         style={vscDarkPlus}
                                                         language={match[1]}
                                                         PreTag="div"
                                                         className="rounded-md my-4"
-                                                        {...props}
                                                     >
                                                         {String(children).replace(/\n$/, '')}
                                                     </SyntaxHighlighter>
