@@ -1006,6 +1006,16 @@ function BigMindTab() {
       };
       setMessages([...newMessages, assistantMessage]);
 
+      // Show toast notification if AI fell back to knowledge base
+      if (data.response?.includes('External AI is currently unavailable')) {
+        toast({
+          title: "⚠️ Using Knowledge Base Fallback",
+          description: "External AI is unavailable. Response generated from local knowledge base.",
+          variant: "destructive",
+          duration: 8000,
+        });
+      }
+
       // Save assistant response
       if (sessionId) {
         saveMessageToDb('assistant', data.response, data.functionCalls);
