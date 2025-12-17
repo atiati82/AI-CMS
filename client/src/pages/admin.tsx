@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 // Lazy load tabs for performance optimization
 const LazySettingsTab = lazy(() => import('./admin/tabs/SettingsTab'));
 const LazyAnalyticsTab = lazy(() => import('./admin/tabs/AnalyticsTab'));
+const LazyBigMindTab = lazy(() => import('./admin/tabs/BigMindTab'));
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13414,7 +13415,9 @@ export default function AdminPage() {
         )}
 
         {activeTab === "bigmind" && (
-          <BigMindTab />
+          <Suspense fallback={<div className="flex items-center justify-center py-12"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
+            <LazyBigMindTab />
+          </Suspense>
         )}
 
         {activeTab === "orders" && (
