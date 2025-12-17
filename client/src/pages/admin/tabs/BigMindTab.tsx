@@ -997,6 +997,15 @@ function BigMindTab() {
         queryClient.invalidateQueries({ queryKey: ['/api/clusters'] });
         queryClient.invalidateQueries({ queryKey: ['/api/science-articles'] });
         queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+
+        // Show toast for executed functions
+        const functionNames = data.functionCalls.map((fc: any) => fc.name).join(', ');
+        const successCount = data.functionCalls.filter((fc: any) => fc.result?.success).length;
+        toast({
+          title: `⚡ ${successCount} Action${successCount !== 1 ? 's' : ''} Executed`,
+          description: `BigMind ran: ${functionNames}`,
+          duration: 5000,
+        });
       }
 
       const assistantMessage = {
@@ -1191,6 +1200,15 @@ function BigMindTab() {
         queryClient.invalidateQueries({ queryKey: ['/api/science-articles'] });
         queryClient.invalidateQueries({ queryKey: ['/api/products'] });
         queryClient.invalidateQueries({ queryKey: ['/api/documents'] });
+
+        // Show toast for executed functions
+        const functionNames = data.functionCalls.map((fc: any) => fc.name).join(', ');
+        const successCount = data.functionCalls.filter((fc: any) => fc.result?.success).length;
+        toast({
+          title: `⚡ ${successCount} Action${successCount !== 1 ? 's' : ''} Executed`,
+          description: `BigMind ran: ${functionNames}`,
+          duration: 5000,
+        });
       }
 
       const assistantMessage = {
