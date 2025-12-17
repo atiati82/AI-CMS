@@ -1,10 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { 
-  insertProductSchema, 
-  insertScienceArticleSchema, 
-  insertClusterSchema, 
+import {
+  insertProductSchema,
+  insertScienceArticleSchema,
+  insertClusterSchema,
   insertPageSchema,
   insertDocumentSchema,
   insertSeoKeywordSchema,
@@ -32,7 +32,7 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 300 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ['application/pdf', 'text/plain', 'text/markdown', 'application/msword', 
+    const allowedTypes = ['application/pdf', 'text/plain', 'text/markdown', 'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (allowedTypes.includes(file.mimetype) || file.originalname.endsWith('.md') || file.originalname.endsWith('.txt')) {
       cb(null, true);
@@ -49,7 +49,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
   // --- PUBLIC PRODUCT ROUTES ---
   app.get("/api/products", async (req, res) => {
     try {
@@ -98,22 +98,22 @@ export async function registerRoutes(
   app.get("/api/pages", async (req, res) => {
     try {
       const { clusterKey, parentKey, tree } = req.query;
-      
+
       if (tree === 'true') {
         const pageTree = await storage.getPageTree();
         return res.json(pageTree);
       }
-      
+
       if (clusterKey) {
         const pages = await storage.getPagesByCluster(clusterKey as string);
         return res.json(pages);
       }
-      
+
       if (parentKey) {
         const pages = await storage.getChildPages(parentKey as string);
         return res.json(pages);
       }
-      
+
       const pages = await storage.getAllPages();
       res.json(pages);
     } catch (error) {
@@ -184,7 +184,7 @@ export async function registerRoutes(
     try {
       const allPages = await storage.getAllPages();
       const publishedPages = allPages.filter(p => p.status === 'published');
-      
+
       const mainSections = [
         {
           key: 'shop',
@@ -225,7 +225,7 @@ export async function registerRoutes(
           children: []
         }
       ];
-      
+
       res.json({
         sections: mainSections,
         legal: publishedPages
@@ -241,7 +241,7 @@ export async function registerRoutes(
   app.get("/api/science-articles", async (req, res) => {
     try {
       const { clusterId, tags, relatedProductIds, limit } = req.query;
-      
+
       if (clusterId || tags || relatedProductIds) {
         const articles = await storage.getRelevantArticles({
           clusterId: clusterId as string,
@@ -251,7 +251,7 @@ export async function registerRoutes(
         });
         return res.json(articles);
       }
-      
+
       const articles = await storage.getAllScienceArticles();
       res.json(articles);
     } catch (error) {
@@ -285,7 +285,7 @@ export async function registerRoutes(
   app.post("/api/admin/login", async (req, res) => {
     try {
       const { username, password } = req.body;
-      
+
       if (!username || !password) {
         return res.status(400).json({ error: "Username and password required" });
       }
@@ -359,10 +359,10 @@ export async function registerRoutes(
   // --- GOOGLE SEARCH CONSOLE (SEO Analytics) ---
   app.get("/api/admin/seo/status", requireAdmin, async (req, res) => {
     try {
-      res.json({ 
+      res.json({
         configured: searchConsoleService.isConfigured(),
-        message: searchConsoleService.isConfigured() 
-          ? "Google Search Console is configured" 
+        message: searchConsoleService.isConfigured()
+          ? "Google Search Console is configured"
           : "GSC credentials not configured. Add GSC_CLIENT_EMAIL and GSC_PRIVATE_KEY secrets."
       });
     } catch (error: any) {
@@ -481,31 +481,31 @@ export async function registerRoutes(
   app.post("/api/admin/pages/:id/enrich", requireAdmin, async (req, res) => {
     try {
       const { enrichPageHtml } = await import("./services/ai-enricher");
-      
+
       const page = await storage.getPage(req.params.id);
       if (!page) {
         return res.status(404).json({ error: "Page not found" });
       }
-      
+
       const html = page.aiStartupHtml;
       if (!html || html.trim().length === 0) {
         return res.status(400).json({ error: "No AI Startup HTML content to enrich" });
       }
-      
+
       // Get selected enrichment steps from request body
       const steps = req.body?.steps || null;
-      
+
       const enrichment = await enrichPageHtml(html, steps);
-      
+
       // Get existing aiEnrichment to preserve data for disabled steps
       const existingEnrichment = page.aiEnrichment || {};
-      
+
       // Helper to check if a step was enabled
       const isStepEnabled = (stepName: string): boolean => {
         if (!steps) return true; // All steps enabled if none specified
         return (steps as any)[stepName] !== false;
       };
-      
+
       // Merge enrichment, keeping existing data for disabled steps
       const mergedEnrichment: any = {
         extractedAt: enrichment.extractedAt,
@@ -519,10 +519,10 @@ export async function registerRoutes(
         components: isStepEnabled('components') ? enrichment.components : (existingEnrichment as any).components || [],
         visualConfig: isStepEnabled('visualConfig') ? enrichment.visualConfig : (existingEnrichment as any).visualConfig,
       };
-      
+
       // Build update object with merged enrichment
       const updateData: any = { aiEnrichment: mergedEnrichment };
-      
+
       // If AI generated visual config and visualConfig step was enabled, merge it with existing or create new
       if (isStepEnabled('visualConfig') && enrichment.visualConfig) {
         const existingConfig = page.visualConfig || {} as any;
@@ -538,13 +538,13 @@ export async function registerRoutes(
           designerNotes: enrichment.visualConfig.designerNotes || existingConfig.designerNotes || "",
         };
       }
-      
+
       const updatedPage = await storage.updatePage(req.params.id, updateData);
-      
-      res.json({ 
-        success: true, 
+
+      res.json({
+        success: true,
         enrichment,
-        page: updatedPage 
+        page: updatedPage
       });
     } catch (error) {
       console.error("AI enrichment error:", error);
@@ -556,27 +556,27 @@ export async function registerRoutes(
   app.post("/api/admin/pages/:id/integrate", requireAdmin, async (req, res) => {
     try {
       const { integrateTsxPage } = await import("./services/page-integrator");
-      
+
       const page = await storage.getPage(req.params.id);
       if (!page) {
         return res.status(404).json({ error: "Page not found" });
       }
-      
+
       const tsxCode = (page as any).aiStartupHtml;
       if (!tsxCode || tsxCode.trim().length === 0) {
         return res.status(400).json({ error: "No AI Startup HTML/TSX content to integrate" });
       }
-      
+
       const result = await integrateTsxPage(tsxCode);
-      
+
       if (!result.success) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           error: result.error || "Integration failed",
           details: result
         });
       }
-      
-      res.json({ 
+
+      res.json({
         success: true,
         message: `Page integrated successfully! View at ${result.routePath}`,
         pageId: result.pageId,
@@ -594,15 +594,15 @@ export async function registerRoutes(
   app.post("/api/admin/ai-startup", requireAdmin, async (req, res) => {
     try {
       const { generatePageFromBrief } = await import("./services/ai-startup");
-      
+
       const { brief, pageSlug } = req.body;
-      
+
       if (!brief || brief.trim().length === 0) {
         return res.status(400).json({ error: "Brief is required" });
       }
-      
+
       const result = await generatePageFromBrief(brief, pageSlug);
-      
+
       res.json({
         success: true,
         layoutsDetected: result.layoutsDetected,
@@ -620,19 +620,19 @@ export async function registerRoutes(
   app.post("/api/admin/generate-image", requireAdmin, async (req, res) => {
     try {
       const { generateImage } = await import("./services/image-generator");
-      
+
       const { prompt } = req.body;
-      
+
       if (!prompt || prompt.trim().length === 0) {
         return res.status(400).json({ error: "Image prompt is required" });
       }
-      
+
       const result = await generateImage(prompt);
-      
+
       if (!result.success) {
         return res.status(500).json({ error: result.error || "Failed to generate image" });
       }
-      
+
       res.json({
         success: true,
         publicUrl: result.publicUrl,
@@ -647,19 +647,19 @@ export async function registerRoutes(
   app.post("/api/admin/regenerate-image", requireAdmin, async (req, res) => {
     try {
       const { regenerateImage } = await import("./services/image-generator");
-      
+
       const { prompt, oldFilePath } = req.body;
-      
+
       if (!prompt || prompt.trim().length === 0) {
         return res.status(400).json({ error: "Image prompt is required" });
       }
-      
+
       const result = await regenerateImage(prompt, oldFilePath);
-      
+
       if (!result.success) {
         return res.status(500).json({ error: result.error || "Failed to regenerate image" });
       }
-      
+
       res.json({
         success: true,
         publicUrl: result.publicUrl,
@@ -708,20 +708,20 @@ export async function registerRoutes(
   app.get("/api/admin/documents", requireAdmin, async (req, res) => {
     try {
       const { status, search, limit } = req.query;
-      
+
       if (search) {
         const documents = await storage.searchDocuments(
-          search as string, 
+          search as string,
           limit ? parseInt(limit as string) : undefined
         );
         return res.json(documents);
       }
-      
+
       if (status) {
         const documents = await storage.getDocumentsByStatus(status as string);
         return res.json(documents);
       }
-      
+
       const documents = await storage.getAllDocuments();
       res.json(documents);
     } catch (error) {
@@ -863,30 +863,30 @@ export async function registerRoutes(
     try {
       const documentId = req.params.id;
       const document = await storage.getDocument(documentId);
-      
+
       if (!document) {
         return res.status(404).json({ error: "Document not found" });
       }
-      
+
       // Mark as processing
       await storage.updateDocument(documentId, { status: 'processing' });
-      
+
       // Get the text content
       const textContent = document.cleanText || document.rawText || '';
-      
+
       if (!textContent.trim()) {
         await storage.updateDocument(documentId, { status: 'failed', errorMessage: 'No text content to index' });
         return res.status(400).json({ error: "Document has no text content to index" });
       }
-      
+
       // Delete existing chunks
       await storage.deleteDocumentChunks(documentId);
-      
+
       // Simple chunking: split into ~500 word chunks
       const words = textContent.split(/\s+/).filter(w => w);
       const chunkSize = 500;
       const chunks: { content: string; chunkIndex: number; tokenCount: number; documentId: string }[] = [];
-      
+
       for (let i = 0; i < words.length; i += chunkSize) {
         const chunkWords = words.slice(i, i + chunkSize);
         const content = chunkWords.join(' ');
@@ -897,7 +897,7 @@ export async function registerRoutes(
           tokenCount: Math.ceil(chunkWords.length * 1.3), // Rough token estimate
         });
       }
-      
+
       // If no chunks created (very short content), create a single chunk
       if (chunks.length === 0 && textContent.trim()) {
         chunks.push({
@@ -907,30 +907,30 @@ export async function registerRoutes(
           tokenCount: Math.ceil(words.length * 1.3),
         });
       }
-      
+
       // Save chunks
       await storage.bulkCreateDocumentChunks(chunks);
-      
+
       // Mark as indexed
-      const updatedDoc = await storage.updateDocument(documentId, { 
+      const updatedDoc = await storage.updateDocument(documentId, {
         status: 'indexed',
         cleanText: textContent,
         errorMessage: null
       });
-      
-      res.json({ 
-        success: true, 
+
+      res.json({
+        success: true,
         document: updatedDoc,
-        chunksCreated: chunks.length 
+        chunksCreated: chunks.length
       });
     } catch (error) {
       console.error('Failed to index document:', error);
       try {
-        await storage.updateDocument(req.params.id, { 
-          status: 'failed', 
-          errorMessage: error instanceof Error ? error.message : 'Unknown error' 
+        await storage.updateDocument(req.params.id, {
+          status: 'failed',
+          errorMessage: error instanceof Error ? error.message : 'Unknown error'
         });
-      } catch {}
+      } catch { }
       res.status(500).json({ error: "Failed to index document" });
     }
   });
@@ -939,7 +939,7 @@ export async function registerRoutes(
   app.get("/api/admin/seo-keywords", requireAdmin, async (req, res) => {
     try {
       const { status, opportunities, minRelevance, maxDifficulty, minVolume, limit } = req.query;
-      
+
       if (opportunities === 'true') {
         const keywords = await storage.getHighOpportunityKeywords({
           minRelevance: minRelevance ? parseInt(minRelevance as string) : undefined,
@@ -949,12 +949,12 @@ export async function registerRoutes(
         });
         return res.json(keywords);
       }
-      
+
       if (status) {
         const keywords = await storage.getSeoKeywordsByStatus(status as string);
         return res.json(keywords);
       }
-      
+
       const keywords = await storage.getAllSeoKeywords();
       res.json(keywords);
     } catch (error) {
@@ -1006,17 +1006,17 @@ export async function registerRoutes(
   app.get("/api/admin/magic-pages", requireAdmin, async (req, res) => {
     try {
       const { status, keywordId } = req.query;
-      
+
       if (keywordId) {
         const suggestion = await storage.getMagicPageSuggestionByKeyword(keywordId as string);
         return res.json(suggestion ? [suggestion] : []);
       }
-      
+
       if (status) {
         const suggestions = await storage.getMagicPageSuggestionsByStatus(status as string);
         return res.json(suggestions);
       }
-      
+
       const suggestions = await storage.getAllMagicPageSuggestions();
       res.json(suggestions);
     } catch (error) {
@@ -1056,13 +1056,13 @@ export async function registerRoutes(
         minScore: minScore ?? 50,
         limit: limit ?? 10
       });
-      
+
       const created = [];
       for (const suggestion of suggestions) {
         const saved = await storage.createMagicPageSuggestion(suggestion);
         created.push(saved);
       }
-      
+
       res.json({
         success: true,
         count: created.length,
@@ -1126,12 +1126,12 @@ export async function registerRoutes(
   app.get("/api/admin/settings", requireAdmin, async (req, res) => {
     try {
       const { category } = req.query;
-      
+
       if (category) {
         const settings = await storage.getCmsSettingsByCategory(category as string);
         return res.json(settings);
       }
-      
+
       const settings = await storage.getAllCmsSettings();
       res.json(settings);
     } catch (error) {
@@ -1208,9 +1208,9 @@ export async function registerRoutes(
     try {
       const documentId = req.params.id;
       const keywordSuggestions = await seoScanner.scanDocumentAndSaveKeywords(documentId);
-      
+
       const createdKeywords = await storage.bulkCreateSeoKeywords(keywordSuggestions);
-      
+
       res.json({
         success: true,
         keywordsFound: createdKeywords.length,
@@ -1269,17 +1269,17 @@ export async function registerRoutes(
   app.get("/api/admin/linking-rules", requireAdmin, async (req, res) => {
     try {
       const { ruleType, active } = req.query;
-      
+
       if (active === 'true') {
         const rules = await storage.getActiveLinkingRules();
         return res.json(rules);
       }
-      
+
       if (ruleType) {
         const rules = await storage.getLinkingRulesByType(ruleType as string);
         return res.json(rules);
       }
-      
+
       const rules = await storage.getAllLinkingRules();
       res.json(rules);
     } catch (error) {
@@ -1347,17 +1347,17 @@ export async function registerRoutes(
   app.get("/api/admin/cta-templates", requireAdmin, async (req, res) => {
     try {
       const { position, active } = req.query;
-      
+
       if (active === 'true') {
         const templates = await storage.getActiveCtaTemplates();
         return res.json(templates);
       }
-      
+
       if (position) {
         const templates = await storage.getCtaTemplatesByPosition(position as string);
         return res.json(templates);
       }
-      
+
       const templates = await storage.getAllCtaTemplates();
       res.json(templates);
     } catch (error) {
@@ -1456,8 +1456,8 @@ export async function registerRoutes(
     try {
       const settings = await storage.getMagicAiSettings();
       if (!settings) {
-        return res.json({ 
-          id: 1, 
+        return res.json({
+          id: 1,
           magicPageBasePrompt: '',
           updatedAt: new Date()
         });
@@ -1489,12 +1489,12 @@ export async function registerRoutes(
   app.get("/api/admin/html-templates", requireAdmin, async (req, res) => {
     try {
       const { type } = req.query;
-      
+
       if (type) {
         const templates = await storage.getHtmlTemplatesByType(type as string);
         return res.json(templates);
       }
-      
+
       const templates = await storage.getAllHtmlTemplates();
       res.json(templates);
     } catch (error) {
@@ -1627,7 +1627,7 @@ export async function registerRoutes(
       if (!prompts || !Array.isArray(prompts)) {
         return res.status(400).json({ error: "prompts array is required" });
       }
-      const validated = prompts.map((p: any) => 
+      const validated = prompts.map((p: any) =>
         insertPageImagePromptSchema.parse({
           ...p,
           pageId: req.params.pageId
@@ -1677,19 +1677,19 @@ export async function registerRoutes(
       if (!prompt) {
         return res.status(404).json({ error: "Image prompt not found" });
       }
-      
+
       await storage.updatePageImagePrompt(req.params.id, { status: "generating" });
-      
+
       const { generateImage, deleteImage } = await import("./services/image-generator");
-      
+
       const finalPrompt = prompt.promptFinal || prompt.promptTemplate || "Abstract visual with golden crystalline patterns";
       const result = await generateImage(finalPrompt);
-      
+
       if (result.success && result.publicUrl) {
         if (prompt.assetPath) {
           deleteImage(prompt.assetPath);
         }
-        
+
         const updated = await storage.updatePageImagePrompt(req.params.id, {
           status: "ready",
           assetUrl: result.publicUrl,
@@ -1697,7 +1697,7 @@ export async function registerRoutes(
         });
         res.json(updated);
       } else {
-        await storage.updatePageImagePrompt(req.params.id, { 
+        await storage.updatePageImagePrompt(req.params.id, {
           status: "failed",
           metadata: { ...(prompt.metadata || {}), lastError: result.error }
         });
@@ -1713,13 +1713,13 @@ export async function registerRoutes(
   app.post("/api/admin/pages/:pageId/detect-slots", requireAdmin, async (req, res) => {
     try {
       const { detectImageSlots } = await import("./services/image-slot-detector");
-      const page = await storage.getPageByKey(req.params.pageId) 
+      const page = await storage.getPageByKey(req.params.pageId)
         || await storage.getPage(req.params.pageId);
-      
+
       if (!page) {
         return res.status(404).json({ error: "Page not found" });
       }
-      
+
       const slots = await detectImageSlots(page);
       res.json(slots);
     } catch (error) {
@@ -1732,18 +1732,18 @@ export async function registerRoutes(
   app.post("/api/admin/pages/:pageId/synthesize-prompts", requireAdmin, async (req, res) => {
     try {
       const { synthesizePrompts } = await import("./services/prompt-synthesizer");
-      const page = await storage.getPageByKey(req.params.pageId) 
+      const page = await storage.getPageByKey(req.params.pageId)
         || await storage.getPage(req.params.pageId);
-      
+
       if (!page) {
         return res.status(404).json({ error: "Page not found" });
       }
-      
+
       const { slots } = req.body;
       if (!slots || !Array.isArray(slots)) {
         return res.status(400).json({ error: "slots array is required" });
       }
-      
+
       const synthesized = await synthesizePrompts(page, slots);
       res.json(synthesized);
     } catch (error) {
@@ -1757,11 +1757,11 @@ export async function registerRoutes(
     try {
       const { chat } = await import("./services/andara-chat");
       const { messages, includeContext = true } = req.body;
-      
+
       if (!messages || !Array.isArray(messages) || messages.length === 0) {
         return res.status(400).json({ error: "Messages array is required" });
       }
-      
+
       const response = await chat(messages, includeContext);
       res.json({ response });
     } catch (error) {
@@ -1786,11 +1786,11 @@ export async function registerRoutes(
     try {
       const { chatWithFunctions } = await import("./services/bigmind-cms");
       const { messages, model } = req.body;
-      
+
       if (!messages || !Array.isArray(messages) || messages.length === 0) {
         return res.status(400).json({ error: "Messages array is required" });
       }
-      
+
       const result = await chatWithFunctions(messages, undefined, model);
       res.json(result);
     } catch (error) {
@@ -1799,14 +1799,20 @@ export async function registerRoutes(
     }
   });
 
+  // Streaming chat endpoint for modern UI
+  app.post("/api/admin/bigmind/chat/stream", requireAdmin, async (req, res) => {
+    const { handleStreamingChat } = await import("./services/streaming-chat");
+    await handleStreamingChat(req, res);
+  });
+
   app.get("/api/admin/bigmind/context", requireAdmin, async (req, res) => {
     try {
       const { getSummarizedContext, CLUSTER_ONTOLOGY, ZONE_GUIDELINES } = await import("./services/bigmind-cms");
       const context = await getSummarizedContext();
-      res.json({ 
-        context, 
+      res.json({
+        context,
         clusters: CLUSTER_ONTOLOGY,
-        zones: ZONE_GUIDELINES 
+        zones: ZONE_GUIDELINES
       });
     } catch (error) {
       console.error("BigMind context error:", error);
@@ -1989,7 +1995,7 @@ export async function registerRoutes(
   app.get("/api/admin/page-ai/sessions", requireAdmin, async (req, res) => {
     try {
       const { pageKey } = req.query;
-      const sessions = pageKey 
+      const sessions = pageKey
         ? await storage.getPageAiSessionsByPageKey(pageKey as string)
         : await storage.getAllPageAiSessions();
       res.json(sessions);
@@ -2174,7 +2180,7 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Key, label, and value are required" });
       }
       const setting = await storage.createAdminAiSetting({
-        key, category: category || 'prompts', label, value, description, 
+        key, category: category || 'prompts', label, value, description,
         isActive: isActive ?? true, sortOrder: sortOrder ?? 0, metadata
       });
       res.json(setting);
@@ -2282,13 +2288,13 @@ export async function registerRoutes(
       if (!session) {
         return res.status(404).json({ error: "Session not found" });
       }
-      
+
       const { generatePageFromBrief } = await import("./services/ai-startup");
       const result = await generatePageFromBrief(session.sourceContent, session.generatedPath || undefined);
-      
+
       const updated = await storage.updateMagicPageSession(req.params.id, {
         generatedHtml: result.html,
-        analysis: { 
+        analysis: {
           suggestedLayouts: result.layoutsDetected,
           keywords: result.seo.keywords,
           summary: result.seo.description,
@@ -2298,7 +2304,7 @@ export async function registerRoutes(
         },
         status: 'ready'
       });
-      
+
       res.json(updated);
     } catch (error) {
       console.error("Generate magic page error:", error);
@@ -2386,7 +2392,7 @@ export async function registerRoutes(
       const enhancements = await Promise.all(
         enhancementIds.map(id => storage.getPageEnhancement(id))
       );
-      
+
       const page = await storage.getPage(pageId);
       if (!page) {
         return res.status(404).json({ error: "Page not found" });
@@ -2395,7 +2401,7 @@ export async function registerRoutes(
       const updates: Record<string, any> = {};
       for (const enhancement of enhancements) {
         if (!enhancement || enhancement.status !== 'pending') continue;
-        
+
         switch (enhancement.enhancementType) {
           case 'title':
             updates.title = enhancement.suggestedValue;
@@ -2429,10 +2435,10 @@ export async function registerRoutes(
 
       await storage.applyEnhancements(enhancementIds);
 
-      res.json({ 
-        success: true, 
+      res.json({
+        success: true,
         appliedCount: enhancementIds.length,
-        updates 
+        updates
       });
     } catch (error) {
       console.error("Apply enhancements error:", error);
@@ -2499,7 +2505,7 @@ export async function registerRoutes(
   app.post("/api/stripe/checkout", async (req, res) => {
     try {
       const { priceId, quantity, customerEmail, successUrl, cancelUrl, metadata } = req.body;
-      
+
       if (!priceId) {
         return res.status(400).json({ error: "priceId is required" });
       }
@@ -2535,7 +2541,7 @@ export async function registerRoutes(
   app.get("/api/admin/orders", requireAdmin, async (req, res) => {
     try {
       const { status } = req.query;
-      const orders = status 
+      const orders = status
         ? await storage.getOrdersByStatus(status as string)
         : await storage.getAllOrders();
       res.json(orders);
@@ -2584,7 +2590,7 @@ export async function registerRoutes(
       if (!status) {
         return res.status(400).json({ error: "status is required" });
       }
-      
+
       const order = await storage.updateOrderStatus(req.params.id, status, {
         trackingNumber,
         trackingUrl,
@@ -2609,7 +2615,7 @@ export async function registerRoutes(
 
   // --- MAINTENANCE ROUTES ---
   const maintenanceService = await import("./services/maintenanceService");
-  
+
   app.get("/api/admin/maintenance/settings", requireAdmin, async (req, res) => {
     try {
       const settings = await maintenanceService.getMaintenanceSettings();
@@ -2619,7 +2625,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to fetch maintenance settings" });
     }
   });
-  
+
   app.put("/api/admin/maintenance/settings", requireAdmin, async (req, res) => {
     try {
       const { key, value } = req.body;
@@ -2633,7 +2639,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to update maintenance settings" });
     }
   });
-  
+
   app.post("/api/admin/maintenance/run", requireAdmin, async (req, res) => {
     try {
       const report = await maintenanceService.runMaintenanceCheck('manual');
@@ -2643,7 +2649,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to run maintenance check" });
     }
   });
-  
+
   app.get("/api/admin/maintenance/latest", requireAdmin, async (req, res) => {
     try {
       const report = await maintenanceService.getLatestReport();
@@ -2653,7 +2659,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to fetch latest report" });
     }
   });
-  
+
   app.get("/api/admin/maintenance/history", requireAdmin, async (req, res) => {
     try {
       const limit = parseInt(req.query.limit as string) || 10;
@@ -2664,7 +2670,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to fetch report history" });
     }
   });
-  
+
   app.get("/api/admin/maintenance/ai-summary", requireAdmin, async (req, res) => {
     try {
       const report = await maintenanceService.getLatestReport();
@@ -2687,7 +2693,7 @@ export async function registerRoutes(
       res.status(500).json({ error: "Failed to generate AI summary" });
     }
   });
-  
+
   maintenanceService.startMaintenanceScheduler();
 
   // ============================================================================
@@ -2755,17 +2761,17 @@ export async function registerRoutes(
       const status = req.query.status as string;
       const limit = parseInt(req.query.limit as string) || 50;
       const priority = parseInt(req.query.priority as string) || undefined;
-      
+
       if (status === 'proposed') {
         const suggestions = await storage.getPendingPageAiSuggestions({ limit, priority });
         return res.json(suggestions);
       }
-      
+
       if (status) {
         const suggestions = await storage.getPageAiSuggestionsByStatus(status);
         return res.json(suggestions);
       }
-      
+
       const suggestions = await storage.getPendingPageAiSuggestions({ limit });
       res.json(suggestions);
     } catch (error) {
@@ -3001,17 +3007,17 @@ export async function registerRoutes(
     try {
       const status = req.query.status as string;
       const clusterKey = req.query.clusterKey as string;
-      
+
       if (status) {
         const pages = await storage.getProposedPagesByStatus(status);
         return res.json(pages);
       }
-      
+
       if (clusterKey) {
         const pages = await storage.getProposedPagesByCluster(clusterKey);
         return res.json(pages);
       }
-      
+
       const pages = await storage.getAllProposedPages();
       res.json(pages);
     } catch (error) {
@@ -3250,7 +3256,7 @@ export async function registerRoutes(
       }
 
       const htmlContent = await seoBrainService.generateContentBlock(pageId, blockType, hook, context);
-      
+
       if (htmlContent) {
         const block = await storage.createAiContentBlock({
           pageId,

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { 
+import {
   LayoutDashboard, FileText, Package, Beaker, FolderTree, FileUp,
   Target, Wand2, Link, Code2, Settings, Brain, ChevronLeft, ChevronRight,
   ShoppingCart, GraduationCap, Truck, Mail, MessageSquare, Calendar, Kanban,
-  Palette, Menu, X, BarChart3
+  Palette, Menu, X, BarChart3, Cpu
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -49,6 +49,7 @@ const navSections: NavSection[] = [
       { id: "magic", label: "Magic Pages", icon: GraduationCap },
       { id: "linking", label: "Linking Rules", icon: Link },
       { id: "bigmind", label: "Big Mind", icon: Brain },
+      { id: "ai-agents", label: "AI Agents", icon: Cpu },
     ],
   },
   {
@@ -67,14 +68,14 @@ type AdminSidebarProps = {
   onToggleCollapse: () => void;
 };
 
-function SidebarContent({ 
-  activeTab, 
-  onTabChange, 
+function SidebarContent({
+  activeTab,
+  onTabChange,
   isCollapsed = false,
   onItemClick
-}: { 
-  activeTab: string; 
-  onTabChange: (tab: string) => void; 
+}: {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
   isCollapsed?: boolean;
   onItemClick?: () => void;
 }) {
@@ -91,7 +92,7 @@ function SidebarContent({
             {section.items.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
-              
+
               return (
                 <li key={item.id}>
                   <button
@@ -129,11 +130,11 @@ function SidebarContent({
   );
 }
 
-export function AdminSidebar({ 
-  activeTab, 
-  onTabChange, 
-  isCollapsed, 
-  onToggleCollapse 
+export function AdminSidebar({
+  activeTab,
+  onTabChange,
+  isCollapsed,
+  onToggleCollapse
 }: AdminSidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -152,8 +153,8 @@ export function AdminSidebar({
 
       {/* Mobile Sheet Navigation */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent 
-          side="left" 
+        <SheetContent
+          side="left"
           className="w-[280px] p-0 border-slate-700 bg-slate-900 [&>button]:hidden"
         >
           <div className="flex items-center justify-between h-16 px-4 border-b border-slate-700">
@@ -174,16 +175,16 @@ export function AdminSidebar({
               <X className="w-5 h-5" />
             </Button>
           </div>
-          <SidebarContent 
-            activeTab={activeTab} 
-            onTabChange={onTabChange} 
+          <SidebarContent
+            activeTab={activeTab}
+            onTabChange={onTabChange}
             onItemClick={() => setMobileOpen(false)}
           />
         </SheetContent>
       </Sheet>
 
       {/* Desktop Sidebar - hidden on mobile */}
-      <aside 
+      <aside
         className={cn(
           "fixed left-0 top-0 z-40 h-screen bg-admin-sidebar border-r border-admin-sidebar-border transition-all duration-300",
           "hidden md:block",
@@ -216,9 +217,9 @@ export function AdminSidebar({
           </button>
         </div>
 
-        <SidebarContent 
-          activeTab={activeTab} 
-          onTabChange={onTabChange} 
+        <SidebarContent
+          activeTab={activeTab}
+          onTabChange={onTabChange}
           isCollapsed={isCollapsed}
         />
       </aside>

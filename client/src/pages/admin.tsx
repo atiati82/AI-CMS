@@ -25,7 +25,7 @@ import {
   Target, TrendingUp, BarChart2, Search, Zap, ArrowUpRight, Filter, Scan,
   Wand2, Sparkles, ListTree, FileCheck, XCircle, Play, Send, Settings, Key, Database,
   Code2, LayoutTemplate, Paintbrush, Palette, Film, Image, Lightbulb, Heart, Brain, MessageCircle, Copy,
-  User, Paperclip, FileType, ImageIcon, VideoIcon, FileTextIcon, History, Layers, Globe
+  User, Paperclip, FileType, ImageIcon, VideoIcon, FileTextIcon, History, Layers, Globe, Cpu
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -5167,6 +5167,196 @@ function DesignSystemTab({ pages }: DesignSystemTabProps) {
           <ImageIcon className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
           <h3 className="font-semibold text-lg mb-2">Asset Library</h3>
           <p className="text-sm text-muted-foreground">Coming soon - manage images, icons, and media assets</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AIAgentsTab() {
+  const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [selectedTask, setSelectedTask] = useState('');
+  const [taskInput, setTaskInput] = useState('');
+  const [taskResult, setTaskResult] = useState<any>(null);
+  const [isExecuting, setIsExecuting] = useState(false);
+
+  const { data: agentsData, isLoading } = useQuery<{ agents: Array<{ name: string; description: string; capabilities: string[] }> }>({
+    queryKey: ['/api/ai/agents'],
+    queryFn: async () => {
+      const res = await apiRequest('GET', '/api/ai/agents');
+      return res.json();
+    },
+  });
+
+  const agents = agentsData?.agents || [];
+
+  const executeTask = async () => {
+    if (!selectedAgent || !selectedTask) return;
+
+    setIsExecuting(true);
+    setTaskResult(null);
+
+    try {
+      const input = taskInput ? JSON.parse(taskInput) : {};
+      const res = await apiRequest('POST', '/api/ai/agents/execute', {
+        agentName: selectedAgent,
+        task: {
+          type: selectedTask,
+          input
+        }
+      });
+
+      const data = await res.json();
+      setTaskResult(data.result || data);
+    } catch (error: any) {
+      setTaskResult({ success: false, error: error.message });
+    } finally {
+      setIsExecuting(false);
+    }
+  };
+
+  const currentAgent = agents.find(a => a.name === selectedAgent);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-foreground">AI Agents</h2>
+          <p className="text-muted-foreground mt-1">
+            Manage and execute tasks using AI agents
+          </p>
+        </div>
+        <div className="px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-lg">
+          <span className="text-sm font-medium text-green-600">{agents.length} Active Agents</span>
+        </div>
+      </div>
+
+      {isLoading ? (
+        <div className="text-center py-12">
+          <RefreshCw className="w-8 h-8 animate-spin mx-auto text-primary mb-4" />
+          <p className="text-muted-foreground">Loading agents...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Agent Cards */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Available Agents</h3>
+            {agents.map((agent) => (
+              <div
+                key={agent.name}
+                className={cn(
+                  "p-6 rounded-lg border-2 cursor-pointer transition-all",
+                  selectedAgent === agent.name
+                    ? "border-primary bg-primary/5"
+                    : "border-border bg-card hover:border-primary/50"
+                )}
+                onClick={() => setSelectedAgent(agent.name)}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Cpu className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold capitalize">{agent.name} Agent</h4>
+                    <p className="text-sm text-muted-foreground mt-1">{agent.description}</p>
+                    <div className="mt-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-2">CAPABILITIES:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {agent.capabilities.map((cap) => (
+                          <span
+                            key={cap}
+                            className="px-2 py-1 text-xs rounded-md bg-muted text-foreground"
+                          >
+                            {cap.replace(/_/g, ' ')}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Task Execution Panel */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Execute Task</h3>
+            <div className="p-6 rounded-lg border bg-card space-y-4">
+              {!selectedAgent ? (
+                <div className="text-center py-8">
+                  <Cpu className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
+                  <p className="text-muted-foreground">Select an agent to execute tasks</p>
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <label className="text-sm font-medium block mb-2">Agent</label>
+                    <div className="px-3 py-2 rounded-md bg-muted text-sm font-medium capitalize">
+                      {selectedAgent} Agent
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium block mb-2">Task Type</label>
+                    <select
+                      value={selectedTask}
+                      onChange={(e) => setSelectedTask(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md border bg-background"
+                    >
+                      <option value="">Select a task...</option>
+                      {currentAgent?.capabilities.map((cap) => (
+                        <option key={cap} value={cap}>
+                          {cap.replace(/_/g, ' ')}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium block mb-2">
+                      Input (JSON)
+                      <span className="text-muted-foreground font-normal ml-2">Optional</span>
+                    </label>
+                    <textarea
+                      value={taskInput}
+                      onChange={(e) => setTaskInput(e.target.value)}
+                      placeholder='{"pageId": "123"}'
+                      className="w-full px-3 py-2 rounded-md border bg-background font-mono text-sm min-h-[100px]"
+                    />
+                  </div>
+
+                  <Button
+                    onClick={executeTask}
+                    disabled={!selectedTask || isExecuting}
+                    className="w-full"
+                  >
+                    {isExecuting ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                        Executing...
+                      </>
+                    ) : (
+                      'Execute Task'
+                    )}
+                  </Button>
+
+                  {taskResult && (
+                    <div className="mt-4">
+                      <label className="text-sm font-medium block mb-2">Result</label>
+                      <div className={cn(
+                        "p-4 rounded-md border",
+                        taskResult.success ? "bg-green-500/10 border-green-500/20" : "bg-red-500/10 border-red-500/20"
+                      )}>
+                        <pre className="text-xs overflow-auto">
+                          {JSON.stringify(taskResult, null, 2)}
+                        </pre>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -13217,6 +13407,7 @@ export default function AdminPage() {
               settings={cmsSettings}
               onSave={handleSaveSetting}
               isSaving={isSavingSettings}
+              onTabChange={setActiveTab}
             />
           </Suspense>
         )}
@@ -13231,6 +13422,10 @@ export default function AdminPage() {
 
         {activeTab === "analytics" && (
           <AnalyticsTab />
+        )}
+
+        {activeTab === "ai-agents" && (
+          <AIAgentsTab />
         )}
 
         {activeTab === "design" && (

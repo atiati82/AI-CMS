@@ -1299,108 +1299,141 @@ export async function chatWithFunctions(
 ): Promise<{ response: string; functionCalls: Array<{ name: string; result: any }> }> {
   const summarizedContext = await getSummarizedContext();
 
-  const contents: any[] = [
-    {
-      role: "user",
-      parts: [{ text: `SYSTEM:\n${BIGMIND_SYSTEM_PROMPT}\n\nCURRENT SITE:\n${summarizedContext}` }]
-    },
-    {
-      role: "model",
-      parts: [{ text: "I'm BigMind, your AI CMS Manager. I have full access to your Andara database and can create, edit, and organize content following the zone guidelines. What would you like me to help you with?" }]
-    },
-    ...messages.map(msg => ({
-      role: msg.role === "user" ? "user" : "model",
-      parts: [{ text: msg.content }]
-    }))
-  ];
-
-  const functionCalls: Array<{ name: string; result: any }> = [];
-  let finalResponse = "";
-  let iterations = 0;
-  const maxIterations = 5;
-
-  while (iterations < maxIterations) {
-    iterations++;
-
-    const { client, model: configuredModel } = await getAiClient();
-
-    // Validate modelOverride: only use if its provider is available
-    let model = configuredModel;
-    if (modelOverride) {
-      const overrideProvider = MODEL_PROVIDERS[modelOverride] || 'openai';
-      const geminiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-      const openaiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-
-      const isGeminiAvailable = !!geminiKey;
-      const isOpenAIAvailable = !!openaiKey;
-
-      if (overrideProvider === 'openai' && !isOpenAIAvailable) {
-        console.log(`[BigMind] Model override ${modelOverride} requires OpenAI which is unavailable, using ${configuredModel}`);
-        model = configuredModel;
-      } else if (overrideProvider === 'gemini' && !isGeminiAvailable) {
-        console.log(`[BigMind] Model override ${modelOverride} requires Gemini which is unavailable, using ${configuredModel}`);
-        model = configuredModel;
-      } else {
-        model = modelOverride;
-      }
-    }
-
-    const response = await client.models.generateContent({
-      model,
-      contents,
-      config: {
-        tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
+  // Try with external AI first
+  try {
+    const contents: any[] = [
+      {
+        role: "user",
+        parts: [{ text: `SYSTEM:\n${BIGMIND_SYSTEM_PROMPT}\n\nCURRENT SITE:\n${summarizedContext}` }]
       },
-    });
+      {
+        role: "model",
+        parts: [{ text: "I'm BigMind, your AI CMS Manager. I have full access to your Andara database and can create, edit, and organize content following the zone guidelines. What would you like me to help you with?" }]
+      },
+      ...messages.map(msg => ({
+        role: msg.role === "user" ? "user" : "model",
+        parts: [{ text: msg.content }]
+      }))
+    ];
 
-    const candidate = response.candidates?.[0];
-    if (!candidate?.content?.parts) {
-      finalResponse = "I couldn't process that request.";
-      break;
-    }
+    const functionCalls: Array<{ name: string; result: any }> = [];
+    let finalResponse = "";
+    let iterations = 0;
+    const maxIterations = 5;
 
-    let hasFunctionCall = false;
-    for (const part of candidate.content.parts) {
-      if (part.functionCall) {
-        hasFunctionCall = true;
-        const fnName = part.functionCall.name || "";
-        const fnArgs = part.functionCall.args || {};
+    while (iterations < maxIterations) {
+      iterations++;
 
-        console.log(`[BigMind] Calling function: ${fnName}`, fnArgs);
+      const { client, model: configuredModel } = await getAiClient();
 
-        const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
-        functionCalls.push({ name: fnName, result });
+      // Validate modelOverride: only use if its provider is available
+      let model = configuredModel;
+      if (modelOverride) {
+        const overrideProvider = MODEL_PROVIDERS[modelOverride] || 'openai';
+        const geminiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        const openaiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
 
-        if (onFunctionCall) {
-          onFunctionCall(fnName, result);
+        const isGeminiAvailable = !!geminiKey;
+        const isOpenAIAvailable = !!openaiKey;
+
+        if (overrideProvider === 'openai' && !isOpenAIAvailable) {
+          console.log(`[BigMind] Model override ${modelOverride} requires OpenAI which is unavailable, using ${configuredModel}`);
+          model = configuredModel;
+        } else if (overrideProvider === 'gemini' && !isGeminiAvailable) {
+          console.log(`[BigMind] Model override ${modelOverride} requires Gemini which is unavailable, using ${configuredModel}`);
+          model = configuredModel;
+        } else {
+          model = modelOverride;
+        }
+      }
+
+      const response = await client.models.generateContent({
+        model,
+        contents,
+        config: {
+          tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
+        },
+      });
+
+      const candidate = response.candidates?.[0];
+      if (!candidate?.content?.parts) {
+        finalResponse = "I couldn't process that request.";
+        break;
+      }
+
+      let hasFunctionCall = false;
+      for (const part of candidate.content.parts) {
+        if (part.functionCall) {
+          hasFunctionCall = true;
+          const fnName = part.functionCall.name || "";
+          const fnArgs = part.functionCall.args || {};
+
+          console.log(`[BigMind] Calling function: ${fnName}`, fnArgs);
+
+          const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
+          functionCalls.push({ name: fnName, result });
+
+          if (onFunctionCall) {
+            onFunctionCall(fnName, result);
+          }
+
+          contents.push({
+            role: "model",
+            parts: [{ functionCall: { name: fnName, args: fnArgs } }]
+          });
+          contents.push({
+            role: "function",
+            parts: [{
+              functionResponse: {
+                name: fnName,
+                response: { result: JSON.stringify(result) }
+              }
+            }]
+          });
         }
 
-        contents.push({
-          role: "model",
-          parts: [{ functionCall: { name: fnName, args: fnArgs } }]
-        });
-        contents.push({
-          role: "function",
-          parts: [{
-            functionResponse: {
-              name: fnName,
-              response: { result: JSON.stringify(result) }
-            }
-          }]
-        });
+        if (part.text) {
+          finalResponse = part.text;
+        }
       }
 
-      if (part.text) {
-        finalResponse = part.text;
+      if (!hasFunctionCall) {
+        break;
       }
     }
 
-    if (!hasFunctionCall) {
-      break;
+    return { response: finalResponse, functionCalls };
+
+  } catch (error) {
+    // Failover to local RAG system
+    console.error('[BigMind] External AI failed, using fallback RAG system:', error);
+    const { generateFallbackResponse, generateSmartFallback } = await import('./fallback-ai');
+
+    // Get the last user message
+    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+    if (!lastUserMessage) {
+      return {
+        response: "I apologize, but I encountered an error and couldn't process your request. The external AI system is unavailable.",
+        functionCalls: [],
+      };
     }
+
+    // Try smart fallback first
+    const smartResponse = generateSmartFallback(lastUserMessage.content);
+    if (smartResponse) {
+      return {
+        response: smartResponse + "\n\n---\n*Using local fallback system (external AI unavailable)*",
+        functionCalls: [],
+      };
+    }
+
+    // Otherwise use knowledge base
+    const fallbackResult = await generateFallbackResponse(lastUserMessage.content);
+    return {
+      response: fallbackResult.response,
+      functionCalls: [],
+    };
   }
-
-  return { response: finalResponse, functionCalls };
 }
 
 export async function streamChatWithFunctions(
