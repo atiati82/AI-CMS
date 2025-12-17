@@ -460,6 +460,97 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["query"],
     },
   },
+  // === PHASE 1 UPGRADE FUNCTIONS ===
+  {
+    name: "duplicatePage",
+    description: "Create a copy of an existing page with a new title and path. Useful for creating variants or similar pages quickly.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to duplicate" },
+        newTitle: { type: Type.STRING, description: "Title for the new duplicated page" },
+        newPath: { type: Type.STRING, description: "URL path for the new page (e.g., /science/water-2)" },
+      },
+      required: ["pageId", "newTitle", "newPath"],
+    },
+  },
+  {
+    name: "archivePage",
+    description: "Archive a page (soft delete). The page will be hidden from the site but can be restored later.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to archive" },
+        reason: { type: Type.STRING, description: "Optional: Reason for archiving" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "restorePage",
+    description: "Restore an archived page back to draft status.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the archived page to restore" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "bulkUpdatePages",
+    description: "Update multiple pages at once with the same changes. Great for batch operations.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageIds: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Array of page IDs to update" },
+        updates: {
+          type: Type.OBJECT,
+          properties: {
+            status: { type: Type.STRING, description: "New status: draft, published, or archived" },
+            clusterKey: { type: Type.STRING, description: "New cluster to move pages to" },
+          },
+          description: "Fields to update on all pages"
+        },
+      },
+      required: ["pageIds", "updates"],
+    },
+  },
+  {
+    name: "schedulePublish",
+    description: "Schedule a page to be published at a specific date and time.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to schedule" },
+        publishAt: { type: Type.STRING, description: "ISO date string for when to publish (e.g., 2025-01-15T09:00:00Z)" },
+      },
+      required: ["pageId", "publishAt"],
+    },
+  },
+  {
+    name: "analyzeReadability",
+    description: "Analyze the readability of a page's content and get suggestions for improvement.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to analyze" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "generateMetaDescription",
+    description: "AI-generate an optimized SEO meta description for a page based on its content.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to generate meta for" },
+        focusKeyword: { type: Type.STRING, description: "Optional: Primary keyword to optimize for" },
+      },
+      required: ["pageId"],
+    },
+  },
 ];
 
 function validateArgs(args: Record<string, any>, required: string[]): { valid: boolean; error?: string } {
@@ -1133,6 +1224,237 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
           })),
           count: results.length,
           message: `Found ${results.length} relevant knowledge chunk(s)`,
+        };
+      }
+
+      // === PHASE 1 UPGRADE FUNCTION HANDLERS ===
+      case "duplicatePage": {
+        const validation = validateArgs(args, ["pageId", "newTitle", "newPath"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Original page not found" };
+
+        // Check if path already exists
+        const existingPage = await storage.getPageByPath(args.newPath);
+        if (existingPage) return { error: `Path ${args.newPath} already exists` };
+
+        const newPage: Partial<InsertPage> = {
+          key: args.newPath.replace(/\//g, '-').replace(/^-/, ''),
+          title: args.newTitle,
+          path: args.newPath,
+          clusterKey: originalPage.clusterKey,
+          template: originalPage.template,
+          status: "draft",
+          seoTitle: args.newTitle,
+          seoDescription: originalPage.seoDescription,
+          aiStartupHtml: originalPage.aiStartupHtml,
+          content: originalPage.content,
+          visualConfig: originalPage.visualConfig,
+        };
+
+        const created = await storage.createPage(newPage as InsertPage);
+        console.log(`[BigMind CMS] Duplicated page: ${originalPage.id} -> ${created.id}`);
+        return {
+          success: true,
+          pageId: created.id,
+          path: created.path,
+          message: `Page "${originalPage.title}" duplicated as "${created.title}"`,
+        };
+      }
+
+      case "archivePage": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const updated = await storage.updatePage(args.pageId, {
+          status: "archived",
+        });
+
+        console.log(`[BigMind CMS] Archived page: ${page.id} - ${page.title}`);
+        return {
+          success: true,
+          pageId: page.id,
+          message: `Page "${page.title}" has been archived. It can be restored later.`,
+          reason: args.reason || null,
+        };
+      }
+
+      case "restorePage": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const updated = await storage.updatePage(args.pageId, {
+          status: "draft",
+        });
+
+        console.log(`[BigMind CMS] Restored page: ${page.id} - ${page.title}`);
+        return {
+          success: true,
+          pageId: page.id,
+          message: `Page "${page.title}" has been restored as draft.`,
+        };
+      }
+
+      case "bulkUpdatePages": {
+        const validation = validateArgs(args, ["pageIds", "updates"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const pageIds = args.pageIds as string[];
+        const updates = args.updates as { status?: string; clusterKey?: string };
+        const results: { pageId: string; success: boolean; error?: string }[] = [];
+
+        for (const pageId of pageIds) {
+          try {
+            const page = await storage.getPage(pageId);
+            if (!page) {
+              results.push({ pageId, success: false, error: "Page not found" });
+              continue;
+            }
+
+            const updateData: Partial<InsertPage> = {};
+            if (updates.status) updateData.status = updates.status;
+            if (updates.clusterKey) updateData.clusterKey = updates.clusterKey;
+
+            await storage.updatePage(pageId, updateData);
+            results.push({ pageId, success: true });
+          } catch (err: any) {
+            results.push({ pageId, success: false, error: err.message });
+          }
+        }
+
+        const successCount = results.filter(r => r.success).length;
+        console.log(`[BigMind CMS] Bulk updated ${successCount}/${pageIds.length} pages`);
+        return {
+          success: successCount > 0,
+          totalProcessed: pageIds.length,
+          successCount,
+          failedCount: pageIds.length - successCount,
+          results,
+          message: `Updated ${successCount} of ${pageIds.length} pages`,
+        };
+      }
+
+      case "schedulePublish": {
+        const validation = validateArgs(args, ["pageId", "publishAt"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const publishDate = new Date(args.publishAt);
+        if (isNaN(publishDate.getTime())) {
+          return { error: "Invalid date format. Use ISO format: 2025-01-15T09:00:00Z" };
+        }
+
+        // Store scheduled publish date in visualConfig (extend later to dedicated field)
+        const visualConfig = page.visualConfig || {};
+        (visualConfig as any).scheduledPublishAt = args.publishAt;
+
+        await storage.updatePage(args.pageId, {
+          visualConfig: visualConfig as any,
+        });
+
+        console.log(`[BigMind CMS] Scheduled page ${page.id} to publish at ${args.publishAt}`);
+        return {
+          success: true,
+          pageId: page.id,
+          scheduledFor: args.publishAt,
+          message: `Page "${page.title}" scheduled to publish at ${publishDate.toLocaleString()}`,
+        };
+      }
+
+      case "analyzeReadability": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const content = page.content || page.aiStartupHtml || "";
+        const plainText = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+        // Simple readability metrics
+        const words = plainText.split(/\s+/).filter(w => w.length > 0);
+        const sentences = plainText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        const avgWordsPerSentence = words.length / Math.max(1, sentences.length);
+        const longWords = words.filter(w => w.length > 6).length;
+        const longWordPercentage = (longWords / Math.max(1, words.length)) * 100;
+
+        // Flesch-Kincaid approximation (simplified)
+        const readabilityScore = 206.835 - (1.015 * avgWordsPerSentence) - (84.6 * (longWordPercentage / 100));
+
+        const suggestions: string[] = [];
+        if (avgWordsPerSentence > 20) {
+          suggestions.push("Consider breaking up sentences - average is over 20 words per sentence");
+        }
+        if (longWordPercentage > 30) {
+          suggestions.push("Use simpler words - over 30% are complex (6+ letters)");
+        }
+        if (words.length < 300) {
+          suggestions.push("Content is thin - consider adding more detail (under 300 words)");
+        }
+        if (!content.includes("<h2") && !content.includes("<h3")) {
+          suggestions.push("Add subheadings (H2, H3) to break up content and improve scannability");
+        }
+
+        return {
+          success: true,
+          pageId: page.id,
+          title: page.title,
+          metrics: {
+            wordCount: words.length,
+            sentenceCount: sentences.length,
+            avgWordsPerSentence: Math.round(avgWordsPerSentence * 10) / 10,
+            complexWordPercentage: Math.round(longWordPercentage),
+            readabilityScore: Math.round(readabilityScore),
+            grade: readabilityScore > 70 ? "Easy" : readabilityScore > 50 ? "Medium" : "Difficult",
+          },
+          suggestions,
+        };
+      }
+
+      case "generateMetaDescription": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        const content = page.content || page.aiStartupHtml || "";
+        const plainText = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const title = page.title || "";
+        const focusKeyword = args.focusKeyword || "";
+
+        // Generate a meta description from content (simplified - in production use AI)
+        let description = "";
+        if (plainText.length > 155) {
+          // Find first paragraph-like content
+          const firstParagraph = plainText.split(/[.!?]/).slice(0, 2).join('. ');
+          description = firstParagraph.substring(0, 150).trim() + "...";
+        } else {
+          description = plainText.substring(0, 155);
+        }
+
+        // Add focus keyword if provided and not already present
+        if (focusKeyword && !description.toLowerCase().includes(focusKeyword.toLowerCase())) {
+          description = `${focusKeyword} - ${description}`.substring(0, 155);
+        }
+
+        return {
+          success: true,
+          pageId: page.id,
+          title: page.title,
+          generatedDescription: description,
+          characterCount: description.length,
+          focusKeyword: focusKeyword || null,
+          message: "Meta description generated. Review and apply via updatePage if desired.",
         };
       }
 

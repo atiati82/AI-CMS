@@ -40,12 +40,12 @@ export class StripeService {
     metadata?: Record<string, string>;
   }) {
     const stripe = await getUncachableStripeClient();
-    
+
     const sessionParams: any = {
       payment_method_types: ['card'],
-      line_items: [{ 
-        price: options.priceId, 
-        quantity: options.quantity || 1 
+      line_items: [{
+        price: options.priceId,
+        quantity: options.quantity || 1
       }],
       mode: options.mode || 'payment',
       success_url: options.successUrl,
@@ -128,12 +128,12 @@ export class StripeService {
         // Tables don't exist yet, fall through to API
       }
     }
-    
+
     const stripe = await getUncachableStripeClient();
     const products = await stripe.products.list({ active, limit, expand: ['data.default_price'] });
     const prices = await stripe.prices.list({ active: true, limit: 100 });
-    
-    return products.data.flatMap(product => {
+
+    return products.data.flatMap((product): any[] => {
       const productPrices = prices.data.filter(p => p.product === product.id);
       if (productPrices.length === 0) {
         return [{

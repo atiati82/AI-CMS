@@ -31,6 +31,7 @@ interface SettingsTabProps {
 //Constants
 const SETTINGS_CATEGORIES = [
     { key: 'magic_ai', label: 'Magic AI', icon: Wand2, description: 'Magic Page AI system prompt' },
+    { key: 'openai', label: 'OpenAI SDK', icon: Cpu, description: 'Direct OpenAI API chat interface' },
     { key: 'api_keys', label: 'API Keys', icon: Key, description: 'External service API keys' },
     { key: 'thresholds', label: 'Thresholds', icon: BarChart2, description: 'Scoring and generation thresholds' },
     { key: 'seo', label: 'SEO Settings', icon: Search, description: 'SEO scanner configuration' },

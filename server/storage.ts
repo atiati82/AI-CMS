@@ -571,7 +571,7 @@ export class DatabaseStorage implements IStorage {
 
     const [updated] = await db
       .update(pages)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(pages.id, id))
       .returning();
     return updated;
@@ -772,7 +772,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(documents)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(documents.id, id))
       .returning();
     return updated;
@@ -801,7 +801,7 @@ export class DatabaseStorage implements IStorage {
   async bulkCreateDocumentChunks(chunks: InsertDocumentChunk[]): Promise<DocumentChunk[]> {
     if (chunks.length === 0) return [];
     const created = await db.insert(documentChunks).values(chunks as any).returning();
-    const documentIds = [...new Set(chunks.map(c => c.documentId))];
+    const documentIds = Array.from(new Set(chunks.map(c => c.documentId)));
     for (const docId of documentIds) {
       await this.updateDocumentChunkCount(docId);
     }
@@ -884,7 +884,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(seoKeywords)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(seoKeywords.id, id))
       .returning();
     return updated;
@@ -940,7 +940,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(magicPageSuggestions)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(magicPageSuggestions.id, id))
       .returning();
     return updated;
@@ -1036,7 +1036,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(linkingRules)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(linkingRules.id, id))
       .returning();
     return updated;
@@ -1118,7 +1118,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(ctaTemplates)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(ctaTemplates.id, id))
       .returning();
     return updated;
@@ -1190,7 +1190,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(htmlTemplates)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(htmlTemplates.id, id))
       .returning();
     return updated;
@@ -1215,7 +1215,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageImagePrompt(prompt: InsertPageImagePrompt): Promise<PageImagePrompt> {
-    const [created] = await db.insert(pageImagePrompts).values(prompt).returning();
+    const [created] = await db.insert(pageImagePrompts).values(prompt as any).returning();
     return created;
   }
 
@@ -1228,7 +1228,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(pageImagePrompts)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(pageImagePrompts.id, id))
       .returning();
     return updated;
@@ -1287,7 +1287,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(adminAiSettings)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(adminAiSettings.key, key))
       .returning();
     return updated;
@@ -1329,7 +1329,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(magicPageSessions)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(magicPageSessions.id, id))
       .returning();
     return updated;
@@ -1363,7 +1363,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(bigmindSessions)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(bigmindSessions.id, id))
       .returning();
     return updated;
@@ -1432,7 +1432,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(pageAiSessions)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(pageAiSessions.id, id))
       .returning();
     return updated;
@@ -1476,7 +1476,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createPageMediaAsset(asset: InsertPageMediaAsset): Promise<PageMediaAsset> {
-    const [created] = await db.insert(pageMediaAssets).values(asset).returning();
+    const [created] = await db.insert(pageMediaAssets).values(asset as any).returning();
     return created;
   }
 
@@ -1489,7 +1489,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(pageMediaAssets)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(pageMediaAssets.id, id))
       .returning();
     return updated;
@@ -1542,7 +1542,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(pageEnhancements)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(pageEnhancements.id, id))
       .returning();
     return updated;
@@ -1610,7 +1610,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(bigmindSuggestions)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(bigmindSuggestions.id, id))
       .returning();
     return updated;
@@ -1690,7 +1690,7 @@ export class DatabaseStorage implements IStorage {
     }
     const [updated] = await db
       .update(orders)
-      .set(filteredUpdates)
+      .set(filteredUpdates as any)
       .where(eq(orders.id, id))
       .returning();
     return updated;
@@ -1771,7 +1771,7 @@ export class DatabaseStorage implements IStorage {
   async updatePageSeo(id: string, seo: Partial<InsertPageSeo>): Promise<PageSeo> {
     const [updated] = await db
       .update(pageSeo)
-      .set({ ...seo, updatedAt: new Date() })
+      .set({ ...seo, updatedAt: new Date() } as any)
       .where(eq(pageSeo.id, id))
       .returning();
     return updated;
@@ -1878,13 +1878,13 @@ export class DatabaseStorage implements IStorage {
 
   async bulkCreatePageAiSuggestions(suggestions: InsertPageAiSuggestion[]): Promise<PageAiSuggestion[]> {
     if (suggestions.length === 0) return [];
-    return db.insert(pageAiSuggestions).values(suggestions).returning();
+    return db.insert(pageAiSuggestions).values(suggestions as any).returning();
   }
 
   async updatePageAiSuggestion(id: string, suggestion: Partial<InsertPageAiSuggestion>): Promise<PageAiSuggestion> {
     const [updated] = await db
       .update(pageAiSuggestions)
-      .set({ ...suggestion, updatedAt: new Date() })
+      .set({ ...suggestion, updatedAt: new Date() } as any)
       .where(eq(pageAiSuggestions.id, id))
       .returning();
     return updated;
@@ -1940,14 +1940,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAiContentBlock(block: InsertAiContentBlock): Promise<AiContentBlock> {
-    const [created] = await db.insert(aiContentBlocks).values(block).returning();
+    const [created] = await db.insert(aiContentBlocks).values(block as any).returning();
     return created;
   }
 
   async updateAiContentBlock(id: string, block: Partial<InsertAiContentBlock>): Promise<AiContentBlock> {
     const [updated] = await db
       .update(aiContentBlocks)
-      .set({ ...block, updatedAt: new Date() })
+      .set({ ...block, updatedAt: new Date() } as any)
       .where(eq(aiContentBlocks.id, id))
       .returning();
     return updated;
@@ -2054,7 +2054,7 @@ export class DatabaseStorage implements IStorage {
   async updateProposedPage(id: string, page: Partial<InsertProposedPage>): Promise<ProposedPage> {
     const [updated] = await db
       .update(proposedPages)
-      .set({ ...page, updatedAt: new Date() })
+      .set({ ...page, updatedAt: new Date() } as any)
       .where(eq(proposedPages.id, id))
       .returning();
     return updated;
@@ -2105,7 +2105,7 @@ export class DatabaseStorage implements IStorage {
   async updatePageLayout(id: string, layout: Partial<InsertPageLayout>): Promise<PageLayout> {
     const [updated] = await db
       .update(pageLayouts)
-      .set({ ...layout, updatedAt: new Date() })
+      .set({ ...layout, updatedAt: new Date() } as any)
       .where(eq(pageLayouts.id, id))
       .returning();
     return updated;
