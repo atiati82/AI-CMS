@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { products, orders, carts } from '../db/schema';
+import { products, orders, carts } from '@shared/schema';
 import { eq, and, sql, desc } from 'drizzle-orm';
 
 // ============================================================================
