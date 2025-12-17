@@ -45,12 +45,22 @@ const MOTION_ARCHETYPES = [
 ];
 
 // Types needed by BigMindTab
-type AIModel = 'gpt-4.1-mini' | 'gpt-4.1' | 'gemini-2.5-flash' | 'gemini-2.5-pro';
+type AIModel = 'gpt-4.1-mini' | 'gpt-4.1' | 'gpt-4o' | 'gpt-4o-mini' | 'o1' | 'o1-mini' | 'o1-pro' | 'o3-mini' | 'gemini-2.5-flash' | 'gemini-2.5-pro' | 'gemini-2.0-flash';
 const AI_MODELS: { value: AIModel; label: string }[] = [
+  // OpenAI GPT Models
   { value: 'gpt-4.1-mini', label: 'GPT-4.1 Mini' },
   { value: 'gpt-4.1', label: 'GPT-4.1' },
+  { value: 'gpt-4o', label: 'GPT-4o' },
+  { value: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+  // OpenAI o-series (Reasoning Models)
+  { value: 'o1', label: 'o1 (Reasoning)' },
+  { value: 'o1-mini', label: 'o1 Mini' },
+  { value: 'o1-pro', label: 'o1 Pro' },
+  { value: 'o3-mini', label: 'o3 Mini (Latest)' },
+  // Google Gemini Models
   { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
   { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+  { value: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
 ];
 
 type ChatMessage = {
