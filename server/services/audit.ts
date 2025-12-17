@@ -1,4 +1,4 @@
-import { db } from '../db';
+import { pool } from '../db';
 
 /**
  * Audit System for AI CMS
@@ -54,7 +54,7 @@ export async function logAudit(
     };
 
     try {
-        await db.query(`
+        await pool.query(`
       INSERT INTO audit_log (
         id, timestamp, actor_type, actor_id, actor_name,
         entity_type, entity_id, action, changes,
@@ -87,13 +87,13 @@ export async function logAudit(
  */
 export async function getRecentAudits(limit: number = 50): Promise<AuditEntry[]> {
     try {
-        const result = await db.query(`
+        const result = await pool.query(`
       SELECT * FROM audit_log
       ORDER BY timestamp DESC
       LIMIT $1
     `, [limit]);
 
-        return result.rows.map(row => ({
+        return result.rows.map((row: any) => ({
             id: row.id,
             timestamp: row.timestamp,
             actorType: row.actor_type,
@@ -120,13 +120,13 @@ export async function getRecentAudits(limit: number = 50): Promise<AuditEntry[]>
  */
 export async function getEntityAudits(entityType: string, entityId: string): Promise<AuditEntry[]> {
     try {
-        const result = await db.query(`
+        const result = await pool.query(`
       SELECT * FROM audit_log
       WHERE entity_type = $1 AND entity_id = $2
       ORDER BY timestamp DESC
     `, [entityType, entityId]);
 
-        return result.rows.map(row => ({
+        return result.rows.map((row: any) => ({
             id: row.id,
             timestamp: row.timestamp,
             actorType: row.actor_type,
@@ -153,13 +153,13 @@ export async function getEntityAudits(entityType: string, entityId: string): Pro
  */
 export async function getActorAudits(actorType: string, actorId: string): Promise<AuditEntry[]> {
     try {
-        const result = await db.query(`
+        const result = await pool.query(`
       SELECT * FROM audit_log
       WHERE actor_type = $1 AND actor_id = $2
       ORDER BY timestamp DESC
     `, [actorType, actorId]);
 
-        return result.rows.map(row => ({
+        return result.rows.map((row: any) => ({
             id: row.id,
             timestamp: row.timestamp,
             actorType: row.actor_type,

@@ -153,9 +153,9 @@ async function checkSystemHealth(): Promise<AgentResult> {
 
 async function checkDatabase(): Promise<any> {
     try {
-        const { db } = await import('../db');
+        const { pool } = await import('../db');
         const startTime = Date.now();
-        await db.query('SELECT 1');
+        await pool.query('SELECT 1');
         const latencyMs = Date.now() - startTime;
 
         return {
