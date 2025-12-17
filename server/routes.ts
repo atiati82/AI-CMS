@@ -3097,7 +3097,7 @@ export async function registerRoutes(
         clusterKey: proposedPage.clusterKey || undefined,
         status: 'draft',
         template: 'content',
-        excerpt: proposedPage.draftIntro || '',
+        summary: proposedPage.draftIntro || '',
         content: proposedPage.draftIntro || '',
       });
 
