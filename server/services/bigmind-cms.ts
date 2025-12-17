@@ -575,6 +575,77 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["imageUrl"],
     },
   },
+  // === A/B TESTING FRAMEWORK ===
+  {
+    name: "createVariant",
+    description: "Create an A/B test variant of an existing page. The variant tracks performance separately.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the original page to create variant from" },
+        variantName: { type: Type.STRING, description: "Name for this variant (e.g., 'Headline Test A', 'CTA Button Red')" },
+        changes: {
+          type: Type.OBJECT,
+          properties: {
+            title: { type: Type.STRING, description: "New title for variant" },
+            seoTitle: { type: Type.STRING, description: "New SEO title" },
+            seoDescription: { type: Type.STRING, description: "New meta description" },
+            aiStartupHtml: { type: Type.STRING, description: "New HTML content" },
+          },
+          description: "Changes to apply to this variant"
+        },
+        trafficAllocation: { type: Type.NUMBER, description: "Percentage of traffic for this variant (0-100, default 50)" },
+      },
+      required: ["pageId", "variantName"],
+    },
+  },
+  {
+    name: "listVariants",
+    description: "List all A/B test variants for a page",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the original page" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "getVariantPerformance",
+    description: "Get performance metrics comparing all variants of a page",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the original page" },
+        metric: { type: Type.STRING, description: "Metric to compare: 'views', 'time_on_page', 'bounce_rate', 'conversions'" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "promoteWinningVariant",
+    description: "Promote the winning variant to become the main page, archiving other variants",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the original page" },
+        winningVariantId: { type: Type.STRING, description: "ID of the variant to promote as winner" },
+      },
+      required: ["pageId", "winningVariantId"],
+    },
+  },
+  {
+    name: "endABTest",
+    description: "End an A/B test and clean up all variants (without promoting any)",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the original page" },
+        keepVariants: { type: Type.BOOLEAN, description: "If true, keep variants as separate pages. Default: false (delete variants)" },
+      },
+      required: ["pageId"],
+    },
+  },
 ];
 
 function validateArgs(args: Record<string, any>, required: string[]): { valid: boolean; error?: string } {
@@ -1648,6 +1719,246 @@ Respond with ONLY the alt text, nothing else.`;
             error: `Alt text generation failed: ${error.message}`,
           };
         }
+      }
+
+      // === A/B TESTING HANDLERS ===
+      case "createVariant": {
+        const validation = validateArgs(args, ["pageId", "variantName"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Original page not found" };
+
+        // Create a duplicate page as variant
+        const variantPath = `${originalPage.path}-variant-${Date.now()}`;
+        const changes = args.changes || {};
+        const trafficAllocation = args.trafficAllocation || 50;
+
+        const variantPage: Partial<InsertPage> = {
+          key: variantPath.replace(/\//g, '-').replace(/^-/, ''),
+          title: changes.title || `${originalPage.title} (${args.variantName})`,
+          path: variantPath,
+          clusterKey: originalPage.clusterKey,
+          template: originalPage.template,
+          status: "draft",
+          seoTitle: changes.seoTitle || originalPage.seoTitle,
+          seoDescription: changes.seoDescription || originalPage.seoDescription,
+          aiStartupHtml: changes.aiStartupHtml || originalPage.aiStartupHtml,
+          content: originalPage.content,
+          visualConfig: {
+            ...((originalPage.visualConfig || {}) as Record<string, any>),
+            isVariant: true,
+            variantOf: args.pageId,
+            variantName: args.variantName,
+            trafficAllocation,
+            createdAt: new Date().toISOString(),
+          } as any,
+        };
+
+        const created = await storage.createPage(variantPage as InsertPage);
+
+        // Update original page to mark it has variants
+        const originalConfig = (originalPage.visualConfig || {}) as Record<string, any>;
+        originalConfig.hasVariants = true;
+        originalConfig.variantIds = [...(originalConfig.variantIds || []), created.id];
+        await storage.updatePage(args.pageId, { visualConfig: originalConfig as any });
+
+        console.log(`[BigMind CMS] Created variant: ${created.id} for page ${args.pageId}`);
+        return {
+          success: true,
+          variantId: created.id,
+          variantPath: created.path,
+          variantName: args.variantName,
+          trafficAllocation,
+          message: `Variant "${args.variantName}" created. Set status to 'published' to start the A/B test.`,
+        };
+      }
+
+      case "listVariants": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Page not found" };
+
+        const config = (originalPage.visualConfig || {}) as Record<string, any>;
+        const variantIds = config.variantIds || [];
+
+        if (variantIds.length === 0) {
+          return {
+            success: true,
+            pageId: args.pageId,
+            variants: [],
+            message: "No variants found for this page.",
+          };
+        }
+
+        const variants = [];
+        for (const variantId of variantIds) {
+          const variant = await storage.getPage(variantId);
+          if (variant) {
+            const vc = (variant.visualConfig || {}) as Record<string, any>;
+            variants.push({
+              id: variant.id,
+              path: variant.path,
+              variantName: vc.variantName || "Unnamed",
+              trafficAllocation: vc.trafficAllocation || 50,
+              status: variant.status,
+              createdAt: vc.createdAt,
+            });
+          }
+        }
+
+        return {
+          success: true,
+          pageId: args.pageId,
+          originalTitle: originalPage.title,
+          variants,
+          totalVariants: variants.length,
+        };
+      }
+
+      case "getVariantPerformance": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Page not found" };
+
+        const config = (originalPage.visualConfig || {}) as Record<string, any>;
+        const variantIds = config.variantIds || [];
+
+        // Note: In production, this would pull from analytics database
+        // For now, return simulated/placeholder metrics
+        const metric = args.metric || "views";
+
+        const performance = [{
+          pageId: args.pageId,
+          title: originalPage.title,
+          isOriginal: true,
+          [metric]: Math.floor(Math.random() * 1000) + 500,
+          conversionRate: `${(Math.random() * 5 + 1).toFixed(2)}%`,
+        }];
+
+        for (const variantId of variantIds) {
+          const variant = await storage.getPage(variantId);
+          if (variant) {
+            const vc = (variant.visualConfig || {}) as Record<string, any>;
+            performance.push({
+              pageId: variant.id,
+              title: variant.title,
+              variantName: vc.variantName,
+              isOriginal: false,
+              [metric]: Math.floor(Math.random() * 1000) + 500,
+              conversionRate: `${(Math.random() * 5 + 1).toFixed(2)}%`,
+            });
+          }
+        }
+
+        // Sort by metric (highest first)
+        performance.sort((a: any, b: any) => b[metric] - a[metric]);
+
+        return {
+          success: true,
+          metric,
+          pageId: args.pageId,
+          results: performance,
+          recommendation: performance[0]?.isOriginal
+            ? "Original page is performing best"
+            : `Variant "${(performance[0] as any).variantName}" is performing best`,
+          note: "⚠️ Metrics are simulated. Connect analytics for real data.",
+        };
+      }
+
+      case "promoteWinningVariant": {
+        const validation = validateArgs(args, ["pageId", "winningVariantId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Original page not found" };
+
+        const winningVariant = await storage.getPage(args.winningVariantId);
+        if (!winningVariant) return { error: "Winning variant not found" };
+
+        // Copy winning variant content to original
+        await storage.updatePage(args.pageId, {
+          title: winningVariant.title.replace(/\s*\([^)]*\)$/, ''), // Remove variant suffix
+          seoTitle: winningVariant.seoTitle,
+          seoDescription: winningVariant.seoDescription,
+          aiStartupHtml: winningVariant.aiStartupHtml,
+          content: winningVariant.content,
+        });
+
+        // Archive all variants
+        const config = (originalPage.visualConfig || {}) as Record<string, any>;
+        const variantIds = config.variantIds || [];
+
+        for (const variantId of variantIds) {
+          await storage.updatePage(variantId, { status: "archived" });
+        }
+
+        // Clear variant tracking from original
+        config.hasVariants = false;
+        config.variantIds = [];
+        config.abTestResult = {
+          winnerId: args.winningVariantId,
+          promotedAt: new Date().toISOString(),
+        };
+        await storage.updatePage(args.pageId, { visualConfig: config as any });
+
+        console.log(`[BigMind CMS] Promoted variant ${args.winningVariantId} to page ${args.pageId}`);
+        return {
+          success: true,
+          pageId: args.pageId,
+          promotedVariantId: args.winningVariantId,
+          archivedVariants: variantIds.length,
+          message: "Winning variant promoted. All other variants have been archived.",
+        };
+      }
+
+      case "endABTest": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const originalPage = await storage.getPage(args.pageId);
+        if (!originalPage) return { error: "Page not found" };
+
+        const config = (originalPage.visualConfig || {}) as Record<string, any>;
+        const variantIds = config.variantIds || [];
+        const keepVariants = args.keepVariants || false;
+
+        if (variantIds.length === 0) {
+          return { success: true, message: "No active A/B test found for this page." };
+        }
+
+        // Either delete or keep variants
+        for (const variantId of variantIds) {
+          if (keepVariants) {
+            // Make variant a standalone page
+            const variant = await storage.getPage(variantId);
+            if (variant) {
+              const vc = (variant.visualConfig || {}) as Record<string, any>;
+              delete vc.isVariant;
+              delete vc.variantOf;
+              await storage.updatePage(variantId, { visualConfig: vc as any });
+            }
+          } else {
+            await storage.deletePage(variantId);
+          }
+        }
+
+        // Clear tracking
+        config.hasVariants = false;
+        config.variantIds = [];
+        await storage.updatePage(args.pageId, { visualConfig: config as any });
+
+        return {
+          success: true,
+          pageId: args.pageId,
+          variantsProcessed: variantIds.length,
+          action: keepVariants ? "Variants converted to standalone pages" : "Variants deleted",
+          message: `A/B test ended. ${variantIds.length} variant(s) ${keepVariants ? 'kept' : 'removed'}.`,
+        };
       }
 
       default:
