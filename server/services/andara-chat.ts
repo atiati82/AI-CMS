@@ -3,26 +3,35 @@ import type { Page, Cluster } from "@shared/schema";
 import { storage } from "../storage";
 
 // Check which AI providers are available
-const hasGemini = !!(process.env.AI_INTEGRATIONS_GEMINI_API_KEY && process.env.AI_INTEGRATIONS_GEMINI_BASE_URL);
-const hasOpenAI = !!(process.env.AI_INTEGRATIONS_OPENAI_API_KEY && process.env.AI_INTEGRATIONS_OPENAI_BASE_URL);
+// Support both Replit format (AI_INTEGRATIONS_*) and local format (GOOGLE_API_KEY, OPENAI_API_KEY)
+const geminiApiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+const geminiBaseUrl = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
+const openaiApiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
+const openaiBaseUrl = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || 'https://api.openai.com/v1';
+
+const hasGemini = !!geminiApiKey;
+const hasOpenAI = !!openaiApiKey;
 
 console.log(`[AI] Available providers: Gemini=${hasGemini}, OpenAI=${hasOpenAI}`);
+if (geminiApiKey) console.log(`[AI] Gemini API key configured (${geminiApiKey.substring(0, 8)}...)`);
+if (openaiApiKey) console.log(`[AI] OpenAI API key configured (${openaiApiKey.substring(0, 8)}...)`);
 
-// Using Replit's AI Integrations service for Gemini
+// Initialize Gemini client (Google GenAI SDK)
 const geminiAi = hasGemini ? new GoogleGenAI({
-  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+  apiKey: geminiApiKey,
   httpOptions: {
     apiVersion: "",
-    baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+    baseUrl: geminiBaseUrl,
   },
 }) : null;
 
-// OpenAI-compatible client using Replit's AI Integrations (only if configured)
-const openaiAi = hasOpenAI ? new GoogleGenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+// OpenAI-compatible client (only used via Replit's AI Integrations proxy)
+// Note: For direct OpenAI API calls, we'd need a different SDK
+const openaiAi = hasOpenAI && openaiApiKey?.startsWith('sk-') === false ? new GoogleGenAI({
+  apiKey: openaiApiKey,
   httpOptions: {
     apiVersion: "",
-    baseUrl: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+    baseUrl: openaiBaseUrl,
   },
 }) : null;
 
@@ -56,10 +65,10 @@ async function getConfiguredModel(): Promise<string> {
 async function getAiClient(): Promise<{ client: GoogleGenAI; model: string }> {
   let modelId = await getConfiguredModel();
   let provider = MODEL_PROVIDERS[modelId] || 'gemini';
-  
+
   // Check if the selected provider is available
   const providerAvailable = provider === 'openai' ? hasOpenAI : hasGemini;
-  
+
   if (!providerAvailable) {
     // Fall back to available provider
     if (provider === 'openai' && hasGemini) {
@@ -74,7 +83,7 @@ async function getAiClient(): Promise<{ client: GoogleGenAI; model: string }> {
       throw new Error('No AI provider is configured. Please set up either Gemini or OpenAI integration.');
     }
   }
-  
+
   const client = provider === 'openai' ? openaiAi! : geminiAi!;
   console.log(`[AI] Using model: ${modelId} (${provider})`);
   return { client, model: modelId };
@@ -82,7 +91,7 @@ async function getAiClient(): Promise<{ client: GoogleGenAI; model: string }> {
 
 const CLUSTER_ONTOLOGY = [
   "home",
-  "shop", 
+  "shop",
   "water_science",
   "mineral_science",
   "crystalline_matrix",
@@ -289,7 +298,7 @@ async function getRelevantContext(query?: string): Promise<string> {
   ]);
 
   const clusterStats: Record<string, { total: number; p1: number; p2: number; p3: number; pages: string[] }> = {};
-  
+
   CLUSTER_ONTOLOGY.forEach(c => {
     clusterStats[c] = { total: 0, p1: 0, p2: 0, p3: 0, pages: [] };
   });
@@ -297,10 +306,10 @@ async function getRelevantContext(query?: string): Promise<string> {
   const pageContexts: PageContext[] = allPages.map(page => {
     const enrichment = page.aiEnrichment;
     const visualConfig = page.visualConfig;
-    
+
     const cluster = page.clusterKey || visualConfig?.cluster || "other";
     const priority = visualConfig?.priority || "P2";
-    
+
     if (clusterStats[cluster]) {
       clusterStats[cluster].total++;
       clusterStats[cluster].pages.push(page.path);
@@ -346,19 +355,19 @@ async function getRelevantContext(query?: string): Promise<string> {
     let block = `PAGE: ${p.path}
 TITLE: ${p.title}
 CLUSTER: ${p.cluster} | PRIORITY: ${p.priority} | STATUS: ${p.status}`;
-    
+
     if (p.seo.focusKeyword) {
       block += `\nSEO FOCUS: ${p.seo.focusKeyword}`;
     }
-    
+
     if (p.suggestedLinks.length > 0) {
       block += `\nLINKS TO: ${p.suggestedLinks.map(l => l.targetPath).join(", ")}`;
     }
-    
+
     if (p.vibeKeywords.length > 0) {
       block += `\nVIBE: ${p.vibeKeywords.join(", ")}`;
     }
-    
+
     contextBlocks.push(block + "\n---");
   });
 
@@ -387,7 +396,7 @@ export async function chat(
   includeContext: boolean = true
 ): Promise<string> {
   const systemPrompt = await getChatSystemPrompt();
-  
+
   let contextBlock = "";
   if (includeContext) {
     contextBlock = await getRelevantContext();
@@ -403,7 +412,7 @@ export async function chat(
       parts: [{ text: `SYSTEM CONTEXT:\n${fullSystemPrompt}\n\n---\n\nNow respond to the conversation that follows.` }]
     },
     {
-      role: "model", 
+      role: "model",
       parts: [{ text: "I understand. I am the Andara Library, ready to help with content strategy, page suggestions, and site optimization. What would you like to know?" }]
     },
     ...messages.map(msg => ({
@@ -436,20 +445,20 @@ export async function getSiteOverview(): Promise<{
   emptyClusterss: string[];
 }> {
   const allPages = await storage.getAllPages();
-  
+
   const clusterStats: Record<string, number> = {};
   const priorityStats = { p1: 0, p2: 0, p3: 0 };
-  
+
   CLUSTER_ONTOLOGY.forEach(c => { clusterStats[c] = 0; });
 
   allPages.forEach(page => {
     const cluster = page.clusterKey || page.visualConfig?.cluster || "other";
     const priority = page.visualConfig?.priority || "P2";
-    
+
     if (clusterStats[cluster] !== undefined) {
       clusterStats[cluster]++;
     }
-    
+
     if (priority === "P1") priorityStats.p1++;
     else if (priority === "P2") priorityStats.p2++;
     else priorityStats.p3++;
