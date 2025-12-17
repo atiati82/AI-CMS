@@ -114,7 +114,12 @@ type AdminAiSetting = {
 function formatAiMessage(content: string): string {
   let html = content;
 
-  // First, handle raw <code> tags from AI responses (with or without class attribute) - convert to styled code
+  // First, handle HTML entity escaped code tags (e.g., &lt;code&gt;text&lt;/code&gt;)
+  html = html.replace(/&lt;code[^&]*&gt;([^&]+)&lt;\/code&gt;/g, (_, code) => {
+    return `\`${code}\``;
+  });
+
+  // Then, handle raw <code> tags from AI responses (with or without class attribute)
   html = html.replace(/<code[^>]*>([^<]+)<\/code>/g, (_, code) => {
     return `\`${code}\``;
   });
