@@ -551,6 +551,30 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["pageId"],
     },
   },
+  {
+    name: "analyzeImage",
+    description: "Analyze an image using AI vision to describe its content, generate alt text, and extract visual information. Useful for SEO and accessibility.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        imageUrl: { type: Type.STRING, description: "URL of the image to analyze (relative path like /attached_assets/image.png or full URL)" },
+        purpose: { type: Type.STRING, description: "Optional: Purpose of analysis - 'alt_text', 'description', 'content_check', 'seo'. Defaults to 'description'" },
+      },
+      required: ["imageUrl"],
+    },
+  },
+  {
+    name: "generateAltText",
+    description: "Generate SEO-optimized alt text for an image. Short and descriptive for accessibility.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        imageUrl: { type: Type.STRING, description: "URL of the image" },
+        pageContext: { type: Type.STRING, description: "Optional: Context about the page where this image appears" },
+      },
+      required: ["imageUrl"],
+    },
+  },
 ];
 
 function validateArgs(args: Record<string, any>, required: string[]): { valid: boolean; error?: string } {
@@ -1456,6 +1480,174 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
           focusKeyword: focusKeyword || null,
           message: "Meta description generated. Review and apply via updatePage if desired.",
         };
+      }
+
+      // === IMAGE UNDERSTANDING (MULTIMODAL) ===
+      case "analyzeImage": {
+        const validation = validateArgs(args, ["imageUrl"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const imageUrl = args.imageUrl as string;
+        const purpose = args.purpose || "description";
+
+        try {
+          // Determine prompt based on purpose
+          let prompt = "";
+          switch (purpose) {
+            case "alt_text":
+              prompt = "Generate a concise, SEO-friendly alt text for this image. Maximum 125 characters. Focus on the main subject and action.";
+              break;
+            case "content_check":
+              prompt = "Analyze this image for content safety. Is there any inappropriate, offensive, or concerning content? Answer with: SAFE, WARNING, or UNSAFE, followed by a brief explanation.";
+              break;
+            case "seo":
+              prompt = "Analyze this image for SEO purposes. Describe: 1) Main subject, 2) Relevant keywords, 3) Suggested alt text, 4) Caption recommendation.";
+              break;
+            default:
+              prompt = "Describe this image in detail. Include: main subjects, colors, mood, setting, and any text visible in the image.";
+          }
+
+          // Use Gemini AI to analyze the image
+          const { getAiClient } = await import("./andara-chat");
+          const { client } = await getAiClient();
+
+          // Prepare image for Gemini (handle relative URLs)
+          let fullImageUrl = imageUrl;
+          if (imageUrl.startsWith("/")) {
+            // Convert relative path to file path for local images
+            const fs = await import("fs");
+            const path = await import("path");
+            const filePath = path.join(process.cwd(), "public", imageUrl);
+
+            if (fs.existsSync(filePath)) {
+              const imageData = fs.readFileSync(filePath);
+              const base64 = imageData.toString("base64");
+              const mimeType = imageUrl.endsWith(".png") ? "image/png" :
+                imageUrl.endsWith(".jpg") || imageUrl.endsWith(".jpeg") ? "image/jpeg" :
+                  imageUrl.endsWith(".gif") ? "image/gif" : "image/png";
+
+              const response = await client.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: [{
+                  role: "user",
+                  parts: [
+                    { text: prompt },
+                    { inlineData: { mimeType, data: base64 } }
+                  ]
+                }]
+              });
+
+              const analysis = response.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to analyze image";
+
+              return {
+                success: true,
+                imageUrl,
+                purpose,
+                analysis,
+                message: "Image analyzed successfully using AI vision.",
+              };
+            } else {
+              return { error: `Image file not found: ${imageUrl}` };
+            }
+          } else {
+            // For external URLs, use URL-based analysis
+            const response = await client.models.generateContent({
+              model: "gemini-2.5-flash",
+              contents: [{
+                role: "user",
+                parts: [
+                  { text: `${prompt}\n\nImage URL: ${imageUrl}` }
+                ]
+              }]
+            });
+
+            const analysis = response.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to analyze image from URL";
+
+            return {
+              success: true,
+              imageUrl,
+              purpose,
+              analysis,
+              note: "URL-based analysis may be limited. For best results, use local image paths.",
+            };
+          }
+        } catch (error: any) {
+          console.error("[BigMind CMS] Image analysis error:", error);
+          return {
+            success: false,
+            error: `Image analysis failed: ${error.message}`,
+          };
+        }
+      }
+
+      case "generateAltText": {
+        const validation = validateArgs(args, ["imageUrl"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const imageUrl = args.imageUrl as string;
+        const pageContext = args.pageContext || "";
+
+        try {
+          const fs = await import("fs");
+          const path = await import("path");
+          const { getAiClient } = await import("./andara-chat");
+          const { client } = await getAiClient();
+
+          const prompt = `Generate SEO-optimized alt text for this image. Requirements:
+- Maximum 125 characters
+- Descriptive but concise
+- Include relevant keywords if appropriate
+- Focus on the main subject and action
+${pageContext ? `- Context: This image appears on a page about: ${pageContext}` : ""}
+
+Respond with ONLY the alt text, nothing else.`;
+
+          // Handle local images
+          if (imageUrl.startsWith("/")) {
+            const filePath = path.join(process.cwd(), "public", imageUrl);
+
+            if (fs.existsSync(filePath)) {
+              const imageData = fs.readFileSync(filePath);
+              const base64 = imageData.toString("base64");
+              const mimeType = imageUrl.endsWith(".png") ? "image/png" : "image/jpeg";
+
+              const response = await client.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: [{
+                  role: "user",
+                  parts: [
+                    { text: prompt },
+                    { inlineData: { mimeType, data: base64 } }
+                  ]
+                }]
+              });
+
+              const altText = response.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+
+              return {
+                success: true,
+                imageUrl,
+                altText: altText.substring(0, 125), // Ensure max length
+                characterCount: Math.min(altText.length, 125),
+                message: "Alt text generated. Use updatePage to apply to image elements.",
+              };
+            } else {
+              return { error: `Image file not found: ${imageUrl}` };
+            }
+          } else {
+            return {
+              success: false,
+              error: "generateAltText requires local image paths starting with /",
+              suggestion: "For external URLs, use analyzeImage with purpose='alt_text' instead",
+            };
+          }
+        } catch (error: any) {
+          console.error("[BigMind CMS] Alt text generation error:", error);
+          return {
+            success: false,
+            error: `Alt text generation failed: ${error.message}`,
+          };
+        }
       }
 
       default:
