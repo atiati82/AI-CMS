@@ -66,33 +66,40 @@ function hubToMarkdownContent(hub: HubJsonBlock): string {
     lines.push('');
     lines.push(`**Path:** ${hub.page.path}`);
     lines.push(`**Type:** ${hub.page.pageType} (${hub.page.template})`);
-    lines.push(`A: ${item.answer}`);
     lines.push('');
-}
-        }
 
-// Internal Links
-if (hub.internalLinks.length) {
-    lines.push('## Internal Links');
-    lines.push(`This hub links to ${hub.internalLinks.length} pages:`);
-    lines.push(hub.internalLinks.map(l => `- ${l}`).join('\n'));
-    lines.push('');
-}
-
-// Dynamic Box Rules
-if (hub.dynamicBoxRules) {
-    lines.push('## Dynamic Box Rules (AI Evolution)');
-    for (const [ruleName, rule] of Object.entries(hub.dynamicBoxRules)) {
-        const r = rule as { condition?: string; action?: string; requiredTerms?: string[] };
-        lines.push(`- **${ruleName}:** ${r.condition || ''} → ${r.action || ''}`);
-        if (r.requiredTerms) {
-            lines.push(`  Required terms: ${r.requiredTerms.join(', ')}`);
+    // FAQ
+    if (hub.faq && hub.faq.items) {
+        lines.push('## FAQ');
+        for (const item of hub.faq.items) {
+            lines.push(`Q: ${item.question}`);
+            lines.push(`A: ${item.answer}`);
+            lines.push('');
         }
     }
-}
 
-return lines.join('\n');
+    // Internal Links
+    if (hub.internalLinks.length) {
+        lines.push('## Internal Links');
+        lines.push(`This hub links to ${hub.internalLinks.length} pages:`);
+        lines.push(hub.internalLinks.map(l => `- ${l}`).join('\n'));
+        lines.push('');
     }
+
+    // Dynamic Box Rules
+    if (hub.dynamicBoxRules) {
+        lines.push('## Dynamic Box Rules (AI Evolution)');
+        for (const [ruleName, rule] of Object.entries(hub.dynamicBoxRules)) {
+            const r = rule as { condition?: string; action?: string; requiredTerms?: string[] };
+            lines.push(`- **${ruleName}:** ${r.condition || ''} → ${r.action || ''}`);
+            if (r.requiredTerms) {
+                lines.push(`  Required terms: ${r.requiredTerms.join(', ')}`);
+            }
+        }
+    }
+
+    return lines.join('\n');
+}
 
 async function loadAndIngestHubs() {
     const hubDir = path.join(process.cwd(), 'content', 'hubs');
@@ -137,8 +144,8 @@ async function loadAndIngestHubs() {
                 pageType: hub.page.pageType,
                 template: hub.page.template,
                 sectionCount: hub.sections.length,
-                linkCount: hub.internalLinks.length,
-                faqCount: hub.faq.items.length,
+                linkCount: hub.internalLinks ? hub.internalLinks.length : 0,
+                faqCount: (hub.faq && hub.faq.items) ? hub.faq.items.length : 0,
                 focusKeyword: hub.seo.focusKeyword,
                 visualConfig: hub.visualConfig,
             }

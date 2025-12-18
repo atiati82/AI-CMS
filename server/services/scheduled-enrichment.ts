@@ -144,7 +144,7 @@ export async function runScheduledEnrichment(limit: number = 10): Promise<Enrich
                         updates.seoDescription = enrichment.suggestedSeo.description;
                     }
 
-                    await db.update(pages).set(updates).where(eq(pages.id, page.id));
+                    await db.update(pages).set(updates as any).where(eq(pages.id, page.id as string));
                     pagesUpdated++;
 
                     results.push({

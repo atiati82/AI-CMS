@@ -60,35 +60,9 @@ export const seoAgent: Agent = {
                 case 'generate_faq_block':
                     return await generateFaqBlock(task.input);
 
-                    // ... (in the functions section)
+                // ... (in the functions section)
 
-                    async function suggestInternalLinks(input: any): Promise<AgentResult> {
-                        const { pageId } = input;
-                        const [targetPage] = await db.select().from(pages).where(eq(pages.id, pageId));
 
-                        if (!targetPage) return createErrorResult('Page not found');
-
-                        // Find potential link partners in same cluster
-                        const clusterPeers = await db.select().from(pages)
-                            .where(eq(pages.clusterKey, targetPage.clusterKey || ''));
-
-                        const opportunities = clusterPeers
-                            .filter(p => p.id !== pageId && p.status === 'published')
-                            .map(p => ({
-                                pageId: p.id,
-                                title: p.title,
-                                path: p.path,
-                                relation: 'Same Cluster',
-                                relevance: 10 // Simple score for cluster peers
-                            }))
-                            .slice(0, 10);
-
-                        return createSuccessResult({
-                            targetPage: { title: targetPage.title, path: targetPage.path },
-                            opportunities,
-                            message: `Found ${opportunities.length} internal linking opportunities in the "${targetPage.clusterKey}" cluster.`
-                        });
-                    }
 
                 case 'generate_proof_block':
                     return await generateProofBlock(task.input);
@@ -101,6 +75,34 @@ export const seoAgent: Agent = {
         }
     }
 };
+
+async function suggestInternalLinks(input: any): Promise<AgentResult> {
+    const { pageId } = input;
+    const [targetPage] = await db.select().from(pages).where(eq(pages.id, pageId));
+
+    if (!targetPage) return createErrorResult('Page not found');
+
+    // Find potential link partners in same cluster
+    const clusterPeers = await db.select().from(pages)
+        .where(eq(pages.clusterKey, targetPage.clusterKey || ''));
+
+    const opportunities = clusterPeers
+        .filter(p => p.id !== pageId && p.status === 'published')
+        .map(p => ({
+            pageId: p.id,
+            title: p.title,
+            path: p.path,
+            relation: 'Same Cluster',
+            relevance: 10 // Simple score for cluster peers
+        }))
+        .slice(0, 10);
+
+    return createSuccessResult({
+        targetPage: { title: targetPage.title, path: targetPage.path },
+        opportunities,
+        message: `Found ${opportunities.length} internal linking opportunities in the "${targetPage.clusterKey}" cluster.`
+    });
+}
 
 // --- New Capabilities ---
 
@@ -123,7 +125,6 @@ async function performContentGapAnalysis(input: any): Promise<AgentResult> {
     const score = await calculatePriorityScore(pageId);
 
     return createSuccessResult({
-        pageId,
         priorityScore: score,
         ...analysis,
         message: 'Content gap analysis complete.'

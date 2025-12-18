@@ -2715,7 +2715,7 @@ export async function chatWithFunctions(
         model: resolvedModel,
         contents,
         tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
-      });
+      } as any);
 
       console.log(`[BigMind] response received, candidates: ${response.candidates?.length || 0}`);
 
@@ -3013,7 +3013,7 @@ export async function chatWithFunctions(
     try {
       const ragResponse = await generateSmartFallback(lastUserMessage.content);
       return {
-        response: ragResponse,
+        response: ragResponse || '',
         functionCalls: [],
       };
     } catch (fallbackError) {

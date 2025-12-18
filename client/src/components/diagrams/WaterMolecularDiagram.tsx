@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export function WaterMolecularDiagram() {
     // Animation variants
-    const molecularVariants = {
+    const molecularVariants: any = {
         animate: (i: number) => ({
             x: [0, Math.random() * 20 - 10, Math.random() * 20 - 10, 0],
             y: [0, Math.random() * 20 - 10, Math.random() * 20 - 10, 0],
@@ -16,7 +16,7 @@ export function WaterMolecularDiagram() {
         }),
     };
 
-    const structuredVariants = {
+    const structuredVariants: any = {
         animate: (i: number) => ({
             opacity: [0.4, 0.8, 0.4],
             scale: [0.95, 1.05, 0.95],

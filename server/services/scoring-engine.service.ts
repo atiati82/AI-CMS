@@ -49,7 +49,7 @@ export async function calculatePriorityScore(pageId: string): Promise<PageScore>
     const businessWeight = calculateBusinessWeight(page.pageType, page.template);
     const priorityWeight = calculatePriorityWeight(page.priority);
     const freshnessWeight = calculateFreshnessWeight(
-        metrics.daysSinceUpdate,
+        metrics.daysSinceUpdate || 0,
         page.refreshIntervalDays || getRefreshInterval(page.priority)
     );
     const gapWeight = calculateGapWeight(metrics);
