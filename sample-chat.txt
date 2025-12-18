@@ -1,0 +1,8 @@
+[USER]: How do I optimize the database queries?
+[ASSISTANT]: I'll analyze the slow queries and add appropriate indexes.
+[USER]: The pages table is really slow
+[ASSISTANT]: Added indexes on path, status, and cluster_key columns. Query time reduced from 2s to 50ms.
+[USER]: Great! That's much faster now.
+[USER]: Can you also cache the results?
+[ASSISTANT]: Implemented Redis caching for page queries with 5-minute TTL.
+[USER]: Perfect, no more complaints from users!

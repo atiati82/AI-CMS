@@ -1,0 +1,199 @@
+{
+    "page": {
+        "key": "water-science-hub",
+        "title": "Water Science Hub — The Hidden Architecture of Water",
+        "path": "/science/water",
+        "pageType": "hub",
+        "template": "pillar_overview",
+        "clusterKey": "water-science",
+        "priority": 1,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Water Science Hub: Structure, ORP, Conductivity & Clarity",
+        "description": "The complete map of water science: phases, structured/EZ water, ORP & redox, EC/TDS, turbidity, vortex, magnetics, light—and how to test at home.",
+        "focusKeyword": "water science",
+        "secondaryKeywords": [
+            "structured water",
+            "EZ water",
+            "ORP",
+            "redox",
+            "conductivity",
+            "turbidity",
+            "vortex water"
+        ],
+        "intent": [
+            "learn",
+            "measure",
+            "explore",
+            "compare"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "scientific",
+            "educational",
+            "premium",
+            "trustworthy"
+        ],
+        "emotionalTone": [
+            "calm",
+            "precise",
+            "visionary"
+        ],
+        "motionPreset": "scientific-flow",
+        "colorPalette": "mineral",
+        "treeTheme": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Science Hub</span>\n        <h1 class=\"h1\">Water Science Hub</h1>\n        <p class=\"p tagline\">The Hidden Architecture of Water — Structure, Charge, and Measurement</p>\n        <p class=\"p\">Water is a measurable medium and a pattern medium. This hub connects the full water library into one coherent map:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li>Structure (interfaces, ordering, phases)</li>\n          <li>Charge behavior (ions, conductivity, ORP/redox)</li>\n          <li>Clarity (turbidity, settling, particle dynamics)</li>\n          <li>Field & flow (vortex, magnetics, light)</li>\n          <li>Proof discipline (protocols, logging, comparisons)</li>\n        </ul>\n        <p class=\"p callout\"><strong>If you want results that scale, the rule is simple:</strong><br>Don't chase one number. Track a system.</p>\n        <div class=\"btn-group\">\n          <a href=\"/orp-redox-water\" class=\"btn primary\">ORP/Redox →</a>\n          <a href=\"/home-water-test-kit\" class=\"btn secondary\">Home Test Kit →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Abstract scientific visualization showing water molecule clusters forming hexagonal patterns, with flowing conductivity lines and ORP measurement indicators, cyan and light blue tones, premium scientific aesthetic -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true,
+                "duration": "var(--dur-3)"
+            }
+        },
+        {
+            "id": "fast-track",
+            "type": "navigation",
+            "html": "<section class=\"section tight\" id=\"fast-track\">\n  <div class=\"container\">\n    <h2 class=\"h3\">Start here (fast track):</h2>\n    <div class=\"grid cols-4\">\n      <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">⚡</div>\n        <h3 class=\"h4\">ORP/Redox</h3>\n        <p class=\"p small\">Electron transfer fingerprint</p>\n      </a>\n      <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">🔌</div>\n        <h3 class=\"h4\">Conductivity/TDS</h3>\n        <p class=\"p small\">Charge carrier density</p>\n      </a>\n      <a href=\"/turbidity-clarity\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">💧</div>\n        <h3 class=\"h4\">Turbidity/Clarity</h3>\n        <p class=\"p small\">Particle & interface behavior</p>\n      </a>\n      <a href=\"/home-water-test-kit\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">🧪</div>\n        <h3 class=\"h4\">Home Test Kit</h3>\n        <p class=\"p small\">Your measurement starter</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "water-science-map",
+            "type": "navigation-map",
+            "html": "<section class=\"section\" id=\"water-science-map\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Water Science Map</h2>\n    <p class=\"p subtitle\">The library is organized into 6 layers</p>\n    \n    <div class=\"layer-grid\">\n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 1</span>\n        <h3 class=\"h3\">Foundations</h3>\n        <ul>\n          <li><a href=\"/phases-of-water\">Phases of Water</a></li>\n          <li><a href=\"/structured-water-basics\">Structured Water Basics</a></li>\n          <li><a href=\"/ez-water-overview\">EZ Water Overview</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 2</span>\n        <h3 class=\"h3\">Measurement Windows</h3>\n        <p class=\"p small\">What you can actually track</p>\n        <ul>\n          <li><a href=\"/ph-balance-water\">pH balance</a></li>\n          <li><a href=\"/orp-redox-water\">ORP & Redox</a></li>\n          <li><a href=\"/conductivity-tds-water\">Conductivity & TDS</a></li>\n          <li><a href=\"/turbidity-clarity\">Turbidity & clarity</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 3</span>\n        <h3 class=\"h3\">Interfaces & Hydration Layers</h3>\n        <ul>\n          <li><a href=\"/hydration-layers-interfaces\">Hydration Layers & Interfaces</a></li>\n          <li><a href=\"/light-and-water\">Light & Water</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 4</span>\n        <h3 class=\"h3\">Flow Technologies</h3>\n        <ul>\n          <li><a href=\"/vortex-technologies\">Vortex technologies</a></li>\n          <li><a href=\"/vortex-spin-experiments\">Vortex & spin experiments</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 5</span>\n        <h3 class=\"h3\">Field Effects</h3>\n        <ul>\n          <li><a href=\"/magnetics-water\">Magnetics & orientation</a></li>\n          <li><a href=\"/magnet-placement-experiments\">Magnet placement experiments</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad layer\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Layer 6</span>\n        <h3 class=\"h3\">Case Studies & Comparisons</h3>\n        <ul>\n          <li><a href=\"/natural-vs-treated-water\">Natural vs treated waters</a></li>\n          <li><a href=\"/water-case-studies-world\">Case studies world</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "water-as-system",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"water-as-system\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Water as a System</h2>\n      <p class=\"p tagline\">Water behaves like a field-responsive electrolyte system</p>\n      <p class=\"p\">Even before you talk about \"structure,\" water is already responding to:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Dissolved ions</strong> — charge carriers</li>\n        <li><strong>Surfaces</strong> — interfaces where ordering emerges</li>\n        <li><strong>Gases</strong> — dissolved oxygen/CO₂ dynamics affect readings</li>\n        <li><strong>Temperature</strong> — strongly influences ORP/EC readings</li>\n        <li><strong>Time</strong> — storage changes the fingerprint</li>\n      </ul>\n      <p class=\"p callout\">That's why serious comparison uses a <strong>baseline protocol</strong> and <strong>repeated measurements</strong>.</p>\n      <div class=\"bridge-links\">\n        <span class=\"label\">Bridge pages:</span>\n        <a href=\"/bioelectric-water\" class=\"chip\">Bioelectric Water</a>\n        <a href=\"/terrain-concepts\" class=\"chip\">Terrain Concepts</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "four-parameter-standard",
+            "type": "framework",
+            "html": "<section class=\"section\" id=\"four-parameter-standard\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The 4-Parameter Standard</h2>\n    <p class=\"p subtitle\">The minimal measurement stack that scales — your \"Andara discipline\"</p>\n    <p class=\"p\">If the community uses the same 4 signals, your ecosystem becomes self-validating:</p>\n    \n    <div class=\"grid cols-4\">\n      <div class=\"panel facet pad parameter-card\">\n        <div class=\"number\">1</div>\n        <h3 class=\"h4\">EC/TDS</h3>\n        <p class=\"p small\">Charge carrier density</p>\n        <a href=\"/conductivity-tds-water\" class=\"btn small\">Learn →</a>\n      </div>\n      <div class=\"panel facet pad parameter-card\">\n        <div class=\"number\">2</div>\n        <h3 class=\"h4\">ORP</h3>\n        <p class=\"p small\">Redox fingerprint</p>\n        <a href=\"/orp-redox-water\" class=\"btn small\">Learn →</a>\n      </div>\n      <div class=\"panel facet pad parameter-card\">\n        <div class=\"number\">3</div>\n        <h3 class=\"h4\">pH</h3>\n        <p class=\"p small\">Context window</p>\n        <a href=\"/ph-balance-water\" class=\"btn small\">Learn →</a>\n      </div>\n      <div class=\"panel facet pad parameter-card\">\n        <div class=\"number\">4</div>\n        <h3 class=\"h4\">Turbidity</h3>\n        <p class=\"p small\">Particle/interface behavior</p>\n        <a href=\"/turbidity-clarity\" class=\"btn small\">Learn →</a>\n      </div>\n    </div>\n    \n    <div class=\"bridge-links center\">\n      <a href=\"/parameter-tracking\" class=\"chip\">Logging Standard</a>\n      <a href=\"/andara-vs-baseline-water-protocol\" class=\"chip\">Comparison Protocol</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "experiments-hub",
+            "type": "proof-block",
+            "html": "<section class=\"section\" id=\"experiments-hub\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Experiments Hub</h2>\n    <p class=\"p tagline\">Proof in water science means \"repeatable comparison\"</p>\n    <p class=\"p\">Start simple, stay consistent:</p>\n    \n    <div class=\"grid cols-3\">\n      <a href=\"/home-water-test-kit\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Home Water Test Kit</h3>\n        <p class=\"p small\">Overview & setup guide</p>\n      </a>\n      <a href=\"/diy-clarity-tests\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">DIY Clarity Tests</h3>\n        <p class=\"p small\">Simple turbidity experiments</p>\n      </a>\n      <a href=\"/lab-measured-effects\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Lab-Measured Effects</h3>\n        <p class=\"p small\">Index of verified data</p>\n      </a>\n      <a href=\"/experiments-index\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Experiments Index</h3>\n        <p class=\"p small\">Full experiment library</p>\n      </a>\n      <a href=\"/citizen-science-hub\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Citizen Science</h3>\n        <p class=\"p small\">Community submissions</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "next-steps",
+            "type": "cta",
+            "html": "<section class=\"section\" id=\"next-steps\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Choose Your Path</h2>\n    \n    <div class=\"grid cols-3\">\n      <div class=\"panel pad path-card\">\n        <h3 class=\"h4\">\"I want measurable basics\"</h3>\n        <ul>\n          <li><a href=\"/orp-redox-water\">ORP & Redox</a></li>\n          <li><a href=\"/conductivity-tds-water\">Conductivity & TDS</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad path-card\">\n        <h3 class=\"h4\">\"I want structure concepts\"</h3>\n        <ul>\n          <li><a href=\"/structured-water-basics\">Structured Water Basics</a></li>\n          <li><a href=\"/ez-water-overview\">EZ Water Overview</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad path-card\">\n        <h3 class=\"h4\">\"I want clarity transformation\"</h3>\n        <ul>\n          <li><a href=\"/turbidity-clarity\">Turbidity & Clarity</a></li>\n          <li><a href=\"/diy-clarity-tests\">DIY Clarity Tests</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Water Science",
+        "items": [
+            {
+                "question": "What's the single best water parameter?",
+                "answer": "There isn't one. Reliable insight comes from patterns across multiple parameters."
+            },
+            {
+                "question": "Why does ORP change after the water sits?",
+                "answer": "Time, gases, and surface interactions can shift the redox fingerprint."
+            },
+            {
+                "question": "Can high TDS mean \"better water\"?",
+                "answer": "Not automatically. TDS is quantity, not full fingerprint. Ion types and context matter."
+            },
+            {
+                "question": "How do I get clean comparisons?",
+                "answer": "Baseline sample, same container, same times, log temperature, repeat at 0/30/2h/24h."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Water Science Hub",
+        "description": "Complete map of water science: phases, structured/EZ water, ORP/redox, EC/TDS, turbidity, vortex, magnetics, light, and testing protocols.",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://andara-ionic.com/science/water"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Andara Ionic"
+        }
+    },
+    "dynamicBoxRules": {
+        "faqBooster": {
+            "condition": "faq.items.length < 6",
+            "action": "generateAdditionalFAQ"
+        },
+        "protocolBooster": {
+            "condition": "!internalLinks.includes('/parameter-tracking')",
+            "action": "addProtocolLink"
+        },
+        "linkBooster": {
+            "condition": "internalLinks.length < 12",
+            "action": "generateAdditionalLinks"
+        },
+        "glossaryBooster": {
+            "requiredTerms": [
+                "ORP",
+                "EC",
+                "ions",
+                "interface",
+                "turbidity",
+                "EZ"
+            ],
+            "action": "addGlossaryTooltips"
+        }
+    },
+    "internalLinks": [
+        "/orp-redox-water",
+        "/conductivity-tds-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/phases-of-water",
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/ph-balance-water",
+        "/hydration-layers-interfaces",
+        "/light-and-water",
+        "/vortex-technologies",
+        "/vortex-spin-experiments",
+        "/magnetics-water",
+        "/magnet-placement-experiments",
+        "/natural-vs-treated-water",
+        "/water-case-studies-world",
+        "/bioelectric-water",
+        "/terrain-concepts",
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/diy-clarity-tests",
+        "/lab-measured-effects",
+        "/experiments-index",
+        "/citizen-science-hub"
+    ]
+}

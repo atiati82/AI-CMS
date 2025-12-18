@@ -1,0 +1,240 @@
+{
+    "page": {
+        "key": "bioelectric-water",
+        "title": "Bioelectric Water — Voltage in Hydration",
+        "path": "/bioelectric-water",
+        "pageType": "article",
+        "template": "pillar_bridge",
+        "clusterKey": "bioelectric",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Bioelectric Water: Charge, Conductivity, ORP & Hydration Interfaces",
+        "description": "Learn how water carries charge: ions, conductivity, ORP/redox, interfaces and hydration layers—plus practical testing protocols and logging methods.",
+        "focusKeyword": "bioelectric water",
+        "secondaryKeywords": [
+            "water conductivity",
+            "hydration voltage",
+            "ion gradients water",
+            "ORP bioelectric",
+            "terrain water minerals"
+        ],
+        "intent": [
+            "learn",
+            "understand",
+            "test"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Bioelectric Water — Voltage in Hydration",
+            "description": "Water as a charge medium: ions, conductivity, ORP, interfaces and gradients",
+            "imagePrompt": "Water ripple + subtle electric field lines + 4-parameter icons (EC/ORP/pH/turbidity)"
+        }
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "bridge",
+            "scientific",
+            "grounded",
+            "systematic"
+        ],
+        "emotionalTone": [
+            "expertise",
+            "clarity",
+            "trust",
+            "discipline"
+        ],
+        "motionPreset": "knowledge-flow",
+        "colorPalette": "matrix",
+        "treeTheme": "matrix"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Pillar Bridge</span>\n      <h1 class=\"h1\">Bioelectric Water</h1>\n      <p class=\"p tagline\">Voltage in Hydration: How Water Carries Charge in Real Systems</p>\n      <p class=\"p\">Most \"water talk\" online splits into two camps:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li><strong>Chemistry-only:</strong> pH, TDS, minerals</li>\n        <li><strong>Structure-only:</strong> EZ, vortex, \"living water\"</li>\n      </ul>\n      <p class=\"p featured\"><strong>Bioelectric water is the bridge.</strong></p>\n      <p class=\"p\">It treats water as a charge medium that expresses itself through:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li><strong>Ions</strong> — charge carriers</li>\n        <li><strong>Conductivity</strong> — how easily charge moves</li>\n        <li><strong>Redox/ORP</strong> — electron tendency window</li>\n        <li><strong>Interfaces</strong> — where ordering and gradients form</li>\n        <li><strong>Time</strong> — stabilization and gas exchange</li>\n      </ul>\n      <p class=\"p callout\">This page gives a clean model and anchors it in measurement discipline.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">One-Sentence Definition</h2>\n      <p class=\"p callout large\"><strong>Bioelectric water</strong> is water understood as a charge-carrying system shaped by ions, interfaces, and gradients—observable through consistent measurement patterns over time.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "five-pillars",
+            "type": "framework",
+            "html": "<section class=\"section\" id=\"five-pillars\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Bioelectric Water Model (5 Pillars)</h2>\n    <div class=\"grid cols-1\">\n      <div class=\"panel pad pillar\">\n        <h3 class=\"h4\">Pillar 1 — Charge Carriers (ions)</h3>\n        <p class=\"p\">Water becomes bioelectrically relevant when it contains ions:</p>\n        <ul>\n          <li><strong>Cations (+):</strong> Ca²⁺, Mg²⁺, Na⁺, K⁺</li>\n          <li><strong>Anions (–):</strong> Cl⁻, SO₄²⁻, HCO₃⁻</li>\n        </ul>\n        <p class=\"p callout\">Ion type + balance + context matter, not \"more is better.\"</p>\n        <div class=\"chip-group\">\n          <a href=\"/ionic-vs-colloidal-vs-solid\" class=\"chip\">Ionic vs Colloidal</a>\n          <a href=\"/mineral-science-blueprint\" class=\"chip\">Mineral Blueprint</a>\n          <a href=\"/sulfate-chemistry\" class=\"chip\">Sulfate Chemistry</a>\n        </div>\n      </div>\n      <div class=\"panel pad pillar\">\n        <h3 class=\"h4\">Pillar 2 — Conductivity (EC/TDS as a window)</h3>\n        <p class=\"p\">EC and TDS are practical windows into dissolved charge carriers:</p>\n        <ul>\n          <li><strong>EC</strong> reflects how well water conducts electricity</li>\n          <li><strong>TDS</strong> is a proxy estimation for dissolved solids</li>\n        </ul>\n        <p class=\"p callout\"><strong>Important:</strong> Two waters can share similar TDS but behave differently (ion types differ).</p>\n        <a href=\"/conductivity-tds-water\" class=\"chip\">EC/TDS Details</a>\n      </div>\n      <div class=\"panel pad pillar\">\n        <h3 class=\"h4\">Pillar 3 — Redox / ORP (electron tendency window)</h3>\n        <p class=\"p\">ORP is not \"good vs bad.\" It's a context reading that shifts with:</p>\n        <ul>\n          <li>Dissolved oxygen</li>\n          <li>Temperature</li>\n          <li>Container exposure time</li>\n          <li>Minerals and redox-active chemistry</li>\n        </ul>\n        <p class=\"p\">Use ORP as part of a pattern stack, not as a single-score religion.</p>\n        <a href=\"/orp-redox-water\" class=\"chip\">ORP Details</a>\n      </div>\n      <div class=\"panel pad pillar\">\n        <h3 class=\"h4\">Pillar 4 — Interfaces (hydration layers)</h3>\n        <p class=\"p\">Interfaces are where \"voltage stories\" begin:</p>\n        <ul>\n          <li>Water near surfaces behaves differently than bulk water</li>\n          <li>Ordering and gradients form near interfaces</li>\n          <li>EZ/structured models live here (as conceptual frameworks)</li>\n        </ul>\n        <div class=\"chip-group\">\n          <a href=\"/hydration-layers-interfaces\" class=\"chip\">Hydration Layers</a>\n          <a href=\"/structured-water-basics\" class=\"chip\">Structured Water</a>\n          <a href=\"/ez-water-overview\" class=\"chip\">EZ Water</a>\n        </div>\n      </div>\n      <div class=\"panel pad pillar\">\n        <h3 class=\"h4\">Pillar 5 — Gradients (direction creates function)</h3>\n        <p class=\"p\">Bioelectricity is not just \"charge amount.\" It's <strong>charge separation and direction.</strong></p>\n        <p class=\"p\">A gradient is stored potential.</p>\n        <p class=\"p\">This is where water becomes a bridge concept to terrain logic:</p>\n        <ul>\n          <li>Gradients in water</li>\n          <li>Gradients across interfaces</li>\n          <li>Gradients across environments (water/body/soil)</li>\n        </ul>\n        <div class=\"chip-group\">\n          <a href=\"/bioelectricity-invisible-voltage\" class=\"chip\">Invisible Voltage</a>\n          <a href=\"/ion-channels-gradients\" class=\"chip\">Ion Channels</a>\n          <a href=\"/bioelectric-maps-water-body-soil\" class=\"chip\">Bioelectric Maps</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "terrain-bridge",
+            "type": "bridge",
+            "html": "<section class=\"section\" id=\"terrain-bridge\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Terrain Bridge</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Terrain thinking is an environment model:</p>\n      <ul>\n        <li>Water quality isn't only \"purity\"</li>\n        <li>It's also \"electrical ecology\": ions + interfaces + time + pattern inputs</li>\n      </ul>\n      <p class=\"p\">This page connects to:</p>\n      <ul>\n        <li><strong>Mineral Science</strong> — ions, sulfate, sources</li>\n        <li><strong>Water Science</strong> — EC/ORP/pH/turbidity protocols</li>\n        <li><strong>Crystalline Matrix</strong> — geometry models as navigation lens</li>\n      </ul>\n      <div class=\"chip-group\">\n        <a href=\"/terrain-concepts\" class=\"chip\">Terrain Concepts</a>\n        <a href=\"/water-crystal-geometry-map\" class=\"chip\">Integrated Map</a>\n        <a href=\"/science/geometry\" class=\"chip\">Crystalline Matrix</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "measurement",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"measurement\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Andara Measurement Discipline</h2>\n    <p class=\"p subtitle\">Non-Negotiable: The 4-Parameter Fingerprint</p>\n    <div class=\"panel pad\">\n      <p class=\"p\">If your community uses one standard, your library becomes self-validating.</p>\n      <ol>\n        <li><strong>EC/TDS</strong> → <a href=\"/conductivity-tds-water\">Conductivity</a></li>\n        <li><strong>ORP</strong> → <a href=\"/orp-redox-water\">Redox</a></li>\n        <li><strong>pH</strong> → <a href=\"/ph-balance-water\">Acid/Alkaline</a></li>\n        <li><strong>Turbidity/clarity</strong> → <a href=\"/turbidity-clarity\">Clarity</a></li>\n      </ol>\n      <p class=\"p\"><strong>Always log:</strong> temperature, container type, time points</p>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"btn secondary\">Equipment →</a>\n        <a href=\"/parameter-tracking\" class=\"btn primary\">Logging Standard →</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol",
+            "type": "experiment",
+            "html": "<section class=\"section\" id=\"protocol\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical: Bioelectric Water Protocol</h2>\n    <p class=\"p subtitle\">Baseline vs Test — Do It, Don't Debate It</p>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Goal</h3>\n      <p class=\"p\">Compare how a variable influences the water's bioelectric fingerprint.</p>\n      <h3 class=\"h4\">Setup</h3>\n      <ul>\n        <li>Same baseline water</li>\n        <li>Two identical glass containers</li>\n        <li>One baseline (control), one test (single variable only)</li>\n      </ul>\n      <h3 class=\"h4\">Single Variable Examples</h3>\n      <ul>\n        <li>Mineral addition (defined amount)</li>\n        <li>Vortex exposure</li>\n        <li>Light exposure</li>\n        <li>Magnet placement</li>\n        <li>Interface material change</li>\n      </ul>\n      <h3 class=\"h4\">Measure At</h3>\n      <p class=\"p\">0 / 30 min / 2 h / 24 h: EC/TDS, pH, ORP, turbidity</p>\n      <div class=\"btn-group\">\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"btn primary\">Protocol →</a>\n        <a href=\"/citizen-science-hub\" class=\"btn secondary\">Submit Data →</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "misinterpretations",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"misinterpretations\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Common Misinterpretations</h2>\n    <p class=\"p subtitle\">Protect User Trust</p>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"Low ORP = always best\"</h4>\n        <p class=\"p\">Wrong. ORP is contextual and shifts with oxygen and temperature. Use patterns.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"High TDS = strong water\"</h4>\n        <p class=\"p\">Wrong. TDS is quantity, not identity. Ion type matters.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"Structure can't be measured\"</h4>\n        <p class=\"p\">Wrong framing. You measure effects and patterns through consistent protocols.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"One experiment proves everything\"</h4>\n        <p class=\"p\">No. Repeatable results across time and setups create real confidence.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "routing",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"routing\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Library Routing (Intent-Based Navigation)</h2>\n    <div class=\"grid cols-4\">\n      <div class=\"panel pad\">\n        <h3 class=\"h5\">Measurement Windows</h3>\n        <ul>\n          <li><a href=\"/conductivity-tds-water\">EC/TDS</a></li>\n          <li><a href=\"/orp-redox-water\">ORP</a></li>\n          <li><a href=\"/ph-balance-water\">pH</a></li>\n          <li><a href=\"/turbidity-clarity\">Turbidity</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h5\">Structure Pages</h3>\n        <ul>\n          <li><a href=\"/structured-water-basics\">Structured Water</a></li>\n          <li><a href=\"/ez-water-overview\">EZ Water</a></li>\n          <li><a href=\"/hydration-layers-interfaces\">Hydration Layers</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h5\">Bioelectric Core</h3>\n        <ul>\n          <li><a href=\"/bioelectricity-invisible-voltage\">Invisible Voltage</a></li>\n          <li><a href=\"/ion-channels-gradients\">Ion Channels</a></li>\n          <li><a href=\"/proton-gradients-energy-transfer\">Proton Gradients</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h5\">Mineral Bridge</h3>\n        <ul>\n          <li><a href=\"/mineral-science-blueprint\">Mineral Blueprint</a></li>\n          <li><a href=\"/sulfate-chemistry\">Sulfate</a></li>\n          <li><a href=\"/iron-sulfur-synergy\">Iron-Sulfur</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Bioelectric Water",
+        "items": [
+            {
+                "question": "What makes water 'bioelectric'?",
+                "answer": "Its ability to carry and move charge via ions and interfaces—observed through EC/TDS, ORP, pH and clarity patterns over time."
+            },
+            {
+                "question": "Is bioelectric water the same as structured water?",
+                "answer": "Structured water focuses on ordering; bioelectric water focuses on charge movement and gradients. They overlap through interfaces."
+            },
+            {
+                "question": "Why do readings change when water sits?",
+                "answer": "Gas exchange, temperature equalization and interface stabilization shift fingerprints over time."
+            },
+            {
+                "question": "Can two waters have the same TDS but different bioelectric behavior?",
+                "answer": "Yes. Ion types, gases, redox chemistry and interfaces can differ."
+            },
+            {
+                "question": "What's the best first experiment?",
+                "answer": "Baseline vs one variable (light OR vortex OR minerals) with full logging at 0/30/2h/24h."
+            },
+            {
+                "question": "What should I read next?",
+                "answer": "/bioelectricity-invisible-voltage for the foundational model, /andara-vs-baseline-water-protocol for testing discipline."
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "patternNotNumbers": {
+            "trigger": "ORP or TDS mentioned without pattern warning",
+            "placement": "after Step 2",
+            "action": "addPatternWarning"
+        },
+        "protocolBooster": {
+            "trigger": "missing /parameter-tracking or /andara-vs-baseline-water-protocol",
+            "placement": "before Step 5",
+            "action": "addProtocolLinks"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "after Step 7",
+            "action": "addHubLinks"
+        },
+        "glossaryBooster": {
+            "trigger": "missing definitions: ion, cation, anion, gradient, redox, interface",
+            "placement": "after Step 2",
+            "action": "addGlossaryTooltips",
+            "requiredTerms": [
+                "ion",
+                "cation",
+                "anion",
+                "gradient",
+                "redox",
+                "interface"
+            ]
+        }
+    },
+    "jsonLd": {
+        "article": {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Bioelectric Water — Voltage in Hydration",
+            "description": "A bridge model explaining water as a charge-carrying system shaped by ions, conductivity, ORP/redox, interfaces, and gradients—grounded with repeatable measurement protocols.",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://andara-ionic.com/bioelectric-water"
+            },
+            "author": {
+                "@type": "Organization",
+                "name": "Andara Ionic"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Andara Ionic"
+            },
+            "about": [
+                "Bioelectricity",
+                "Water conductivity",
+                "ORP",
+                "Redox",
+                "Hydration interfaces",
+                "Ion gradients"
+            ]
+        },
+        "faqPage": {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What makes water bioelectric?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Its ability to carry and move charge via ions and interfaces—observed through EC/TDS, ORP, pH and clarity patterns over time."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Is bioelectric water the same as structured water?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Structured water emphasizes ordering; bioelectric water emphasizes charge movement and gradients. They overlap through interfaces."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Why do readings change when water sits?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Gas exchange, temperature equalization and interface stabilization can shift fingerprints over time, so logging across time points is essential."
+                    }
+                }
+            ]
+        }
+    },
+    "internalLinks": [
+        "/ionic-vs-colloidal-vs-solid",
+        "/mineral-science-blueprint",
+        "/sulfate-chemistry",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/hydration-layers-interfaces",
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/bioelectricity-invisible-voltage",
+        "/ion-channels-gradients",
+        "/bioelectric-maps-water-body-soil",
+        "/terrain-concepts",
+        "/water-crystal-geometry-map",
+        "/science/geometry",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/citizen-science-hub",
+        "/proton-gradients-energy-transfer",
+        "/iron-sulfur-synergy"
+    ]
+}

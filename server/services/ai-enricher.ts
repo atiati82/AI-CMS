@@ -2,13 +2,23 @@ import { GoogleGenAI } from "@google/genai";
 import type { AiEnrichment, MotionSpec } from "@shared/schema";
 import { storage } from "../storage";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+// Use the same API key detection pattern as andara-chat.ts
+const geminiApiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+// Ensure base URL includes /v1beta (env var might be missing it)
+const rawGeminiBaseUrl = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
+const geminiBaseUrl = rawGeminiBaseUrl.endsWith('/v1beta') ? rawGeminiBaseUrl : `${rawGeminiBaseUrl}/v1beta`;
+
+if (!geminiApiKey) {
+  console.warn('[AI Enricher] No Gemini API key found. Enrichment will return empty results.');
+}
+
+const ai = geminiApiKey ? new GoogleGenAI({
+  apiKey: geminiApiKey,
   httpOptions: {
     apiVersion: "",
-    baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+    baseUrl: geminiBaseUrl,
   },
-});
+}) : null;
 
 const MOTION_PRESETS_REFERENCE = `
 Available Motion Presets (for motionItems.preset field):
@@ -192,11 +202,19 @@ export async function enrichPageHtml(html: string, steps?: EnrichmentSteps | nul
     return createEmptyEnrichment();
   }
 
+  // Check if AI is available
+  if (!ai) {
+    console.warn('[AI Enricher] No AI client available, returning empty enrichment');
+    return createEmptyEnrichment();
+  }
+
   try {
     const extractionPrompt = await getEnrichmentPrompt();
-    
+
+    console.log('[AI Enricher] Calling Gemini with HTML length:', html.length);
+
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-pro",
+      model: "gemini-2.0-flash", // Use the correct model name
       contents: [
         {
           role: "user",
@@ -218,7 +236,13 @@ Return ONLY the JSON object, no markdown formatting or explanation.`
     });
 
     const text = response.text?.trim() || "";
-    
+    console.log('[AI Enricher] Got response, length:', text.length);
+
+    if (!text) {
+      console.error('[AI Enricher] Empty response from AI');
+      return createEmptyEnrichment();
+    }
+
     let jsonText = text;
     if (jsonText.startsWith("```json")) {
       jsonText = jsonText.slice(7);
@@ -230,7 +254,9 @@ Return ONLY the JSON object, no markdown formatting or explanation.`
     }
     jsonText = jsonText.trim();
 
+    console.log('[AI Enricher] Parsing JSON...');
     const parsed = JSON.parse(jsonText);
+    console.log('[AI Enricher] Parsed successfully, keys:', Object.keys(parsed));
 
     // Helper to check if a step is enabled (default to true if steps is null/undefined)
     const isStepEnabled = (stepName: keyof EnrichmentSteps): boolean => {
@@ -338,8 +364,14 @@ Return ONLY the JSON object, no markdown formatting or explanation.`
     (result as any)._enabledSteps = steps || null;
 
     return result;
-  } catch (error) {
-    console.error("AI enrichment error:", error);
+  } catch (error: any) {
+    console.error("[AI Enricher] ERROR:", error?.message || error);
+    console.error("[AI Enricher] Error details:", JSON.stringify({
+      name: error?.name,
+      code: error?.code,
+      status: error?.status,
+      statusText: error?.statusText,
+    }, null, 2));
     return createEmptyEnrichment();
   }
 }

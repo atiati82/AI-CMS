@@ -55,4 +55,47 @@ router.get('/audit/actor/:type/:id', requireAdmin, async (req, res) => {
     }
 });
 
+// GET /api/ai/audit/memory
+// Fetch AI learned memory objects (lessons)
+router.get('/memory', requireAdmin, async (req, res) => {
+    try {
+        const { type, search } = req.query;
+        const { db } = await import('../../db');
+
+        let query = `
+            SELECT * FROM rag_memory_objects 
+            ORDER BY last_triggered DESC, confidence DESC 
+            LIMIT 50
+        `;
+
+        // Basic filtering (can be expanded)
+        const result = await db.query(query);
+
+        res.json({
+            ok: true,
+            memories: result.rows,
+            count: result.rows.length
+        });
+    } catch (error: any) {
+        console.error('Get memory error:', error);
+        res.status(500).json({ ok: false, error: error.message });
+    }
+});
+
+// DELETE /api/ai/audit/memory/:id
+// Forget a specific lesson
+router.delete('/memory/:id', requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { db } = await import('../../db');
+
+        await db.query('DELETE FROM rag_memory_objects WHERE lesson_id = $1', [id]);
+
+        res.json({ ok: true, message: 'Memory deleted' });
+    } catch (error: any) {
+        console.error('Delete memory error:', error);
+        res.status(500).json({ ok: false, error: error.message });
+    }
+});
+
 export default router;

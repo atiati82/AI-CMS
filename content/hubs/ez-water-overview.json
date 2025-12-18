@@ -1,0 +1,119 @@
+{
+    "page": {
+        "key": "ez-water-overview",
+        "title": "EZ Water Overview — Exclusion Zone Research",
+        "path": "/ez-water-overview",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "EZ Water: Dr. Pollack's Exclusion Zone Water Research",
+        "description": "Understanding exclusion zone (EZ) water: Dr. Gerald Pollack's research on interfacial water, the fourth phase, and what it means for water science.",
+        "focusKeyword": "EZ water",
+        "secondaryKeywords": [
+            "exclusion zone",
+            "fourth phase water",
+            "Gerald Pollack",
+            "interfacial water",
+            "structured water"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "scientific",
+            "research-based",
+            "educational"
+        ],
+        "emotionalTone": [
+            "curiosity",
+            "discovery",
+            "grounded"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Research</span>\n      <h1 class=\"h1\">EZ Water Overview</h1>\n      <p class=\"p tagline\">Exclusion Zone Research — The Fourth Phase of Water</p>\n      <p class=\"p\">EZ water (Exclusion Zone water) is a concept from the research of Dr. Gerald Pollack at the University of Washington.</p>\n      <p class=\"p callout\">Key claim: Water near hydrophilic surfaces forms an ordered layer that excludes particles and has different properties than bulk water.</p>\n      <div class=\"btn-group\">\n        <a href=\"#research\" class=\"btn primary\">The Research →</a>\n        <a href=\"/structured-water-basics\" class=\"btn secondary\">Structured Water Basics →</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "research",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"research\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Research</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Dr. Pollack's lab has documented:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Exclusion zones</strong> — regions near surfaces that exclude microspheres</li>\n        <li><strong>Charge separation</strong> — negative charge in EZ, positive in bulk</li>\n        <li><strong>Light responsiveness</strong> — EZ grows with infrared light exposure</li>\n        <li><strong>Gel-like properties</strong> — different viscosity and density than bulk</li>\n      </ul>\n      <p class=\"p\">Published in \"The Fourth Phase of Water\" (2013) and peer-reviewed journals.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "evidence",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"evidence\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Evidence Levels</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Well-Documented</h3>\n        <ul>\n          <li>Exclusion zone formation near hydrophilic surfaces</li>\n          <li>Charge separation phenomenon</li>\n          <li>Light-induced growth of EZ layer</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Still Debated</h3>\n        <ul>\n          <li>Exact molecular structure of EZ water</li>\n          <li>Health implications of EZ water</li>\n          <li>How long EZ properties persist</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "practical",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"practical\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical Implications</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">For your water exploration:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Surfaces matter</strong> — container material may influence water behavior</li>\n        <li><strong>Light matters</strong> — IR exposure may affect interface layers</li>\n        <li><strong>Time matters</strong> — water near surfaces stabilizes differently</li>\n        <li><strong>Measure over time</strong> — track ORP/pH changes at intervals</li>\n      </ul>\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Start Tracking →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related Topics</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/structured-water-basics\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Structured Water Basics</h3>\n        <p class=\"p small\">Foundation concepts</p>\n      </a>\n      <a href=\"/hydration-layers-interfaces\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Hydration Layers</h3>\n        <p class=\"p small\">Where EZ forms</p>\n      </a>\n      <a href=\"/light-and-water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Light & Water</h3>\n        <p class=\"p small\">Photonic effects</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — EZ Water",
+        "items": [
+            {
+                "question": "Is EZ water the same as structured water?",
+                "answer": "EZ water is a specific type of structured/interfacial water documented in research. 'Structured water' is a broader term."
+            },
+            {
+                "question": "Can I make EZ water at home?",
+                "answer": "You can create conditions that favor EZ formation (hydrophilic surfaces, light exposure) but measuring it requires specialized equipment."
+            },
+            {
+                "question": "Is Dr. Pollack's research accepted?",
+                "answer": "His observations are reproducible; interpretation and implications are still debated in mainstream science."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "EZ Water Overview – Exclusion Zone Research",
+        "description": "Understanding exclusion zone water and Dr. Gerald Pollack's fourth phase research."
+    },
+    "internalLinks": [
+        "/structured-water-basics",
+        "/hydration-layers-interfaces",
+        "/light-and-water",
+        "/parameter-tracking",
+        "/science/water"
+    ]
+}

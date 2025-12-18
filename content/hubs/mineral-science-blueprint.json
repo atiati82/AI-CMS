@@ -1,0 +1,135 @@
+{
+    "page": {
+        "key": "mineral-science-blueprint",
+        "title": "Mineral Science Blueprint — The Complete Overview",
+        "path": "/mineral-science-blueprint",
+        "pageType": "hub",
+        "template": "pillar_overview",
+        "clusterKey": "mineral-science",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Mineral Science Blueprint: Ionic, Colloidal & Solid Forms",
+        "description": "The complete mineral science overview: ionic vs colloidal vs solid, sulfate chemistry, iron-sulfur synergy, bioavailability, and measurement approaches.",
+        "focusKeyword": "mineral science",
+        "secondaryKeywords": [
+            "ionic minerals",
+            "colloidal minerals",
+            "sulfate",
+            "bioavailability",
+            "mineral absorption"
+        ],
+        "intent": [
+            "learn",
+            "explore"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "comprehensive",
+            "scientific",
+            "navigational",
+            "premium"
+        ],
+        "emotionalTone": [
+            "expertise",
+            "authority",
+            "clarity"
+        ],
+        "motionPreset": "knowledge-flow",
+        "colorPalette": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Hub</span>\n      <h1 class=\"h1\">Mineral Science Blueprint</h1>\n      <p class=\"p tagline\">The Complete Overview: Forms, Chemistry & Bioavailability</p>\n      <p class=\"p\">This hub organizes everything you need to understand mineral science:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li>Forms: ionic, colloidal, solid</li>\n        <li>Chemistry: sulfate, iron-sulfur, co-factors</li>\n        <li>Absorption: bioavailability and transport</li>\n        <li>Measurement: conductivity, particle size, stability</li>\n      </ul>\n      <div class=\"btn-group\">\n        <a href=\"#forms\" class=\"btn primary\">Mineral Forms →</a>\n        <a href=\"/sulfate-chemistry\" class=\"btn secondary\">Sulfate Chemistry →</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "forms",
+            "type": "navigation-map",
+            "html": "<section class=\"section\" id=\"forms\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Mineral Forms</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Ionic</h3>\n        <p class=\"p\">Dissolved ions in solution. Highest bioavailability for many minerals.</p>\n        <ul>\n          <li>Fully dissociated</li>\n          <li>Immediate availability</li>\n          <li>Measurable via EC/TDS</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Colloidal</h3>\n        <p class=\"p\">Suspended particles, 1-1000nm. Different transport dynamics.</p>\n        <ul>\n          <li>Particle suspension</li>\n          <li>Surface area effects</li>\n          <li>Stability considerations</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Solid</h3>\n        <p class=\"p\">Crystalline or amorphous forms. Require dissolution first.</p>\n        <ul>\n          <li>Storage stable</li>\n          <li>Dissolution rate matters</li>\n          <li>Particle size affects speed</li>\n        </ul>\n      </div>\n    </div>\n    <a href=\"/ionic-vs-colloidal-vs-solid\" class=\"btn primary\">Compare Forms →</a>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "chemistry",
+            "type": "navigation-map",
+            "html": "<section class=\"section\" id=\"chemistry\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Key Chemistry Topics</h2>\n    <div class=\"grid cols-2\">\n      <a href=\"/sulfate-chemistry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Sulfate Chemistry</h3>\n        <p class=\"p small\">SO₄²⁻ in water, minerals & biology</p>\n      </a>\n      <a href=\"/tetrahedral-sulfate-geometry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">SO₄ Tetrahedron</h3>\n        <p class=\"p small\">The geometry anchor</p>\n      </a>\n      <a href=\"/iron-sulfur-synergy\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Iron-Sulfur Synergy</h3>\n        <p class=\"p small\">Mineral partnerships</p>\n      </a>\n      <a href=\"/black-mica-sulfated-minerals\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Black Mica & Sulfated Minerals</h3>\n        <p class=\"p small\">Geological sources</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "bioavailability",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"bioavailability\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Bioavailability Factors</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">What affects mineral absorption:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Form</strong> — ionic generally more available than colloidal or solid</li>\n        <li><strong>Charge</strong> — ionic charge affects transport mechanisms</li>\n        <li><strong>Co-factors</strong> — vitamin C, stomach acid, other minerals</li>\n        <li><strong>Dosage timing</strong> — empty vs full stomach, competition</li>\n        <li><strong>Individual variation</strong> — gut health, genetics, current status</li>\n      </ul>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "measurement",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"measurement\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Measuring Minerals</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">In Water</h3>\n        <ul>\n          <li><a href=\"/conductivity-tds-water\">EC/TDS</a> — ionic content proxy</li>\n          <li><a href=\"/orp-redox-water\">ORP</a> — redox behavior</li>\n          <li><a href=\"/turbidity-clarity\">Turbidity</a> — particle presence</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">In Lab</h3>\n        <ul>\n          <li>ICP-MS — precise elemental analysis</li>\n          <li>Particle sizing — colloidal characterization</li>\n          <li>Zeta potential — stability measurement</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "hub-connections",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"hub-connections\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related Hubs</h2>\n    <div className=\"grid cols-3\">\n      <a href=\"/science/water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Water Science</h3>\n        <p class=\"p small\">Water + mineral interactions</p>\n      </a>\n      <a href=\"/science/geometry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Crystalline Matrix</h3>\n        <p class=\"p small\">Geometry perspective</p>\n      </a>\n      <a href=\"/water-crystal-geometry-map\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Integrated Map</h3>\n        <p class=\"p small\">Connect all three</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Mineral Science",
+        "items": [
+            {
+                "question": "Which mineral form is best?",
+                "answer": "It depends on the mineral and purpose. Ionic is often most bioavailable, but stability and dosing matter too."
+            },
+            {
+                "question": "How do I know if a mineral product is ionic?",
+                "answer": "Check if it conducts electricity (EC/TDS meter) and is clear (not turbid). True ionic solutions are transparent."
+            },
+            {
+                "question": "Why focus on sulfate?",
+                "answer": "Sulfate is one of the most important and well-studied anions. It's a great starting point for mineral understanding."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Mineral Science Blueprint",
+        "description": "Complete overview of mineral science: forms, chemistry, bioavailability, and measurement."
+    },
+    "internalLinks": [
+        "/ionic-vs-colloidal-vs-solid",
+        "/sulfate-chemistry",
+        "/tetrahedral-sulfate-geometry",
+        "/iron-sulfur-synergy",
+        "/black-mica-sulfated-minerals",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/turbidity-clarity",
+        "/science/water",
+        "/science/geometry",
+        "/water-crystal-geometry-map"
+    ]
+}

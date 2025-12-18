@@ -1,0 +1,103 @@
+{
+    "page": {
+        "key": "ionic-vs-colloidal-vs-solid",
+        "title": "Ionic vs Colloidal vs Solid — Mineral Forms Compared",
+        "path": "/ionic-vs-colloidal-vs-solid",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "mineral-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Ionic vs Colloidal vs Solid Minerals: Which Form is Best?",
+        "description": "Compare ionic, colloidal, and solid mineral forms: bioavailability, stability, measurement, and what matters for absorption.",
+        "focusKeyword": "ionic vs colloidal",
+        "secondaryKeywords": [
+            "mineral forms",
+            "bioavailability",
+            "ionic minerals",
+            "colloidal minerals"
+        ],
+        "intent": [
+            "compare",
+            "learn"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "comparative",
+            "educational",
+            "clear"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "practical",
+            "trustworthy"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Comparison</span>\n      <h1 class=\"h1\">Ionic vs Colloidal vs Solid</h1>\n      <p class=\"p tagline\">Mineral Forms Compared</p>\n      <p class=\"p\">Not all mineral supplements are the same. The form determines availability, stability, and behavior.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "comparison",
+            "type": "comparison-table",
+            "html": "<section class=\"section\" id=\"comparison\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Form Comparison</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">Ionic</h3>\n        <ul>\n          <li><strong>State:</strong> Dissolved ions</li>\n          <li><strong>Size:</strong> Atomic level</li>\n          <li><strong>EC/TDS:</strong> High conductivity</li>\n          <li><strong>Stability:</strong> Very stable in solution</li>\n          <li><strong>Absorption:</strong> Generally highest</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">Colloidal</h3>\n        <ul>\n          <li><strong>State:</strong> Suspended particles</li>\n          <li><strong>Size:</strong> 1-1000 nm</li>\n          <li><strong>EC/TDS:</strong> Lower conductivity</li>\n          <li><strong>Stability:</strong> Requires stabilization</li>\n          <li><strong>Absorption:</strong> Variable</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">Solid</h3>\n        <ul>\n          <li><strong>State:</strong> Crystals/powder</li>\n          <li><strong>Size:</strong> Visible</li>\n          <li><strong>EC/TDS:</strong> Zero until dissolved</li>\n          <li><strong>Stability:</strong> Very stable</li>\n          <li><strong>Absorption:</strong> Requires dissolution</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "how-to-test",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"how-to-test\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Test Form</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>EC/TDS meter:</strong> High reading = ionic</li>\n        <li><strong>Clarity:</strong> Clear = ionic/dissolved, cloudy = colloidal/suspended</li>\n        <li><strong>Settling:</strong> Particles settle over time if colloidal/solid</li>\n        <li><strong>Light test:</strong> Tyndall effect shows colloidal particles</li>\n      </ul>\n      <a href=\"/conductivity-tds-water\" class=\"btn primary\">Learn EC/TDS →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/mineral-science-blueprint\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Mineral Blueprint</h3>\n      </a>\n      <a href=\"/sulfate-chemistry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Sulfate Chemistry</h3>\n      </a>\n      <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">EC/TDS</h3>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ",
+        "items": [
+            {
+                "question": "Is ionic always better?",
+                "answer": "For bioavailability, often yes. But stability and dosing also matter."
+            },
+            {
+                "question": "How do I know if a product is truly ionic?",
+                "answer": "It should conduct electricity (high EC) and be completely clear."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Ionic vs Colloidal vs Solid Minerals",
+        "description": "Comparing mineral forms for bioavailability and absorption."
+    },
+    "internalLinks": [
+        "/mineral-science-blueprint",
+        "/sulfate-chemistry",
+        "/conductivity-tds-water"
+    ]
+}

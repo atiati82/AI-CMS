@@ -1,0 +1,124 @@
+{
+    "page": {
+        "key": "tetrahedral-sulfate-geometry",
+        "title": "Tetrahedral Sulfate Geometry — The SO₄ Anchor",
+        "path": "/tetrahedral-sulfate-geometry",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "SO₄ Tetrahedron: Sulfate Geometry in Water & Mineral Chemistry",
+        "description": "Understand the tetrahedral geometry of sulfate (SO₄²⁻): bond angles, stability, and why this shape matters for mineral chemistry and crystal lattice thinking.",
+        "focusKeyword": "sulfate tetrahedron",
+        "secondaryKeywords": [
+            "SO4 geometry",
+            "tetrahedral ion",
+            "sulfate chemistry",
+            "mineral geometry",
+            "bond angles"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "scientific",
+            "geometric",
+            "educational",
+            "precise"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "intelligence",
+            "grounded"
+        ],
+        "motionPreset": "crystalline-shimmer",
+        "colorPalette": "matrix",
+        "treeTheme": "matrix",
+        "requiredVisuals": [
+            "SO4TetrahedronDiagram component"
+        ]
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Geometry</span>\n        <h1 class=\"h1\">Tetrahedral Sulfate Geometry</h1>\n        <p class=\"p tagline\">The SO₄ Anchor — Where Geometry Becomes Chemistry</p>\n        <p class=\"p\">Sulfate (SO₄²⁻) is one of the clearest examples of real geometry in chemistry:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li>A central sulfur atom</li>\n          <li>Four oxygen atoms at tetrahedral vertices</li>\n          <li>Bond angles of 109.5°</li>\n          <li>A stable, repeating structure</li>\n        </ul>\n        <p class=\"p callout\">This is your strongest \"hard geometry anchor\" — proof that geometry in nature is literal, not metaphor.</p>\n        <div class=\"btn-group\">\n          <a href=\"#why-it-matters\" class=\"btn primary\">Why It Matters →</a>\n          <a href=\"/sulfate-chemistry\" class=\"btn secondary\">Sulfate Chemistry →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- COMPONENT: SO4TetrahedronDiagram size={350} -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "what-is-tetrahedron",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-is-tetrahedron\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What is a Tetrahedron?</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">A tetrahedron is a 3D shape with:</p>\n      <ul class=\"feature-list\">\n        <li><strong>4 faces</strong> — equilateral triangles</li>\n        <li><strong>4 vertices</strong> — points where edges meet</li>\n        <li><strong>6 edges</strong> — all equal length</li>\n      </ul>\n      <p class=\"p\">In chemistry, the tetrahedral arrangement is one of the most stable geometries because it maximizes the distance between electron pairs (VSEPR theory).</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "so4-structure",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"so4-structure\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The SO₄²⁻ Structure</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Components</h3>\n        <ul>\n          <li><strong>1 Sulfur (S)</strong> — central atom, oxidation state +6</li>\n          <li><strong>4 Oxygen (O)</strong> — at tetrahedral vertices</li>\n          <li><strong>2- charge</strong> — the ion carries two extra electrons</li>\n        </ul>\n        <h3 class=\"h4\">Bond Angles</h3>\n        <p class=\"p\">All O-S-O angles are approximately <strong>109.5°</strong> — the ideal tetrahedral angle.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Stability</h3>\n        <p class=\"p\">The tetrahedral arrangement makes sulfate:</p>\n        <ul>\n          <li>Highly stable in solution</li>\n          <li>Resistant to reduction</li>\n          <li>Consistent across sulfate salts</li>\n        </ul>\n        <p class=\"p\">This stability is why sulfate appears in so many mineral systems.</p>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "why-it-matters",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"why-it-matters\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Why This Matters for Your Map</h2>\n    <div class=\"panel pad featured\">\n      <div class=\"grid cols-2\">\n        <div>\n          <h3 class=\"h4\">For Understanding</h3>\n          <ul>\n            <li>It's a clear visual people remember</li>\n            <li>It links chemistry to structure</li>\n            <li>It bridges into lattice logic</li>\n          </ul>\n        </div>\n        <div>\n          <h3 class=\"h4\">For Narrative</h3>\n          <ul>\n            <li>Supports \"Crystalline Matrix\" concept</li>\n            <li>No exaggerated claims needed</li>\n            <li>Creates a \"symbol of structure\"</li>\n          </ul>\n        </div>\n      </div>\n      <p class=\"p callout\">When someone asks \"Is geometry real in chemistry?\" — the sulfate tetrahedron is your answer.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related Topics</h2>\n    <div class=\"grid cols-4\">\n      <a href=\"/sulfate-chemistry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Sulfate Chemistry</h3>\n        <p class=\"p small\">Full sulfate science</p>\n      </a>\n      <a href=\"/iron-sulfur-synergy\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Iron-Sulfur Synergy</h3>\n        <p class=\"p small\">Mineral partnerships</p>\n      </a>\n      <a href=\"/science/geometry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Crystalline Matrix Hub</h3>\n        <p class=\"p small\">Geometry library</p>\n      </a>\n      <a href=\"/mineral-science-blueprint\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Mineral Blueprint</h3>\n        <p class=\"p small\">Full mineral overview</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Sulfate Tetrahedron",
+        "items": [
+            {
+                "question": "Is this geometry literal?",
+                "answer": "Yes. The tetrahedral arrangement of SO₄²⁻ is proven chemistry, not metaphor."
+            },
+            {
+                "question": "Why focus on sulfate specifically?",
+                "answer": "It's the clearest, most memorable example of stable geometry in mineral chemistry."
+            },
+            {
+                "question": "How does this connect to water?",
+                "answer": "Sulfate ions in water affect conductivity, redox, and interface behavior."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Tetrahedral Sulfate Geometry – The SO₄ Anchor",
+        "description": "Understanding the tetrahedral geometry of sulfate: bond angles, stability, and mineral chemistry applications."
+    },
+    "internalLinks": [
+        "/sulfate-chemistry",
+        "/iron-sulfur-synergy",
+        "/science/geometry",
+        "/mineral-science-blueprint",
+        "/water-crystal-geometry-map"
+    ]
+}

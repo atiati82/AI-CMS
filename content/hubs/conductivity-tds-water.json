@@ -1,0 +1,63 @@
+{
+    "page": {
+        "key": "conductivity-tds-water",
+        "title": "EC/TDS in Water — Conductivity Basics",
+        "path": "/conductivity-tds-water",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "EC & TDS Explained: Water Conductivity Measurement",
+        "description": "Understanding electrical conductivity (EC) and total dissolved solids (TDS) in water: what they measure, how to interpret readings, and what affects them.",
+        "focusKeyword": "water conductivity TDS"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Measurement</span>\n      <h1 class=\"h1\">EC/TDS in Water</h1>\n      <p class=\"p tagline\">Conductivity Basics — What's In Your Water</p>\n      <p class=\"p\">EC (Electrical Conductivity) and TDS (Total Dissolved Solids) tell you how many ions are dissolved in water.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "what-it-measures",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-it-measures\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What EC/TDS Measures</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>EC (μS/cm)</strong> — how well water conducts electricity</li>\n        <li><strong>TDS (ppm)</strong> — estimated dissolved solids (EC × conversion factor)</li>\n      </ul>\n      <p class=\"p\">Higher readings = more dissolved ions. This includes minerals, salts, and other charged particles.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "typical-ranges",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"typical-ranges\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Typical Ranges</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Common Waters</h3>\n        <ul>\n          <li>Distilled: 0-10 ppm</li>\n          <li>RO water: 10-50 ppm</li>\n          <li>Tap water: 100-500 ppm</li>\n          <li>Mineral water: 200-800 ppm</li>\n          <li>Sea water: 35,000+ ppm</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Andara Dilutions</h3>\n        <ul>\n          <li>Concentrate: Very high (1000+)</li>\n          <li>Typical use: Depends on dilution and base water</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "how-to-measure",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"how-to-measure\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Measure</h2>\n    <div class=\"panel pad\">\n      <ol>\n        <li>Calibrate meter with calibration solution</li>\n        <li>Rinse probe with sample water</li>\n        <li>Submerge probe fully</li>\n        <li>Wait for reading to stabilize</li>\n        <li>Record temperature (affects reading)</li>\n      </ol>\n      <a href=\"/home-water-test-kit\" class=\"btn primary\">Get Equipment →</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">ORP</h3></a>\n      <a href=\"/ph-balance-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">pH</h3></a>\n      <a href=\"/parameter-tracking\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Tracking</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "items": [
+            {
+                "question": "Is higher TDS better?",
+                "answer": "Not necessarily. It depends on what's dissolved. Beneficial minerals increase TDS, but so do contaminants."
+            },
+            {
+                "question": "Why does temperature matter?",
+                "answer": "Conductivity increases with temperature. Most meters auto-compensate, but note the temp anyway."
+            }
+        ]
+    },
+    "internalLinks": [
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/parameter-tracking",
+        "/home-water-test-kit",
+        "/ionic-vs-colloidal-vs-solid"
+    ]
+}

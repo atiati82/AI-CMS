@@ -161,10 +161,10 @@ export const pages = pgTable("pages", {
   clusterKey: text("cluster_key"),
   parentKey: text("parent_key"),
   priority: integer("priority").notNull().default(5),
-  
+
   summary: text("summary"),
   content: text("content"),
-  
+
   seoFocus: text("seo_focus"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
@@ -173,18 +173,30 @@ export const pages = pgTable("pages", {
   contentLengthWords: integer("content_length_words"),
   internalLinks: jsonb("internal_links").$type<string[]>().default([]),
   entities: jsonb("entities").$type<string[]>().default([]),
-  
+
   featuredImage: text("featured_image"),
   icon: text("icon"),
-  
+
   status: text("status").notNull().default('draft'),
-  
+
   metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
   visualConfig: jsonb("visual_config").$type<VisualConfig>(),
-  
+
   aiStartupHtml: text("ai_startup_html"),
   aiEnrichment: jsonb("ai_enrichment").$type<AiEnrichment>(),
-  
+  aiChatHistory: jsonb("ai_chat_history").$type<{
+    messages: Array<{ role: 'user' | 'assistant'; content: string; timestamp: string; model?: string }>;
+    lastModel?: string;
+    extractedEnhancements?: {
+      title?: string;
+      seoTitle?: string;
+      seoDescription?: string;
+      visualConfig?: any;
+      imagePrompts?: string[];
+      motionSpecs?: any;
+    };
+  }>(),
+
   publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -887,8 +899,8 @@ export const pageMediaAssets = pgTable("page_media_assets", {
   status: text("status").notNull().default('pending'),
   generatedUrl: text("generated_url"),
   generatorModel: text("generator_model"),
-  metadata: jsonb("metadata").$type<{ 
-    aspectRatio?: string; 
+  metadata: jsonb("metadata").$type<{
+    aspectRatio?: string;
     style?: string;
     sourceMessage?: string;
     width?: number;
@@ -1136,8 +1148,8 @@ export type PageSearchMetrics = typeof pageSearchMetrics.$inferSelect;
 
 // --- PAGE AI SUGGESTIONS TABLE (Granular AI recommendations) ---
 export const AI_SUGGESTION_TYPES = [
-  'new_heading', 'new_section', 'internal_linking', 'faq_block', 
-  'schema_update', 'meta_improvement', 'content_expansion', 
+  'new_heading', 'new_section', 'internal_linking', 'faq_block',
+  'schema_update', 'meta_improvement', 'content_expansion',
   'keyword_optimization', 'cta_addition', 'image_suggestion'
 ] as const;
 
@@ -1367,3 +1379,172 @@ export const insertSeoOptimizationRunSchema = createInsertSchema(seoOptimization
 export const selectSeoOptimizationRunSchema = createSelectSchema(seoOptimizationRuns);
 export type InsertSeoOptimizationRun = z.infer<typeof insertSeoOptimizationRunSchema>;
 export type SeoOptimizationRun = typeof seoOptimizationRuns.$inferSelect;
+
+// --- PAGE METRICS TABLE (for SEO optimization scoring) ---
+export const pageMetrics = pgTable("page_metrics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").notNull().references(() => pages.id, { onDelete: 'cascade' }),
+  calculatedAt: timestamp("calculated_at").defaultNow().notNull(),
+
+  // Content Quality Metrics
+  hasH1: boolean("has_h1").default(false),
+  h2Count: integer("h2_count").default(0),
+  hasFaqBlock: boolean("has_faq_block").default(false),
+  hasProofBlock: boolean("has_proof_block").default(false),
+  hasGlossary: boolean("has_glossary").default(false),
+  wordCount: integer("word_count").default(0),
+
+  // Link Metrics
+  internalLinksOut: integer("internal_links_out").default(0),
+  internalLinksIn: integer("internal_links_in").default(0),
+  isOrphan: boolean("is_orphan").default(false),
+
+  // Freshness
+  daysSinceUpdate: integer("days_since_update").default(0),
+  isStale: boolean("is_stale").default(false),
+
+  // Schema
+  hasSchema: boolean("has_schema").default(false),
+
+  // Computed Scores
+  priorityScore: integer("priority_score").default(0),
+  businessWeight: integer("business_weight").default(0),
+  freshnessWeight: integer("freshness_weight").default(0),
+  gapWeight: integer("gap_weight").default(0),
+  linkWeight: integer("link_weight").default(0),
+  clusterBalanceWeight: integer("cluster_balance_weight").default(0),
+});
+
+export const insertPageMetricSchema = createInsertSchema(pageMetrics).omit({
+  id: true,
+  calculatedAt: true,
+});
+export const selectPageMetricSchema = createSelectSchema(pageMetrics);
+export type InsertPageMetric = z.infer<typeof insertPageMetricSchema>;
+export type PageMetric = typeof pageMetrics.$inferSelect;
+
+// --- PAGE RECOMMENDATIONS TABLE (daily AI recommendations) ---
+export const RECOMMENDATION_STATUS = ['pending', 'in_progress', 'completed', 'skipped'] as const;
+export const IMPACT_ESTIMATE = ['high', 'medium', 'low'] as const;
+
+export const pageRecommendations = pgTable("page_recommendations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").notNull().references(() => pages.id, { onDelete: 'cascade' }),
+  recommendedDate: timestamp("recommended_date").defaultNow().notNull(),
+
+  whySelected: jsonb("why_selected").$type<string[]>().default([]),
+  tasks: jsonb("tasks").$type<string[]>().default([]),
+  impactEstimate: text("impact_estimate").notNull().default('medium'),
+
+  dynamicBoxes: jsonb("dynamic_boxes").$type<string[]>().default([]),
+  internalLinksOut: jsonb("internal_links_out").$type<string[]>().default([]),
+  internalLinksInNeeded: jsonb("internal_links_in_needed").$type<string[]>().default([]),
+
+  upgradePlan: jsonb("upgrade_plan").$type<Record<string, any>>(),
+
+  status: text("status").notNull().default('pending'),
+  completedAt: timestamp("completed_at"),
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertPageRecommendationSchema = createInsertSchema(pageRecommendations).omit({
+  id: true,
+  createdAt: true,
+});
+export const selectPageRecommendationSchema = createSelectSchema(pageRecommendations);
+export type InsertPageRecommendation = z.infer<typeof insertPageRecommendationSchema>;
+export type PageRecommendation = typeof pageRecommendations.$inferSelect;
+
+// --- OPTIMIZATION HISTORY TABLE (track changes and results) ---
+export const CHANGE_TYPES = ['title', 'meta', 'content', 'links', 'schema', 'faq', 'proof', 'structure'] as const;
+
+export const optimizationHistory = pgTable("optimization_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").notNull().references(() => pages.id, { onDelete: 'cascade' }),
+  recommendationId: varchar("recommendation_id").references(() => pageRecommendations.id, { onDelete: 'set null' }),
+
+  changeType: text("change_type").notNull(),
+  changeSummary: text("change_summary").notNull(),
+
+  scoreBefore: integer("score_before"),
+  scoreAfter: integer("score_after"),
+
+  appliedBy: varchar("applied_by").references(() => adminUsers.id, { onDelete: 'set null' }),
+  appliedAt: timestamp("applied_at").defaultNow().notNull(),
+});
+
+export const insertOptimizationHistorySchema = createInsertSchema(optimizationHistory).omit({
+  id: true,
+  appliedAt: true,
+});
+export const selectOptimizationHistorySchema = createSelectSchema(optimizationHistory);
+export type InsertOptimizationHistory = z.infer<typeof insertOptimizationHistorySchema>;
+export type OptimizationHistory = typeof optimizationHistory.$inferSelect;
+
+// --- CLUSTER OPTIMIZATION LOG TABLE (track cluster balance) ---
+export const clusterOptimizationLog = pgTable("cluster_optimization_log", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clusterKey: text("cluster_key").notNull(),
+  optimizedDate: timestamp("optimized_date").defaultNow().notNull(),
+  pageId: varchar("page_id").references(() => pages.id, { onDelete: 'cascade' }),
+});
+
+export const insertClusterOptimizationLogSchema = createInsertSchema(clusterOptimizationLog).omit({
+  id: true,
+  optimizedDate: true,
+});
+export const selectClusterOptimizationLogSchema = createSelectSchema(clusterOptimizationLog);
+export type InsertClusterOptimizationLog = z.infer<typeof insertClusterOptimizationLogSchema>;
+export type ClusterOptimizationLog = typeof clusterOptimizationLog.$inferSelect;
+
+// --- CRON JOBS TABLE (scheduled tasks management) ---
+export const CRON_JOB_STATUS = ['active', 'paused', 'disabled'] as const;
+
+export const cronJobs = pgTable("cron_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull().unique(),
+  description: text("description"),
+  schedule: text("schedule").notNull(), // cron expression
+  handler: text("handler").notNull(), // function name to execute
+  status: text("status").notNull().default('active'),
+  lastRunAt: timestamp("last_run_at"),
+  nextRunAt: timestamp("next_run_at"),
+  runCount: integer("run_count").notNull().default(0),
+  failureCount: integer("failure_count").notNull().default(0),
+  metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertCronJobSchema = createInsertSchema(cronJobs).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export const selectCronJobSchema = createSelectSchema(cronJobs);
+export type InsertCronJob = z.infer<typeof insertCronJobSchema>;
+export type CronJob = typeof cronJobs.$inferSelect;
+
+// --- CRON JOB LOGS TABLE (execution history) ---
+export const CRON_LOG_STATUS = ['running', 'success', 'failed'] as const;
+
+export const cronJobLogs = pgTable("cron_job_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  jobId: varchar("job_id").notNull().references(() => cronJobs.id, { onDelete: 'cascade' }),
+  status: text("status").notNull().default('running'),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  durationMs: integer("duration_ms"),
+  output: text("output"),
+  errorMessage: text("error_message"),
+  metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
+});
+
+export const insertCronJobLogSchema = createInsertSchema(cronJobLogs).omit({
+  id: true,
+  startedAt: true,
+});
+export const selectCronJobLogSchema = createSelectSchema(cronJobLogs);
+export type InsertCronJobLog = z.infer<typeof insertCronJobLogSchema>;
+export type CronJobLog = typeof cronJobLogs.$inferSelect;

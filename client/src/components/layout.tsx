@@ -17,7 +17,7 @@ function ScienceFooterSnippet() {
 
     if (location.startsWith("/product")) {
       // Show articles related to product or highly tagged with 'minerals'
-      filtered = ARTICLES.filter(a => 
+      filtered = ARTICLES.filter(a =>
         a.relatedProductIds.includes("p1") || a.tags.includes("sulfate")
       );
     } else if (location.startsWith("/science")) {
@@ -37,9 +37,9 @@ function ScienceFooterSnippet() {
   return (
     <section className="relative bg-slate-950/80 border-t border-white/5 py-10 sm:py-12 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/30 to-slate-950/60 pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-3"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +134,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="col-span-2 md:col-span-2 text-center md:text-left mb-4 md:mb-0">
             <h4 className="font-display font-bold text-xl mb-3 sm:mb-4 andara-text-gold-gradient">ANDARA IONIC</h4>
             <p className="text-white/60 max-w-sm mx-auto md:mx-0 text-sm sm:text-base">
-              Restoring the primordial structure of water through ionic mineral science. 
+              Restoring the primordial structure of water through ionic mineral science.
               Ethically sourced and scientifically formulated.
             </p>
           </div>

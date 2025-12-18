@@ -1,0 +1,62 @@
+{
+    "page": {
+        "key": "ph-balance-water",
+        "title": "pH Balance in Water — Acid/Alkaline Basics",
+        "path": "/ph-balance-water",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "pH in Water: Understanding Acid-Base Balance",
+        "description": "Understanding pH in water: what makes water acidic or alkaline, typical ranges, and how to measure and interpret pH readings.",
+        "focusKeyword": "water pH"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Measurement</span>\n      <h1 class=\"h1\">pH Balance in Water</h1>\n      <p class=\"p tagline\">Acid/Alkaline Basics — The Hydrogen Ion Scale</p>\n      <p class=\"p\">pH measures the concentration of hydrogen ions (H⁺). It's a logarithmic scale from 0-14.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "scale",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"scale\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The pH Scale</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>pH 0-6.9</strong> — Acidic (more H⁺ ions)</li>\n        <li><strong>pH 7.0</strong> — Neutral (pure water at 25°C)</li>\n        <li><strong>pH 7.1-14</strong> — Alkaline/Basic (fewer H⁺ ions)</li>\n      </ul>\n      <p class=\"p\">Each pH unit = 10x difference in H⁺ concentration.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "typical",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"typical\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Typical Water pH</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Common Waters</h3>\n        <ul>\n          <li>Distilled: 7.0 (neutral)</li>\n          <li>Tap water: 6.5-8.5</li>\n          <li>Mineral water: 7.0-8.5</li>\n          <li>\"Alkaline\" water: 8.0-10.0</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">What Affects pH</h3>\n        <ul>\n          <li>Dissolved minerals (especially carbonates)</li>\n          <li>CO₂ absorption from air</li>\n          <li>Temperature</li>\n          <li>Added substances</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "measurement",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"measurement\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Measuring pH</h2>\n    <div class=\"panel pad\">\n      <ul>\n        <li>Digital pH meter (most accurate)</li>\n        <li>pH test strips (convenient, less precise)</li>\n        <li>Liquid reagent kits (colorimetric)</li>\n      </ul>\n      <p class=\"p\">Calibrate meters with pH 7.0 and pH 4.0 buffers before each session.</p>\n      <a href=\"/home-water-test-kit\" class=\"btn primary\">Test Kit →</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">EC/TDS</h3></a>\n      <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">ORP</h3></a>\n      <a href=\"/parameter-tracking\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Tracking</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "items": [
+            {
+                "question": "Is alkaline water healthier?",
+                "answer": "The body regulates its own pH. Alkaline water claims are debated. What matters more is mineral content."
+            },
+            {
+                "question": "Why does pH change after sitting?",
+                "answer": "CO₂ from air dissolves, forming carbonic acid, which lowers pH slightly."
+            }
+        ]
+    },
+    "internalLinks": [
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/parameter-tracking",
+        "/home-water-test-kit"
+    ]
+}

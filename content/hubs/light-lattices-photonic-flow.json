@@ -1,0 +1,47 @@
+{
+    "page": {
+        "key": "light-lattices-photonic-flow",
+        "title": "Light Lattices & Photonic Flow",
+        "path": "/light-lattices-photonic-flow",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 3,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Light Lattices & Photonic Flow: The Visual Metaphor",
+        "description": "Exploring light lattices and photonic flow as a design metaphor in the Crystalline Matrix framework—a visual navigation lens, not a scientific claim.",
+        "focusKeyword": "photonic flow"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Visual Lens</span>\n      <h1 class=\"h1\">Light Lattices & Photonic Flow</h1>\n      <p class=\"p tagline\">A Design Metaphor for Navigation</p>\n      <p class=\"p\">This page sits at the edge of science and design. \"Photonic flow\" and \"light lattices\" are used here as:</p>\n      <ul>\n        <li>A visual navigation language</li>\n        <li>A coherence metaphor</li>\n        <li>A way to connect the Crystalline Matrix theme</li>\n      </ul>\n      <p class=\"p callout\"><strong>Important:</strong> This is framed as education + model, not as a scientific claim.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "what-it-means",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-it-means\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What \"Photonic Flow\" Means Here</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>Visual pattern language</strong> — lattices, grids, geometric ordering</li>\n        <li><strong>Coherence as metaphor</strong> — aligned, organized, structured</li>\n        <li><strong>UI design principle</strong> — the 3-6-9 navigation architecture</li>\n      </ul>\n      <p class=\"p\">It's a way to think about how information flows through the library—light as a metaphor for clarity.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "grounding",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"grounding\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Grounding in Measurement</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">If you want to explore actual light effects on water:</p>\n      <ul>\n        <li><a href=\"/light-and-water\">Light & Water</a> — the 4 Pathways model</li>\n        <li><a href=\"/ez-water-overview\">EZ Water</a> — IR and exclusion zone research</li>\n        <li><a href=\"/parameter-tracking\">Parameter Tracking</a> — measurement discipline</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/light-and-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Light & Water</h3></a>\n      <a href=\"/science/geometry\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Crystalline Matrix</h3></a>\n      <a href=\"/three-six-nine-harmonics\" class=\"panel facet pad link-card\"><h3 class=\"h4\">3-6-9 Harmonics</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/light-and-water",
+        "/ez-water-overview",
+        "/parameter-tracking",
+        "/science/geometry",
+        "/three-six-nine-harmonics",
+        "/water-crystal-geometry-map"
+    ]
+}

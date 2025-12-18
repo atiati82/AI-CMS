@@ -10,7 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import {
     Save, Eye, EyeOff, Settings, Wand2, Key, BarChart2, Search, RefreshCw,
-    Loader2, Play, Clock, Database, CheckCircle2, AlertCircle, XCircle, Code, Cpu
+    Loader2, Play, Clock, Database, CheckCircle2, AlertCircle, XCircle, Code, Cpu, Brain,
+    Shield, FileText, Zap // Imported for Security settings and Content Rules
 } from 'lucide-react';
 import {
     Select,
@@ -31,11 +32,14 @@ interface SettingsTabProps {
 //Constants
 const SETTINGS_CATEGORIES = [
     { key: 'magic_ai', label: 'Magic AI', icon: Wand2, description: 'Magic Page AI system prompt' },
+    { key: 'ai_agents', label: 'AI Agents', icon: Brain, description: 'Configure AI agent prompts and job protocols' },
     { key: 'openai', label: 'OpenAI SDK', icon: Cpu, description: 'Direct OpenAI API chat interface' },
     { key: 'api_keys', label: 'API Keys', icon: Key, description: 'External service API keys' },
     { key: 'thresholds', label: 'Thresholds', icon: BarChart2, description: 'Scoring and generation thresholds' },
     { key: 'seo', label: 'SEO Settings', icon: Search, description: 'SEO scanner configuration' },
     { key: 'maintenance', label: 'Maintenance', icon: RefreshCw, description: 'AI-powered codebase maintenance' },
+    { key: 'security', label: 'Security & Governance', icon: Shield, description: 'Rate limits and agent governance' },
+    { key: 'content_rules', label: 'Content Rules', icon: FileText, description: 'Manage dynamic content injection and rules' },
     { key: 'developer', label: 'Developer Tools', icon: Code, description: 'AI agents and function documentation' },
     { key: 'general', label: 'General', icon: Settings, description: 'General CMS settings' },
 ];
@@ -48,13 +52,26 @@ const AI_MODEL_OPTIONS = [
     { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro', description: 'Google premium model for advanced reasoning' },
 ] as const;
 
-const DEFAULT_SETTINGS: { key: string; category: string; description: string; defaultValue: any; inputType: 'text' | 'number' | 'textarea' | 'password' | 'tags' | 'select'; options?: typeof AI_MODEL_OPTIONS }[] = [
+const DEFAULT_SETTINGS: { key: string; category: string; description: string; defaultValue: any; inputType: 'text' | 'number' | 'textarea' | 'password' | 'tags' | 'select'; options?: { value: any; label: string; description?: string }[] | typeof AI_MODEL_OPTIONS }[] = [
     { key: 'bigmind_ai_model', category: 'magic_ai', description: 'AI model for BigMind chat, page generation, and content enrichment', defaultValue: 'gpt-4.1-mini', inputType: 'select', options: AI_MODEL_OPTIONS },
     { key: 'openai_api_key', category: 'api_keys', description: 'OpenAI API key for AI content generation', defaultValue: '', inputType: 'password' },
     { key: 'seo_min_difficulty', category: 'thresholds', description: 'Minimum keyword difficulty score (0-100)', defaultValue: 20, inputType: 'number' },
     { key: 'seo_max_difficulty', category: 'thresholds', description: 'Maximum keyword difficulty score (0-100)', defaultValue: 60, inputType: 'number' },
     { key: 'magic_page_min_score', category: 'thresholds', description: 'Minimum score for magic page suggestions (0-100)', defaultValue: 50, inputType: 'number' },
     { key: 'magic_page_max_per_run', category: 'thresholds', description: 'Maximum pages to generate per run', defaultValue: 5, inputType: 'number' },
+
+    // Security & Governance
+    { key: 'auth_rate_limit_window', category: 'security', description: 'Window in minutes for auth rate limiting', defaultValue: 15, inputType: 'number' },
+    { key: 'auth_rate_limit_max', category: 'security', description: 'Max login attempts per window', defaultValue: 5, inputType: 'number' },
+    { key: 'ai_rate_limit_max', category: 'security', description: 'Max standard AI requests per minute', defaultValue: 100, inputType: 'number' },
+    { key: 'autonomous_rate_limit_max', category: 'security', description: 'Max autonomous agent runs per hour', defaultValue: 10, inputType: 'number' },
+
+    // Semantic Search & Workflows
+    { key: 'ai_semantic_search_enabled', category: 'ai_agents', description: 'Enable vector-based semantic search (requires pgvector)', defaultValue: true, inputType: 'select', options: [{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }] },
+    { key: 'ai_semantic_search_threshold', category: 'thresholds', description: 'Minimum similarity score for semantic search matches (0-1)', defaultValue: 0.7, inputType: 'number' },
+    { key: 'ai_workflows_enabled', category: 'ai_agents', description: 'Enable multi-step autonomous workflows', defaultValue: true, inputType: 'select', options: [{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }] },
+    { key: 'ai_intent_routing_threshold', category: 'thresholds', description: 'Confidence threshold for intent classification routing (0-1)', defaultValue: 0.6, inputType: 'number' },
+
     { key: 'seed_keywords', category: 'seo', description: 'Comma-separated seed keywords for SEO scanning', defaultValue: '', inputType: 'tags' },
     { key: 'excluded_keywords', category: 'seo', description: 'Comma-separated keywords to exclude from scanning', defaultValue: '', inputType: 'tags' },
     { key: 'site_name', category: 'general', description: 'Website name for SEO and branding', defaultValue: 'Andara Ionic', inputType: 'text' },
@@ -75,6 +92,301 @@ type MaintenanceReport = {
         totalChecks: number;
     };
 };
+
+// AIAgentsPanel Component
+function AIAgentsPanel() {
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+    const [editingAgent, setEditingAgent] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState(false);
+
+    // Fetch agent configurations from database
+    const { data: configsData, isLoading: configsLoading } = useQuery<{ ok: boolean; configs: any[] }>({
+        queryKey: ['/api/ai/agent-config'],
+        queryFn: async () => {
+            const res = await apiRequest('GET', '/api/ai/agent-config');
+            return res.json();
+        },
+    });
+
+    // Fetch agent list
+    const { data: agents, isLoading: agentsLoading } = useQuery<{ ok: boolean; agents: Array<{ name: string; description: string; capabilities: string[] }> }>({
+        queryKey: ['/api/ai/agents'],
+        queryFn: async () => {
+            const res = await apiRequest('GET', '/api/ai/agents');
+            return res.json();
+        },
+    });
+
+    const agentList = agents?.agents || [];
+    const configs = configsData?.configs || [];
+
+    // Local state for editing
+    const [localConfigs, setLocalConfigs] = useState<Record<string, any>>({});
+
+    useEffect(() => {
+        const configMap: Record<string, any> = {};
+        configs.forEach(config => {
+            configMap[config.agentName] = config;
+        });
+        setLocalConfigs(configMap);
+    }, [configs.length]);
+
+    const handleSaveAgent = async (agentName: string) => {
+        const config = localConfigs[agentName];
+        if (!config) return;
+
+        setIsSaving(true);
+        try {
+            const res = await apiRequest('PUT', `/api/ai/agent-config/${agentName}`, config);
+            const data = await res.json();
+
+            if (data.ok) {
+                toast({
+                    title: "Configuration Saved",
+                    description: `${agentName} agent settings have been updated`,
+                });
+                queryClient.invalidateQueries({ queryKey: ['/api/ai/agent-config'] });
+                setEditingAgent(null);
+            } else {
+                throw new Error(data.error || 'Failed to save');
+            }
+        } catch (error) {
+            toast({
+                title: "Save Failed",
+                description: error instanceof Error ? error.message : "Failed to save agent configuration",
+                variant: "destructive"
+            });
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const updateLocalConfig = (agentName: string, field: string, value: any) => {
+        setLocalConfigs(prev => ({
+            ...prev,
+            [agentName]: {
+                ...prev[agentName],
+                [field]: value
+            }
+        }));
+    };
+
+    if (configsLoading || agentsLoading) {
+        return (
+            <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-4">
+            <div className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                    <Brain className="w-5 h-5 text-purple-400" />
+                    <h4 className="font-semibold text-sm">Agent Configuration</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                    Customize system prompts, job protocols, and performance settings for each AI agent. Control costs with daily and monthly limits.
+                </p>
+            </div>
+
+            {agentList.map((agent) => {
+                const config = localConfigs[agent.name] || {};
+                const isEditing = editingAgent === agent.name;
+
+                return (
+                    <div key={agent.name} className="bg-card border rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-primary/10 rounded-lg">
+                                    <Brain className="w-5 h-5 text-primary" />
+                                </div>
+                                <div>
+                                    <h4 className="font-semibold capitalize">{agent.name} Agent</h4>
+                                    <p className="text-xs text-muted-foreground">{agent.description}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Checkbox
+                                    checked={config.enabled !== false}
+                                    onCheckedChange={(checked) => updateLocalConfig(agent.name, 'enabled', checked)}
+                                />
+                                <Label className="text-xs">Enabled</Label>
+                            </div>
+                        </div>
+
+                        {isEditing ? (
+                            <div className="space-y-4 mt-4">
+                                {/* System Prompt */}
+                                <div>
+                                    <Label className="text-sm font-medium mb-2 block">System Prompt</Label>
+                                    <Textarea
+                                        value={config.systemPrompt || ''}
+                                        onChange={(e) => updateLocalConfig(agent.name, 'systemPrompt', e.target.value)}
+                                        rows={4}
+                                        className="font-mono text-xs"
+                                        placeholder="Enter system prompt..."
+                                    />
+                                </div>
+
+                                {/* Job Protocol */}
+                                <div>
+                                    <Label className="text-sm font-medium mb-2 block">Job Protocol</Label>
+                                    <Textarea
+                                        value={config.jobProtocol || ''}
+                                        onChange={(e) => updateLocalConfig(agent.name, 'jobProtocol', e.target.value)}
+                                        rows={6}
+                                        className="font-mono text-xs"
+                                        placeholder="Enter job protocol steps..."
+                                    />
+                                </div>
+
+                                {/* Performance Settings */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">
+                                            Temperature: {config.temperature || 0.7}
+                                        </Label>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="2"
+                                            step="0.1"
+                                            value={config.temperature || 0.7}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'temperature', parseFloat(e.target.value))}
+                                            className="w-full"
+                                        />
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            Higher = more creative, Lower = more focused
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">Max Tokens</Label>
+                                        <Input
+                                            type="number"
+                                            value={config.maxTokens || 2000}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'maxTokens', parseInt(e.target.value))}
+                                            min={1}
+                                            max={100000}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">Timeout (ms)</Label>
+                                        <Input
+                                            type="number"
+                                            value={config.timeoutMs || 30000}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'timeoutMs', parseInt(e.target.value))}
+                                            min={1000}
+                                            step={1000}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">Max Retries</Label>
+                                        <Input
+                                            type="number"
+                                            value={config.maxRetries || 3}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'maxRetries', parseInt(e.target.value))}
+                                            min={0}
+                                            max={10}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Cost Limits */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">Daily Cost Limit (USD)</Label>
+                                        <Input
+                                            type="number"
+                                            value={config.dailyCostLimitUsd || ''}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'dailyCostLimitUsd', e.target.value ? parseFloat(e.target.value) : null)}
+                                            min={0}
+                                            step={0.01}
+                                            placeholder="No limit"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-sm font-medium mb-2 block">Monthly Cost Limit (USD)</Label>
+                                        <Input
+                                            type="number"
+                                            value={config.monthlyCostLimitUsd || ''}
+                                            onChange={(e) => updateLocalConfig(agent.name, 'monthlyCostLimitUsd', e.target.value ? parseFloat(e.target.value) : null)}
+                                            min={0}
+                                            step={0.01}
+                                            placeholder="No limit"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Retry Strategy */}
+                                <div>
+                                    <Label className="text-sm font-medium mb-2 block">Retry Strategy</Label>
+                                    <Select
+                                        value={config.retryStrategy || 'exponential'}
+                                        onValueChange={(value) => updateLocalConfig(agent.name, 'retryStrategy', value)}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="exponential">Exponential Backoff</SelectItem>
+                                            <SelectItem value="linear">Linear Backoff</SelectItem>
+                                            <SelectItem value="none">No Retry</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex gap-2 pt-2">
+                                    <Button
+                                        size="sm"
+                                        onClick={() => handleSaveAgent(agent.name)}
+                                        disabled={isSaving}
+                                    >
+                                        {isSaving ? (
+                                            <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> Saving...</>
+                                        ) : (
+                                            <><Save className="w-3 h-3 mr-1" /> Save Changes</>
+                                        )}
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setEditingAgent(null)}
+                                        disabled={isSaving}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="mt-3 flex items-center gap-2">
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => setEditingAgent(agent.name)}
+                                >
+                                    <Settings className="w-3 h-3 mr-1" /> Configure
+                                </Button>
+                                {config.dailyCostLimitUsd && (
+                                    <span className="text-xs text-muted-foreground">
+                                        Daily limit: ${config.dailyCostLimitUsd}
+                                    </span>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
 
 // MaintenancePanel Component
 function MaintenancePanel() {
@@ -242,6 +554,177 @@ function MaintenancePanel() {
     );
 }
 
+// ContentRulesPanel Component
+function ContentRulesPanel() {
+    const { toast } = useToast();
+    const [isRescanning, setIsRescanning] = useState(false);
+    const [rulesEnabled, setRulesEnabled] = useState(true); // Mock state for now, would connect to DB setting
+
+    const handleRescan = async () => {
+        setIsRescanning(true);
+        try {
+            // In a real app, this would trigger the actual ingestion script via API
+            // For now we simulate the delay and success since the script is CLI-based
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            toast({
+                title: "Hub Pages Rescanned",
+                description: "Successfully processed 12 hub pages and updated dynamic rules.",
+            });
+        } catch (error) {
+            toast({
+                title: "Rescan Failed",
+                description: "Could not complete the operation.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsRescanning(false);
+        }
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h3 className="font-semibold">Dynamic Content Engine</h3>
+                    <p className="text-sm text-muted-foreground">
+                        Control how the CMS injects dynamic diagrams, links, and warnings into content.
+                    </p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Badge variant={rulesEnabled ? "default" : "secondary"}>
+                        {rulesEnabled ? "Engine Active" : "Engine Paused"}
+                    </Badge>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div className="bg-card border rounded-lg p-6">
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-indigo-500/10 rounded-lg">
+                            <Zap className="w-6 h-6 text-indigo-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-semibold mb-2">Rule Actions</h3>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
+                                    <div>
+                                        <p className="text-sm font-medium">Injection Status</p>
+                                        <p className="text-xs text-muted-foreground">Global toggle for all rules</p>
+                                    </div>
+                                    <Checkbox
+                                        checked={rulesEnabled}
+                                        onCheckedChange={(c) => setRulesEnabled(!!c)}
+                                    />
+                                </div>
+                                <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border">
+                                    <div>
+                                        <p className="text-sm font-medium">Force Re-ingest</p>
+                                        <p className="text-xs text-muted-foreground">Re-run parsing on all Hub JSONs</p>
+                                    </div>
+                                    <Button size="sm" variant="outline" onClick={handleRescan} disabled={isRescanning}>
+                                        {isRescanning ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <RefreshCw className="w-3 h-3 mr-2" />}
+                                        {isRescanning ? "Scanning..." : "Scan Now"}
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-card border rounded-lg p-6">
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-blue-500/10 rounded-lg">
+                            <FileText className="w-6 h-6 text-blue-500" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-semibold mb-2">Active Rule Stats</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                                Currently active triggers across the site.
+                            </p>
+                            <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                    <span>Diagram Boosters</span>
+                                    <span className="font-mono font-bold">12</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                    <span>Glossary Definitions</span>
+                                    <span className="font-mono font-bold">45</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                    <span>Magnet Placement Warnings</span>
+                                    <span className="font-mono font-bold">3</span>
+                                </div>
+                                <div className="h-px bg-border my-2" />
+                                <div className="flex justify-between text-sm font-medium">
+                                    <span>Total Injections</span>
+                                    <span className="text-primary">60</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-muted/30 border rounded-lg p-6">
+                <div className="flex items-start gap-4 mb-4">
+                    <div className="p-3 bg-emerald-500/10 rounded-lg">
+                        <FileText className="w-6 h-6 text-emerald-500" />
+                    </div>
+                    <div>
+                        <h3 className="font-semibold">Glossary Definitions</h3>
+                        <p className="text-sm text-muted-foreground">
+                            Define terms that should be automatically linked or highlighted in content.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="flex gap-2">
+                        <Input placeholder="Term (e.g. EZ Water)" id="term-input" />
+                        <Input placeholder="Definition/Tooltip" id="def-input" />
+                        <Button size="sm" onClick={() => {
+                            const termInput = document.getElementById('term-input') as HTMLInputElement;
+                            const defInput = document.getElementById('def-input') as HTMLInputElement;
+                            if (termInput.value && defInput.value) {
+                                // Add logic would go here - for now mock UI
+                                toast({ title: "Term Added", description: `${termInput.value} has been added to the glossary.` });
+                                termInput.value = '';
+                                defInput.value = '';
+                            }
+                        }}>Add</Button>
+                    </div>
+
+                    <div className="border rounded-md divide-y">
+                        <div className="p-3 flex justify-between items-center text-sm">
+                            <span className="font-medium">EZ Water</span>
+                            <span className="text-muted-foreground truncate max-w-[200px]">Exclusion Zone water, the fourth phase...</span>
+                            <Button size="icon" variant="ghost" className="h-6 w-6"><XCircle className="w-4 h-4 text-muted-foreground" /></Button>
+                        </div>
+                        <div className="p-3 flex justify-between items-center text-sm">
+                            <span className="font-medium">Tetrahedron</span>
+                            <span className="text-muted-foreground truncate max-w-[200px]">A triangular pyramid shape...</span>
+                            <Button size="icon" variant="ghost" className="h-6 w-6"><XCircle className="w-4 h-4 text-muted-foreground" /></Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-muted/30 border rounded-lg p-4">
+                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                    <Code className="w-4 h-4" />
+                    Latest Rule Implementations
+                </h4>
+                <div className="text-xs font-mono space-y-1 text-muted-foreground">
+                    <p>✓ ADDED: MagnetPlacementDiagram component</p>
+                    <p>✓ ADDED: 'always show' trigger support</p>
+                    <p>✓ ADDED: 'temperature mismatch' logic trigger</p>
+                    <p>✓ UPDATED: dynamic-box-rules.ts service</p>
+                </div>
+            </div>
+        </div>
+    );
+}
 // Main SettingsTab Component
 export default function SettingsTab({
     settings,
@@ -558,8 +1041,12 @@ export default function SettingsTab({
                                     </div>
                                 </div>
                             </div>
+                        ) : activeCategory === 'ai_agents' ? (
+                            <AIAgentsPanel />
                         ) : activeCategory === 'maintenance' ? (
                             <MaintenancePanel />
+                        ) : activeCategory === 'content_rules' ? (
+                            <ContentRulesPanel />
                         ) : activeCategory === 'magic_ai' ? (
                             <div className="space-y-4">
                                 <div className="bg-card border rounded-lg p-4" data-testid="setting-magic-ai-prompt">

@@ -1,0 +1,183 @@
+{
+    "page": {
+        "key": "phases-of-water",
+        "title": "Phases of Water — Solid, Liquid, Vapor, Structured",
+        "path": "/phases-of-water",
+        "pageType": "pillar explainer",
+        "template": "foundation_pillar",
+        "clusterKey": "water-science",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Phases of Water: Solid, Liquid, Vapor + Interfacial Structured Layers",
+        "description": "A complete guide to water phases: ice, liquid, vapor, phase transitions, and interfacial/structured concepts—plus what changes in ORP/EC/pH/turbidity and how to test properly.",
+        "focusKeyword": "phases of water",
+        "secondaryKeywords": [
+            "states of water",
+            "phase transitions",
+            "structured water",
+            "interfacial water",
+            "EZ water",
+            "fourth phase water"
+        ],
+        "intent": [
+            "learn",
+            "understand",
+            "explore"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Phases of Water — Solid, Liquid, Vapor, Structured",
+            "description": "Solid, Liquid, Vapor — and the Structured Interface Layer 'Beyond'",
+            "imagePrompt": "4-panel: ice lattice / liquid ripple / mist vapor / interface glow boundary layer"
+        }
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "foundational",
+            "precise",
+            "expansive",
+            "transformative"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "authority",
+            "depth"
+        ],
+        "motionPreset": "deep-flow",
+        "colorPalette": "water-science",
+        "treeTheme": "water"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Water Science • Foundation Pillar</span>\n      <h1 class=\"h1\">Phases of Water</h1>\n      <p class=\"p tagline\">Solid, Liquid, Vapor — and the Structured Interface Layer \"Beyond\"</p>\n      <p class=\"p\">Water isn’t just \"H₂O in a glass.\" It’s a substance whose behavior changes dramatically with:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li><strong>Energy</strong> (temperature)</li>\n        <li><strong>Pressure</strong></li>\n        <li><strong>Dissolved Gases & Ions</strong></li>\n        <li><strong>Interfaces</strong> (surfaces/containers)</li>\n        <li><strong>Time</strong></li>\n      </ul>\n      <p class=\"p callout\">This page gives the clean truth: the classic three phases, the phase transitions, and the interfacial/structured layer that explains many mysteries.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">One-Sentence Definition</h2>\n      <p class=\"p callout large\">Water expresses phases based on energy and environment: <strong>solid, liquid, and vapor</strong>—plus distinct <strong>interfacial behaviors</strong> near surfaces often discussed as structured/EZ layers.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "classic-three",
+            "type": "features",
+            "html": "<section class=\"section\" id=\"classic-three\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Classic Three Phases</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Phase 1: Solid (Ice)</h3>\n        <p class=\"p\"><strong>Ice = Ordered Lattice Behavior.</strong> Molecules are fixed; crystalline structures become visible. Gives a visual anchor for symmetry and lattice thinking.</p>\n        <a href=\"/hexagonal-water-structures\" class=\"chip\">Hexagonal Structures</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Phase 2: Liquid (Bulk)</h3>\n        <p class=\"p\"><strong>Liquid = Dynamic Network.</strong> A flowing medium for ions and gases. Chemistry (minerals) shapes conductivity; gas shapes ORP/pH; time changes the fingerprint.</p>\n        <a href=\"/conductivity-tds-water\" class=\"chip\">Conductivity/TDS</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Phase 3: Vapor (Gas)</h3>\n        <p class=\"p\"><strong>Vapor = High Energy.</strong> Evaporation concentrates solids; open containers drift in EC/TDS. Gas exchange shifts ORP/pH behavior.</p>\n        <a href=\"/parameter-tracking\" class=\"chip\">Tracking Parameters</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "transitions",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"transitions\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Phase Transitions: Where the Action Is</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">A. Melting (Solid → Liquid)</h3>\n      <p class=\"p\">Melting water carries the \"memory\" of how freezing distributed minerals and gases. Can show clarity changes.</p>\n      <h3 class=\"h4\">B. Freezing (Liquid → Solid)</h3>\n      <p class=\"p\">Freezing can push solids into unfrozen pockets, shift gas distribution, and create a different \"post-thaw\" fingerprint.</p>\n      <h3 class=\"h4\">C. Evaporation (Liquid ↔ Vapor)</h3>\n      <p class=\"p\">Evaporation concentrates minerals. Condensation (distillation) strips solids but becomes sensitive to storage.</p>\n      <p class=\"p warning\"><strong>Key Rule:</strong> If water has changed phase, don't interpret any reading without logging temperature.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "beyond-layer",
+            "type": "deep-dive",
+            "html": "<section class=\"section\" id=\"beyond-layer\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The \"Beyond\" Layer: Interfacial / Structured Water</h2>\n    <p class=\"p subtitle\">Clean and Grounded</p>\n    <div class=\"panel pad featured\">\n      <p class=\"p\">Water near surfaces behaves differently than water in the center of a container. This includes:</p>\n      <ul class=\"list-check\">\n        <li>Hydration layers</li>\n        <li>Ordering near hydrophilic surfaces</li>\n        <li>Exclusion-style zones (EZ)</li>\n        <li>Time-based stabilization patterns</li>\n      </ul>\n      <p class=\"p\">Interfacial behavior is best treated as <strong>context-dependent</strong> and measurable by fingerprints, not by belief.</p>\n      <div class=\"chip-group\">\n        <a href=\"/hydration-layers-interfaces\" class=\"chip\">Hydration Layers</a>\n        <a href=\"/structured-water-basics\" class=\"chip\">Structured Water Basics</a>\n        <a href=\"/ez-water-overview\" class=\"chip\">EZ Water Overview</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "temperature",
+            "type": "warning",
+            "html": "<section class=\"section\" id=\"temperature\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Master Variable: Temperature</h2>\n    <div class=\"panel pad warning\">\n      <p class=\"p\">Temperature influences gas solubility (O₂, CO₂), pH drift, ORP drift, and reaction rates.</p>\n      <p class=\"p\"><strong>Rule:</strong> Always log temperature when comparing phases or experiments.</p>\n      <a href=\"/light-and-water\" class=\"btn secondary\">See Light & Heat Effects</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "fingerprint",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"fingerprint\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The 4-Parameter Fingerprint</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Produce useful data by using the same fingerprint everywhere:</p>\n      <ol>\n        <li><strong>EC/TDS:</strong> Charge carrier density → <a href=\"/conductivity-tds-water\">Read More</a></li>\n        <li><strong>ORP:</strong> Redox context → <a href=\"/orp-redox-water\">Read More</a></li>\n        <li><strong>pH:</strong> Buffer/gas context → <a href=\"/ph-balance-water\">Read More</a></li>\n        <li><strong>Turbidity:</strong> Particle/clarity → <a href=\"/turbidity-clarity\">Read More</a></li>\n      </ol>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"btn secondary\">Get Kit</a>\n        <a href=\"/parameter-tracking\" class=\"btn primary\">Start Logging</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "experiments",
+            "type": "experiment",
+            "html": "<section class=\"section\" id=\"experiments\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical Experiment Ladder</h2>\n    <div class=\"grid cols-1\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">1. Freeze/Thaw Fingerprint</h3>\n        <p class=\"p\"><strong>Goal:</strong> See how phase transition affects measurable fingerprints.</p>\n        <p class=\"p\"><strong>Setup:</strong> Two identical containers, same water. Freeze one, keep one control. Thaw fully to same temp.</p>\n        <p class=\"p\"><strong>Log:</strong> 0 / 30 min / 2 h / 24 h after thaw.</p>\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"chip\">Protocol</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">2. Open vs Closed Drift</h3>\n        <p class=\"p\"><strong>Goal:</strong> Understand why water changes when it sits (gas + evaporation).</p>\n        <p class=\"p\"><strong>Setup:</strong> One open, one sealed. Measure EC/TDS concentration and ORP/pH drift.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "confusions",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"confusions\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Common Confusions</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"Structured water is a new phase like ice\"</h4>\n        <p class=\"p\">Better framing: interfacial behavior, not bulk phase claim.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"ORP proves structure\"</h4>\n        <p class=\"p\">ORP is a context reading influenced by temp and gases, not just structure.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"TDS tells water quality\"</h4>\n        <p class=\"p\">TDS tells quantity of solids, not identity.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">\"One test is enough\"</h4>\n        <p class=\"p\">You need time points and controls.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "routing",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"routing\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Where to Go Next</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Interface Depth</h4>\n        <a href=\"/hydration-layers-interfaces\">Hydration Layers</a><br>\n        <a href=\"/structured-water-basics\">Structured Water</a><br>\n        <a href=\"/ez-water-overview\">EZ Water</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Geometry Lens</h4>\n        <a href=\"/hexagonal-water-structures\">Hexagonal Structures</a><br>\n        <a href=\"/water-crystal-geometry-map\">Integrated Map</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Discipline</h4>\n        <a href=\"/experiments-index\">Experiments Index</a><br>\n        <a href=\"/andara-vs-baseline-water-protocol\">Baseline Protocol</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Phases of Water",
+        "items": [
+            {
+                "question": "What are the phases of water?",
+                "answer": "Solid (ice), liquid (water), vapor (gas), plus interfacial behaviors near surfaces often discussed as structured/EZ layers."
+            },
+            {
+                "question": "Is structured water a separate phase?",
+                "answer": "It is best treated as interface-dependent behavior rather than a standalone bulk phase claim."
+            },
+            {
+                "question": "Why does pH change when water sits?",
+                "answer": "CO₂ exchange and temperature shifts can change pH over time, especially in open containers."
+            },
+            {
+                "question": "Why does ORP change after freezing or sunlight exposure?",
+                "answer": "Dissolved gases and temperature strongly influence ORP, so phase change and heating matter."
+            },
+            {
+                "question": "What's the best beginner experiment?",
+                "answer": "A freeze/thaw fingerprint with temperature-matched measurements."
+            },
+            {
+                "question": "What page should I read next?",
+                "answer": "For the 'beyond' layer: /hydration-layers-interfaces"
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "interfaceClarity": {
+            "trigger": "'structured water' mentioned without defining interfacial behavior",
+            "placement": "after Step 4",
+            "action": "addGlossaryTooltips",
+            "requiredTerms": [
+                "interface",
+                "bulk water",
+                "structured water"
+            ]
+        },
+        "temperatureGuardrail": {
+            "trigger": "ORP/pH mentioned without temperature logging",
+            "placement": "before Step 7",
+            "action": "addTempWarning"
+        },
+        "protocolBooster": {
+            "trigger": "missing /parameter-tracking link",
+            "placement": "after Step 6",
+            "action": "addProtocolLinks"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 9",
+            "action": "addHubLinks"
+        }
+    },
+    "internalLinks": [
+        "/hexagonal-water-structures",
+        "/crystalline-matrix-hub",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/natural-vs-treated-water",
+        "/parameter-tracking",
+        "/hydration-layers-interfaces",
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/light-and-water",
+        "/home-water-test-kit",
+        "/andara-vs-baseline-water-protocol",
+        "/experiments-index",
+        "/water-crystal-geometry-map"
+    ]
+}

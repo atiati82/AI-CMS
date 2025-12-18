@@ -288,3 +288,39 @@ export async function autoIngestCurrentSession(): Promise<void> {
         console.log('✅ Current session ingested into RAG knowledge base');
     }
 }
+
+/**
+ * Record a user's design preference for learning
+ */
+export async function recordDesignPreference(
+    source: string,
+    designData: {
+        theme: string;
+        colorWorld: string;
+        visualVibe: string;
+    }
+): Promise<void> {
+    const lessonId = `design-pref-${Date.now()}`;
+    const title = `User Preference: ${designData.theme} Theme`;
+
+    // Store as a lesson object
+    await db.query(`
+        INSERT INTO rag_memory_objects (
+            lesson_id, title, root_cause, fix_steps, prevention_rule,
+            do_not_repeat_policy, tags, severity, context, examples
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    `, [
+        lessonId,
+        title,
+        JSON.stringify({ type: 'design_preference', source }),
+        JSON.stringify([{ action: 'Use theme', value: designData.theme }]),
+        JSON.stringify({ rule: `When content matches vibe "${designData.visualVibe}", prefer theme "${designData.theme}"` }),
+        `Learned from user selection in Visual Interpreter`,
+        ['design-preference', 'user-learning', 'visual-style'],
+        'info',
+        JSON.stringify({ ...designData, timestamp: new Date().toISOString() }),
+        JSON.stringify({ right: [designData.visualVibe], wrong: [] })
+    ]);
+
+    console.log(`🧠 Learned design preference: ${designData.theme} for ${designData.visualVibe}`);
+}

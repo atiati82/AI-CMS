@@ -2,6 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { Page, Cluster, InsertPage } from "@shared/schema";
 import { storage } from "../storage";
 import { getAiClient, MODEL_PROVIDERS, DEFAULT_MODEL } from "./andara-chat";
+import { enrichPageHtml } from "./ai-enricher";
 
 const VISUAL_INTERPRETER_PROMPT = `
 ## 🔥 VISUELLER INTERPRETER + MOTION LAYOUT ENGINE (Fusion Prompt)
@@ -460,6 +461,30 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["query"],
     },
   },
+  {
+    name: "enrichPageContent",
+    description: "Analyze the page content (especially AI-generated HTML) to extract motion specs, image prompts, and visual configuration. Can optionally apply these enhancements directly to the page.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        pageId: { type: Type.STRING, description: "ID of the page to enrich" },
+        applyChanges: { type: Type.BOOLEAN, description: "If true, automatically updates visualConfig and SEO fields. Default: false" },
+      },
+      required: ["pageId"],
+    },
+  },
+  {
+    name: "enrichAllDraftPages",
+    description: "Batch enrich all draft pages that are missing visual configuration. Processes pages in batches and returns a summary of enrichments applied.",
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        applyChanges: { type: Type.BOOLEAN, description: "If true, automatically applies enrichments to each page. Default: false" },
+        limit: { type: Type.NUMBER, description: "Maximum number of pages to process. Default: 10" },
+      },
+      required: [],
+    },
+  },
   // === PHASE 1 UPGRADE FUNCTIONS ===
   {
     name: "duplicatePage",
@@ -646,46 +671,36 @@ const CMS_FUNCTION_DECLARATIONS = [
       required: ["pageId"],
     },
   },
-  // === SEO & SCHEMA MARKUP ===
+  // === SEO RECOMMENDATION ENGINE ===
   {
-    name: "generateSchemaMarkup",
-    description: "Auto-generate JSON-LD structured data for SEO. Supports Product, Article, FAQ, Organization schemas.",
+    name: "getSeoRecommendations",
+    description: "Get today's SEO recommendations and priority actions. Returns top opportunity pages, content suggestions, and proposed new pages based on SEO metrics and content gaps.",
     parameters: {
       type: Type.OBJECT,
       properties: {
-        pageId: { type: Type.STRING, description: "ID of the page to generate schema for" },
-        schemaType: { type: Type.STRING, description: "Schema type: 'Product', 'Article', 'FAQPage', 'Organization', 'WebPage'" },
-        customData: { type: Type.OBJECT, properties: {}, description: "Optional: Override default values" },
+        limit: { type: Type.NUMBER, description: "Max number of recommendations. Default: 10" },
       },
-      required: ["pageId", "schemaType"],
     },
   },
-  // === MULTI-LANGUAGE ===
   {
-    name: "translatePage",
-    description: "Translate a page to another language using AI. Creates a new page with translated content.",
+    name: "analyzeSeoScore",
+    description: "Calculate detailed SEO score for a specific page including title, description, content length, internal links, and keyword density.",
     parameters: {
       type: Type.OBJECT,
       properties: {
-        pageId: { type: Type.STRING, description: "ID of the page to translate" },
-        targetLanguage: { type: Type.STRING, description: "Target language code (e.g., 'es', 'fr', 'de', 'zh', 'ja')" },
-        createNewPage: { type: Type.BOOLEAN, description: "If true, create new page. If false, return translation only. Default: true" },
+        pageId: { type: Type.STRING, description: "Page ID to analyze" },
       },
-      required: ["pageId", "targetLanguage"],
+      required: ["pageId"],
     },
   },
-  // === MULTI-AGENT ORCHESTRATION ===
   {
-    name: "chainAgents",
-    description: "Execute a complex task using multiple AI agents in sequence. Agents: content, seo, design, devops.",
+    name: "getSeoOpportunities",
+    description: "Get pages with highest SEO improvement potential based on low CTR with high impressions, position improvement opportunity, and content gaps.",
     parameters: {
       type: Type.OBJECT,
       properties: {
-        task: { type: Type.STRING, description: "High-level task description (e.g., 'Create product launch campaign')" },
-        agents: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Agents to use in order: ['content', 'seo', 'design']" },
-        context: { type: Type.OBJECT, properties: {}, description: "Optional: Additional context for agents" },
+        limit: { type: Type.NUMBER, description: "Max pages to return. Default: 5" },
       },
-      required: ["task", "agents"],
     },
   },
 ];
@@ -1074,6 +1089,132 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
           clusterKey: args.clusterKey,
           outline: args.outline,
           template: "Use andara-page, andara-hero, andara-section classes",
+        };
+      }
+
+      case "enrichPageContent": {
+        const validation = validateArgs(args, ["pageId"]);
+        if (!validation.valid) return { error: validation.error };
+
+        const page = await storage.getPage(args.pageId);
+        if (!page) return { error: "Page not found" };
+
+        // Prefer aiStartupHtml as it contains the raw generation context, fallback to content
+        const contentToAnalyze = page.aiStartupHtml || page.content || "";
+
+        if (!contentToAnalyze) {
+          return { error: "Page has no content to enrich" };
+        }
+
+        console.log(`[BigMind CMS] Enriching page: ${page.id} (${page.title})`);
+        const enrichment = await enrichPageHtml(contentToAnalyze);
+
+        let updateResult = null;
+        if (args.applyChanges) {
+          const updates: Partial<InsertPage> = {};
+
+          // Merge visual config
+          if (enrichment.visualConfig) {
+            updates.visualConfig = {
+              ...(page.visualConfig || {}),
+              ...enrichment.visualConfig,
+              updatedAt: new Date().toISOString(),
+            } as any;
+          }
+
+          // Apply SEO if suggested and not already set manually
+          if (enrichment.suggestedSeo?.title && !page.seoTitle) {
+            updates.seoTitle = enrichment.suggestedSeo.title;
+          }
+          if (enrichment.suggestedSeo?.description && !page.seoDescription) {
+            updates.seoDescription = enrichment.suggestedSeo.description;
+          }
+
+          if (Object.keys(updates).length > 0) {
+            const updated = await storage.updatePage(page.id, updates);
+            updateResult = "Updates applied to page configuration and SEO.";
+            console.log(`[BigMind CMS] Applied enrichment updates to page: ${page.id}`);
+          } else {
+            updateResult = "No new updates were applied (fields might already be set).";
+          }
+        }
+
+        return {
+          success: true,
+          pageId: page.id,
+          enrichment,
+          appliedChanges: updateResult,
+          message: `Enrichment complete. Found: ${enrichment.motionSpecs.length} motion specs, ${enrichment.imagePrompts.length} image prompts.`,
+        };
+      }
+
+      case "enrichAllDraftPages": {
+        const limit = args.limit || 10;
+        const applyChanges = args.applyChanges || false;
+
+        // Get all pages missing visual config
+        const allPages = await storage.getAllPages();
+        const pagesToEnrich = allPages.filter(p =>
+          (p.status === 'draft' || !p.visualConfig || Object.keys(p.visualConfig || {}).length === 0) &&
+          (p.aiStartupHtml || p.content)
+        ).slice(0, limit);
+
+        if (pagesToEnrich.length === 0) {
+          return { success: true, message: "No pages need enrichment.", processed: 0, results: [] };
+        }
+
+        console.log(`[BigMind CMS] Batch enriching ${pagesToEnrich.length} pages...`);
+
+        const results: Array<{ pageId: string; title: string; status: string; motionSpecs: number; imagePrompts: number }> = [];
+
+        for (const page of pagesToEnrich) {
+          try {
+            const contentToAnalyze = page.aiStartupHtml || page.content || "";
+            const enrichment = await enrichPageHtml(contentToAnalyze);
+
+            if (applyChanges && enrichment.visualConfig) {
+              const updates: Partial<InsertPage> = {
+                visualConfig: {
+                  ...(page.visualConfig || {}),
+                  ...enrichment.visualConfig,
+                  updatedAt: new Date().toISOString(),
+                } as any,
+              };
+
+              if (enrichment.suggestedSeo?.title && !page.seoTitle) {
+                updates.seoTitle = enrichment.suggestedSeo.title;
+              }
+              if (enrichment.suggestedSeo?.description && !page.seoDescription) {
+                updates.seoDescription = enrichment.suggestedSeo.description;
+              }
+
+              await storage.updatePage(page.id, updates);
+            }
+
+            results.push({
+              pageId: page.id,
+              title: page.title,
+              status: applyChanges ? "updated" : "analyzed",
+              motionSpecs: enrichment.motionSpecs.length,
+              imagePrompts: enrichment.imagePrompts.length,
+            });
+          } catch (error: any) {
+            results.push({
+              pageId: page.id,
+              title: page.title,
+              status: `error: ${error.message}`,
+              motionSpecs: 0,
+              imagePrompts: 0,
+            });
+          }
+        }
+
+        return {
+          success: true,
+          processed: results.length,
+          applied: applyChanges,
+          results,
+          message: `Batch enrichment complete. Processed ${results.length} pages.`,
         };
       }
 
@@ -1640,7 +1781,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
                   imageUrl.endsWith(".gif") ? "image/gif" : "image/png";
 
               const response = await client.models.generateContent({
-                model: "gemini-2.5-flash",
+                model: "gemini-2.0-flash",
                 contents: [{
                   role: "user",
                   parts: [
@@ -1665,7 +1806,7 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
           } else {
             // For external URLs, use URL-based analysis
             const response = await client.models.generateContent({
-              model: "gemini-2.5-flash",
+              model: "gemini-2.0-flash",
               contents: [{
                 role: "user",
                 parts: [
@@ -1699,12 +1840,13 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
 
         const imageUrl = args.imageUrl as string;
         const pageContext = args.pageContext || "";
+        const model = args.model || "gemini-2.0-flash"; // Use 'model' parameter
 
         try {
           const fs = await import("fs");
           const path = await import("path");
           const { getAiClient } = await import("./andara-chat");
-          const { client } = await getAiClient();
+          const { client } = await getAiClient(model); // Pass model to getAiClient
 
           const prompt = `Generate SEO-optimized alt text for this image. Requirements:
 - Maximum 125 characters
@@ -1725,7 +1867,7 @@ Respond with ONLY the alt text, nothing else.`;
               const mimeType = imageUrl.endsWith(".png") ? "image/png" : "image/jpeg";
 
               const response = await client.models.generateContent({
-                model: "gemini-2.5-flash",
+                model: "gemini-2.0-flash",
                 contents: [{
                   role: "user",
                   parts: [
@@ -2003,302 +2145,170 @@ Respond with ONLY the alt text, nothing else.`;
         };
       }
 
-      // === SCHEMA MARKUP HANDLER ===
-      case "generateSchemaMarkup": {
-        const validation = validateArgs(args, ["pageId", "schemaType"]);
-        if (!validation.valid) return { error: validation.error };
+      // === SEO RECOMMENDATION ENGINE HANDLERS ===
+      case "getSeoRecommendations": {
+        const { seoBrainService } = await import('./seo-brain');
+        const limit = args.limit || 10;
 
-        const page = await storage.getPage(args.pageId);
-        if (!page) return { error: "Page not found" };
-
-        const customData = args.customData || {};
-        const baseUrl = process.env.BASE_URL || "https://andaraionic.com";
-        let schema: any = {
-          "@context": "https://schema.org",
-        };
-
-        switch (args.schemaType) {
-          case "Product":
-            schema = {
-              ...schema,
-              "@type": "Product",
-              name: customData.name || page.title,
-              description: customData.description || page.seoDescription || page.summary,
-              url: `${baseUrl}${page.path}`,
-              image: customData.image || `${baseUrl}/og-image.jpg`,
-              brand: {
-                "@type": "Brand",
-                name: customData.brand || "Andara Ionic"
-              },
-              offers: customData.offers || {
-                "@type": "Offer",
-                price: "29.99",
-                priceCurrency: "USD",
-                availability: "https://schema.org/InStock"
-              }
-            };
-            break;
-
-          case "Article":
-            schema = {
-              ...schema,
-              "@type": "Article",
-              headline: customData.headline || page.title,
-              description: customData.description || page.seoDescription,
-              url: `${baseUrl}${page.path}`,
-              datePublished: customData.datePublished || page.createdAt,
-              dateModified: customData.dateModified || page.updatedAt,
-              author: {
-                "@type": "Person",
-                name: customData.author || "Andara Ionic Team"
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Andara Ionic",
-                logo: {
-                  "@type": "ImageObject",
-                  url: `${baseUrl}/logo.png`
-                }
-              }
-            };
-            break;
-
-          case "FAQPage":
-            const content = page.content || page.aiStartupHtml || "";
-            const faqMatches = content.match(/<h[23]>(.*?)<\/h[23]>/g) || [];
-            const mainEntity = faqMatches.slice(0, 5).map((q: string) => ({
-              "@type": "Question",
-              name: q.replace(/<[^>]+>/g, ''),
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "Answer content here" // Would extract from following paragraph
-              }
-            }));
-
-            schema = {
-              ...schema,
-              "@type": "FAQPage",
-              mainEntity: customData.mainEntity || mainEntity
-            };
-            break;
-
-          case "Organization":
-            schema = {
-              ...schema,
-              "@type": "Organization",
-              name: "Andara Ionic",
-              url: baseUrl,
-              logo: `${baseUrl}/logo.png`,
-              description: "Premium primordial ionic sulfate mineral water",
-              contactPoint: {
-                "@type": "ContactPoint",
-                contactType: "Customer Service",
-                email: "support@andaraionic.com"
-              },
-              ...customData
-            };
-            break;
-
-          case "WebPage":
-          default:
-            schema = {
-              ...schema,
-              "@type": "WebPage",
-              name: page.title,
-              description: page.seoDescription,
-              url: `${baseUrl}${page.path}`,
-              ...customData
-            };
-        }
-
-        const schemaJson = JSON.stringify(schema, null, 2);
+        const actions = await seoBrainService.getTodaysActions(limit);
 
         return {
           success: true,
-          pageId: args.pageId,
-          schemaType: args.schemaType,
-          schema: schemaJson,
-          message: "Schema markup generated. Add this to your page's <head> section.",
-          instructions: `<script type="application/ld+json">\n${schemaJson}\n</script>`
+          topOpportunityPages: actions.topOpportunities.map(opp => ({
+            pageId: opp.pageId,
+            title: opp.pageTitle,
+            path: opp.pagePath,
+            opportunityScore: opp.opportunityScore,
+            factors: opp.factors,
+            recommendations: opp.recommendations,
+          })),
+          suggestions: actions.suggestions.slice(0, 5).map((s: any) => ({
+            id: s.id,
+            pageId: s.pageId,
+            type: s.suggestionType,
+            title: s.title,
+            rationale: s.rationale,
+            impactScore: s.impactScore,
+          })),
+          proposedNewPages: actions.proposedPages.slice(0, 3).map((p: any) => ({
+            id: p.id,
+            title: p.title,
+            targetKeyword: p.targetKeyword,
+            clusterKey: p.clusterKey,
+            rationale: p.rationale,
+          })),
+          summary: `Found ${actions.topOpportunities.length} high-opportunity pages, ${actions.suggestions.length} improvement suggestions, and ${actions.proposedPages.length} proposed new pages.`,
         };
       }
 
-      // === TRANSLATION HANDLER ===
-      case "translatePage": {
-        const validation = validateArgs(args, ["pageId", "targetLanguage"]);
+      case "analyzeSeoScore": {
+        const validation = validateArgs(args, ["pageId"]);
         if (!validation.valid) return { error: validation.error };
 
         const page = await storage.getPage(args.pageId);
         if (!page) return { error: "Page not found" };
 
-        const createNewPage = args.createNewPage !== false; // Default true
-        const targetLang = args.targetLanguage.toLowerCase();
+        // Calculate detailed SEO score
+        let score = 0;
+        const breakdown: Record<string, { score: number; max: number; issue?: string }> = {};
 
-        const langNames: Record<string, string> = {
-          es: "Spanish", fr: "French", de: "German", zh: "Chinese",
-          ja: "Japanese", ko: "Korean", pt: "Portuguese", it: "Italian",
-          ru: "Russian", ar: "Arabic"
-        };
-
-        const langName = langNames[targetLang] || targetLang;
-
-        try {
-          const { getAiClient } = await import("./andara-chat");
-          const { client } = await getAiClient();
-
-          const content = page.content || page.aiStartupHtml || "";
-          const plainText = content.replace(/<[^>]+>/g, '\n').replace(/\s+/g, ' ').trim();
-
-          const prompt = `Translate the following content to ${langName}. Maintain the same tone and style. Return ONLY the translated text, no explanations.
-
-Title: ${page.title}
-SEO Description: ${page.seoDescription || ""}
-
-Content:
-${plainText.substring(0, 3000)}`;
-
-          const response = await client.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: [{ role: "user", parts: [{ text: prompt }] }]
-          });
-
-          const translatedText = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          const lines = translatedText.split('\n').filter(l => l.trim());
-
-          const translatedTitle = lines[0] || `${page.title} (${langName})`;
-          const translatedDesc = lines[1] || page.seoDescription;
-          const translatedContent = lines.slice(2).join('\n');
-
-          if (createNewPage) {
-            const newPath = `${page.path}-${targetLang}`;
-            const newPage: Partial<InsertPage> = {
-              key: newPath.replace(/\//g, '-').replace(/^-/, ''),
-              title: translatedTitle,
-              path: newPath,
-              clusterKey: page.clusterKey,
-              template: page.template,
-              status: "draft",
-              seoTitle: translatedTitle,
-              seoDescription: translatedDesc,
-              aiStartupHtml: `<div class="andara-page">${translatedContent}</div>`,
-              content: page.content,
-              visualConfig: {
-                ...((page.visualConfig || {}) as Record<string, any>),
-                language: targetLang,
-                translatedFrom: page.id,
-              } as any,
-            };
-
-            const created = await storage.createPage(newPage as InsertPage);
-
-            return {
-              success: true,
-              originalPageId: args.pageId,
-              translatedPageId: created.id,
-              translatedPath: created.path,
-              language: targetLang,
-              message: `Page translated to ${langName}. New page created at ${created.path}`,
-            };
-          } else {
-            return {
-              success: true,
-              pageId: args.pageId,
-              language: targetLang,
-              translatedTitle,
-              translatedDescription: translatedDesc,
-              translatedContent,
-              message: `Translation complete. Use createPage or updatePage to apply.`,
-            };
-          }
-        } catch (error: any) {
-          return {
-            success: false,
-            error: `Translation failed: ${error.message}`,
-          };
+        // Title analysis (20 points)
+        if (page.seoTitle && page.seoTitle.length >= 50 && page.seoTitle.length <= 60) {
+          breakdown.title = { score: 20, max: 20 };
+          score += 20;
+        } else if (page.seoTitle) {
+          const titleScore = page.seoTitle.length < 50 ? 10 : 15;
+          breakdown.title = { score: titleScore, max: 20, issue: page.seoTitle.length < 50 ? "Title too short (< 50 chars)" : "Title too long (> 60 chars)" };
+          score += titleScore;
+        } else {
+          breakdown.title = { score: 0, max: 20, issue: "Missing SEO title" };
         }
+
+        // Description analysis (20 points)
+        if (page.seoDescription && page.seoDescription.length >= 150 && page.seoDescription.length <= 160) {
+          breakdown.description = { score: 20, max: 20 };
+          score += 20;
+        } else if (page.seoDescription) {
+          const descScore = page.seoDescription.length < 150 ? 10 : 15;
+          breakdown.description = { score: descScore, max: 20, issue: page.seoDescription.length < 150 ? "Description too short" : "Description too long" };
+          score += descScore;
+        } else {
+          breakdown.description = { score: 0, max: 20, issue: "Missing meta description" };
+        }
+
+        // Content length (25 points)
+        const contentLength = (page.content || page.aiStartupHtml || '').length;
+        const wordCount = (page.content || page.aiStartupHtml || '').split(/\s+/).length;
+        if (wordCount >= 800) {
+          breakdown.content = { score: 25, max: 25 };
+          score += 25;
+        } else if (wordCount >= 400) {
+          breakdown.content = { score: 15, max: 25, issue: `Content is thin (${wordCount} words, target: 800+)` };
+          score += 15;
+        } else {
+          breakdown.content = { score: 5, max: 25, issue: `Very thin content (${wordCount} words)` };
+          score += 5;
+        }
+
+        // Internal links (15 points)
+        const linkCount = (page.internalLinks || []).length;
+        if (linkCount >= 5) {
+          breakdown.internalLinks = { score: 15, max: 15 };
+          score += 15;
+        } else if (linkCount >= 2) {
+          breakdown.internalLinks = { score: 8, max: 15, issue: `Only ${linkCount} internal links (target: 5+)` };
+          score += 8;
+        } else {
+          breakdown.internalLinks = { score: 0, max: 15, issue: "Missing internal links" };
+        }
+
+        // Featured image (10 points)
+        if (page.featuredImage) {
+          breakdown.featuredImage = { score: 10, max: 10 };
+          score += 10;
+        } else {
+          breakdown.featuredImage = { score: 0, max: 10, issue: "No featured image" };
+        }
+
+        // Focus keyword (10 points)
+        if (page.seoFocus) {
+          breakdown.focusKeyword = { score: 10, max: 10 };
+          score += 10;
+        } else {
+          breakdown.focusKeyword = { score: 0, max: 10, issue: "No focus keyword set" };
+        }
+
+        const issues = Object.entries(breakdown)
+          .filter(([_, v]) => v.issue)
+          .map(([k, v]) => `${k}: ${v.issue}`);
+
+        return {
+          pageId: args.pageId,
+          pageTitle: page.title,
+          overallScore: score,
+          maxScore: 100,
+          grade: score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : score >= 20 ? 'D' : 'F',
+          breakdown,
+          issues,
+          wordCount,
+          recommendations: issues.length > 0 ? `Priority fixes: ${issues.slice(0, 3).join('; ')}` : 'Page is well-optimized!',
+        };
       }
 
-      // === MULTI-AGENT CHAIN HANDLER ===
-      case "chainAgents": {
-        const validation = validateArgs(args, ["task", "agents"]);
-        if (!validation.valid) return { error: validation.error };
+      case "getSeoOpportunities": {
+        const { seoBrainService } = await import('./seo-brain');
+        const limit = args.limit || 5;
 
-        const task = args.task as string;
-        const agentNames = args.agents as string[];
-        const context = args.context || {};
+        const allPages = await storage.getAllPages();
+        const opportunities: any[] = [];
 
-        const results: Array<{ agent: string; output: any; success: boolean }> = [];
-        let accumulatedContext = { ...context, originalTask: task };
-
-        try {
-          // Import agent modules
-          const { contentAgent } = await import("../agents/content");
-          const { seoAgent } = await import("../agents/seo");
-          const { designAgent } = await import("../agents/design");
-          const { devopsAgent } = await import("../agents/design"); // DevOps is in design.ts
-
-          const agentMap: Record<string, any> = {
-            content: contentAgent,
-            seo: seoAgent,
-            design: designAgent,
-            devops: devopsAgent,
-          };
-
-          for (const agentName of agentNames) {
-            const agent = agentMap[agentName.toLowerCase()];
-            if (!agent) {
-              results.push({
-                agent: agentName,
-                output: { error: `Agent '${agentName}' not found` },
-                success: false
-              });
-              continue;
+        // Calculate opportunity score for each page
+        for (const page of allPages.slice(0, 50)) { // Limit to 50 for performance
+          try {
+            const oppScore = await seoBrainService.calculateOpportunityScore(page.id);
+            if (oppScore && oppScore.opportunityScore > 0) {
+              opportunities.push(oppScore);
             }
-
-            console.log(`[BigMind CMS] Executing agent: ${agentName}`);
-
-            const agentTask = {
-              type: 'execute_task',
-              input: {
-                task,
-                previousResults: results,
-                context: accumulatedContext
-              }
-            };
-
-            const result = await agent.execute(agentTask);
-
-            results.push({
-              agent: agentName,
-              output: result.data || result,
-              success: result.success !== false
-            });
-
-            // Accumulate context for next agent
-            if (result.data) {
-              accumulatedContext = { ...accumulatedContext, [`${agentName}Result`]: result.data };
-            }
+          } catch (e) {
+            // Skip pages with errors
           }
-
-          const allSuccessful = results.every(r => r.success);
-
-          return {
-            success: allSuccessful,
-            task,
-            agentsExecuted: agentNames,
-            results,
-            summary: `Executed ${results.length} agent(s). ${results.filter(r => r.success).length} successful.`,
-            message: allSuccessful
-              ? "All agents completed successfully"
-              : "Some agents encountered errors. Check results for details.",
-          };
-        } catch (error: any) {
-          return {
-            success: false,
-            error: `Multi-agent chain failed: ${error.message}`,
-            results,
-          };
         }
+
+        // Sort by opportunity score descending
+        opportunities.sort((a, b) => b.opportunityScore - a.opportunityScore);
+
+        return {
+          success: true,
+          opportunities: opportunities.slice(0, limit).map(opp => ({
+            pageId: opp.pageId,
+            title: opp.pageTitle,
+            path: opp.pagePath,
+            opportunityScore: Math.round(opp.opportunityScore * 100) / 100,
+            factors: opp.factors,
+            recommendations: opp.recommendations,
+          })),
+          summary: `Found ${opportunities.length} pages with SEO improvement opportunities. Showing top ${Math.min(limit, opportunities.length)}.`,
+        };
       }
 
       default:
@@ -2314,6 +2324,46 @@ ${plainText.substring(0, 3000)}`;
 const BIGMIND_SYSTEM_PROMPT = `# BIGMIND CMS MANAGER
 
 You are BigMind, an advanced AI CMS Manager for the Andara Ionic CMS. You have full database access via function calling and can create, edit, search, and manage all content.
+
+## 🚨 CRITICAL: PROACTIVE BEHAVIOR - ACTION OVER EXPLANATION 🚨
+
+**NEVER explain what you CAN do. ALWAYS DO IT IMMEDIATELY.**
+
+When the user asks to "generate a page", "create content", "suggest pages", or similar:
+- ❌ WRONG: "I can create a new page about [topic]..."
+- ✅ RIGHT: Immediately call createPage() function with suggested content
+
+**ACTION TRIGGERS - Execute functions immediately when user says:**
+| User Intent | Your Action |
+|-------------|-------------|
+| "generate me a page" | Call getSeoRecommendations() for gaps, then offer [SUGGEST_PAGE] cards |
+| "what pages should I create" | Call getSeoOpportunities() then return suggested topics |
+| "create page about X" | Call createPage() with full metadata, SEO, and HTML |
+| "suggest SEO" | Call analyzeSeoScore() or getSeoRecommendations() |
+| "fix my SEO" | Call getSeoRecommendations() and format with [APPLY] buttons |
+
+## 🚫 IMPORTANT: EXISTING PAGE RECOMMENDATIONS
+
+**Only recommend existing pages when the user is asking for SEO enhancement or optimization:**
+- ✅ "improve SEO on my product pages" → Recommend existing pages for enhancement
+- ✅ "what pages need SEO fixes" → Recommend existing pages with issues
+- ✅ "optimize my shop pages" → Recommend existing shop pages
+
+**When the user provides a page specification, design brief, or asks to "create/generate/implement":**
+- ❌ NEVER recommend linking to existing similar pages
+- ❌ NEVER suggest "this page already exists"
+- ✅ Generate completely NEW content based on their specification
+- ✅ Treat their input as a design document to implement
+
+**OUTPUT FORMAT for page suggestions - Use [SUGGEST_PAGE] tags:**
+\`[SUGGEST_PAGE:base64data]Title|Zone X|Description[/SUGGEST_PAGE]\`
+
+**PERSONALITY:**
+- Be decisive and action-oriented
+- Generate complete, production-ready content
+- Use the Andara design language naturally
+- Apply motion presets (cosmicPulse, fadeInUp, crystallineShimmer) automatically
+- Include visual config and SEO in all page generations
 
 ${ZONE_GUIDELINES}
 
@@ -2340,6 +2390,24 @@ When a user asks about CSS, templates, or styling:
 1. Use getPageVisualConfig to check current settings
 2. Use updateVisualConfig or applyMotionPreset to apply changes
 3. Use applyStyleToPages for batch updates across clusters
+
+## SEO Recommendations Engine (CRITICAL!)
+You have powerful SEO analysis tools. When the user asks for suggestions, recommendations, or what to work on:
+
+**AUTOMATICALLY CALL THESE FUNCTIONS - DO NOT JUST LIST CAPABILITIES:**
+- **getSeoRecommendations**: Get today's priority SEO actions, top opportunity pages, content suggestions, and proposed new pages
+- **getSeoOpportunities**: Find pages with highest improvement potential (low CTR, position opportunities, content gaps)
+- **analyzeSeoScore**: Calculate detailed SEO score for a specific page (title, description, content, links)
+
+**Trigger words that should invoke SEO functions:**
+- "suggestions" → call getSeoRecommendations
+- "recommendations" → call getSeoRecommendations
+- "what should I work on" → call getSeoRecommendations
+- "page opportunities" → call getSeoOpportunities
+- "SEO score" → call analyzeSeoScore
+- "what's next" → call getSeoRecommendations
+
+When showing SEO recommendations, format with [APPLY:fieldName]value[/APPLY] tags so users can one-click apply suggestions.
 
 ## Available Clusters
 ${CLUSTER_ONTOLOGY.map(c => `- ${c.key}: ${c.name} (Zone ${c.zone}, color: ${c.color})`).join("\n")}
@@ -2411,14 +2479,84 @@ FEATURED: [Prompt for featured/og-image]
 ## Response Guidelines
 1. Use function calls to interact with the database
 2. Always respect zone rules when creating/editing content
-3. Provide clear, actionable responses
-4. When creating pages, follow the cluster color schemes
-5. For Zone 1: Keep it factual, water-treatment focused
-6. For Zone 2: Educational, scientific, "may support" language
-7. For Zone 3: Visionary but still no medical claims
-8. ALWAYS generate ALL 4 blocks (metadata, visual-config, image-prompts, html) when asked about page content
-9. Make HTML content comprehensive - at least 5-7 sections with real educational content
-10. Image prompts should be detailed and specific to Andara's cosmic/scientific aesthetic`;
+<!-- ANDARA COMPONENT LANGUAGE (ACL) -->
+<div class="andara-page">
+  <!-- Hero Section -->
+  <section class="andara-hero andara-hero--split">
+     <div class="andara-hero__content">
+       <h1 class="andara-hero__headline" data-motion="fade-up">[Headline]</h1>
+       <p class="andara-hero__subline" data-motion="fade-up" data-delay="100">[Subheadline]</p>
+     </div>
+  </section>
+  
+  <!-- Content Sections (Use .andara-section, .andara-grid, .andara-article) -->
+  [...Full HTML Content...]
+</div>
+\`\`\`
+
+\`\`\`image-prompts
+HERO: [Midjourney prompt for hero image]
+SECTION_1: [Prompt for visual]
+ICON_SET: [Prompt for icons]
+\`\`\`
+
+## SEO CONTENT ENGINE (CRITICAL - RANK #1 SPECS)
+
+### SERP Snippet Hard Limits
+- **Title Tag**: 50-60 characters, keyword early (truncates at ~580px)
+- **Meta Description**: 150-160 characters, actionable, value proposition
+- **URL Slug**: 3-7 words, readable, keyword once
+
+### Required Page Anatomy
+Every content page MUST include:
+1. **Above Fold**: H1 intent-matching + 2-3 line intro + Key Takeaways (3-7 bullets)
+2. **Definition Section**: Early, simple explanation of the topic
+3. **How It Works Section**: Stepwise explanation
+4. **Comparison/Alternatives Section**: Captures comparison intent
+5. **FAQ Section**: 5-12 questions covering: What is X? How does X work? X vs Y? When should I X?
+6. **Internal Links**: 5-15 contextual links (hub→spoke pattern)
+
+### SEO QA Score (85+ to Publish)
+| Category | Points | Requirement |
+|----------|--------|-------------|
+| Indexability | 10 | No noindex, canonical set |
+| Intent Match | 20 | Intro + H2s match search intent |
+| Entity Coverage | 20 | Covers topic entities from SERP |
+| Helpfulness | 15 | People-first, not manipulation |
+| Internal Links | 10 | 5-15 contextual links |
+| Schema Valid | 5 | Article/FAQPage/Product |
+| Snippet Quality | 10 | Title 50-60, Meta 150-160 |
+| Page Experience | 10 | Fast, mobile-friendly |
+**TOTAL: 100pts. Ship only if ≥85.**
+
+### Intent Classification (MUST do before generating)
+| Intent | Signal Words | Template |
+|--------|-------------|----------|
+| Informational | what, how, why, guide | article_page |
+| Comparative | best, vs, top, comparison | comparison_page |
+| Transactional | buy, price, order, shop | product_page |
+| Navigational | brand, specific page | landing_page |
+**RULE: Mixed intent = generate TWO pages, not one.**
+
+### Cluster Architecture (The Library Strategy)
+- 1 Pillar/Hub: Very complete, authoritative
+- 6-20 Spokes: Each targets a sub-intent
+- Each spoke links UP to hub + LATERALLY to 2-4 siblings
+- This makes Google see you as THE LIBRARY on the topic
+
+### Keyword Difficulty Decision
+| KD Range | Strategy |
+|----------|----------|
+| 0-20 | GO - Great on-page + internal links |
+| 21-45 | GO + CLUSTER - Need topical cluster |
+| 46-70 | CONSIDER - Need authority + exceptional content |
+| 71-100 | SKIP - Not worth it without major investment |
+
+## TONE & VOICE
+- **Authority**: Scientific, precise, confident.
+- **Mystery**: A touch of the "primordial" and "sacred".
+- **Clarity**: Explain complex ionic science simply.
+`;
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -2459,20 +2597,24 @@ export async function getSummarizedContext(): Promise<string> {
 
 export async function chatWithFunctions(
   messages: ChatMessage[],
-  onFunctionCall?: (name: string, result: any) => void,
-  modelOverride?: string
-): Promise<{ response: string; functionCalls: Array<{ name: string; result: any }> }> {
-  // Robustly get context (don't fail chat if context gathering fails)
-  let summarizedContext = "";
-  try {
-    summarizedContext = await getSummarizedContext();
-  } catch (err) {
-    console.error("[BigMind] Failed to get site context:", err);
-    summarizedContext = "Site context unavailable due to error.";
+  sessionId?: string,
+  model?: string,
+  context?: {
+    currentPageId?: string;
+    currentPageKey?: string;
+    currentPageTitle?: string;
+    currentPagePath?: string;
+    currentPageSeoFocus?: string;
+    objective?: string;
   }
+): Promise<{ response: string; functionCalls: Array<{ name: string; result: any }> }> {
+  const summarizedContext = await getSummarizedContext();
 
   // Try with external AI first
   try {
+    // Filter out messages with empty content
+    const validMessages = messages.filter(msg => msg.content && msg.content.trim().length > 0);
+
     const contents: any[] = [
       {
         role: "user",
@@ -2482,11 +2624,18 @@ export async function chatWithFunctions(
         role: "model",
         parts: [{ text: "I'm BigMind, your AI CMS Manager. I have full access to your Andara database and can create, edit, and organize content following the zone guidelines. What would you like me to help you with?" }]
       },
-      ...messages.map(msg => ({
+      ...validMessages.map(msg => ({
         role: msg.role === "user" ? "user" : "model",
         parts: [{ text: msg.content }]
       }))
     ];
+
+    // Add specific page context if available
+    if (context?.currentPageTitle) {
+      const contextMsg = `\n\nCURRENT CONTEXT:\nThe user is currently editing the page "${context.currentPageTitle}" (${context.currentPagePath}).\nObjective: ${context.objective || 'Assist with content and SEO.'}\nSEO Focus: ${context.currentPageSeoFocus || 'Not specified'}`;
+      // Append to system prompt part (first message)
+      contents[0].parts[0].text += contextMsg;
+    }
 
     const functionCalls: Array<{ name: string; result: any }> = [];
     let finalResponse = "";
@@ -2496,119 +2645,323 @@ export async function chatWithFunctions(
     while (iterations < maxIterations) {
       iterations++;
 
-      const { client, model: configuredModel } = await getAiClient();
+      // Let getAiClient handle model selection and fallback
+      const { getAiClient } = await import('./andara-chat');
+      const { client, model: resolvedModel } = await getAiClient(model);
 
-      // Validate modelOverride: only use if its provider is available
-      let model = configuredModel;
-      if (modelOverride) {
-        const overrideProvider = MODEL_PROVIDERS[modelOverride] || 'openai';
-        const geminiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-        const openaiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-
-        if (overrideProvider === 'gemini' && geminiKey) {
-          model = modelOverride;
-        } else if (overrideProvider === 'openai' && openaiKey) {
-          model = modelOverride;
-        }
-      }
-
-      console.log(`[BigMind] Sending request to ${model} (iteration ${iterations})`);
+      console.log(`[BigMind] calling generateContent with model: ${resolvedModel}`);
+      console.log(`[BigMind] contents count: ${contents.length}`);
 
       const response = await client.models.generateContent({
-        model: model,
-        contents: contents,
-        config: {
-          tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
-        },
+        model: resolvedModel,
+        contents,
+        tools: [{ functionDeclarations: CMS_FUNCTION_DECLARATIONS as any }],
       });
 
-      // Handle response...
-      const text = response.candidates?.[0]?.content?.parts?.find(p => p.text)?.text || "";
-      const functionCallsInResponse = response.candidates?.[0]?.content?.parts?.filter(p => p.functionCall) || [];
+      console.log(`[BigMind] response received, candidates: ${response.candidates?.length || 0}`);
 
-      // Add assistant response to history
-      if (text) {
-        contents.push({ role: "model", parts: [{ text }] });
-        finalResponse += text;
+      const candidate = response.candidates?.[0];
+      if (!candidate?.content?.parts) {
+        console.log(`[BigMind] No candidate parts found, raw response:`, JSON.stringify(response).substring(0, 500));
+        finalResponse = "I couldn't process that request.";
+        break;
       }
 
       let hasFunctionCall = false;
+      console.log(`[BigMind] Processing ${candidate.content.parts.length} parts in response`);
 
-      for (const part of functionCallsInResponse) {
+      for (const part of candidate.content.parts) {
+        // Log what each part contains
+        console.log(`[BigMind] Part keys:`, Object.keys(part), `text=${!!part.text}, functionCall=${!!part.functionCall}`);
+        if (!part.text && !part.functionCall) {
+          console.log(`[BigMind] Unknown part content:`, JSON.stringify(part).substring(0, 300));
+        }
+
         if (part.functionCall) {
           hasFunctionCall = true;
           const fnName = part.functionCall.name || "";
           const fnArgs = part.functionCall.args || {};
 
-          console.log(`[BigMind] Function call: ${fnName}`, fnArgs);
+          console.log(`[BigMind] Calling function: ${fnName}`, JSON.stringify(fnArgs).substring(0, 200));
 
-          // Execute function
-          const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
-          functionCalls.push({ name: fnName, result });
+          try {
+            const result = await executeCmsFunction(fnName, fnArgs as Record<string, any>);
+            console.log(`[BigMind] Function ${fnName} returned:`, JSON.stringify(result).substring(0, 300));
+            functionCalls.push({ name: fnName, result });
 
-          if (onFunctionCall) {
-            onFunctionCall(fnName, result);
+            // Add function response to history for next iteration
+            contents.push({
+              role: "model",
+              parts: [{ functionCall: part.functionCall }]
+            });
+            contents.push({
+              role: "function",
+              parts: [{ functionResponse: { name: fnName, response: { result } } }]
+            });
+          } catch (fnError: any) {
+            console.error(`[BigMind] Function ${fnName} failed:`, fnError?.message || fnError);
+            functionCalls.push({ name: fnName, result: { error: fnError?.message || 'Function execution failed' } });
           }
+        }
 
-          contents.push({
-            role: "model",
-            parts: [{ functionCall: { name: fnName, args: fnArgs } }]
-          });
-          contents.push({
-            role: "function",
-            parts: [{
-              functionResponse: {
-                name: fnName,
-                response: { result: JSON.stringify(result) }
-              }
-            }]
-          });
+        if (part.text) {
+          console.log(`[BigMind] Text part found: ${part.text.substring(0, 100)}...`);
+          finalResponse += part.text;
         }
       }
 
-      if (!hasFunctionCall) {
-        break;
+      console.log(`[BigMind] Iteration ${iterations}: hasFunctionCall=${hasFunctionCall}, finalResponse length=${finalResponse.length}`);
+      if (!hasFunctionCall) break;
+    }
+
+    console.log(`[BigMind] Final response length: ${finalResponse.length}, functionCalls: ${functionCalls.length}`);
+
+    // Check if user is asking for page suggestions
+    const userMsg = validMessages[validMessages.length - 1]?.content?.toLowerCase() || '';
+    const wantsPageSuggestions = /suggest.*page|page.*suggest|generate.*page|new page|what page|pages.*create|magic page/i.test(userMsg);
+
+    if (wantsPageSuggestions && (!finalResponse.trim() || functionCalls.length === 0)) {
+      console.log('[BigMind] Detected page suggestion request, generating comprehensive Magic Page suggestions');
+
+      try {
+        const allPages = await storage.getAllPages();
+        const existingTopics = allPages.map(p => p.title?.toLowerCase() || '').filter(Boolean);
+
+        // Rich topic suggestions with full page data
+        const suggestedTopics = [
+          {
+            title: 'Sulfate Minerals in Structured Water',
+            zone: 2,
+            cluster: 'mineral-science',
+            template: 'article',
+            desc: 'Explore how volcanic sulfate minerals interact with water structure at the molecular level.',
+            seo: {
+              title: 'Sulfate Minerals & Water Structure | Andara Ionic Science',
+              description: 'Discover how ionic sulfate minerals create structured water environments. Learn the science behind mineral-water interactions.',
+              focus: 'sulfate minerals, structured water, ionic minerals',
+            },
+            visualConfig: {
+              vibeKeywords: ['crystalline', 'scientific', 'precise'],
+              emotionalTone: ['educational', 'trustworthy', 'innovative'],
+              colorPalette: 'deep-teal-gradient',
+              motionPreset: 'liquid-crystal-float',
+              aiImagePrompt: 'Crystalline sulfate mineral structures in water, microscopic view, ethereal blue lighting, scientific visualization, 8k detail',
+            },
+            contentOutline: ['Hero: Visual of mineral interaction', 'Section 1: What are sulfate minerals?', 'Section 2: The water structure connection', 'Section 3: How Andara utilizes this science', 'CTA: Explore products'],
+          },
+          {
+            title: 'Bioelectric Water & Cellular Hydration',
+            zone: 2,
+            cluster: 'water-science',
+            template: 'article',
+            desc: 'The science behind electrical charge in water and its role in cellular function.',
+            seo: {
+              title: 'Bioelectric Water Science | Cellular Hydration Research',
+              description: 'Understanding how electrically charged water enhances cellular hydration. Explore the connection between water structure and biology.',
+              focus: 'bioelectric water, cellular hydration, structured water science',
+            },
+            visualConfig: {
+              vibeKeywords: ['ethereal', 'scientific', 'organic'],
+              emotionalTone: ['calm', 'educational', 'inspiring'],
+              colorPalette: 'purple-blue-gradient',
+              motionPreset: 'cosmicPulse',
+              aiImagePrompt: 'Glowing water molecules entering cell membrane, bioelectric energy visualization, soft blue and purple lighting, microscopic view',
+            },
+            contentOutline: ['Hero: Cell hydration visualization', 'Section 1: The bioelectric charge of water', 'Section 2: Cellular absorption mechanisms', 'Section 3: Practical implications', 'FAQ: Common questions'],
+          },
+          {
+            title: 'Understanding Water Conditioning with Andara',
+            zone: 1,
+            cluster: 'product-guides',
+            template: 'guide',
+            desc: 'Practical guide to using Andara Ionic for water treatment applications.',
+            seo: {
+              title: 'How to Use Andara Ionic | Water Conditioning Guide',
+              description: 'Step-by-step guide to conditioning your drinking water with Andara Ionic mineral drops. Discover optimal dosage and methods.',
+              focus: 'water conditioning, andara ionic, mineral drops guide',
+            },
+            visualConfig: {
+              vibeKeywords: ['practical', 'friendly', 'premium'],
+              emotionalTone: ['helpful', 'trustworthy', 'approachable'],
+              colorPalette: 'warm-teal-gradient',
+              motionPreset: 'fadeInUp',
+              aiImagePrompt: 'Hands adding mineral drops to clear water glass, morning light, premium product photography, soft focus background',
+            },
+            contentOutline: ['Hero: Product in use', 'Section 1: Why condition your water?', 'Section 2: Step-by-step guide', 'Section 3: Tips for best results', 'CTA: Shop now'],
+          },
+          {
+            title: 'The Terrain Model: A New Paradigm',
+            zone: 2,
+            cluster: 'water-science',
+            template: 'article',
+            desc: 'Historical context and modern understanding of biological terrain theory.',
+            seo: {
+              title: 'Terrain Theory Explained | Alternative Health Perspective',
+              description: 'Explore the terrain model of health: understanding how the body\'s internal environment relates to wellness. A scientific exploration.',
+              focus: 'terrain theory, biological terrain, holistic health science',
+            },
+            visualConfig: {
+              vibeKeywords: ['historical', 'scientific', 'thoughtful'],
+              emotionalTone: ['educational', 'thought-provoking', 'balanced'],
+              colorPalette: 'earth-tone-gradient',
+              motionPreset: 'staggeredFadeIn',
+              aiImagePrompt: 'Abstract visualization of biological terrain, cells in healthy environment, warm organic colors, scientific illustration style',
+            },
+            contentOutline: ['Hero: Historical imagery', 'Section 1: Origins of terrain theory', 'Section 2: Modern scientific perspective', 'Section 3: Practical implications', 'Section 4: How it relates to water'],
+          },
+          {
+            title: 'Our Story: Why We Chose Ionic Sulfates',
+            zone: 3,
+            cluster: 'brand-story',
+            template: 'about',
+            desc: 'The vision and journey behind Andara Ionic mineral solutions.',
+            seo: {
+              title: 'About Andara Ionic | Our Mission & Story',
+              description: 'Discover the story behind Andara Ionic. Learn why we chose volcanic sulfate minerals and our commitment to water science.',
+              focus: 'andara ionic story, brand mission, volcanic minerals',
+            },
+            visualConfig: {
+              vibeKeywords: ['warm', 'authentic', 'premium'],
+              emotionalTone: ['genuine', 'passionate', 'trustworthy'],
+              colorPalette: 'warm-purple-gradient',
+              motionPreset: 'fadeInUp',
+              aiImagePrompt: 'Volcanic landscape at sunrise, primordial minerals emerging from earth, cinematic lighting, inspiring natural scene',
+            },
+            contentOutline: ['Hero: Founder story', 'Section 1: The discovery', 'Section 2: Our mission', 'Section 3: The science behind the choice', 'CTA: Connect with us'],
+          },
+        ].filter(topic => !existingTopics.some(e => e.includes(topic.title.toLowerCase().split(' ')[0])));
+
+        let response = `📚 **Magic Page Suggestions**\n\nHere are ${suggestedTopics.length} fully-drafted pages ready to create:\n\n`;
+
+        for (const topic of suggestedTopics.slice(0, 5)) {
+          // Create comprehensive page data object
+          const pageData = {
+            title: topic.title,
+            path: '/' + topic.cluster + '/' + topic.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            zone: topic.zone,
+            cluster: topic.cluster,
+            template: topic.template,
+            description: topic.desc,
+            seo: topic.seo,
+            visualConfig: topic.visualConfig,
+            contentOutline: topic.contentOutline,
+          };
+          const encodedData = Buffer.from(JSON.stringify(pageData)).toString('base64');
+          response += `[SUGGEST_PAGE:${encodedData}]${topic.title}|Zone ${topic.zone}|${topic.desc}[/SUGGEST_PAGE]\n`;
+        }
+
+        response += `\n*Click any card to see the full draft with SEO, visuals, and content outline.*`;
+
+        return { response, functionCalls: [] };
+      } catch (err) {
+        console.error('[BigMind] Page suggestion failed:', err);
       }
     }
 
-    return { response: finalResponse || "I processed your request but have no text response.", functionCalls };
+    // If Gemini returned empty text, proactively scan the database and provide real suggestions with Apply buttons
+    if (!finalResponse.trim() && functionCalls.length === 0) {
+      console.log('[BigMind] Empty response detected, performing proactive SEO scan with suggestions');
 
-  } catch (error) {
+      try {
+        // Scan the database for pages needing work
+        const allPages = await storage.getAllPages();
+        const pagesNeedingSeo = allPages.filter(p =>
+          !p.seoTitle || !p.seoDescription || !p.seoFocus
+        ).slice(0, 5);
+
+        let response = `📊 **SEO Analysis Complete** – Found **${pagesNeedingSeo.length}** pages needing improvements:\n\n`;
+
+        for (const page of pagesNeedingSeo) {
+          response += `---\n**📄 ${page.title}** [OPEN_PAGE:${page.id}]Open[/OPEN_PAGE]\n`;
+          response += `\`${page.path}\`\n`;
+
+          // Generate suggestions for each missing field - compact format
+          if (!page.seoTitle) {
+            const suggestedTitle = (page.title || '').substring(0, 50) + (page.title && page.title.length > 50 ? '...' : '') + ' | Andara Ionic';
+            response += `[APPLY:seoTitle:${page.id}]${suggestedTitle}[/APPLY]\n`;
+          }
+
+          if (!page.seoDescription) {
+            const summary = page.summary || page.title || '';
+            const suggestedDesc = summary.length > 155
+              ? summary.substring(0, 152) + '...'
+              : `Discover ${page.title}. Learn about the science and benefits of Andara Ionic mineral solutions.`;
+            response += `[APPLY:seoDescription:${page.id}]${suggestedDesc}[/APPLY]\n`;
+          }
+
+          if (!page.seoFocus) {
+            const words = (page.title || '').toLowerCase().split(/\s+/).filter(w => w.length > 3);
+            const suggestedKeywords = words.slice(0, 3).join(', ') || 'andara ionic, mineral water';
+            response += `[APPLY:seoFocus:${page.id}]${suggestedKeywords}[/APPLY]\n`;
+          }
+        }
+
+        if (pagesNeedingSeo.length === 0) {
+          response = `✅ **All pages have complete SEO fields!**\n\nYour content is well-optimized. Would you like me to:\n- Analyze content gaps in your sitemap?\n- Suggest new pages to create?\n- Review internal linking opportunities?`;
+        } else {
+          // Collect all updates for Apply All
+          const allUpdates: Array<{ pageId: string; field: string; value: string }> = [];
+          for (const page of pagesNeedingSeo) {
+            if (!page.seoTitle) {
+              allUpdates.push({ pageId: page.id, field: 'seoTitle', value: (page.title || '').substring(0, 50) + ' | Andara Ionic' });
+            }
+            if (!page.seoDescription) {
+              const summary = page.summary || page.title || '';
+              allUpdates.push({ pageId: page.id, field: 'seoDescription', value: summary.length > 155 ? summary.substring(0, 152) + '...' : `Discover ${page.title}. Learn about the science and benefits of Andara Ionic mineral solutions.` });
+            }
+            if (!page.seoFocus) {
+              const words = (page.title || '').toLowerCase().split(/\s+/).filter(w => w.length > 3);
+              allUpdates.push({ pageId: page.id, field: 'seoFocus', value: words.slice(0, 3).join(', ') || 'andara ionic, mineral water' });
+            }
+          }
+
+          // Add Apply All button at the end
+          const encodedUpdates = Buffer.from(JSON.stringify(allUpdates)).toString('base64');
+          response += `\n---\n\n[APPLY_ALL:${encodedUpdates}]Apply all ${allUpdates.length} SEO updates[/APPLY_ALL]`;
+        }
+
+        finalResponse = response;
+
+      } catch (scanError: any) {
+        console.error('[BigMind] Proactive scan failed:', scanError?.message);
+        finalResponse = `I'm here to help with your CMS! Try asking: "What are my SEO recommendations?" or "List pages needing work"`;
+      }
+    }
+
+    return { response: finalResponse, functionCalls };
+
+  } catch (error: any) {
     // Failover to local RAG system
-    console.error('[BigMind] External AI failed, using fallback RAG system:', error);
+    console.error('[BigMind] External AI failed:', error?.message || error);
+    console.error('[BigMind] Error details:', JSON.stringify({
+      name: error?.name,
+      code: error?.code,
+      status: error?.status,
+      errorInfo: error?.error,
+    }, null, 2));
+    const { generateFallbackResponse, generateSmartFallback } = await import('./fallback-ai');
 
-    try {
-      const { generateFallbackResponse, generateSmartFallback } = await import('./fallback-ai');
-
-      // Get the last user message
-      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-      if (!lastUserMessage) {
-        return {
-          response: "I encountered an error connecting to the AI service. Please try again.",
-          functionCalls: [],
-        };
-      }
-
-      // Try smart fallback first
-      const smartResponse = generateSmartFallback(lastUserMessage.content);
-      if (smartResponse) {
-        return {
-          response: smartResponse + "\n\n---\n*Using local fallback system (external AI unavailable)*",
-          functionCalls: [],
-        };
-      }
-
-      // Otherwise use knowledge base
-      const fallbackResult = await generateFallbackResponse(lastUserMessage.content);
+    // Get the last user message
+    const lastUserMessage = messages.filter(m => m.role === 'user').pop();
+    if (!lastUserMessage) {
       return {
-        response: fallbackResult.response,
+        response: "I apologize, but I encountered an error and couldn't process your request. The external AI system is unavailable.",
+        functionCalls: [],
+      };
+    }
+
+    // Try RAG-enhanced fallback
+    try {
+      const ragResponse = await generateSmartFallback(lastUserMessage.content);
+      return {
+        response: ragResponse,
         functionCalls: [],
       };
     } catch (fallbackError) {
-      console.error('[BigMind] Critical: Fallback system also failed:', fallbackError);
+      console.error('[BigMind] Fallback failed:', fallbackError);
       return {
-        response: "I apologize, but both the external AI and the local fallback system are currently unavailable. Please check the server logs for details.",
-        functionCalls: [],
+        response: "I apologize, but I'm having trouble connecting to my AI services right now. Please try again later.",
+        functionCalls: []
       };
     }
   }
@@ -2619,7 +2972,7 @@ export async function streamChatWithFunctions(
   onChunk: (chunk: string) => void,
   onFunctionCall?: (name: string, result: any) => void
 ): Promise<{ functionCalls: Array<{ name: string; result: any }> }> {
-  const result = await chatWithFunctions(messages, onFunctionCall);
+  const result = await chatWithFunctions(messages);
 
   const words = result.response.split(" ");
   for (const word of words) {

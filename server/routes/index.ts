@@ -17,6 +17,8 @@ import adminClustersRouter from './admin/clusters';
 import adminArticlesRouter from './admin/articles';
 import adminDocumentsRouter from './admin/documents';
 import adminSettingsRouter from './admin/settings';
+import adminBigmindRouter from './admin/bigmind';
+import adminChatRouter from './admin/admin-chat';
 
 // Import AI routes
 import aiEnrichmentRouter from './ai/enrichment';
@@ -27,11 +29,17 @@ import aiAgentsRouter from './ai/agents';
 import aiChatRouter from './ai/chat';
 import aiLearningRouter from './ai/learning';
 import aiAuditRouter from './ai/audit';
+import designAiRouter from './design-ai';
+import aiAgentMetricsRouter from './ai/agent-metrics';
+import aiAgentConfigRouter from './ai/agent-config';
 
 // Import shop routes
 import shopProductsRouter from './shop/products';
 import shopOrdersRouter from './shop/orders';
 import shopCartRouter from './shop/cart';
+
+// Import SEO routes
+import seoRouter from './seo';
 
 /**
  * Register all modular routes
@@ -57,6 +65,8 @@ export async function registerModularRoutes(
     app.use('/api/admin/science-articles', adminArticlesRouter);
     app.use('/api/admin/documents', adminDocumentsRouter);
     app.use('/api/admin', adminSettingsRouter);
+    app.use('/api/admin/bigmind', adminBigmindRouter);
+    app.use('/api', adminChatRouter);
 
     // AI routes
     app.use('/api/admin', aiEnrichmentRouter);
@@ -67,16 +77,24 @@ export async function registerModularRoutes(
     app.use('/api/ai', aiChatRouter);
     app.use('/api/ai', aiLearningRouter);
     app.use('/api/ai', aiAuditRouter);
+    app.use('/api/ai', aiAgentMetricsRouter);
+    app.use('/api/ai', aiAgentConfigRouter);
 
     // Shop routes (E-commerce)
     app.use('/api/shop/products', shopProductsRouter);
     app.use('/api/shop/orders', shopOrdersRouter);
     app.use('/api/shop/cart', shopCartRouter);
 
+    // Design AI routes (Visual Editor)
+    app.use('/api/design-ai', designAiRouter);
+
+    // SEO Optimization routes
+    app.use('/api/seo', seoRouter);
+
     // Redirect function documentation to frontend page
     app.get('/FUNCTION_DOCUMENTATION.md', (req, res) => {
         res.redirect('/function-docs');
     });
 
-    console.log('✅ All Systems + DevOps Monitoring + Audit Logging Installed');
+    console.log('✅ All Systems + DevOps Monitoring + Audit Logging + SEO Optimization Installed');
 }

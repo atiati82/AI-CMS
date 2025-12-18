@@ -60,3 +60,46 @@ export type SettingDefinition = {
 };
 
 // Add more shared types as needed when extracting other tabs
+export type WorkflowStepStatus = 'pending' | 'running' | 'completed' | 'failed' | 'paused' | 'skipped';
+
+export type WorkflowExecution = {
+    id: string;
+    name: string;
+    status: 'pending' | 'running' | 'completed' | 'failed' | 'paused' | 'cancelled';
+    currentStep: number;
+    totalSteps: number;
+    steps: Array<{
+        id: string;
+        name: string;
+        agent: string;
+        status: WorkflowStepStatus;
+        result?: any;
+        error?: string;
+        startedAt?: string;
+        completedAt?: string;
+    }>;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type WorkflowTemplate = {
+    id: string;
+    name: string;
+    description: string;
+    steps: Array<{
+        id: string;
+        name: string;
+        description: string;
+        agent: string;
+    }>;
+    requiredParams: string[];
+};
+
+export type ContentStats = {
+    totalPages: number;
+    publishedPages: number;
+    draftPages: number;
+    totalProducts: number;
+    totalArticles: number;
+    totalClusters: number;
+};

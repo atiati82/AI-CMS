@@ -33,6 +33,24 @@ export const uploadLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // 1 hour
     max: 20, // Limit each IP to 20 uploads per hour
     message: 'Upload limit reached, please try again later.',
+    legacyHeaders: false,
+});
+
+// Rate limiter for autonomous agent workflows (strict limit to prevent token runaway)
+export const autonomousAgentLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10, // Limit each IP to 10 autonomous runs per hour
+    message: 'Autonomous agent rate limit reached. Please wait before triggering more complex workflows.',
     standardHeaders: true,
     legacyHeaders: false,
 });
+
+// Rate limiter for efficient design generation (Magic Pages)
+export const designGenLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 50, // Limit each IP to 50 drafts per hour
+    message: 'Design draft limit reached (50/hr). Please refine existing drafts or wait.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+

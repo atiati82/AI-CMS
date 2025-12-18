@@ -1,0 +1,161 @@
+{
+    "page": {
+        "key": "vortex-spin-experiments",
+        "title": "Vortex & Spin Experiments — Protocols",
+        "path": "/vortex-spin-experiments",
+        "pageType": "protocols",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Vortex & Spin Experiments: Protocols to Test Water Changes",
+        "description": "Step-by-step vortex/spin experiments with controls: how to standardize time, RPM, container, temperature, and measure EC/TDS, ORP, pH, turbidity over time.",
+        "focusKeyword": "vortex water experiment",
+        "secondaryKeywords": [
+            "spin structuring water",
+            "vortex protocol",
+            "vortex vs baseline",
+            "water vortex ORP",
+            "conductivity vortex"
+        ],
+        "intent": [
+            "do",
+            "test",
+            "compare"
+        ],
+        "schemaType": [
+            "HowTo",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Vortex & Spin Experiments — Protocols",
+            "description": "Protocols That Turn 'Vortex Water' Into Repeatable Data",
+            "imagePrompt": "spiral vortex photo + overlay of protocol checklist icons"
+        }
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "kinetic",
+            "experimental",
+            "precise",
+            "energetic"
+        ],
+        "emotionalTone": [
+            "curiosity",
+            "action",
+            "rigor"
+        ],
+        "motionPreset": "spiral-flow",
+        "colorPalette": "crystalline",
+        "treeTheme": "experiment"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Experiments</span>\n      <h1 class=\"h1\">Vortex & Spin Experiments</h1>\n      <p class=\"p tagline\">Protocols That Turn \"Vortex Water\" Into Repeatable Data</p>\n      <p class=\"p\">Vortex talk is everywhere. But without standardization, results are random.</p>\n      <p class=\"p\">This page converts vortex ideas into clean experiments with one variable at a time, consistent containers, and time-based logging.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Definition</h2>\n      <p class=\"p callout large\">A <strong>vortex experiment</strong> is a controlled comparison where water is spun/vortexed under defined conditions and measured against a baseline using the same fingerprint over time.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "variables",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"variables\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Vortex Variables</h2>\n    <div class=\"panel pad warning\">\n      <h3 class=\"h4\">What Must Be Controlled</h3>\n      <ul class=\"list-check\">\n        <li><strong>Container:</strong> Shape, size, material (Glass vs Plastic)</li>\n        <li><strong>Spin:</strong> Method, intensity (RPM), duration</li>\n        <li><strong>Environment:</strong> Temperature (Log every time), Gas exchange (Open vs Closed)</li>\n        <li><strong>Timing:</strong> Rest time after vortex (Immediate vs 30 min)</li>\n      </ul>\n      <p class=\"p centered\"><strong>Golden Rule:</strong> Choose one method and keep it consistent.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "measurement-stack",
+            "type": "features",
+            "html": "<section class=\"section\" id=\"measurement-stack\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Measurement Stack</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Mandatory</h4>\n        <p class=\"p\"><strong>Temperature.</strong> Always log temperature.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Core Fingerprint</h4>\n        <p class=\"p\">EC/TDS, ORP, pH.</p>\n        <a href=\"/conductivity-tds-water\" class=\"chip\">Read EC</a>\n        <a href=\"/orp-redox-water\" class=\"chip\">Read ORP</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Visual</h4>\n        <p class=\"p\">Turbidity/Clarity.</p>\n        <a href=\"/turbidity-clarity\" class=\"chip\">Read Turbidity</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"protocol\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Baseline Protocol</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h3\">Goal: Compare Vortexed vs Baseline</h3>\n      <p class=\"p\"><strong>Setup:</strong> Two identical glass containers (A=Baseline, B=Vortexed). Same water, same volume.</p>\n      <p class=\"p\"><strong>Action:</strong> Vortex B (defined method). Do nothing to A.</p>\n      <p class=\"p\"><strong>Measure:</strong> At 0 min, 30 min, 2 hrs, 24 hrs.</p>\n      <div class=\"btn-group\">\n        <a href=\"/parameter-tracking\" class=\"btn primary\">Download Log Sheet</a>\n        <a href=\"/citizen-science-hub\" class=\"btn secondary\">Submit Results</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "ladder",
+            "type": "grid",
+            "html": "<section class=\"section\" id=\"ladder\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Experiment Ladder</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">1. Hand Vortex</h3>\n        <p class=\"p\"><strong>Use Case:</strong> Accessibility.</p>\n        <p class=\"p small\"><strong>Method:</strong> Swirl consistent direction, count rotations (e.g. 60).</p>\n        <p class=\"p small\"><strong>Note:</strong> Low precision.</p>\n      </div>\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">2. Stir Plate</h3>\n        <p class=\"p\"><strong>Use Case:</strong> Consistency.</p>\n        <p class=\"p small\"><strong>Method:</strong> Defined RPM, defined duration.</p>\n        <p class=\"p small\"><strong>Note:</strong> Best \"home lab\" standard.</p>\n      </div>\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">3. Blender (High Shear)</h3>\n        <p class=\"p\"><strong>Use Case:</strong> High energy.</p>\n        <p class=\"p small\"><strong>Method:</strong> Short burst.</p>\n        <p class=\"p small warning\"><strong>Note:</strong> Introduces heat + gas. Watch ORP drift.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "interpretation",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"interpretation\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Interpretation Guide</h2>\n    <p class=\"p subtitle\">Pattern Over Numbers</p>\n    <div class=\"panel pad\">\n      <p class=\"p\">When people say \"vortex changed the water,\" ask:</p>\n      <p class=\"p callout\">\"Which window changed: EC, ORP, pH, turbidity—and at which time point?\"</p>\n      <p class=\"p\">Common changes come from gas exchange (O/CO₂) and temperature shifts. That's not magic, it's physics.</p>\n      <a href=\"/light-and-water\" class=\"chip\">Gas Exchange Logic</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "mistakes",
+            "type": "warning",
+            "html": "<section class=\"section\" id=\"mistakes\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Common Mistakes</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">1. No Control</h4>\n        <p class=\"p\">Always need a baseline jar.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">2. Different Containers</h4>\n        <p class=\"p\">Material shape affects results.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">3. Ignoring Temp</h4>\n        <p class=\"p\">Temp shifts change ORP/pH readings.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">4. Too Many Variables</h4>\n        <p class=\"p\">Do vortex OR magnets, not both at once.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Vortex & Spin Experiments",
+        "items": [
+            {
+                "question": "Do vortex experiments need expensive tools?",
+                "answer": "No. Hand vortex with rotation counts works as a baseline—consistency matters more than fancy devices."
+            },
+            {
+                "question": "Why does ORP change after vortexing?",
+                "answer": "Often due to gas exchange and temperature shifts. That’s why rest time and temperature logging are essential."
+            },
+            {
+                "question": "Should I measure immediately after vortexing?",
+                "answer": "Measure temperature immediately, but define a consistent rest schedule for ORP/pH (e.g., 5 min or 30 min) and always repeat it."
+            },
+            {
+                "question": "What’s the best standard method?",
+                "answer": "A magnetic stir plate with defined RPM and duration—because it reduces variability."
+            },
+            {
+                "question": "What should I read next?",
+                "answer": "To compare with other inputs: /magnetics-water or /light-and-water"
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "protocolChecklist": {
+            "trigger": "page lacks 'controlled variables list'",
+            "placement": "after Step 2",
+            "action": "addProtocolLinks"
+        },
+        "restTimeGuardrail": {
+            "trigger": "blender/high-energy method mentioned",
+            "placement": "near Step 6",
+            "action": "addTempWarning"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 9",
+            "action": "addHubLinks"
+        },
+        "uploadSchema": {
+            "trigger": "page used in citizen science context",
+            "placement": "after Step 8",
+            "action": "addProtocolLinks"
+        }
+    },
+    "internalLinks": [
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/citizen-science-hub",
+        "/light-and-water",
+        "/vortex-technologies",
+        "/water-crystal-geometry-map",
+        "/experiments-index",
+        "/magnet-placement-experiments",
+        "/magnetics-water"
+    ]
+}

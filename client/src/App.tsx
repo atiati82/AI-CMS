@@ -10,40 +10,48 @@ import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/home";
 import ScienceLibrary from "@/pages/science-library";
+import ScienceLibraryMaster from "@/pages/science-library-master";
+import HowAndaraWorks from "@/pages/how-andara-works";
 import ArticlePage from "@/pages/article";
 import CrystallineMatrixPage from "@/pages/crystalline-matrix";
 import BioelectricityPage from "@/pages/bioelectricity";
 import WaterSciencePage from "@/pages/water-science";
+import WaterScienceMaster from "@/pages/water-science-master";
+import MineralSourcesPage from "@/pages/mineral-sources";
 import AdminPage from "@/pages/admin";
 import SitemapPage from "@/pages/sitemap";
 import DynamicPage from "@/pages/dynamic-page";
 import ProductPage from "@/pages/product";
 import ShopPage from "@/pages/shop";
+import AndaraIonic100ml from "@/pages/andara-ionic-100ml";
 import PrimordialPage from "@/pages/primordial";
 
 import DnaMineralCodesPage from "@/pages/dna-mineral-codes";
 import BioelectricityInvisibleVoltagePage from "@/pages/bioelectricity-invisible-voltage";
-import ModernChatDemo from "@/pages/modern-chat-demo";
-import FunctionDocsPage from "@/pages/function-docs";
+import HexagonalWaterStructuresPage from "@/pages/hexagonal-water-structures";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/primordial" component={PrimordialPage} />
+      <Route path="/how-andara-works" component={HowAndaraWorks} />
+      <Route path="/science-library" component={ScienceLibraryMaster} />
       <Route path="/science" component={ScienceLibrary} />
       <Route path="/science/crystalline-matrix" component={CrystallineMatrixPage} />
       <Route path="/science/bioelectricity" component={BioelectricityPage} />
+      <Route path="/science/water-science" component={WaterScienceMaster} />
+      <Route path="/science/mineral-sources" component={MineralSourcesPage} />
       <Route path="/science/water" component={WaterSciencePage} />
       <Route path="/science/minerals/dna-mineral-codes" component={DnaMineralCodesPage} />
+      <Route path="/hexagonal-water-structures" component={HexagonalWaterStructuresPage} />
       <Route path="/science/bioelectricity/bioelectricity-invisible-voltage" component={BioelectricityInvisibleVoltagePage} />
       <Route path="/science/:slug" component={ArticlePage} />
       <Route path="/science/:cluster/:slug" component={ArticlePage} />
       <Route path="/admin" component={AdminPage} />
-      <Route path="/modern-chat-demo" component={ModernChatDemo} />
-      <Route path="/function-docs" component={FunctionDocsPage} />
       <Route path="/sitemap" component={SitemapPage} />
       <Route path="/shop" component={ShopPage} />
+      <Route path="/shop/andara-ionic-100ml" component={AndaraIonic100ml} />
       <Route path="/shop/:slug" component={ProductPage} />
       <Route path="/about" component={DynamicPage} />
       <Route path="/about/:slug" component={DynamicPage} />

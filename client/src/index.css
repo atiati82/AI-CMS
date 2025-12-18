@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "./styles/andara-global.css";
 @import "./styles/andara-components.css";
+@import "./styles/admin-glass.css";
 
 /* Open Sans Font Family */
 @font-face {
@@ -111,40 +112,72 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
-  
+
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-  
+
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  
+
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  
+
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  
+
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  /* Admin Theme Colors */
+  --color-admin-sidebar: hsl(var(--admin-sidebar));
+  --color-admin-sidebar-foreground: hsl(var(--admin-sidebar-foreground));
+  --color-admin-sidebar-muted: hsl(var(--admin-sidebar-muted));
+  --color-admin-sidebar-hover: hsl(var(--admin-sidebar-hover));
+  --color-admin-sidebar-border: hsl(var(--admin-sidebar-border));
+  --color-admin-sidebar-active: hsl(var(--admin-sidebar-active));
+
+  --color-admin-header: hsl(var(--admin-header));
+  --color-admin-header-foreground: hsl(var(--admin-header-foreground));
+  --color-admin-header-hover: hsl(var(--admin-header-hover));
+  --color-admin-header-border: hsl(var(--admin-header-border));
+
+  --color-admin-search: hsl(var(--admin-search));
+  --color-admin-search-border: hsl(var(--admin-search-border));
+
+  --color-admin-content: hsl(var(--admin-content));
+  --color-admin-content-foreground: hsl(var(--admin-content-foreground));
+
+  --color-admin-card: hsl(var(--admin-card));
+  --color-admin-card-foreground: hsl(var(--admin-card-foreground));
+  --color-admin-card-border: hsl(var(--admin-card-border));
+
+  --color-admin-purple: hsl(var(--admin-purple));
+  --color-admin-purple-light: hsl(var(--admin-purple-light));
+  --color-admin-purple-dark: hsl(var(--admin-purple-dark));
+
+  --color-admin-accent: var(--admin-accent);
+  --color-admin-accent-hover: var(--admin-accent-hover);
 }
 
 :root {
   /* Clean, Scientific White Theme */
-  --background: 210 20% 98%; /* Soft cool white */
-  --foreground: 220 20% 10%; /* Deep mineral black */
+  --background: 210 20% 98%;
+  /* Soft cool white */
+  --foreground: 220 20% 10%;
+  /* Deep mineral black */
 
   --card: 0 0% 100%;
   --card-foreground: 220 20% 10%;
@@ -153,16 +186,19 @@
   --popover-foreground: 220 20% 10%;
 
   /* Brand Colors */
-  --primary: 215 40% 20%; /* Deep Ocean Navy */
+  --primary: 215 40% 20%;
+  /* Deep Ocean Navy */
   --primary-foreground: 210 20% 98%;
 
-  --secondary: 190 30% 90%; /* Soft Aqua Mist */
+  --secondary: 190 30% 90%;
+  /* Soft Aqua Mist */
   --secondary-foreground: 215 40% 20%;
 
   --muted: 220 10% 94%;
   --muted-foreground: 220 10% 40%;
 
-  --accent: 190 70% 40%; /* Bioelectric Teal/Cyan */
+  --accent: 190 70% 40%;
+  /* Bioelectric Teal/Cyan */
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 84% 60%;
@@ -177,7 +213,8 @@
 
 .dark {
   /* Deep Sea Mode */
-  --background: 220 30% 8%; /* Very dark blue-black */
+  --background: 220 30% 8%;
+  /* Very dark blue-black */
   --foreground: 210 20% 90%;
 
   --card: 220 25% 12%;
@@ -186,7 +223,8 @@
   --popover: 220 25% 12%;
   --popover-foreground: 210 20% 90%;
 
-  --primary: 190 70% 40%; /* Cyan becomes primary in dark mode */
+  --primary: 190 70% 40%;
+  /* Cyan becomes primary in dark mode */
   --primary-foreground: 220 30% 8%;
 
   --secondary: 215 30% 18%;
@@ -207,46 +245,60 @@
 }
 
 /* Admin Panel Materio Theme */
+/* Admin Panel Future/Glass Theme */
 .admin-theme {
-  /* Sidebar - Dark Purple */
-  --admin-sidebar: 258 35% 12%;
-  --admin-sidebar-foreground: 260 10% 85%;
-  --admin-sidebar-muted: 260 10% 55%;
-  --admin-sidebar-hover: 258 30% 18%;
-  --admin-sidebar-border: 258 30% 18%;
-  --admin-sidebar-active: 267 83% 60%;
-  
-  /* Header */
-  --admin-header: 0 0% 100%;
-  --admin-header-foreground: 220 20% 20%;
-  --admin-header-hover: 220 10% 95%;
-  --admin-header-border: 220 10% 92%;
-  
+  /* Sidebar - Glass / Dark */
+  --admin-sidebar: 240 10% 4%;
+  /* Almost black */
+  --admin-sidebar-foreground: 240 5% 65%;
+  /* Muted grey */
+  --admin-sidebar-muted: 240 5% 45%;
+  --admin-sidebar-hover: 240 5% 10%;
+  --admin-sidebar-border: 0 0% 100%;
+  /* Opacity handled in utility */
+  --admin-sidebar-active: 190 100% 50%;
+  /* Cyan 400 */
+
+  /* Header - Transparent/Glass */
+  --admin-header: 240 10% 4%;
+  --admin-header-foreground: 0 0% 100%;
+  --admin-header-hover: 240 5% 10%;
+  --admin-header-border: 0 0% 100%;
+
   /* Search */
-  --admin-search: 220 10% 98%;
-  --admin-search-border: 220 10% 90%;
-  
-  /* Content Area */
-  --admin-content: 240 5% 96%;
-  --admin-content-foreground: 220 20% 10%;
-  
-  /* Cards */
-  --admin-card: 0 0% 100%;
-  --admin-card-foreground: 220 20% 10%;
-  --admin-card-border: 220 10% 92%;
-  
-  /* Purple Accent */
-  --admin-purple: 267 83% 60%;
-  --admin-purple-light: 267 80% 95%;
-  --admin-purple-dark: 267 83% 45%;
-  --admin-accent: #9333ea;
-  --admin-accent-hover: #7c3aed;
-  
+  --admin-search: 240 5% 10%;
+  --admin-search-border: 0 0% 100%;
+
+  /* Content Area - Deep Dark */
+  --admin-content: 240 10% 3.9%;
+  /* Zinc 950 */
+  --admin-content-foreground: 0 0% 98%;
+
+  /* Cards - Glass */
+  --admin-card: 240 6% 10%;
+  --admin-card-foreground: 0 0% 98%;
+  --admin-card-border: 0 0% 100%;
+
+  /* Future Accents */
+  --admin-purple: 270 100% 60%;
+  /* Electric Purple */
+  --admin-purple-light: 270 100% 75%;
+  --admin-purple-dark: 270 100% 40%;
+
+  --admin-accent: #06b6d4;
+  /* Cyan 500 */
+  --admin-accent-hover: #0891b2;
+  /* Cyan 600 */
+
   /* Stats Colors */
-  --admin-success: 142 76% 45%;
-  --admin-warning: 38 92% 50%;
-  --admin-info: 199 89% 48%;
-  --admin-danger: 0 84% 60%;
+  --admin-success: 150 100% 50%;
+  /* Neo Green */
+  --admin-warning: 40 100% 60%;
+  /* Neo Orange */
+  --admin-info: 190 100% 50%;
+  /* Neo Cyan */
+  --admin-danger: 350 100% 60%;
+  /* Neo Red */
 }
 
 .admin-theme.dark {
@@ -266,36 +318,79 @@
   --border: 258 30% 22%;
   --input: 258 30% 18%;
   --ring: 267 83% 60%;
-  
+
   /* Sidebar - Same in dark */
   --admin-sidebar: 258 35% 12%;
   --admin-sidebar-foreground: 260 10% 85%;
   --admin-sidebar-muted: 260 10% 55%;
   --admin-sidebar-hover: 258 30% 18%;
   --admin-sidebar-border: 258 30% 18%;
-  
+
   /* Header - Dark */
   --admin-header: 258 30% 10%;
   --admin-header-foreground: 260 10% 90%;
   --admin-header-hover: 258 30% 15%;
   --admin-header-border: 258 30% 15%;
-  
+
   /* Search - Dark */
   --admin-search: 258 30% 14%;
   --admin-search-border: 258 30% 20%;
-  
+
   /* Content Area - Dark */
   --admin-content: 258 35% 8%;
   --admin-content-foreground: 0 0% 100%;
-  
+
   /* Cards - Dark */
   --admin-card: 258 30% 12%;
   --admin-card-foreground: 0 0% 100%;
   --admin-card-border: 258 30% 22%;
-  
+
   /* Purple Accent for Dark Mode */
   --admin-accent: #a855f7;
   --admin-accent-hover: #9333ea;
+}
+
+/* Fallback Utility Classes - Enforcing admin theme application */
+@layer components {
+  .bg-admin-sidebar {
+    background-color: hsl(var(--admin-sidebar));
+  }
+
+  .text-admin-sidebar-foreground {
+    color: hsl(var(--admin-sidebar-foreground));
+  }
+
+  .bg-admin-header {
+    background-color: hsl(var(--admin-header));
+  }
+
+  .text-admin-header-foreground {
+    color: hsl(var(--admin-header-foreground));
+  }
+
+  .border-admin-header-border {
+    border-color: hsl(var(--admin-header-border));
+  }
+
+  .bg-admin-content {
+    background-color: hsl(var(--admin-content));
+  }
+
+  .text-admin-content-foreground {
+    color: hsl(var(--admin-content-foreground));
+  }
+
+  .bg-admin-card {
+    background-color: hsl(var(--admin-card));
+  }
+
+  .text-admin-card-foreground {
+    color: hsl(var(--admin-card-foreground));
+  }
+
+  .border-admin-card-border {
+    border-color: hsl(var(--admin-card-border));
+  }
 }
 
 /* Admin dark mode specific classes */
@@ -311,10 +406,17 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-tight;
   }
 }
@@ -364,11 +466,13 @@
   @apply border-l-4 border-accent pl-6 py-2 my-8 bg-accent/5 rounded-r-lg italic text-foreground/80;
 }
 
-.article-content strong, .article-content b {
+.article-content strong,
+.article-content b {
   @apply font-semibold text-primary;
 }
 
-.article-content em, .article-content i {
+.article-content em,
+.article-content i {
   @apply italic;
 }
 
@@ -416,4 +520,3 @@
 .article-hero p {
   @apply text-xl text-muted-foreground max-w-3xl;
 }
-

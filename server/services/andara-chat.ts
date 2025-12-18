@@ -5,9 +5,11 @@ import { storage } from "../storage";
 // Check which AI providers are available
 // Support both Replit format (AI_INTEGRATIONS_*) and local format (GOOGLE_API_KEY, OPENAI_API_KEY)
 const geminiApiKey = process.env.AI_INTEGRATIONS_GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
-const geminiBaseUrl = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
+// Ensure base URL includes /v1beta (env var might be missing it)
+const rawGeminiBaseUrl = process.env.AI_INTEGRATIONS_GEMINI_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta';
+const geminiBaseUrl = rawGeminiBaseUrl.endsWith('/v1beta') ? rawGeminiBaseUrl : `${rawGeminiBaseUrl}/v1beta`;
 const openaiApiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-const openaiBaseUrl = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || 'https://api.openai.com/v1';
+const openaiBaseUrl = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
 
 const hasGemini = !!geminiApiKey;
 const hasOpenAI = !!openaiApiKey;
@@ -17,36 +19,27 @@ if (geminiApiKey) console.log(`[AI] Gemini API key configured (${geminiApiKey.su
 if (openaiApiKey) console.log(`[AI] OpenAI API key configured (${openaiApiKey.substring(0, 8)}...)`);
 
 // Initialize Gemini client (Google GenAI SDK)
-const geminiAi = hasGemini ? new GoogleGenAI({
-  apiKey: geminiApiKey,
-  httpOptions: {
-    apiVersion: "",
-    baseUrl: geminiBaseUrl,
-  },
-}) : null;
+const geminiAi = hasGemini ? new GoogleGenAI({ apiKey: geminiApiKey! }) : null;
 
 // OpenAI-compatible client (only used via Replit's AI Integrations proxy)
 // Note: For direct OpenAI API calls, we'd need a different SDK
-const openaiAi = hasOpenAI && openaiApiKey?.startsWith('sk-') === false ? new GoogleGenAI({
-  apiKey: openaiApiKey,
-  httpOptions: {
-    apiVersion: "",
-    baseUrl: openaiBaseUrl,
-  },
-}) : null;
+const openaiAi = hasOpenAI && openaiApiKey?.startsWith('sk-') === false ? new GoogleGenAI({ apiKey: openaiApiKey! }) : null;
 
 // Model routing configuration
 const MODEL_PROVIDERS: Record<string, 'openai' | 'gemini'> = {
   'gpt-4.1-mini': 'openai',
   'gpt-4.1': 'openai',
   'gpt-4o': 'openai',
-  'gemini-2.5-flash': 'gemini',
-  'gemini-2.5-pro': 'gemini',
+  'gemini-2.0-flash': 'gemini',
+  'gemini-2.0-flash-exp': 'gemini',
 };
 
 // Fallback model when preferred provider is unavailable
-const FALLBACK_MODEL = hasGemini ? 'gemini-2.5-flash' : (hasOpenAI ? 'gpt-4.1-mini' : null);
-const DEFAULT_MODEL = hasOpenAI ? 'gpt-4.1-mini' : 'gemini-2.5-flash';
+// Note: OpenAI client is only available via Replit proxy (non-sk- keys)
+// For real OpenAI API keys (sk-...), we need the OpenAI SDK, not GoogleGenAI
+const FALLBACK_MODEL = hasGemini ? 'gemini-2.0-flash' : (hasOpenAI ? 'gpt-4.1-mini' : null);
+// Always prefer Gemini since the OpenAI client via GoogleGenAI only works with Replit proxy
+const DEFAULT_MODEL = hasGemini ? 'gemini-2.0-flash' : 'gpt-4.1-mini';
 
 // Get the configured AI model from settings
 async function getConfiguredModel(): Promise<string> {
@@ -62,22 +55,31 @@ async function getConfiguredModel(): Promise<string> {
 }
 
 // Get the appropriate AI client and model for the configured setting
-async function getAiClient(): Promise<{ client: GoogleGenAI; model: string }> {
-  let modelId = await getConfiguredModel();
-  let provider = MODEL_PROVIDERS[modelId] || 'gemini';
+async function getAiClient(modelId?: string): Promise<{ client: GoogleGenAI; model: string }> {
+  let selectedModel = modelId || await getConfiguredModel();
+  let provider = MODEL_PROVIDERS[selectedModel] || 'gemini';
 
-  // Check if the selected provider is available
-  const providerAvailable = provider === 'openai' ? hasOpenAI : hasGemini;
+  // Check if the selected provider's client is actually available
+  // Note: openaiAi is null for real OpenAI keys (sk-...) since GoogleGenAI SDK doesn't support them
+  const openaiClientAvailable = openaiAi !== null;
+  const geminiClientAvailable = geminiAi !== null;
 
-  if (!providerAvailable) {
-    // Fall back to available provider
-    if (provider === 'openai' && hasGemini) {
-      console.log(`[AI] OpenAI not configured, falling back to Gemini`);
-      modelId = 'gemini-2.5-flash';
+  // If OpenAI is selected but client is not available, fall back to Gemini
+  if (provider === 'openai' && !openaiClientAvailable) {
+    if (geminiClientAvailable) {
+      console.log(`[AI] OpenAI client not available (real sk- key requires OpenAI SDK), falling back to Gemini`);
+      selectedModel = 'gemini-2.0-flash';
       provider = 'gemini';
-    } else if (provider === 'gemini' && hasOpenAI) {
+    } else {
+      throw new Error('No AI provider is available. OpenAI requires the OpenAI SDK for sk- keys, and Gemini is not configured.');
+    }
+  }
+
+  // If Gemini is selected but client is not available, try OpenAI
+  if (provider === 'gemini' && !geminiClientAvailable) {
+    if (openaiClientAvailable) {
       console.log(`[AI] Gemini not configured, falling back to OpenAI`);
-      modelId = 'gpt-4.1-mini';
+      selectedModel = 'gpt-4.1-mini';
       provider = 'openai';
     } else {
       throw new Error('No AI provider is configured. Please set up either Gemini or OpenAI integration.');
@@ -85,26 +87,97 @@ async function getAiClient(): Promise<{ client: GoogleGenAI; model: string }> {
   }
 
   const client = provider === 'openai' ? openaiAi! : geminiAi!;
-  console.log(`[AI] Using model: ${modelId} (${provider})`);
-  return { client, model: modelId };
+
+  if (!client) {
+    throw new Error(`AI client is null for provider ${provider}. Check your API key configuration.`);
+  }
+
+  console.log(`[AI] Using model: ${selectedModel} (${provider})`);
+  return { client, model: selectedModel };
 }
 
-const CLUSTER_ONTOLOGY = [
-  "home",
-  "shop",
-  "water_science",
-  "mineral_science",
-  "crystalline_matrix",
-  "bioelectricity",
-  "terrain_model",
-  "spiritual_electricity",
-  "trust_lab",
-  "blog",
-  "support",
-  "other"
-] as const;
+// Import external configurations for reuse
+import { CLUSTER_ONTOLOGY, getSiteArchitecturePrompt, getLayoutPrompt } from '../lib/site-config';
+import { Tool } from '../agents/tools/types';
+
+// ... existing code ...
+
+/**
+ * Transform internal Tool definitions to Gemini's expected format
+ */
+export function getToolConfig(tools: Tool[]) {
+  // Transform our Tool definition to Gemini's expected format
+  const functionDeclarations = tools.map(tool => ({
+    name: tool.name,
+    description: tool.description,
+    parameters: tool.parameters
+  }));
+
+  return [{ functionDeclarations }];
+}
+
+
+import { getMotionSystemPrompt } from '../lib/motion-presets';
+import { bigmindBriefing } from '../agents/briefings';
+
+// === ANDARA IONIC RESEARCH CONTEXT ===
+// This knowledge is integrated into all BigMind interactions
+
+const ANDARA_RESEARCH_CONTEXT = `
+## ANDARA IONIC CORE KNOWLEDGE
+
+### Product Definition
+- **Brand**: ANDARA IONIC
+- **Concept**: Volcanic-origin ionic sulfate mineral concentrate for water treatment & structuring
+- **Form**: Fully ionic, sulfate-based solution (no visible particles when diluted)
+- **Elements**: Rich spectrum including Fe, Mg, Mn, Cu, B, Li, V, Sr, trace/ultra-trace elements
+- **Use**: Water purification, clarification, conditioning (NOT dietary supplement)
+
+### Andara Activation Range
+- **Target**: 17-30 mg/L sulfate in treated water
+- **Practical**: 1 ml concentrate per 1 liter water ≈ 17-18 mg/L sulfate
+- **Scientific Basis**: 
+  - Human plasma sulfate (~30 mg/L)
+  - EZ water research on sulfate-interface structuring
+  - Water treatment standards (10-35 mg/L optimal coagulation)
+
+### Content Boundaries (CRITICAL)
+✅ **Permitted Claims**:
+- "Supports water clarification"
+- "Is used to treat and condition water"
+- "Can help reduce turbidity"
+- "May reorganize hydration structures in water"
+- "Is associated with..." (when citing research)
+
+❌ **Forbidden Claims** (Never use these):
+- Prevents, treats, cures, or diagnoses any disease
+- "Heals", "detoxes your body", medical terminology
+- Direct health benefit claims
+
+### Internal Knowledge (Do not expose publicly)
+- Source: Japanese volcanic black-mica–based mineral technology
+- In content, refer to: "volcanic-origin ionic sulfate mineral concentrate"
+- Avoid naming suppliers/brands unless legally required
+
+### Knowledge Clusters
+When discussing science topics, draw from these areas:
+1. **Water Science**: pH, ORP, EC, TDS, turbidity, flocculation, EZ water
+2. **Mineral Science**: Ionic vs colloidal, sulfate chemistry (SO₄²⁻), trace elements
+3. **Crystalline Matrix**: Tetrahedral/hexagonal geometry, mineral lattices
+4. **Bioelectric Science**: Electrolytes, membrane potentials, charge separation
+5. **Microbiome**: Enzyme cofactors, gut bacteria, deep-sea water research
+6. **Comparative Sources**: Ocean, lake brine, plant, fulvic, volcanic comparison
+
+### Evidence Level Marking
+Always distinguish:
+- **Solid evidence**: Peer-reviewed, replicated ("Research shows...")
+- **Hypothesis**: Published but emerging ("Studies suggest...", "May...")
+- **Brand-specific**: Andara interpretation ("Andara is designed to...")
+`;
 
 const BIG_MIND_SYSTEM_PROMPT = `You are the Andara Library — the global brain of Andara Ionic, a premium primordial ionic sulfate mineral water brand.
+
+${ANDARA_RESEARCH_CONTEXT}
 
 ## Your Role
 You reason over ALL site content to provide strategic guidance on:
@@ -156,71 +229,11 @@ PRIORITY: [P1|P2|P3]
 SUMMARY: [2-3 sentence page summary]
 \`\`\`
 
-## Site Architecture
-The site is organized into clusters (pillars):
-- **home**: Landing and overview pages
-- **shop**: Product pages, bundles, checkout
-- **water_science**: EZ Water, structured water, hydration science
-- **mineral_science**: Ionic minerals, sulfate chemistry, trace elements
-- **crystalline_matrix**: Crystal structures, water memory, sacred geometry
-- **bioelectricity**: Body's electrical system, cellular voltage, mitochondria
-- **terrain_model**: Internal terrain health, Béchamp theory, pH balance
-- **spiritual_electricity**: Life force, consciousness, higher vibration
-- **trust_lab**: About us, lab data, certifications, testimonials
-- **blog**: News, stories, updates
-- **support**: FAQ, contact, shipping, returns
+${getSiteArchitecturePrompt()}
 
-## Priority System
-- **P1**: Core business pages (home, main products, key science overviews) - Must exist
-- **P2**: Important deep-dives and secondary content - Should exist
-- **P3**: Supporting content, nice-to-have articles - Optional
+${getMotionSystemPrompt()}
 
-## MOTION SYSTEM (Apply to all content)
-Use these motion presets from @/lib/motion:
-
-**Timing:** instant (0.1s), fast (0.2s), normal (0.4s), slow (0.6s), slower (0.8s), ambient (4s)
-**Easing:** smooth [0.23,0.82,0.35,1], snappy, bounce, easeOut
-
-**Entrance Animations:**
-- fadeUp: Fade + slide up (default for most content)
-- fadeDown: Fade + slide down (for headers dropping in)
-- fadeIn: Simple opacity fade
-- fadeLeft/fadeRight: Horizontal slides
-- scaleUp: Scale from 95% to 100%
-
-**Stagger (for grids/lists):**
-- stagger.container: Parent wrapper
-- stagger.item: Each child item (80ms delay between)
-
-**Hover Effects:**
-- hover.lift: Slight Y translation on hover
-- hover.scale: 1.02x scale on hover
-- hover.glow: Box-shadow glow effect
-
-**Ambient (looping):**
-- ambient.pulse: Subtle scale pulse (4s)
-- ambient.float: Y-axis float (6s)
-- ambient.shimmer: Opacity shimmer
-
-**6 Andara Motion Archetypes:**
-1. Liquid-Crystal Float: ambient.float + shimmer for water/crystal themes
-2. Energetic Pulse: ambient.pulse for energy/bioelectric themes
-3. Magnetic Drift: fadeLeft/fadeRight alternating for process flows
-4. Krystal Bloom: scaleUp with slow timing for crystalline reveals
-5. Scalar Slide: stagger.containerFast for lists/metrics
-6. Vortex Reveal: fadeUp with bounce easing for dynamic content
-
-## LAYOUT VOCABULARY (Match sections to these)
-**Hero:** hero_split (2-col), hero_centered, hero_media_bg
-**Features:** feature_columns (3-4 icons), benefit_grid (cards), icon_bullets
-**Process:** step_process (numbered), timeline_vertical, journey_roadmap
-**Social Proof:** testimonial_slider, testimonial_grid, logo_wall
-**Pricing:** pricing_table, offer_highlight
-**FAQ:** faq_accordion, tabbed_content, comparison_table
-**Metrics:** stats_highlight, highlight_box
-**Content:** article_longform, blog_list, sidebar_content
-**Media:** image_gallery_grid, media_caption
-**CTA:** cta_bar, cta_section
+${getLayoutPrompt()}
 
 ## VISUAL CONFIG OUTPUT FORMAT
 When analyzing content, ALWAYS output a Visual Config block:

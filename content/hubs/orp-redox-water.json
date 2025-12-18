@@ -1,0 +1,63 @@
+{
+    "page": {
+        "key": "orp-redox-water",
+        "title": "ORP & Redox in Water — Electron Potential",
+        "path": "/orp-redox-water",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "bioelectric",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "ORP Explained: Oxidation-Reduction Potential in Water",
+        "description": "Understanding ORP (Oxidation-Reduction Potential): what it measures, how to interpret mV readings, and why electron availability matters for water quality.",
+        "focusKeyword": "ORP water"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Bioelectric</span>\n      <h1 class=\"h1\">ORP & Redox in Water</h1>\n      <p class=\"p tagline\">Electron Potential — Oxidizing or Reducing?</p>\n      <p class=\"p\">ORP measures the tendency of water to donate or accept electrons. It's an indicator of oxidation-reduction activity.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "what-is-orp",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-is-orp\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What ORP Measures</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>Positive ORP (+mV)</strong> — oxidizing tendency, accepts electrons</li>\n        <li><strong>Negative ORP (-mV)</strong> — reducing tendency, donates electrons</li>\n        <li><strong>Zero / neutral</strong> — balanced redox state</li>\n      </ul>\n      <p class=\"p\">Most tap water is +200 to +400 mV. \"Antioxidant\" waters claim -100 to -400 mV.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "interpretation",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"interpretation\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Interpreting ORP</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Factors That Raise ORP</h3>\n        <ul>\n          <li>Dissolved oxygen</li>\n          <li>Chlorine/oxidizers</li>\n          <li>Exposure to air</li>\n          <li>Time (equilibration)</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Factors That Lower ORP</h3>\n        <ul>\n          <li>Reducing agents</li>\n          <li>Certain minerals (iron, sulfur)</li>\n          <li>Fresh from sealed container</li>\n          <li>Electrolysis</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "practical",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"practical\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical Notes</h2>\n    <div class=\"panel pad\">\n      <ul>\n        <li>ORP changes quickly with air exposure</li>\n        <li>Measure immediately after pouring</li>\n        <li>Track over time (T0, T30, T2h, T24h)</li>\n        <li>Compare to baseline water</li>\n      </ul>\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Track Parameters →</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">EC/TDS</h3></a>\n      <a href=\"/ph-balance-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">pH</h3></a>\n      <a href=\"/science/bioelectric\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Bioelectric Hub</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "items": [
+            {
+                "question": "Is negative ORP always good?",
+                "answer": "Not automatically. Context matters. Fresh mineral water can have negative ORP; so can contaminated water."
+            },
+            {
+                "question": "Why does my ORP reading change quickly?",
+                "answer": "ORP is sensitive to dissolved gases. Air exposure causes equilibration toward positive values."
+            }
+        ]
+    },
+    "internalLinks": [
+        "/conductivity-tds-water",
+        "/ph-balance-water",
+        "/parameter-tracking",
+        "/science/bioelectric",
+        "/bioelectric-water"
+    ]
+}

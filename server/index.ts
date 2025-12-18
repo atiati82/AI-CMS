@@ -146,6 +146,24 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize AI Agents first
+  try {
+    const { initializeAgents } = await import('./agents/orchestrator');
+    initializeAgents();
+    console.log('[ai] AI Agents initialized');
+  } catch (error) {
+    console.error('[ai] Failed to initialize AI agents:', error);
+  }
+
+  // Initialize Cron Jobs
+  try {
+    const { startCronJobs } = await import('./services/cron-job.service');
+    startCronJobs();
+    console.log('[cron] Cron jobs scheduled');
+  } catch (error) {
+    console.error('[cron] Failed to initialize cron jobs:', error);
+  }
+
   // Initialize Stripe sync (StripeSync auto-initializes in constructor)
   try {
     await getStripeSync();
@@ -185,7 +203,7 @@ app.use((req, res, next) => {
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
   const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(port, "0.0.0.0", () => {
+  httpServer.listen(port, () => {
     log(`serving on port ${port}`);
   });
 })();

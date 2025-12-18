@@ -1,0 +1,46 @@
+{
+    "page": {
+        "key": "bioelectricity-invisible-voltage",
+        "title": "Bioelectricity — The Invisible Voltage",
+        "path": "/bioelectricity-invisible-voltage",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "bioelectric",
+        "priority": 1,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Bioelectricity: The Body's Invisible Voltage System",
+        "description": "Introduction to bioelectricity: how the body uses electrical signals, membrane potentials, and why voltage matters for health and function.",
+        "focusKeyword": "bioelectricity"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Foundation</span>\n      <h1 class=\"h1\">Bioelectricity</h1>\n      <p class=\"p tagline\">The Invisible Voltage — Your Body Runs on Electricity</p>\n      <p class=\"p\">Every cell in your body maintains an electrical charge. Nerves fire with electrical impulses. Your heart beats on bioelectric signals.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "basics",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"basics\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Bioelectricity Basics</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>Membrane potential</strong> — cells maintain -70mV (resting)</li>\n        <li><strong>Ion gradients</strong> — sodium, potassium, calcium flow</li>\n        <li><strong>Action potentials</strong> — nerve and muscle signals</li>\n        <li><strong>Heart rhythm</strong> — electrical pacing of heartbeat</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "why-it-matters",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"why-it-matters\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Why It Matters</h2>\n    <div class=\"panel pad\">\n      <ul>\n        <li>Brain function depends on electrical signaling</li>\n        <li>Muscle contraction is electrically triggered</li>\n        <li>Wound healing has bioelectric components</li>\n        <li>Cell health correlates with proper voltage</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/science/bioelectric\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Bioelectric Hub</h3></a>\n      <a href=\"/cell-membrane-electric-model\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Cell Membrane Model</h3></a>\n      <a href=\"/ion-channels-gradients\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Ion Channels</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/science/bioelectric",
+        "/cell-membrane-electric-model",
+        "/ion-channels-gradients",
+        "/bioelectric-water",
+        "/voltage-detox-pathways"
+    ]
+}

@@ -180,3 +180,65 @@ export async function getActorAudits(actorType: string, actorId: string): Promis
         return [];
     }
 }
+
+/**
+ * Log a detailed agent action for the "Black Box" flight recorder
+ */
+export async function logAgentAction(
+    runId: string,
+    agentName: string,
+    actionType: 'thinking' | 'tool_use' | 'function_call' | 'response' | 'error',
+    content: string,
+    metadata: Record<string, any> = {}
+) {
+    try {
+        await pool.query(`
+            INSERT INTO agent_audit_logs (run_id, agent_name, action_type, content, metadata, created_at)
+            VALUES ($1, $2, $3, $4, $5, NOW())
+        `, [runId, agentName, actionType, content, JSON.stringify(metadata)]);
+    } catch (error) {
+        // Audit logging should essentially never crash the actual agent
+        console.error('Failed to write agent audit log:', error);
+    }
+}
+
+/**
+ * Get logs for a specific agent run
+ */
+export async function getAgentRunLogs(runId: string) {
+    try {
+        const result = await pool.query(`
+            SELECT * FROM agent_audit_logs 
+            WHERE run_id = $1 
+            ORDER BY created_at ASC
+        `, [runId]);
+        return result.rows;
+    } catch (error) {
+        console.error('Failed to fetch agent run logs:', error);
+        return [];
+    }
+}
+
+/**
+ * Get recent agent runs summary
+ */
+export async function getRecentAgentRuns(limit: number = 20) {
+    try {
+        const result = await pool.query(`
+            SELECT 
+                run_id, 
+                agent_name, 
+                MIN(created_at) as start_time, 
+                MAX(created_at) as end_time, 
+                COUNT(*) as steps
+            FROM agent_audit_logs
+            GROUP BY run_id, agent_name
+            ORDER BY start_time DESC
+            LIMIT $1
+        `, [limit]);
+        return result.rows;
+    } catch (error) {
+        console.error('Failed to fetch recent agent runs:', error);
+        return [];
+    }
+}
