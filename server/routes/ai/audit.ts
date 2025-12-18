@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { requireAdmin } from '../middleware/auth';
-import { getRecentAudits, getEntityAudits, getActorAudits } from '../../services/audit';
+import { getRecentAudits, getEntityAudits, getActorAudits, getRecentAgentRuns, getAgentRunLogs } from '../../services/audit';
 
 const router = Router();
 
@@ -94,6 +94,28 @@ router.delete('/memory/:id', requireAdmin, async (req, res) => {
         res.json({ ok: true, message: 'Memory deleted' });
     } catch (error: any) {
         console.error('Delete memory error:', error);
+        res.status(500).json({ ok: false, error: error.message });
+    }
+});
+
+// GET /api/ai/audit/agent-logs - Get recent agent runs
+router.get('/agent-logs', requireAdmin, async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit as string) || 20;
+        const runs = await getRecentAgentRuns(limit);
+        res.json({ ok: true, runs });
+    } catch (error: any) {
+        res.status(500).json({ ok: false, error: error.message });
+    }
+});
+
+// GET /api/ai/audit/agent-logs/:runId - Get detailed logs for a run
+router.get('/agent-logs/:runId', requireAdmin, async (req, res) => {
+    try {
+        const { runId } = req.params;
+        const logs = await getAgentRunLogs(runId);
+        res.json({ ok: true, logs });
+    } catch (error: any) {
         res.status(500).json({ ok: false, error: error.message });
     }
 });

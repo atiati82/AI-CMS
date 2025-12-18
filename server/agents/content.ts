@@ -11,6 +11,7 @@ import {
     ContentZone
 } from '../services/content-firewall';
 import { logAgentAction } from '../services/audit';
+import { internalLinkingService } from '../services/internal-linking';
 import crypto from 'crypto';
 
 /**
@@ -63,11 +64,17 @@ async function generateContent(input: any): Promise<AgentResult> {
         long: '1000-1500 words'
     };
 
+
     // Classify zone for compliance
     const zone: ContentZone = explicitZone || classifyIntent(topic);
     const zoneContext = getZoneContext(zone);
 
+    // Get Cross-Linking Context
+    const linkingContext = await internalLinkingService.getCrossLinkingContext();
+
     const prompt = `${contentAgentBriefing.systemPrompt}
+
+${linkingContext}
 
 ---
 

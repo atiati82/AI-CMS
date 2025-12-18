@@ -17,6 +17,7 @@ import { WorkflowDefinition } from './workflow-engine';
 export const pageGenerationWorkflow: WorkflowDefinition = {
     name: 'page-generation',
     description: 'Generate a complete CMS page with research, SEO, content, and design',
+    requiredParams: ['topic'],
     steps: [
         {
             name: 'research',
@@ -74,6 +75,7 @@ export const pageGenerationWorkflow: WorkflowDefinition = {
 export const seoAuditWorkflow: WorkflowDefinition = {
     name: 'seo-audit',
     description: 'Perform comprehensive SEO audit on a page or topic',
+    requiredParams: ['topic'],
     steps: [
         {
             name: 'content-analysis',
@@ -82,7 +84,7 @@ export const seoAuditWorkflow: WorkflowDefinition = {
             input: (ctx) => ({
                 pageId: ctx.pageId,
                 path: ctx.path,
-                content: ctx.content
+                content: ctx.content || ctx.topic // Fallback if no specific content provided
             }),
             maxRetries: 1
         },
@@ -118,6 +120,7 @@ export const seoAuditWorkflow: WorkflowDefinition = {
 export const researchReportWorkflow: WorkflowDefinition = {
     name: 'research-report',
     description: 'Conduct in-depth research and generate a comprehensive report',
+    requiredParams: ['topic'],
     steps: [
         {
             name: 'initial-research',
@@ -164,6 +167,7 @@ export const researchReportWorkflow: WorkflowDefinition = {
 export const visualEnhancementWorkflow: WorkflowDefinition = {
     name: 'visual-enhancement',
     description: 'Analyze and enhance page visual design',
+    requiredParams: ['content'],
     steps: [
         {
             name: 'visual-analysis',
@@ -200,6 +204,79 @@ export const visualEnhancementWorkflow: WorkflowDefinition = {
 };
 
 // ============================================================================
+// SYSTEM MAINTENANCE WORKFLOWS
+// ============================================================================
+
+export const systemHealthCheckWorkflow: WorkflowDefinition = {
+    name: 'system-health-check',
+    description: 'Run diagnostics on DB, API, and Agent subsystems',
+    requiredParams: [],
+    steps: [
+        {
+            name: 'check-db',
+            agent: 'devops',
+            taskType: 'check_health',
+            input: () => ({ checkType: 'database' }),
+            maxRetries: 1
+        },
+        {
+            name: 'check-api',
+            agent: 'devops',
+            taskType: 'check_health',
+            input: () => ({ checkType: 'api' }),
+            maxRetries: 1
+        },
+        {
+            name: 'compile-report',
+            agent: 'content',
+            taskType: 'generate_content',
+            input: (ctx) => ({
+                topic: 'System Health Report',
+                tone: 'technical',
+                length: 'short',
+                data: {
+                    db: ctx['check-db_output'],
+                    api: ctx['check-api_output']
+                }
+            }),
+            maxRetries: 0
+        }
+    ]
+};
+
+export const contentCleanupWorkflow: WorkflowDefinition = {
+    name: 'content-cleanup',
+    description: 'Identify orphan pages and fix broken links',
+    requiredParams: [],
+    steps: [
+        {
+            name: 'find-orphans',
+            agent: 'seo',
+            taskType: 'find_orphans',
+            input: () => ({}),
+            maxRetries: 1
+        },
+        {
+            name: 'analyze-links',
+            agent: 'seo',
+            taskType: 'analyze_links',
+            input: () => ({ checkExternal: true }),
+            maxRetries: 1
+        },
+        {
+            name: 'generate-fixes',
+            agent: 'content',
+            taskType: 'suggest_fixes',
+            input: (ctx) => ({
+                orphans: ctx['find-orphans_output'],
+                brokenLinks: ctx['analyze-links_output']
+            }),
+            maxRetries: 1
+        }
+    ]
+};
+
+// ============================================================================
 // WORKFLOW REGISTRY
 // ============================================================================
 
@@ -207,7 +284,9 @@ export const workflowTemplates = {
     'page-generation': pageGenerationWorkflow,
     'seo-audit': seoAuditWorkflow,
     'research-report': researchReportWorkflow,
-    'visual-enhancement': visualEnhancementWorkflow
+    'visual-enhancement': visualEnhancementWorkflow,
+    'system-health-check': systemHealthCheckWorkflow,
+    'content-cleanup': contentCleanupWorkflow
 } as const;
 
 export type WorkflowTemplateName = keyof typeof workflowTemplates;
@@ -222,9 +301,17 @@ export function getWorkflowTemplate(name: WorkflowTemplateName): WorkflowDefinit
 /**
  * List all available workflow templates
  */
-export function listWorkflowTemplates(): { name: string; description: string }[] {
-    return Object.entries(workflowTemplates).map(([name, def]) => ({
-        name,
-        description: def.description
+export function listWorkflowTemplates() {
+    return Object.entries(workflowTemplates).map(([key, def]) => ({
+        id: key,
+        name: def.name.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+        description: def.description,
+        requiredParams: def.requiredParams || [],
+        steps: def.steps.map(s => ({
+            id: s.name, // using name as ID for UI
+            name: s.name,
+            description: `Agent: ${s.agent}, Task: ${s.taskType}`,
+            agent: s.agent
+        }))
     }));
 }

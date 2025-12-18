@@ -7,7 +7,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { CosmicPulse } from "@/components/motion/CosmicPulse";
 import { WaterRipple } from "@/components/motion/WaterRipple";
 import { ParticleFlow } from "@/components/motion/ParticleFlow";
-import { PlayCircle, PauseCircle, RefreshCw, Zap } from "lucide-react";
+import { HexagonalGrid } from "@/components/visuals/HexagonalGrid";
+import { PlayCircle, PauseCircle, RefreshCw, Zap, Grid } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function MotionLibraryShowcase() {
@@ -60,6 +61,29 @@ export function MotionLibraryShowcase() {
                         <div className="z-20 text-center relative">
                             <h3 className="text-2xl font-bold tracking-tighter mb-2">Pulsing Energy</h3>
                             <p className="text-sm opacity-70">Ripples through the {activeTheme} field</p>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Hexagonal Grid */}
+                <Card className="overflow-hidden bg-black/5 dark:bg-black/40 border-primary/10">
+                    <CardHeader className="pb-2">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    <Grid className="w-4 h-4 text-cyan-500" />
+                                    Hexagonal Grid
+                                </CardTitle>
+                                <CardDescription>3D structured water visualization</CardDescription>
+                            </div>
+                            <Badge variant="outline">Background / Hero</Badge>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="h-[300px] relative flex items-center justify-center overflow-hidden" data-tree={activeTheme}>
+                        <HexagonalGrid className="absolute inset-0 opacity-60" />
+                        <div className="z-20 text-center relative bg-background/20 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+                            <h3 className="text-lg font-bold">Structured Water</h3>
+                            <p className="text-xs opacity-70">Interactive Parallax</p>
                         </div>
                     </CardContent>
                 </Card>

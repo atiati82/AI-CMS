@@ -88,6 +88,20 @@ AMBIENT (looping):
 
 OVERLAY (modals/menus):
 - overlay.backdrop, overlay.slideUp, overlay.scale
+
+ANDARA DYNAMIC COMPONENTS (Use these for specific themes):
+- <HexagonalGrid /> : For "water_science" or "mineral" themes. Full-screen background.
+- <CosmicPulse /> : For "bioelectricity" or energy themes. Center or background.
+- <WaterRipple /> : For interactive "water" sections.
+- <ParticleFlow /> : For "air" or "flow" transitions.
+
+IMPORT RULES:
+- motion, stagger, fadeUp -> import from "@/lib/motion"
+- Button, Card, Badge -> import from "@/components/ui/..."
+- HexagonalGrid -> import { HexagonalGrid } from "@/components/visuals/HexagonalGrid"
+- CosmicPulse -> import { CosmicPulse } from "@/components/motion/CosmicPulse"
+- WaterRipple -> import { WaterRipple } from "@/components/motion/WaterRipple"
+- ParticleFlow -> import { ParticleFlow } from "@/components/motion/ParticleFlow"
 `;
 
 const GENERATION_PROMPT_BASE = `You are an expert React/TypeScript developer creating pages for Andara Ionic, a mineral science education website.

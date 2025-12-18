@@ -24,6 +24,11 @@ import { parsePdfBuffer } from "./pdf-parser";
 import { searchConsoleService } from "./services/searchConsoleService";
 import { requireAdmin } from "./routes/middleware/auth";
 import designRouter from "./routes/admin/design";
+import settingsRouter from "./routes/admin/settings";
+import redirectsRouter from "./routes/redirects";
+import { redirects } from "@shared/schema";
+import { eq } from "drizzle-orm";
+import { db } from "./db";
 
 const uploadDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -72,6 +77,39 @@ export async function registerRoutes(
       return res.status(401).json({ error: "Invalid token" });
     }
   };
+
+  // --- REDIRECT MIDDLEWARE ---
+  // Intercepts GET requests to check for configured redirects
+  app.use(async (req, res, next) => {
+    if (req.method !== 'GET') return next();
+    if (req.path.startsWith('/api') || req.path.startsWith('/admin') || req.path.startsWith('/assets')) return next();
+
+    try {
+      // Check for exact match
+      const [redirect] = await db.select().from(redirects).where(eq(redirects.sourcePath, req.path)).limit(1);
+
+      if (redirect && redirect.isActive) {
+        // Async update stats (don't await)
+        db.update(redirects)
+          .set({
+            lastTriggeredAt: new Date(),
+            triggerCount: (redirect.triggerCount || 0) + 1
+          })
+          .where(eq(redirects.id, redirect.id))
+          .catch(err => console.error("Failed to update redirect stats:", err));
+
+        const statusCode = parseInt(redirect.type) || 301;
+        return res.redirect(statusCode, redirect.targetPath);
+      }
+    } catch (error) {
+      console.error("Redirect middleware error:", error);
+    }
+    next();
+  });
+
+  // --- ADMIN API ROUTES ---
+  app.use("/api/admin/redirects", requireAdmin, redirectsRouter);
+  app.use("/api/admin", requireAdmin, settingsRouter);
 
   // --- PUBLIC PRODUCT ROUTES ---
   app.get("/api/products", async (req, res) => {
@@ -202,6 +240,19 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/public-settings", async (req, res) => {
+    try {
+      const gsc = await storage.getCmsSetting('google_site_verification_id');
+      const siteName = await storage.getCmsSetting('site_name');
+      res.json({
+        google_site_verification_id: gsc?.value,
+        site_name: siteName?.value
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch public settings" });
+    }
+  });
+
   // --- NAVIGATION API ---
   app.get("/api/navigation", async (req, res) => {
     try {
@@ -260,6 +311,31 @@ export async function registerRoutes(
     }
   });
 
+  // --- SITEMAP & SEO ROUTES ---
+  app.get("/sitemap.xml", async (req, res) => {
+    try {
+      const { generateSitemapXml } = await import("./services/sitemap-generator");
+      const xml = await generateSitemapXml();
+      res.header('Content-Type', 'application/xml');
+      res.send(xml);
+    } catch (error) {
+      console.error("Sitemap generation error:", error);
+      res.status(500).send("Error generating sitemap");
+    }
+  });
+
+  app.get("/robots.txt", (req, res) => {
+    const siteUrl = process.env.SITE_URL || "https://" + req.get('host');
+    const robots = `User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+Sitemap: ${siteUrl}/sitemap.xml`;
+    res.header('Content-Type', 'text/plain');
+    res.send(robots);
+  });
+
   // --- PUBLIC SCIENCE ARTICLE ROUTES ---
   app.get("/api/science-articles", async (req, res) => {
     try {
@@ -306,7 +382,7 @@ export async function registerRoutes(
 
   // --- ADMIN AUTH (JWT-based) ---
   app.post("/api/admin/bigmind/pages/:id/apply", requireAdmin, async (req, res) => {
-    const pageId = parseInt(req.params.id);
+    const pageId = req.params.id;
     const { enhancements } = req.body; // Array of { type, content, fieldName }
 
     if (!enhancements || !Array.isArray(enhancements)) {
@@ -335,11 +411,8 @@ export async function registerRoutes(
             break;
           case 'keyword':
             // Assuming content is a single keyword string. 
-            // If we want to replace all:
-            updates.seoKeywords = [content];
-            // If we wanted to append, we'd need to check existing. 
-            // For now, let's treat it as "Primary Focus" -> replace or prepend? 
-            // Let's replace to be safe/clear.
+            // Mapping to seoFocus as seoKeywords column does not exist on pages table
+            updates.seoFocus = content;
             break;
           case 'path':
             if (content.startsWith('/')) updates.path = content;
@@ -581,6 +654,27 @@ export async function registerRoutes(
       res.json(page);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch page" });
+    }
+  });
+
+  // --- GENERAL FUNCTIONS EXECUTION ROUTE ---
+  app.post("/api/admin/functions/execute", requireAdmin, async (req, res) => {
+    try {
+      const { name, args } = req.body;
+      const { executeCmsFunction } = await import("./services/bigmind-cms");
+
+      if (!name) {
+        return res.status(400).json({ error: "Function name is required" });
+      }
+
+      const result = await executeCmsFunction(name, args || {});
+      res.json({ success: true, result });
+    } catch (error: any) {
+      console.error(`[Function Execution Error] ${req.body.name}:`, error);
+      res.status(500).json({
+        error: error.message || "Failed to execute function",
+        details: error.toString()
+      });
     }
   });
 

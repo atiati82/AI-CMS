@@ -332,9 +332,8 @@ Return as JSON array.`;
         const score = await this.calculateOpportunityScore(page.id);
         if (score && score.opportunityScore > 20) {
           opportunityScores.push(score);
-
-          const suggestions = await this.createSuggestionsForPage(page.id);
-          totalSuggestions += suggestions.length;
+          // Removed blocking AI call here to prevent timeouts
+          // We will generate suggestions only for top pages after sorting
         }
 
         const metrics = await storage.getLatestPageSearchMetrics(page.id);
@@ -348,6 +347,17 @@ Return as JSON array.`;
 
       opportunityScores.sort((a, b) => b.opportunityScore - a.opportunityScore);
       const topOpportunityPages = opportunityScores.slice(0, 10);
+
+      // Generate AI suggestions only for top 3 pages to avoid timeout
+      console.log(`[SEO Brain] Generating AI suggestions for top 3 pages...`);
+      for (const opportunity of topOpportunityPages.slice(0, 3)) {
+        try {
+          const suggestions = await this.createSuggestionsForPage(opportunity.pageId);
+          totalSuggestions += suggestions.length;
+        } catch (e) {
+          console.error(`[SEO Brain] Failed to generate suggestions for ${opportunity.pageId}`, e);
+        }
+      }
 
       const summary = {
         avgPosition: pagesWithMetrics > 0 ? Math.round(totalPosition / pagesWithMetrics) : 0,

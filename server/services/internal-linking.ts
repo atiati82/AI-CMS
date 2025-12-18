@@ -1,5 +1,5 @@
 import { storage } from "../storage";
-import type { 
+import type {
   Page,
   LinkingRule,
   CtaTemplate,
@@ -40,34 +40,34 @@ export class InternalLinkingService {
     excludePaths?: string[];
   }): Promise<ContentAnalysis> {
     const { pageClusterKey, pageType, excludePaths = [] } = options || {};
-    
+
     const [linkingRules, ctaTemplates, allPages] = await Promise.all([
       storage.getActiveLinkingRules(),
       storage.getActiveCtaTemplates(),
       storage.getAllPages()
     ]);
-    
+
     const suggestedLinks = this.findLinkOpportunities(
-      content, 
-      linkingRules, 
-      allPages, 
+      content,
+      linkingRules,
+      allPages,
       excludePaths
     );
-    
+
     const contentKeywords = this.extractKeywords(content);
-    
+
     const suggestedCtas = this.findMatchingCtas(
       ctaTemplates,
       pageClusterKey,
       contentKeywords
     );
-    
+
     const keywordMatches = linkingRules
       .filter(rule => this.contentMatchesPattern(content, rule.triggerPattern))
       .map(rule => rule.triggerPattern);
-    
+
     const clusterMatches = pageClusterKey ? [pageClusterKey] : [];
-    
+
     return {
       suggestedLinks,
       suggestedCtas,
@@ -84,16 +84,16 @@ export class InternalLinkingService {
   ): LinkSuggestion[] {
     const suggestions: LinkSuggestion[] = [];
     const usedTargets = new Set<string>();
-    
+
     for (const rule of rules) {
       if (excludePaths.includes(rule.targetPagePath)) continue;
       if (usedTargets.has(rule.targetPagePath)) continue;
-      
+
       const matches = this.findPatternMatches(content, rule.triggerPattern);
-      
+
       if (matches.length > 0) {
         const targetPage = allPages.find(p => p.path === rule.targetPagePath);
-        
+
         for (let i = 0; i < Math.min(matches.length, rule.maxOccurrences); i++) {
           suggestions.push({
             anchorText: rule.anchorText || matches[i],
@@ -103,23 +103,23 @@ export class InternalLinkingService {
             confidence: this.calculateConfidence(rule, matches[i])
           });
         }
-        
+
         usedTargets.add(rule.targetPagePath);
       }
     }
-    
+
     suggestions.sort((a, b) => b.confidence - a.confidence);
-    
+
     return suggestions.slice(0, 10);
   }
 
   private findPatternMatches(content: string, pattern: string): string[] {
     const matches: string[] = [];
-    
+
     try {
       const regex = new RegExp(`\\b(${this.escapeRegex(pattern)})\\b`, 'gi');
       let match;
-      
+
       while ((match = regex.exec(content)) !== null) {
         matches.push(match[1]);
       }
@@ -127,13 +127,13 @@ export class InternalLinkingService {
       const lowerContent = content.toLowerCase();
       const lowerPattern = pattern.toLowerCase();
       let pos = 0;
-      
+
       while ((pos = lowerContent.indexOf(lowerPattern, pos)) !== -1) {
         matches.push(content.slice(pos, pos + pattern.length));
         pos += pattern.length;
       }
     }
-    
+
     return matches;
   }
 
@@ -152,16 +152,16 @@ export class InternalLinkingService {
 
   private calculateConfidence(rule: LinkingRule, matchedText: string): number {
     let confidence = 0.5;
-    
+
     if (rule.priority <= 3) confidence += 0.2;
     else if (rule.priority <= 5) confidence += 0.1;
-    
+
     if (rule.anchorText && matchedText.toLowerCase() === rule.anchorText.toLowerCase()) {
       confidence += 0.2;
     }
-    
+
     if (rule.ruleType === 'manual') confidence += 0.1;
-    
+
     return Math.min(confidence, 1.0);
   }
 
@@ -171,28 +171,28 @@ export class InternalLinkingService {
     keywords: string[] = []
   ): CtaSuggestion[] {
     const suggestions: CtaSuggestion[] = [];
-    
+
     for (const template of templates) {
       let matchReason = '';
-      
+
       if (clusterKey && template.triggerClusters.includes(clusterKey)) {
         matchReason = `Matches cluster: ${clusterKey}`;
       }
-      
-      const matchedKeyword = template.triggerKeywords.find(tk => 
+
+      const matchedKeyword = template.triggerKeywords.find(tk =>
         keywords.some(k => k.toLowerCase().includes(tk.toLowerCase()))
       );
-      
+
       if (matchedKeyword) {
-        matchReason = matchReason 
+        matchReason = matchReason
           ? `${matchReason}; Matches keyword: ${matchedKeyword}`
           : `Matches keyword: ${matchedKeyword}`;
       }
-      
+
       if (template.triggerClusters.length === 0 && template.triggerKeywords.length === 0) {
         matchReason = 'Default CTA (no specific triggers)';
       }
-      
+
       if (matchReason) {
         suggestions.push({
           templateId: template.id,
@@ -207,7 +207,7 @@ export class InternalLinkingService {
         });
       }
     }
-    
+
     suggestions.sort((a, b) => {
       if (a.matchReason.includes('cluster') && !b.matchReason.includes('cluster')) return -1;
       if (b.matchReason.includes('cluster') && !a.matchReason.includes('cluster')) return 1;
@@ -215,7 +215,7 @@ export class InternalLinkingService {
       if (b.matchReason.includes('keyword') && !a.matchReason.includes('keyword')) return 1;
       return 0;
     });
-    
+
     return suggestions.slice(0, 5);
   }
 
@@ -224,18 +224,18 @@ export class InternalLinkingService {
       .replace(/[^\w\s-]/g, ' ')
       .split(/\s+/)
       .filter(w => w.length > 3);
-    
+
     const wordFreq = new Map<string, number>();
     for (const word of words) {
       wordFreq.set(word, (wordFreq.get(word) || 0) + 1);
     }
-    
+
     const stopWords = new Set([
       'this', 'that', 'with', 'from', 'they', 'have', 'been', 'were', 'will',
       'their', 'would', 'could', 'should', 'about', 'which', 'when', 'where',
       'what', 'there', 'these', 'those', 'then', 'than', 'your', 'more', 'some'
     ]);
-    
+
     return Array.from(wordFreq.entries())
       .filter(([word]) => !stopWords.has(word))
       .sort((a, b) => b[1] - a[1])
@@ -252,23 +252,23 @@ export class InternalLinkingService {
     }
   ): Promise<string> {
     const { excludePaths = [], maxLinks = 5 } = options || {};
-    
+
     const analysis = await this.analyzeContent(content, {
       pageClusterKey: options?.pageClusterKey,
       excludePaths
     });
-    
+
     let modifiedContent = content;
     let linksApplied = 0;
-    
+
     for (const suggestion of analysis.suggestedLinks) {
       if (linksApplied >= maxLinks) break;
-      
+
       const linkRegex = new RegExp(
         `(?<!\\[)\\b(${this.escapeRegex(suggestion.anchorText)})\\b(?!\\])(?![^\\[]*\\])`,
         'i'
       );
-      
+
       if (linkRegex.test(modifiedContent)) {
         modifiedContent = modifiedContent.replace(
           linkRegex,
@@ -277,20 +277,20 @@ export class InternalLinkingService {
         linksApplied++;
       }
     }
-    
+
     return modifiedContent;
   }
 
   async generateCtaBlock(template: CtaTemplate): Promise<string> {
     let buttonLink = template.buttonLink || '';
-    
+
     if (template.productSlug) {
       const product = await storage.getProductBySlug(template.productSlug);
       if (product) {
         buttonLink = `/product/${template.productSlug}`;
       }
     }
-    
+
     const ctaBlock = `
 <div class="cta-block cta-${template.position}" data-cta-id="${template.id}">
   <h3>${template.headline}</h3>
@@ -298,7 +298,7 @@ export class InternalLinkingService {
   <a href="${buttonLink}" class="cta-button">${template.buttonText}</a>
 </div>
 `;
-    
+
     return ctaBlock.trim();
   }
 
@@ -310,20 +310,20 @@ export class InternalLinkingService {
     }
   ): Promise<string> {
     const { pageClusterKey, position = 'mid_content' } = options || {};
-    
+
     const analysis = await this.analyzeContent(content, { pageClusterKey });
-    
+
     const matchingCta = analysis.suggestedCtas.find(
       cta => cta.position === position
     );
-    
+
     if (!matchingCta) return content;
-    
+
     const template = await storage.getCtaTemplate(matchingCta.templateId);
     if (!template) return content;
-    
+
     const ctaBlock = await this.generateCtaBlock(template);
-    
+
     if (position === 'mid_content') {
       const paragraphs = content.split(/\n\n+/);
       const midPoint = Math.floor(paragraphs.length / 2);
@@ -337,7 +337,7 @@ export class InternalLinkingService {
     } else if (position === 'before_faq' || position === 'footer') {
       return content + '\n\n' + ctaBlock;
     }
-    
+
     return content;
   }
 
@@ -345,16 +345,16 @@ export class InternalLinkingService {
     const pages = await storage.getAllPages();
     const existingRules = await storage.getAllLinkingRules();
     const existingPatterns = new Set(existingRules.map(r => r.triggerPattern.toLowerCase()));
-    
+
     const newRules: LinkingRule[] = [];
-    
+
     for (const page of pages) {
       if (page.status !== 'published') continue;
       if (!page.seoFocus) continue;
-      
+
       const pattern = page.seoFocus.toLowerCase().trim();
       if (existingPatterns.has(pattern)) continue;
-      
+
       const rule = await storage.createLinkingRule({
         name: `Auto: ${page.title}`,
         ruleType: 'keyword_match',
@@ -366,11 +366,11 @@ export class InternalLinkingService {
         isActive: true,
         metadata: { autoGenerated: true, sourcePageId: page.id } as Record<string, any>
       });
-      
+
       newRules.push(rule);
       existingPatterns.add(pattern);
     }
-    
+
     return newRules;
   }
 
@@ -391,30 +391,53 @@ export class InternalLinkingService {
         ctaAdded: false
       };
     }
-    
+
     const originalContent = page.content;
-    
+
     let enhancedContent = await this.applyInternalLinks(originalContent, {
       pageClusterKey: page.clusterKey || undefined,
       excludePaths: [page.path]
     });
-    
+
     const originalLinkCount = (originalContent.match(/\[.*?\]\(.*?\)/g) || []).length;
     const newLinkCount = (enhancedContent.match(/\[.*?\]\(.*?\)/g) || []).length;
-    
+
     const contentWithCta = await this.injectCtaIntoContent(enhancedContent, {
       pageClusterKey: page.clusterKey || undefined,
       position: 'mid_content'
     });
-    
+
     const ctaAdded = contentWithCta.length > enhancedContent.length;
-    
+
     return {
       originalContent,
       enhancedContent: contentWithCta,
       linksAdded: newLinkCount - originalLinkCount,
       ctaAdded
     };
+  }
+
+  async getCrossLinkingContext(): Promise<string> {
+    const pages = await storage.getAllPages();
+    const publishedPages = pages.filter(p => p.status === 'published');
+
+    // Group by cluster for organized context
+    const byCluster: Record<string, string[]> = {};
+
+    for (const page of publishedPages) {
+      const cluster = page.clusterKey || 'general';
+      if (!byCluster[cluster]) byCluster[cluster] = [];
+      // Format: "Topic Name" (/path)
+      byCluster[cluster].push(`"${page.title}" (${page.path})`);
+    }
+
+    let context = "### INTERNAL KNOWLEDGE GRAPH & LINKING TARGETS\nYou have access to the following internal pages. When mentioning these exact topics, YOU MUST link to them using markdown [Topic Name](/path).\n\n";
+
+    for (const [cluster, items] of Object.entries(byCluster)) {
+      context += `**${cluster.toUpperCase()}**:\n- ${items.join('\n- ')}\n\n`;
+    }
+
+    return context;
   }
 }
 

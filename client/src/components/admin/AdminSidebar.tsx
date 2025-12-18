@@ -3,7 +3,7 @@ import {
   LayoutDashboard, FileText, Package, Beaker, FolderTree, FileUp,
   Target, Wand2, Link, Code2, Settings, Brain, ChevronLeft, ChevronRight,
   ShoppingCart, GraduationCap, Truck, Mail, MessageSquare, Calendar, Kanban,
-  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers
+  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers, Activity
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -37,6 +37,7 @@ const navSections: NavSection[] = [
     items: [
       { id: "clusters", label: "Clusters", icon: FolderTree },
       { id: 'documents', label: 'Knowledge Base', icon: FileText },
+      { id: "functions", label: "Functions", icon: Code2 },
       { id: "templates", label: "Templates", icon: Code2 },
     ],
   },
@@ -50,6 +51,7 @@ const navSections: NavSection[] = [
       { id: "linking", label: "Linking Rules", icon: Link },
       { id: "bigmind", label: "Big Mind", icon: Brain },
       { id: "ai-agents", label: "AI Agents", icon: Cpu },
+      { id: "ai-audit", label: "AI Audit", icon: Activity },
       { id: "workflows", label: "Workflows", icon: Layers },
     ],
   },

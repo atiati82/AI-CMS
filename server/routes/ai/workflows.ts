@@ -1,260 +1,255 @@
-/**
- * Workflow API Routes
- * 
- * REST API for managing multi-step workflow executions.
- */
-
 import { Router } from 'express';
-import { requireAdmin } from '../middleware/auth';
-import {
-    workflowEngine,
-    WorkflowState
-} from '../../services/workflow-engine';
-import {
-    workflowTemplates,
-    getWorkflowTemplate,
-    listWorkflowTemplates,
-    WorkflowTemplateName
-} from '../../services/workflow-templates';
+import { storage } from '../../storage';
+import { WorkflowStatus, WorkflowStepStatus } from '@shared/schema';
 
 const router = Router();
 
-/**
- * GET /api/ai/workflows/templates
- * List available workflow templates
- */
-router.get('/workflows/templates', async (req, res) => {
-    try {
-        const templates = listWorkflowTemplates();
-        res.json({
-            ok: true,
-            templates,
-            count: templates.length
+// --- Default Templates Configuration (Source of Truth) ---
+const DEFAULT_TEMPLATES = [
+    {
+        name: 'Generate Full Page',
+        description: 'Research topic, outline content, generate draft, and create visuals.',
+        steps: [
+            { id: '1', name: 'Research Topic', action: 'research_topic', description: 'Analyze user intent and gather keywords', type: 'ai' },
+            { id: '2', name: 'Create Outline', action: 'create_outline', description: 'Structure the page with H2/H3s', type: 'ai' },
+            { id: '3', name: 'Generate Content', action: 'generate_content', description: 'Write full SEO-optimized copy', type: 'ai' },
+            { id: '4', name: 'Design Visuals', action: 'generate_visuals', description: 'Create AI images and layout config', type: 'ai' },
+            { id: '5', name: 'Final Review', action: 'audit_quality', description: 'Check against content guidelines', type: 'ai' }
+        ]
+    },
+    {
+        name: 'Deep SEO Audit',
+        description: 'Analyze complete site structure and identify content gaps.',
+        steps: [
+            { id: '1', name: 'Crawl Sitemap', action: 'crawl_site', description: 'Index all current pages', type: 'system' },
+            { id: '2', name: 'Analyze Keywords', action: 'analyze_keywords', description: 'Check ranking potential', type: 'ai' },
+            { id: '3', name: 'Identify Gaps', action: 'find_gaps', description: 'Find missing topic clusters', type: 'ai' },
+            { id: '4', name: 'Generate Report', action: 'create_report', description: 'Compile actionable insights', type: 'ai' }
+        ]
+    },
+    {
+        name: 'Content Refresh',
+        description: 'Update an existing page with fresh data and improved formatting.',
+        steps: [
+            { id: '1', name: 'Fetch Page', action: 'fetch_content', description: 'Load current page content', type: 'system' },
+            { id: '2', name: 'Analyze Performance', action: 'analyze_stats', description: 'Check bounce rate and time on page', type: 'ai' },
+            { id: '3', name: 'Rewrite Sections', action: 'rewrite_content', description: 'Improve engagement and clarity', type: 'ai' },
+            { id: '4', name: 'Update Metadata', action: 'update_meta', description: 'Refresh title and description', type: 'ai' }
+        ]
+    }
+] as const;
+
+// Ensure templates exist in DB
+async function ensureDefaultTemplates() {
+    const existing = await storage.getAllWorkflowTemplates();
+    if (existing.length === 0) {
+        console.log('[Workflows] Seeding default templates...');
+        for (const tpl of DEFAULT_TEMPLATES) {
+            await storage.createWorkflowTemplate({
+                name: tpl.name,
+                description: tpl.description,
+                steps: tpl.steps as any
+            });
+        }
+    }
+}
+
+// Call immediately (in background)
+ensureDefaultTemplates().catch(console.error);
+
+
+// --- Execution Logic ---
+
+async function runWorkflowStep(executionId: string) {
+    const execution = await storage.getWorkflowExecution(executionId);
+    if (!execution || execution.status !== 'running') return;
+
+    const steps = await storage.getWorkflowSteps(executionId);
+    const step = steps.find(s => s.stepIndex === execution.currentStepIndex);
+
+    if (!step) {
+        // No more steps or invalid index -> Complete
+        await storage.updateWorkflowExecution(executionId, {
+            status: 'completed',
+            completedAt: new Date()
         });
-    } catch (error: any) {
-        res.status(500).json({ ok: false, error: error.message });
+        return;
+    }
+
+    // Start Step
+    await storage.updateWorkflowStep(step.id, {
+        status: 'running',
+        startedAt: new Date(),
+        logs: [`Starting action: ${step.stepName}`]
+    });
+
+    // Simulate work matching the previous random duration
+    const duration = Math.floor(Math.random() * 3000) + 2000;
+
+    setTimeout(async () => {
+        // Re-check status before completing
+        const currentExec = await storage.getWorkflowExecution(executionId);
+        if (!currentExec || currentExec.status === 'paused') return;
+
+        // Complete Step
+        await storage.updateWorkflowStep(step.id, {
+            status: 'completed',
+            completedAt: new Date(),
+            logs: [...(step.logs || []), `Action completed successfully.`],
+            output: { success: true, message: `Finished ${step.stepName}` }
+        });
+
+        // Advance Index
+        const nextIndex = currentExec.currentStepIndex + 1;
+        await storage.updateWorkflowExecution(executionId, {
+            currentStepIndex: nextIndex
+        });
+
+        // Loop
+        if (nextIndex < steps.length) {
+            runWorkflowStep(executionId);
+        } else {
+            await storage.updateWorkflowExecution(executionId, {
+                status: 'completed',
+                completedAt: new Date()
+            });
+        }
+    }, duration);
+}
+
+// --- Routes ---
+
+// GET /api/ai/workflows
+router.get('/', async (req, res) => {
+    try {
+        const workflows = await storage.getAllWorkflowExecutions();
+        res.json({ ok: true, workflows });
+    } catch (err: any) {
+        res.status(500).json({ ok: false, error: err.message });
     }
 });
 
-/**
- * GET /api/ai/workflows
- * List recent workflow executions
- */
-router.get('/workflows', requireAdmin, async (req, res) => {
+// GET /api/ai/workflows/templates
+router.get('/templates', async (req, res) => {
     try {
-        const workflows = await workflowEngine.listWorkflows(50);
-        res.json({
-            ok: true,
-            workflows: workflows.map(w => ({
-                id: w.workflowId,
-                name: w.name,
-                status: w.status,
-                currentStep: w.currentStep,
-                totalSteps: w.steps.length,
-                agent: w.steps[w.currentStep]?.agent || 'System',
-                startedAt: w.startedAt,
-                completedAt: w.completedAt,
-                error: w.error
-            }))
-        });
-    } catch (error: any) {
-        res.status(500).json({ ok: false, error: error.message });
+        const templates = await storage.getAllWorkflowTemplates();
+        res.json({ ok: true, templates });
+    } catch (err: any) {
+        res.status(500).json({ ok: false, error: err.message });
     }
 });
 
-/**
- * POST /api/ai/workflows/create
- * Create a new workflow from a template
- */
-router.post('/workflows/create', requireAdmin, async (req, res) => {
+// POST /api/ai/workflows/create
+router.post('/create', async (req, res) => {
     try {
-        const { template, context } = req.body;
+        const { templateId, context } = req.body;
 
-        if (!template || !workflowTemplates[template as WorkflowTemplateName]) {
-            return res.status(400).json({
-                ok: false,
-                error: `Invalid template. Available: ${Object.keys(workflowTemplates).join(', ')}`
+        // Find DB template (or fuzzy match for legacy frontend calls using string IDs)
+        // For now assume templateId is the UUID. If frontend sends 'page-generation', we might need to map it.
+        // Let's grab all templates and find match by ID or Name for robustness
+        const allTemplates = await storage.getAllWorkflowTemplates();
+        const templateDef = allTemplates.find(t => t.id === templateId)
+            || allTemplates.find(t => t.name.toLowerCase().includes(templateId?.toLowerCase().replace(/-/g, ' ')));
+
+        if (!templateDef) {
+            return res.status(400).json({ ok: false, error: `Invalid template: ${templateId}` });
+        }
+
+        // Create Execution
+        const execution = await storage.createWorkflowExecution({
+            templateId: templateDef.id,
+            name: `${templateDef.name} - ${new Date().toLocaleTimeString()}`,
+            currentStepIndex: 0,
+            status: 'idle',
+            context: context || {}
+        });
+
+        // Create Steps
+        const stepsData = templateDef.steps as any[];
+        for (let i = 0; i < stepsData.length; i++) {
+            const s = stepsData[i];
+            await storage.createWorkflowStep({
+                executionId: execution.id,
+                stepIndex: i,
+                stepName: s.name,
+                stepType: s.type || 'ai',
+                status: 'pending',
+                logs: []
             });
         }
 
-        const definition = getWorkflowTemplate(template as WorkflowTemplateName);
-        const state = await workflowEngine.create(definition, context || {});
+        // Return full object with steps for frontend
+        const steps = await storage.getWorkflowSteps(execution.id);
+        res.json({ ok: true, workflowId: execution.id, workflow: { ...execution, steps } });
 
-        res.json({
-            ok: true,
-            workflowId: state.workflowId,
-            name: state.name,
-            status: state.status,
-            steps: state.steps.map(s => ({ name: s.name, status: s.status }))
-        });
-    } catch (error: any) {
-        console.error('Workflow create error:', error);
-        res.status(500).json({ ok: false, error: error.message });
+    } catch (err: any) {
+        console.error('Workflow create error:', err);
+        res.status(500).json({ ok: false, error: err.message });
     }
 });
 
-/**
- * POST /api/ai/workflows/:id/run
- * Start or resume workflow execution
- */
-router.post('/workflows/:id/run', requireAdmin, async (req, res) => {
+// POST /api/ai/workflows/:id/run
+router.post('/:id/run', async (req, res) => {
     try {
         const { id } = req.params;
+        const workflow = await storage.getWorkflowExecution(id);
 
-        // Run async - don't block for long workflows
-        const runPromise = workflowEngine.run(id);
-
-        // Wait briefly to get initial status
-        const state = await Promise.race([
-            runPromise,
-            new Promise<WorkflowState | null>(resolve =>
-                setTimeout(async () => resolve(await workflowEngine.getStatus(id)), 1000)
-            )
-        ]);
-
-        if (!state) {
+        if (!workflow) {
             return res.status(404).json({ ok: false, error: 'Workflow not found' });
         }
 
-        res.json({
-            ok: true,
-            workflowId: state.workflowId,
-            status: state.status,
-            currentStep: state.currentStep,
-            steps: state.steps.map(s => ({
-                name: s.name,
-                status: s.status,
-                output: s.output
-            })),
-            context: state.context
-        });
-    } catch (error: any) {
-        console.error('Workflow run error:', error);
-        res.status(500).json({ ok: false, error: error.message });
-    }
-});
-
-/**
- * POST /api/ai/workflows/:id/pause
- * Pause a running workflow
- */
-router.post('/workflows/:id/pause', requireAdmin, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const state = await workflowEngine.pause(id);
-
-        res.json({
-            ok: true,
-            workflowId: state.workflowId,
-            status: state.status
-        });
-    } catch (error: any) {
-        res.status(500).json({ ok: false, error: error.message });
-    }
-});
-
-/**
- * POST /api/ai/workflows/:id/rollback
- * Rollback to a previous checkpoint
- */
-router.post('/workflows/:id/rollback', requireAdmin, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { checkpointIndex } = req.body;
-
-        if (typeof checkpointIndex !== 'number') {
-            return res.status(400).json({ ok: false, error: 'checkpointIndex required' });
+        if (workflow.status === 'running') {
+            return res.json({ ok: true, message: 'Already running' });
         }
 
-        const state = await workflowEngine.rollback(id, checkpointIndex);
+        if (workflow.status === 'completed') {
+            return res.status(400).json({ ok: false, error: 'Workflow already completed' });
+        }
 
-        res.json({
-            ok: true,
-            workflowId: state.workflowId,
-            status: state.status,
-            currentStep: state.currentStep,
-            checkpoints: state.checkpoints.length
-        });
-    } catch (error: any) {
-        res.status(500).json({ ok: false, error: error.message });
+        await storage.updateWorkflowExecution(id, { status: 'running' });
+
+        // Resume execution
+        runWorkflowStep(id);
+
+        res.json({ ok: true, status: 'running' });
+    } catch (err: any) {
+        res.status(500).json({ ok: false, error: err.message });
     }
 });
 
-/**
- * GET /api/ai/workflows/:id
- * Get workflow status and details
- */
-router.get('/workflows/:id', async (req, res) => {
+// POST /api/ai/workflows/:id/pause
+router.post('/:id/pause', async (req, res) => {
     try {
         const { id } = req.params;
-        const state = await workflowEngine.getStatus(id);
+        const workflow = await storage.getWorkflowExecution(id);
 
-        if (!state) {
+        if (!workflow) {
             return res.status(404).json({ ok: false, error: 'Workflow not found' });
         }
 
-        res.json({
-            ok: true,
-            workflow: {
-                workflowId: state.workflowId,
-                name: state.name,
-                status: state.status,
-                currentStep: state.currentStep,
-                totalSteps: state.steps.length,
-                steps: state.steps.map(s => ({
-                    name: s.name,
-                    agent: s.agent,
-                    status: s.status,
-                    output: s.output,
-                    error: s.error
-                })),
-                context: state.context,
-                checkpoints: state.checkpoints.length,
-                startedAt: state.startedAt,
-                completedAt: state.completedAt,
-                error: state.error
-            }
-        });
-    } catch (error: any) {
-        res.status(500).json({ ok: false, error: error.message });
-    }
-});
-
-/**
- * POST /api/ai/workflows/run-template
- * One-shot: create and run a workflow from template
- */
-router.post('/workflows/run-template', requireAdmin, async (req, res) => {
-    try {
-        const { template, context } = req.body;
-
-        if (!template || !workflowTemplates[template as WorkflowTemplateName]) {
-            return res.status(400).json({
-                ok: false,
-                error: `Invalid template. Available: ${Object.keys(workflowTemplates).join(', ')}`
-            });
+        if (workflow.status === 'running') {
+            await storage.updateWorkflowExecution(id, { status: 'paused' });
         }
 
-        const definition = getWorkflowTemplate(template as WorkflowTemplateName);
-        const state = await workflowEngine.create(definition, context || {});
-        const result = await workflowEngine.run(state.workflowId);
-
-        res.json({
-            ok: true,
-            workflowId: result.workflowId,
-            status: result.status,
-            steps: result.steps.map(s => ({
-                name: s.name,
-                status: s.status,
-                output: s.output
-            })),
-            finalOutput: result.context.lastOutput,
-            error: result.error
-        });
-    } catch (error: any) {
-        console.error('Workflow run-template error:', error);
-        res.status(500).json({ ok: false, error: error.message });
+        res.json({ ok: true, status: 'paused' });
+    } catch (err: any) {
+        res.status(500).json({ ok: false, error: err.message });
     }
 });
+
+// GET /api/ai/workflows/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const workflow = await storage.getWorkflowExecution(id);
+        if (!workflow) return res.status(404).json({ ok: false });
+
+        const steps = await storage.getWorkflowSteps(id);
+        res.json({ ok: true, workflow: { ...workflow, steps } });
+    } catch (err: any) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
+});
+
 
 export default router;

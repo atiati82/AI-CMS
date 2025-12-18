@@ -98,7 +98,17 @@ import {
   designTokens,
   proposedPages,
   pageLayouts,
-  seoOptimizationRuns
+  seoOptimizationRuns,
+  // Workflows
+  type WorkflowTemplate,
+  type InsertWorkflowTemplate,
+  type WorkflowExecution,
+  type InsertWorkflowExecution,
+  type WorkflowStep,
+  type InsertWorkflowStep,
+  workflowTemplates,
+  workflowExecutions,
+  workflowSteps
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, or, sql, desc, and, isNull, asc, ilike, inArray } from "drizzle-orm";
@@ -405,6 +415,28 @@ export interface IStorage {
   updateSeoOptimizationRun(id: string, run: Partial<InsertSeoOptimizationRun>): Promise<SeoOptimizationRun>;
   completeSeoOptimizationRun(id: string, summary: any): Promise<SeoOptimizationRun>;
   failSeoOptimizationRun(id: string, errorLog: string): Promise<SeoOptimizationRun>;
+
+  // ============================================================================
+  // WORKFLOWS STORAGE INTERFACE
+  // ============================================================================
+
+  // Workflow Templates
+  createWorkflowTemplate(template: InsertWorkflowTemplate): Promise<WorkflowTemplate>;
+  getWorkflowTemplate(id: string): Promise<WorkflowTemplate | undefined>;
+  getAllWorkflowTemplates(): Promise<WorkflowTemplate[]>;
+  deleteWorkflowTemplate(id: string): Promise<void>;
+
+  // Workflow Executions
+  createWorkflowExecution(execution: InsertWorkflowExecution): Promise<WorkflowExecution>;
+  getWorkflowExecution(id: string): Promise<WorkflowExecution | undefined>;
+  getAllWorkflowExecutions(): Promise<WorkflowExecution[]>;
+  updateWorkflowExecution(id: string, execution: Partial<WorkflowExecution>): Promise<WorkflowExecution>;
+  deleteWorkflowExecution(id: string): Promise<void>;
+
+  // Workflow Steps
+  createWorkflowStep(step: InsertWorkflowStep): Promise<WorkflowStep>;
+  getWorkflowSteps(executionId: string): Promise<WorkflowStep[]>;
+  updateWorkflowStep(id: string, step: Partial<WorkflowStep>): Promise<WorkflowStep>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -2170,6 +2202,80 @@ export class DatabaseStorage implements IStorage {
       .update(seoOptimizationRuns)
       .set({ status: 'failed', errorLog, completedAt: new Date() })
       .where(eq(seoOptimizationRuns.id, id))
+      .returning();
+    return updated;
+  }
+
+  // ============================================================================
+  // WORKFLOWS STORAGE IMPLEMENTATION
+  // ============================================================================
+
+  // --- Workflow Templates ---
+  async createWorkflowTemplate(template: InsertWorkflowTemplate): Promise<WorkflowTemplate> {
+    const [created] = await db.insert(workflowTemplates).values(template as any).returning();
+    return created;
+  }
+
+  async getWorkflowTemplate(id: string): Promise<WorkflowTemplate | undefined> {
+    const [template] = await db.select().from(workflowTemplates).where(eq(workflowTemplates.id, id));
+    return template || undefined;
+  }
+
+  async getAllWorkflowTemplates(): Promise<WorkflowTemplate[]> {
+    return db.select().from(workflowTemplates).orderBy(desc(workflowTemplates.createdAt));
+  }
+
+  async deleteWorkflowTemplate(id: string): Promise<void> {
+    await db.delete(workflowTemplates).where(eq(workflowTemplates.id, id));
+  }
+
+  // --- Workflow Executions ---
+  async createWorkflowExecution(execution: InsertWorkflowExecution): Promise<WorkflowExecution> {
+    const [created] = await db.insert(workflowExecutions).values(execution as any).returning();
+    return created;
+  }
+
+  async getWorkflowExecution(id: string): Promise<WorkflowExecution | undefined> {
+    const [execution] = await db.select().from(workflowExecutions).where(eq(workflowExecutions.id, id));
+    return execution || undefined;
+  }
+
+  async getAllWorkflowExecutions(): Promise<WorkflowExecution[]> {
+    return db.select().from(workflowExecutions).orderBy(desc(workflowExecutions.startedAt));
+  }
+
+  async updateWorkflowExecution(id: string, execution: Partial<WorkflowExecution>): Promise<WorkflowExecution> {
+    const [updated] = await db
+      .update(workflowExecutions)
+      .set({ ...execution, updatedAt: new Date() })
+      .where(eq(workflowExecutions.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteWorkflowExecution(id: string): Promise<void> {
+    await db.delete(workflowExecutions).where(eq(workflowExecutions.id, id));
+  }
+
+  // --- Workflow Steps ---
+  async createWorkflowStep(step: InsertWorkflowStep): Promise<WorkflowStep> {
+    const [created] = await db.insert(workflowSteps).values(step as any).returning();
+    return created;
+  }
+
+  async getWorkflowSteps(executionId: string): Promise<WorkflowStep[]> {
+    return db
+      .select()
+      .from(workflowSteps)
+      .where(eq(workflowSteps.executionId, executionId))
+      .orderBy(asc(workflowSteps.stepIndex));
+  }
+
+  async updateWorkflowStep(id: string, step: Partial<WorkflowStep>): Promise<WorkflowStep> {
+    const [updated] = await db
+      .update(workflowSteps)
+      .set(step)
+      .where(eq(workflowSteps.id, id))
       .returning();
     return updated;
   }

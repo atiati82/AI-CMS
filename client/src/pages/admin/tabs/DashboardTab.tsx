@@ -87,7 +87,7 @@ export default function DashboardTab({ stats, onCreatePage }: DashboardTabProps)
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
                         <h1 className="text-3xl md:text-4xl font-bold mb-2 text-white tracking-tight">
-                            Welcome to Andara <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-white">Ionic CMS</span>
+                            Welcome to <span className="text-gradient-gold-shine font-extrabold">Andara Ionic CMS</span>
                         </h1>
                         <p className="text-white/80 max-w-xl text-lg font-light leading-relaxed">
                             Manage your content, products, and science library from this central control deck.

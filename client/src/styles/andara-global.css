@@ -4,32 +4,55 @@
 
 :root {
   /* Base Colors (Dark Theme) - Template v0.8 */
-  --andara-bg-base: #020617;        /* slate-950 */
-  --andara-bg-surface: #0f172a;     /* slate-900 */
-  --andara-border-dark: #1e293b;    /* slate-800 */
+  --andara-bg-base: #020617;
+  /* slate-950 */
+  --andara-bg-surface: #0f172a;
+  /* slate-900 */
+  --andara-border-dark: #1e293b;
+  /* slate-800 */
   --andara-border-subtle: rgba(255, 255, 255, 0.05);
-  
+
   /* Text Colors */
-  --andara-text-headline: #f8fafc;  /* slate-50 */
-  --andara-text-body: #e2e8f0;      /* slate-200 */
-  --andara-text-muted: #cbd5e1;     /* slate-300 */
-  --andara-text-subtle: #94a3b8;    /* slate-400 */
-  
+  --andara-text-headline: #f8fafc;
+  /* slate-50 */
+  --andara-text-body: #e2e8f0;
+  /* slate-200 */
+  --andara-text-muted: #cbd5e1;
+  /* slate-300 */
+  --andara-text-subtle: #94a3b8;
+  /* slate-400 */
+
   /* Accent Colors */
-  --andara-indigo-light: #a5b4fc;   /* indigo-300 */
-  --andara-indigo: #818cf8;         /* indigo-400 */
-  --andara-indigo-dark: #4338ca;    /* indigo-700 */
-  --andara-emerald-light: #6ee7b7;  /* emerald-300 */
-  --andara-emerald: #34d399;        /* emerald-400 */
-  --andara-cyan-light: #67e8f9;     /* cyan-300 */
-  --andara-cyan: #22d3ee;           /* cyan-400 */
-  --andara-amber: #fbbf24;          /* amber-400 */
-  
+  --andara-indigo-light: #a5b4fc;
+  /* indigo-300 */
+  --andara-indigo: #818cf8;
+  /* indigo-400 */
+  --andara-indigo-dark: #4338ca;
+  /* indigo-700 */
+  --andara-emerald-light: #6ee7b7;
+  /* emerald-300 */
+  --andara-emerald: #34d399;
+  /* emerald-400 */
+  --andara-cyan-light: #67e8f9;
+  /* cyan-300 */
+  --andara-cyan: #22d3ee;
+  /* cyan-400 */
+  --andara-amber: #fbbf24;
+  /* amber-400 */
+  --andara-amber-light: #fcd34d;
+  /* amber-300 */
+  --andara-amber-dark: #d97706;
+  /* amber-600 */
+  --andara-gold: #ffd700;
+  /* gold */
+
   /* Gradient Hex Values */
   --andara-gradient-indigo: #4b0082;
   --andara-gradient-slate: #020617;
   --andara-gradient-emerald: #22c55e;
   --andara-gradient-cyan: #38bdf8;
+  --andara-gradient-gold: linear-gradient(135deg, var(--andara-amber-light) 0%, var(--andara-amber) 50%, var(--andara-amber-dark) 100%);
+  --andara-gradient-gold-shine: linear-gradient(135deg, #fffbeb 0%, #fcd34d 25%, #fbbf24 50%, #d97706 75%, #b45309 100%);
 }
 
 .andara-page {
@@ -100,8 +123,13 @@
 }
 
 @keyframes andara-float {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(20px, 40px) scale(1.1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(20px, 40px) scale(1.1);
+  }
 }
 
 .andara-content-wrapper {
@@ -115,7 +143,7 @@
   border: 1px solid var(--andara-border-subtle);
   border-radius: 24px;
   padding: 60px;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .andara-hero--product {
@@ -156,6 +184,7 @@
 }
 
 @media (min-width: 768px) {
+
   .andara-hero h1,
   .andara-hero__title {
     font-size: 4rem;
@@ -211,15 +240,15 @@
 .andara-section ul li {
   position: relative;
   padding: 20px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   transition: transform 0.3s ease, background 0.3s ease;
   color: var(--andara-text-body);
 }
 
 .andara-section ul li:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-color: rgba(107, 33, 239, 0.3);
   transform: translateX(5px);
 }
@@ -236,18 +265,18 @@
 }
 
 .andara-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 32px;
   transition: all 0.3s ease;
 }
 
 .andara-card:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   border-color: rgba(107, 33, 239, 0.3);
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .andara-card__icon {
@@ -298,7 +327,7 @@
 }
 
 .andara-cta--secondary:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-color: var(--andara-indigo);
 }
 
@@ -391,8 +420,8 @@
   padding: 16px 20px;
   padding-left: 48px;
   margin-bottom: 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   color: var(--andara-text-body);
   line-height: 1.6;
@@ -461,8 +490,8 @@
 }
 
 .andara-hero__media-placeholder {
-  background: rgba(255,255,255,0.03);
-  border: 1px dashed rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   padding: 60px 40px;
   color: var(--andara-text-body);
@@ -522,6 +551,7 @@
 }
 
 @media (max-width: 1024px) {
+
   .andara-grid--02,
   .andara-grid--03,
   .andara-grid--04,
@@ -531,6 +561,7 @@
 }
 
 @media (max-width: 640px) {
+
   .andara-grid--02,
   .andara-grid--03,
   .andara-grid--04,
@@ -540,15 +571,15 @@
 }
 
 .andara-grid__item {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   padding: 28px;
   transition: all 0.3s ease;
 }
 
 .andara-grid__item:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   border-color: rgba(107, 33, 239, 0.3);
   transform: translateY(-4px);
 }
@@ -596,8 +627,8 @@
 }
 
 .andara-figure__visual {
-  background: rgba(255,255,255,0.03);
-  border: 1px dashed rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   padding: 40px 24px;
   color: var(--andara-text-body);
@@ -672,13 +703,72 @@
 }
 
 @media (max-width: 768px) {
-  .andara-container { padding: 40px 16px; }
-  .andara-content-wrapper { padding: 30px; }
-  .andara-hero { padding: 60px 16px; }
-  .andara-hero h1 { font-size: 2.5rem; }
-  .andara-hero__headline { font-size: 2rem; }
-  .andara-lead { font-size: 1.1rem; }
-  .andara-section { padding: 40px 16px; }
-  .andara-section h2 { font-size: 1.5rem; }
-  .andara-section__headline { font-size: 1.5rem; }
+  .andara-container {
+    padding: 40px 16px;
+  }
+
+  .andara-content-wrapper {
+    padding: 30px;
+  }
+
+  .andara-hero {
+    padding: 60px 16px;
+  }
+
+  .andara-hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .andara-hero__headline {
+    font-size: 2rem;
+  }
+
+  .andara-lead {
+    font-size: 1.1rem;
+  }
+
+  .andara-section {
+    padding: 40px 16px;
+  }
+
+  .andara-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .andara-section__headline {
+    font-size: 1.5rem;
+  }
+}
+
+/* Gold Gradient Utilities */
+.text-gradient-gold {
+  background: var(--andara-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-gold {
+  background: var(--andara-gradient-gold);
+}
+
+.text-gradient-gold-shine {
+  background: var(--andara-gradient-gold-shine);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: andara-shine 4s linear infinite;
+}
+
+.bg-gradient-gold-shine {
+  background: var(--andara-gradient-gold-shine);
+  background-size: 200% auto;
+  animation: andara-shine 4s linear infinite;
+}
+
+@keyframes andara-shine {
+  to {
+    background-position: 200% center;
+  }
 }

@@ -108,6 +108,8 @@ export default function PageEditorModal({
         visualConfig: null,
         aiStartupHtml: null,
         aiEnrichment: null,
+        isInSitemap: true,
+        sitemapPriority: 70,
     });
 
     const [isSaving, setIsSaving] = useState(false);
@@ -427,6 +429,8 @@ export default function PageEditorModal({
                 visualConfig: page.visualConfig || null,
                 aiStartupHtml: (page as any).aiStartupHtml || null,
                 aiEnrichment: (page as any).aiEnrichment || null,
+                isInSitemap: (page as any).isInSitemap !== false, // Default true if undefined
+                sitemapPriority: (page as any).sitemapPriority ?? 70,
                 // Load chat history from page
                 aiChatMessages: chatHistory?.messages || [],
                 selectedAiModel: chatHistory?.lastModel || 'gemini-2.0-flash',
@@ -452,6 +456,8 @@ export default function PageEditorModal({
                 visualConfig: null,
                 aiStartupHtml: null,
                 aiEnrichment: null,
+                isInSitemap: true,
+                sitemapPriority: 70,
                 // Empty chat history for new pages
                 aiChatMessages: [],
                 selectedAiModel: 'gemini-2.0-flash',
@@ -952,6 +958,53 @@ export default function PageEditorModal({
                                     rows={3}
                                 />
                             </div>
+
+                            {/* Sitemap & Indexing Controls */}
+                            <div className="bg-gray-800/50 border border-white/10 rounded-lg p-4 space-y-4">
+                                <h3 className="text-sm font-medium text-white flex items-center gap-2">
+                                    <Globe className="w-4 h-4 text-blue-400" />
+                                    Sitemap & Indexing
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {/* Include in Sitemap Toggle */}
+                                    <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg border border-white/5">
+                                        <div className="space-y-0.5">
+                                            <Label htmlFor="isInSitemap" variant="dark">Include in Sitemap</Label>
+                                            <p className="text-xs text-gray-500">Allow search engines to index this page</p>
+                                        </div>
+                                        <Checkbox
+                                            id="isInSitemap"
+                                            checked={formData.isInSitemap !== false}
+                                            onCheckedChange={(checked) => setFormData(prev => ({ ...prev, isInSitemap: !!checked }))}
+                                            className="data-[state=checked]:bg-blue-600 border-white/20"
+                                        />
+                                    </div>
+
+                                    {/* Sitemap Priority Slider */}
+                                    <div className="space-y-3 p-3 bg-gray-900/50 rounded-lg border border-white/5">
+                                        <div className="flex items-center justify-between">
+                                            <Label htmlFor="sitemapPriority" variant="dark">Indexing Priority</Label>
+                                            <Badge variant="outline" className="text-xs font-mono">
+                                                {((formData.sitemapPriority || 70) / 100).toFixed(1)}
+                                            </Badge>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-xs text-gray-500">Low</span>
+                                            <input
+                                                id="sitemapPriority"
+                                                type="range"
+                                                min="0"
+                                                max="100"
+                                                step="10"
+                                                value={formData.sitemapPriority ?? 70}
+                                                onChange={(e) => setFormData(prev => ({ ...prev, sitemapPriority: parseInt(e.target.value) }))}
+                                                className="flex-1 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                            />
+                                            <span className="text-xs text-gray-500">High</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </TabsContent>
 
                         <TabsContent value="media" className="space-y-4 pt-4">
@@ -1121,9 +1174,9 @@ export default function PageEditorModal({
                                                 <div className="col-span-2 mt-2">
                                                     <Label className="text-[10px] text-slate-500 mb-1 block">Live Preview</Label>
                                                     <div className="h-24 bg-slate-950 rounded border border-slate-800 flex items-center justify-center overflow-hidden">
-                                                        {formData.visualConfig?.motionPreset && MOTION_ARCHETYPES[formData.visualConfig.motionPreset as keyof typeof MOTION_ARCHETYPES] ? (
+                                                        {formData.visualConfig?.motionPreset && MOTION_ARCHETYPES.some(a => a.key === formData.visualConfig?.motionPreset) ? (
                                                             <SingleMotionPreview
-                                                                archetype={formData.visualConfig.motionPreset as keyof typeof MOTION_ARCHETYPES}
+                                                                archetypeKey={formData.visualConfig.motionPreset as string}
                                                                 className="w-full h-full"
                                                             />
                                                         ) : (

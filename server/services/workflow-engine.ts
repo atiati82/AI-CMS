@@ -64,6 +64,7 @@ export interface WorkflowDefinition {
     description: string;
     steps: Omit<WorkflowStep, 'id' | 'status' | 'output'>[];
     initialContext?: Record<string, any>;
+    requiredParams?: string[];
 }
 
 // ============================================================================

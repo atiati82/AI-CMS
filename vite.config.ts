@@ -28,7 +28,7 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    host: "0.0.0.0",
+    // host: "0.0.0.0", // Removed to allow dual stack
     allowedHosts: true,
     fs: {
       strict: true,

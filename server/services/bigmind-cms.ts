@@ -3,6 +3,7 @@ import type { Page, Cluster, InsertPage } from "@shared/schema";
 import { storage } from "../storage";
 import { getAiClient, MODEL_PROVIDERS, DEFAULT_MODEL } from "./andara-chat";
 import { enrichPageHtml } from "./ai-enricher";
+import { guardian, GuardianZone } from "./ai/guardian";
 
 const VISUAL_INTERPRETER_PROMPT = `
 ## 🔥 VISUELLER INTERPRETER + MOTION LAYOUT ENGINE (Fusion Prompt)
@@ -740,7 +741,7 @@ function getMatchContext(page: Page, query: string): string | null {
   return null;
 }
 
-async function executeCmsFunction(name: string, args: Record<string, any>): Promise<any> {
+export async function executeCmsFunction(name: string, args: Record<string, any>): Promise<any> {
   console.log(`[BigMind CMS] Executing: ${name}`, JSON.stringify(args));
 
   try {
@@ -863,6 +864,26 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
         const autoSeoDescription = args.seoDescription ||
           `Explore ${args.title} - discover the science behind ${clusterName.toLowerCase()} and its role in health, vitality, and cellular function.`;
 
+
+        // --- GUARDIAN COMPLIANCE CHECK ---
+        const zoneMap: Record<number, GuardianZone> = { 1: 'product', 2: 'science', 3: 'brand' };
+        const checkZone = zoneMap[clusterInfo?.zone || 2] || 'science'; // Default to Science if unknown
+        const contentToCheck = args.aiStartupHtml || args.content || "";
+
+        if (contentToCheck.length > 50) { // Only check if substantial content
+          console.log(`[BigMind CMS] Guardian checking content for zone: ${checkZone}...`);
+          const guardianResult = await guardian.validateContent(contentToCheck, checkZone);
+
+          if (!guardianResult.valid) {
+            console.warn(`[BigMind CMS] Guardian REJECTED content:`, guardianResult.reasons);
+            return {
+              error: `GUARDIAN REJECTION: Content violates STRICT ${checkZone.toUpperCase()} ZONES rules. \nREASONS: ${guardianResult.reasons.join("\n")}. \n\nACTION: You MUST rewrite the content to comply with Zone ${clusterInfo?.zone} rules immediately.`
+            };
+          }
+          console.log(`[BigMind CMS] Guardian APPROVED content (Score: ${guardianResult.score})`);
+        }
+        // ---------------------------------
+
         const newPage: Partial<InsertPage> = {
           key: args.path.replace(/\//g, '-').replace(/^-/, ''),
           title: args.title,
@@ -950,6 +971,27 @@ async function executeCmsFunction(name: string, args: Record<string, any>): Prom
 
         const existingPage = await storage.getPage(args.pageId);
         if (!existingPage) return { error: "Page not found" };
+
+        // --- GUARDIAN COMPLIANCE CHECK (Update) ---
+        if (args.aiStartupHtml || args.content) {
+          const targetClusterKey = args.clusterKey || existingPage.clusterKey;
+          const clusterInfo = CLUSTER_ONTOLOGY.find((c: any) => c.key === targetClusterKey);
+          const zoneMap: Record<number, GuardianZone> = { 1: 'product', 2: 'science', 3: 'brand' };
+          const checkZone = zoneMap[clusterInfo?.zone || 2] || 'science';
+          const contentToCheck = (args.aiStartupHtml || args.content || "");
+
+          if (contentToCheck.length > 50) {
+            console.log(`[BigMind CMS] Guardian checking UPDATE for zone: ${checkZone}...`);
+            const guardianResult = await guardian.validateContent(contentToCheck, checkZone);
+
+            if (!guardianResult.valid) {
+              return {
+                error: `GUARDIAN REJECTION (Update): Content violates ${checkZone.toUpperCase()} rules. \nREASONS: ${guardianResult.reasons.join("; ")}.`
+              };
+            }
+          }
+        }
+        // ------------------------------------------
 
         const updates: Partial<InsertPage> = {};
         if (args.title) updates.title = args.title;
@@ -2020,6 +2062,7 @@ Respond with ONLY the alt text, nothing else.`;
           pageId: args.pageId,
           title: originalPage.title,
           isOriginal: true,
+          variantName: undefined as string | undefined, // Explicitly allow variantName
           [metric]: Math.floor(Math.random() * 1000) + 500,
           conversionRate: `${(Math.random() * 5 + 1).toFixed(2)}%`,
         }];
@@ -2419,6 +2462,22 @@ When generating HTML, use these classes:
 - .andara-section, .andara-section__inner, .andara-section__header
 - .andara-grid, .andara-grid--03 (3 columns)
 - .andara-hero__headline, .andara-hero__subline, .andara-text-lead
+
+## Andara Dynamic Components (REACT)
+You can inject these sophisticated React components directly into the HTML. The renderer will hydrate them.
+Use these sparingly for maximum impact (Hero sections, Section backgrounds).
+
+### 1. HexagonalGrid (3D Structured Water Visualization)
+Use for: Water Science pages, Hero backgrounds, "Structure" concepts.
+Syntax: \`<HexagonalGrid color="cyan|purple|amber|blue" density="low|medium|high" className="absolute inset-0 opacity-50" />\`
+
+### 2. CosmicPulse (Bioelectric Energy)
+Use for: Bioelectricity pages, "Energy" sections, "Voltage" concepts.
+Syntax: \`<CosmicPulse className="w-full h-full" />\`
+
+### 3. WaterRipple (Interactive Surface)
+Use for: Landing pages, "Fluid" concepts, Interactive headers.
+Syntax: \`<WaterRipple className="absolute inset-0" />\`
 
 ## CRITICAL: PAGE GENERATION OUTPUT FORMAT
 When the user describes a page topic, article, or asks you to generate content, you MUST respond with ALL of these structured blocks:

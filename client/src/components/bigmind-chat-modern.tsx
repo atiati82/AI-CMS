@@ -14,7 +14,8 @@ import { getAuthHeaders } from '@/lib/queryClient';
 import { parseBigMindResponse, extractEnhancements, type ParsedEnhancement } from '@/lib/bigmind-parser';
 import {
     Send, Loader2, Plus, Trash2, Bot, User, Copy, Check,
-    MessageSquare, History, Brain, Sparkles, Wand2, X, FileText, Search
+    MessageSquare, History, Brain, Sparkles, Wand2, X, FileText, Search,
+    PanelLeft, PanelLeftClose, Menu
 } from 'lucide-react';
 
 // Modern AI chat component
@@ -139,8 +140,13 @@ export function BigMindChatModern({
     useEffect(() => {
         if (currentSessionId) {
             loadSessionMessages(currentSessionId);
+        } else {
+            setMessages([]); // Clear messages when no session is selected
         }
     }, [currentSessionId]);
+
+    // Sidebar state
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     // Listen for Apply button clicks using event delegation (for data-attribute buttons)
     useEffect(() => {
@@ -411,6 +417,25 @@ export function BigMindChatModern({
         return content.replace(/\[APPLY:\w+(?::[^\]]+)?\]([\s\S]*?)\[\/APPLY\]/g, '$1');
     };
 
+    const loadSessionMessages = async (sessionId: string) => {
+        setIsLoading(true);
+        setCurrentSessionId(sessionId);
+        try {
+            const res = await fetch(`/api/admin/bigmind/sessions/${sessionId}/messages`, {
+                headers: getAuthHeaders(),
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setMessages(data);
+            }
+        } catch (error) {
+            console.error('Failed to load session messages:', error);
+            toast({ title: "Error", description: "Failed to load messages", variant: "destructive" });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const loadSessions = async () => {
         try {
             const res = await fetch('/api/admin/bigmind/sessions', {
@@ -419,46 +444,41 @@ export function BigMindChatModern({
             if (!res.ok) return;
             const data = await res.json();
             setSessions(data);
-            // Auto-load most recent session
-            if (data.length > 0 && !currentSessionId && data[0].messageCount > 0) {
-                setCurrentSessionId(data[0].id);
-            }
         } catch (error) {
             console.error('Failed to load sessions:', error);
         }
     };
 
-    const loadSessionMessages = async (sessionId: string) => {
-        try {
-            const res = await fetch(`/api/admin/bigmind/sessions/${sessionId}/messages`, {
-                headers: getAuthHeaders(),
-            });
-            if (!res.ok) return;
-            const data = await res.json();
-            setMessages(data.map((msg: any) => ({
-                role: msg.role,
-                content: msg.content,
-                functionCalls: msg.functionCalls,
-            })));
-        } catch (error) {
-            console.error('Failed to load messages:', error);
-        }
+    // Auto-load most recent session
+    // Updated createNewSession - just clears state to show suggestions
+    const createNewSession = () => {
+        setCurrentSessionId(null);
+        setMessages([]);
+        setInput('');
+        // We don't create a DB session yet - wait for first message
     };
 
-    const createNewSession = async () => {
+    const deleteSession = async (e: React.MouseEvent, sessionId: string) => {
+        e.stopPropagation();
+        if (!confirm('Are you sure you want to delete this chat?')) return;
+
         try {
-            const res = await fetch('/api/admin/bigmind/sessions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-                body: JSON.stringify({ title: 'New Chat', mode }),
+            const res = await fetch(`/api/admin/bigmind/sessions/${sessionId}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(),
             });
-            const session = await res.json();
-            setCurrentSessionId(session.id);
-            setMessages([]);
-            loadSessions();
-            toast({ title: "New Chat", description: "Started a new conversation" });
+
+            if (res.ok) {
+                setSessions(prev => prev.filter(s => s.id !== sessionId));
+                if (currentSessionId === sessionId) {
+                    setCurrentSessionId(null);
+                    setMessages([]);
+                }
+                toast({ title: "Deleted", description: "Chat session deleted" });
+            }
         } catch (error) {
-            console.error('Failed to create session:', error);
+            console.error('Failed to delete session:', error);
+            toast({ title: "Error", description: "Failed to delete session", variant: "destructive" });
         }
     };
 
@@ -595,12 +615,55 @@ export function BigMindChatModern({
 
     return (
         <div className="flex h-full max-h-[calc(100vh-120px)] bg-zinc-950 text-zinc-100 overflow-hidden font-sans relative">
+            {/* Sidebar */}
+            <div
+                className={`flex-shrink-0 bg-zinc-900 border-r border-zinc-800 transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
+                    }`}
+            >
+                <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
+                    <h3 className="font-medium text-zinc-300">Chats</h3>
+                    <Button onClick={createNewSession} size="sm" variant="ghost" className="h-8 w-8 p-0 text-zinc-400 hover:text-white">
+                        <Plus className="w-4 h-4" />
+                    </Button>
+                </div>
+                <ScrollArea className="flex-1">
+                    <div className="p-2 space-y-1">
+                        {sessions.map(session => (
+                            <div
+                                key={session.id}
+                                onClick={() => setCurrentSessionId(session.id)}
+                                className={cn(
+                                    "group flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors text-sm",
+                                    currentSessionId === session.id ? "bg-zinc-800 text-white" : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+                                )}
+                            >
+                                <div className="truncate flex-1 pr-2">
+                                    {session.title || 'New Chat'}
+                                </div>
+                                <button
+                                    onClick={(e) => deleteSession(e, session.id)}
+                                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-zinc-700 rounded text-zinc-500 hover:text-red-400 transition-all"
+                                >
+                                    <Trash2 className="w-3 h-3" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </ScrollArea>
+            </div>
+
             {/* Main Chat Area */}
             <div className={`flex flex-col flex-1 min-h-0 transition-all duration-300 ${isEnhancementPanelOpen ? 'mr-[400px]' : ''}`}>
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50 backdrop-blur w-full">
                     <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                            className="p-2 -ml-2 hover:bg-zinc-800 rounded-md text-zinc-400 transition-colors"
+                        >
+                            {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
+                        </button>
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                             <Bot className="w-6 h-6 text-white" />
                         </div>

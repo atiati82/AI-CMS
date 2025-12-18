@@ -18,6 +18,8 @@ interface DesignInterpretation {
     typography: string;
 }
 
+import { MotionLibraryShowcase } from "@/components/admin/MotionLibraryShowcase";
+
 export default function DesignInterpreterTab() {
     const [input, setInput] = useState("");
     const [result, setResult] = useState<DesignInterpretation | null>(null);
@@ -79,137 +81,150 @@ export default function DesignInterpreterTab() {
                 </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-4">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Source Concept</CardTitle>
-                            <CardDescription>
-                                Describe the page goal, feeling, or content. The more metaphysical or scientific, the better.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <Textarea
-                                placeholder="e.g. A page about the fourth phase of water, feeling structured but fluid, like liquid crystal..."
-                                className="min-h-[200px] resize-none"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                            />
-                            <Button
-                                onClick={handleInterpret}
-                                disabled={interpretMutation.isPending || !input.trim()}
-                                className="w-full"
-                            >
-                                {interpretMutation.isPending ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Interpreting...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Sparkles className="mr-2 h-4 w-4" />
-                                        Interpret Design
-                                    </>
-                                )}
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </div>
+            <Tabs defaultValue="interpreter" className="space-y-6">
+                <TabsList>
+                    <TabsTrigger value="interpreter">Interpreter</TabsTrigger>
+                    <TabsTrigger value="library">Motion Library</TabsTrigger>
+                </TabsList>
 
-                <div className="space-y-4">
-                    {result ? (
-                        <Card className="h-full border-primary/20 bg-primary/5">
-                            <CardHeader>
-                                <div className="flex items-center justify-between">
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Paintbrush className="h-5 w-5 text-primary" />
-                                        Visual Specification
-                                    </CardTitle>
-                                    <Badge variant="outline" className="border-primary/50 text-primary">
-                                        {result.theme}
-                                    </Badge>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="grid gap-4 sm:grid-cols-2">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground uppercase">Color World</label>
-                                        <div className="font-medium text-sm">{result.colorWorld}</div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground uppercase">Visual Vibe</label>
-                                        <div className="font-medium text-sm">{result.visualVibe}</div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground uppercase">Motion Preset</label>
-                                        <div className="font-medium text-sm font-mono text-primary">{result.motionPreset}</div>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground uppercase">Typography</label>
-                                        <div className="font-medium text-sm">{result.typography}</div>
-                                    </div>
-                                </div>
+                <TabsContent value="interpreter" className="space-y-6">
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <div className="space-y-4">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Source Concept</CardTitle>
+                                    <CardDescription>
+                                        Describe the page goal, feeling, or content. The more metaphysical or scientific, the better.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <Textarea
+                                        placeholder="e.g. A page about the fourth phase of water, feeling structured but fluid, like liquid crystal..."
+                                        className="min-h-[200px] resize-none"
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                    />
+                                    <Button
+                                        onClick={handleInterpret}
+                                        disabled={interpretMutation.isPending || !input.trim()}
+                                        className="w-full"
+                                    >
+                                        {interpretMutation.isPending ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Interpreting...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Sparkles className="mr-2 h-4 w-4" />
+                                                Interpret Design
+                                            </>
+                                        )}
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-xs font-medium text-muted-foreground uppercase">Emotional Tone</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {result.emotionalTone?.map((tone, i) => (
-                                            <Badge key={i} variant="secondary" className="bg-background/50">
-                                                {tone}
+                        <div className="space-y-4">
+                            {result ? (
+                                <Card className="h-full border-primary/20 bg-primary/5">
+                                    <CardHeader>
+                                        <div className="flex items-center justify-between">
+                                            <CardTitle className="flex items-center gap-2">
+                                                <Paintbrush className="h-5 w-5 text-primary" />
+                                                Visual Specification
+                                            </CardTitle>
+                                            <Badge variant="outline" className="border-primary/50 text-primary">
+                                                {result.theme}
                                             </Badge>
-                                        ))}
-                                    </div>
-                                </div>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="space-y-6">
+                                        <div className="grid gap-4 sm:grid-cols-2">
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-muted-foreground uppercase">Color World</label>
+                                                <div className="font-medium text-sm">{result.colorWorld}</div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-muted-foreground uppercase">Visual Vibe</label>
+                                                <div className="font-medium text-sm">{result.visualVibe}</div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-muted-foreground uppercase">Motion Preset</label>
+                                                <div className="font-medium text-sm font-mono text-primary">{result.motionPreset}</div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-muted-foreground uppercase">Typography</label>
+                                                <div className="font-medium text-sm">{result.typography}</div>
+                                            </div>
+                                        </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-xs font-medium text-muted-foreground uppercase">Reasoning</label>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
-                                        {result.designReasoning}
-                                    </p>
-                                </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-medium text-muted-foreground uppercase">Emotional Tone</label>
+                                            <div className="flex flex-wrap gap-2">
+                                                {result.emotionalTone?.map((tone, i) => (
+                                                    <Badge key={i} variant="secondary" className="bg-background/50">
+                                                        {tone}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-xs font-medium text-muted-foreground uppercase">Suggested Components</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {result.suggestedComponents?.map((comp, i) => (
-                                            <Badge key={i} variant="outline">
-                                                {comp}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ) : (
-                        <Card className="h-full flex items-center justify-center border-dashed">
-                            <div className="text-center text-muted-foreground p-8">
-                                <Paintbrush className="mx-auto h-12 w-12 opacity-20 mb-4" />
-                                <p>Enter a brief to see the<br />Visual Interpreter in action</p>
-                            </div>
-                        </Card>
-                    )}
-                    {result && (
-                        <Button
-                            onClick={handleCreateDraft}
-                            disabled={createMagicPageMutation.isPending}
-                            className="w-full"
-                            variant="secondary"
-                        >
-                            {createMagicPageMutation.isPending ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating Draft...
-                                </>
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-medium text-muted-foreground uppercase">Reasoning</label>
+                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                                {result.designReasoning}
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-xs font-medium text-muted-foreground uppercase">Suggested Components</label>
+                                            <div className="flex flex-wrap gap-2">
+                                                {result.suggestedComponents?.map((comp, i) => (
+                                                    <Badge key={i} variant="outline">
+                                                        {comp}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             ) : (
-                                <>
-                                    <ArrowRight className="mr-2 h-4 w-4" />
-                                    Create Magic Page Draft
-                                </>
+                                <Card className="h-full flex items-center justify-center border-dashed">
+                                    <div className="text-center text-muted-foreground p-8">
+                                        <Paintbrush className="mx-auto h-12 w-12 opacity-20 mb-4" />
+                                        <p>Enter a brief to see the<br />Visual Interpreter in action</p>
+                                    </div>
+                                </Card>
                             )}
-                        </Button>
-                    )}
-                </div>
-            </div>
+                            {result && (
+                                <Button
+                                    onClick={handleCreateDraft}
+                                    disabled={createMagicPageMutation.isPending}
+                                    className="w-full"
+                                    variant="secondary"
+                                >
+                                    {createMagicPageMutation.isPending ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Creating Draft...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ArrowRight className="mr-2 h-4 w-4" />
+                                            Create Magic Page Draft
+                                        </>
+                                    )}
+                                </Button>
+                            )}
+                        </div>
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="library">
+                    <MotionLibraryShowcase />
+                </TabsContent>
+            </Tabs>
         </div>
     );
 }

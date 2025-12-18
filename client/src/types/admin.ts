@@ -47,6 +47,8 @@ export type Page = {
     content: string | null;
     seoFocus: string | null;
     visualConfig?: VisualConfig | null;
+    isInSitemap?: boolean;
+    sitemapPriority?: number;
     children?: Page[];
     createdAt?: string | null;
     updatedAt?: string | null;
@@ -301,6 +303,7 @@ export const TEMPLATE_TYPE_CONFIG: Record<string, { label: string; color: string
 export const DEFAULT_SETTINGS: { key: string; category: string; description: string; defaultValue: any; inputType: 'text' | 'number' | 'textarea' | 'password' | 'tags' | 'select'; options?: typeof AI_MODEL_OPTIONS }[] = [
     { key: 'bigmind_ai_model', category: 'magic_ai', description: 'AI model for BigMind chat, page generation, and content enrichment', defaultValue: 'gpt-4.1-mini', inputType: 'select', options: AI_MODEL_OPTIONS },
     { key: 'openai_api_key', category: 'api_keys', description: 'OpenAI API key for AI content generation', defaultValue: '', inputType: 'password' },
+    { key: 'google_api_key', category: 'api_keys', description: 'Google Gemini API key for AI content generation', defaultValue: '', inputType: 'password' },
     { key: 'seo_min_difficulty', category: 'thresholds', description: 'Minimum keyword difficulty score (0-100)', defaultValue: 20, inputType: 'number' },
     { key: 'seo_max_difficulty', category: 'thresholds', description: 'Maximum keyword difficulty score (0-100)', defaultValue: 60, inputType: 'number' },
     { key: 'magic_page_min_score', category: 'thresholds', description: 'Minimum score for magic page suggestions (0-100)', defaultValue: 50, inputType: 'number' },
@@ -349,6 +352,8 @@ export type PageFormData = {
     visualConfig: VisualConfig | null;
     aiStartupHtml: string | null;
     aiEnrichment: AiEnrichment | null;
+    isInSitemap?: boolean;
+    sitemapPriority?: number;
     // Additional fields for UI state
     aiChatMessages?: any[];
     isGenerating?: boolean;

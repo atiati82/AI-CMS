@@ -4,6 +4,7 @@ import { designAgent } from '../agents/design';
 import { visualInterpreterAgent } from '../agents/visual-interpreter';
 import { generateImage } from '../services/image-generator';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { semanticSearch } from '../services/semantic-search';
 
 const router = Router();
 
@@ -773,7 +774,29 @@ Format suggestions as actionable items with CSS code snippets.`;
             `${m.role.toUpperCase()}: ${m.content}`
         ).join('\n\n');
 
+        // RAG Retrieval: Get relevant knowledge base context
+        let ragContext = '';
+        try {
+            // Construct search query from user prompt + selected element context
+            const searchQuery = `${userMessage} ${selectionInfo ? selectionInfo.split('\n')[0] : ''}`.trim();
+            console.log('[Design AI] RAG Search Query:', searchQuery);
+
+            const searchResults = await semanticSearch(searchQuery, { limit: 3, threshold: 0.6 });
+
+            if (searchResults && searchResults.length > 0) {
+                const contextItems = searchResults.map(r => `- ${r.title}: ${r.content.substring(0, 300)}...`).join('\n');
+                ragContext = `
+RELEVANT KNOWLEDGE BASE CONTEXT (Use this to inform style decisions):
+${contextItems}
+`;
+                console.log(`[Design AI] Retrieved ${searchResults.length} RAG items`);
+            }
+        } catch (err) {
+            console.warn('[Design AI] RAG retrieval failed, proceeding without context', err);
+        }
+
         const prompt = `${systemContext}
+${ragContext}
 
 CONVERSATION:
 ${conversationHistory}
@@ -801,18 +824,41 @@ Respond as a helpful design expert. Be concise but specific. Suggest exact CSS v
 function extractSuggestionsFromResponse(aiResponse: string, userMessage: string): any[] {
     const suggestions: any[] = [];
 
-    // Look for CSS code blocks
-    const cssMatches = aiResponse.match(/```css([\s\S]*?)```/gi);
-    if (cssMatches) {
-        cssMatches.forEach((match, i) => {
-            const css = match.replace(/```css|```/gi, '').trim();
-            suggestions.push({
-                type: 'css',
-                title: `CSS Changes ${i + 1}`,
-                description: 'Apply these CSS styles',
-                cssCode: css,
-            });
+    // Look for JSON blocks first (preferred)
+    const jsonMatches = aiResponse.match(/```json([\s\S]*?)```/gi);
+    if (jsonMatches) {
+        jsonMatches.forEach(match => {
+            try {
+                const jsonStr = match.replace(/```json|```/gi, '').trim();
+                const data = JSON.parse(jsonStr);
+                if (data.suggestions && Array.isArray(data.suggestions)) {
+                    suggestions.push(...data.suggestions);
+                } else if (Array.isArray(data)) {
+                    suggestions.push(...data);
+                }
+            } catch (e) {
+                console.error('[Design AI] Failed to parse JSON block:', e);
+            }
         });
+    }
+
+    // Look for CSS code blocks (fallback)
+    if (suggestions.length === 0) {
+        const cssMatches = aiResponse.match(/```css([\s\S]*?)```/gi);
+        if (cssMatches) {
+            cssMatches.forEach((match, i) => {
+                const css = match.replace(/```css|```/gi, '').trim();
+                const cssChanges = parseCssToReact(css);
+
+                suggestions.push({
+                    type: 'css',
+                    title: `CSS Changes ${i + 1}`,
+                    description: 'Apply these CSS styles',
+                    cssCode: css,
+                    cssChanges: cssChanges, // CRITICAL: Frontend needs this parsed object
+                });
+            });
+        }
     }
 
     // Look for specific class mentions
@@ -844,6 +890,28 @@ function extractSuggestionsFromResponse(aiResponse: string, userMessage: string)
     }
 
     return suggestions;
+}
+
+// Helper: Parse standard CSS string to React style object (camelCase)
+function parseCssToReact(css: string): Record<string, string> {
+    const style: Record<string, string> = {};
+
+    // Remove comments
+    const cleanCss = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
+    // Split by semicolon, filter empty
+    const rules = cleanCss.split(';').map(r => r.trim()).filter(Boolean);
+
+    rules.forEach(rule => {
+        const [prop, val] = rule.split(':').map(s => s.trim());
+        if (prop && val) {
+            // Convert kebab-case to camelCase (e.g., background-color -> backgroundColor)
+            const camelProp = prop.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            style[camelProp] = val;
+        }
+    });
+
+    return style;
 }
 
 // Fallback response when AI fails

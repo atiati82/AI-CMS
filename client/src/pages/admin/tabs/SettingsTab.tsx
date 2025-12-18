@@ -11,8 +11,15 @@ import { useToast } from '@/hooks/use-toast';
 import {
     Save, Eye, EyeOff, Settings, Wand2, Key, BarChart2, Search, RefreshCw,
     Loader2, Play, Clock, Database, CheckCircle2, AlertCircle, XCircle, Code, Cpu, Brain,
-    Shield, FileText, Zap // Imported for Security settings and Content Rules
+    Shield, FileText, Zap, HelpCircle, Globe, Copy, ExternalLink // Imported for Security settings and Content Rules
 } from 'lucide-react';
+import { RedirectsManager } from "@/components/admin/settings/RedirectsManager";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
     Select,
     SelectContent,
@@ -20,6 +27,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { AIChatPanel } from '@/components/ai-chat-panel';
+import { UniversalAgentSettingsModal } from '@/components/admin/modals/UniversalAgentSettingsModal';
 import type { CmsSetting } from './types';
 
 interface SettingsTabProps {
@@ -55,6 +64,7 @@ const AI_MODEL_OPTIONS = [
 const DEFAULT_SETTINGS: { key: string; category: string; description: string; defaultValue: any; inputType: 'text' | 'number' | 'textarea' | 'password' | 'tags' | 'select'; options?: { value: any; label: string; description?: string }[] | typeof AI_MODEL_OPTIONS }[] = [
     { key: 'bigmind_ai_model', category: 'magic_ai', description: 'AI model for BigMind chat, page generation, and content enrichment', defaultValue: 'gpt-4.1-mini', inputType: 'select', options: AI_MODEL_OPTIONS },
     { key: 'openai_api_key', category: 'api_keys', description: 'OpenAI API key for AI content generation', defaultValue: '', inputType: 'password' },
+    { key: 'google_api_key', category: 'api_keys', description: 'Google Gemini API key for AI content generation', defaultValue: '', inputType: 'password' },
     { key: 'seo_min_difficulty', category: 'thresholds', description: 'Minimum keyword difficulty score (0-100)', defaultValue: 20, inputType: 'number' },
     { key: 'seo_max_difficulty', category: 'thresholds', description: 'Maximum keyword difficulty score (0-100)', defaultValue: 60, inputType: 'number' },
     { key: 'magic_page_min_score', category: 'thresholds', description: 'Minimum score for magic page suggestions (0-100)', defaultValue: 50, inputType: 'number' },
@@ -74,6 +84,7 @@ const DEFAULT_SETTINGS: { key: string; category: string; description: string; de
 
     { key: 'seed_keywords', category: 'seo', description: 'Comma-separated seed keywords for SEO scanning', defaultValue: '', inputType: 'tags' },
     { key: 'excluded_keywords', category: 'seo', description: 'Comma-separated keywords to exclude from scanning', defaultValue: '', inputType: 'tags' },
+    { key: 'google_site_verification_id', category: 'seo', description: 'Google Site Verification ID (from HTML tag method)', defaultValue: '', inputType: 'text' },
     { key: 'site_name', category: 'general', description: 'Website name for SEO and branding', defaultValue: 'Andara Ionic', inputType: 'text' },
     { key: 'default_author', category: 'general', description: 'Default author name for generated content', defaultValue: '', inputType: 'text' },
 ];
@@ -735,9 +746,14 @@ export default function SettingsTab({
     const [activeCategory, setActiveCategory] = useState('magic_ai');
     const [editedValues, setEditedValues] = useState<Record<string, any>>({});
     const [showPassword, setShowPassword] = useState<Record<string, boolean>>({});
-    const [magicPrompt, setMagicPrompt] = useState('');
+    const [magicPrompt, setMagicPrompt] = useState<string>('');
     const [isSavingMagic, setIsSavingMagic] = useState(false);
-    const [magicPromptOriginal, setMagicPromptOriginal] = useState('');
+    const { toast } = useToast();
+
+    const [magicPromptOriginal, setMagicPromptOriginal] = useState<string>('');
+
+    // New state for global agent settings
+    const [isAgentSettingsOpen, setIsAgentSettingsOpen] = useState(false);
     const [enrichmentPrompt, setEnrichmentPrompt] = useState('');
     const [enrichmentPromptOriginal, setEnrichmentPromptOriginal] = useState('');
     const [isSavingEnrichment, setIsSavingEnrichment] = useState(false);
@@ -845,7 +861,19 @@ export default function SettingsTab({
             <div key={settingDef.key} className="bg-card border rounded-lg p-4" data-testid={`setting-${settingDef.key}`}>
                 <div className="flex justify-between items-start mb-2">
                     <div>
-                        <Label className="text-sm font-medium">{settingDef.key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</Label>
+                        <div className="flex items-center gap-2">
+                            <Label className="text-sm font-medium">{settingDef.key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</Label>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <HelpCircle className="w-3.5 h-3.5 text-muted-foreground/70 cursor-help" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="max-w-xs text-xs">{settingDef.description}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
                         <p className="text-xs text-muted-foreground mt-0.5">{settingDef.description}</p>
                     </div>
                     {hasChanges && (
@@ -1002,7 +1030,7 @@ export default function SettingsTab({
                                                 View and manage AI agents (SEO, Content, Design, DevOps) with capabilities and task execution.
                                             </p>
                                             <Button
-                                                onClick={() => onTabChange?.("ai-agents")}
+                                                onClick={() => setIsAgentSettingsOpen(true)}
                                                 variant="default"
                                             >
                                                 <Cpu className="w-4 h-4 mr-2" />
@@ -1040,6 +1068,20 @@ export default function SettingsTab({
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        ) : activeCategory === 'openai' ? (
+                            <div className="bg-card border rounded-lg h-[600px] overflow-hidden">
+                                <AIChatPanel
+                                    mode="cms"
+                                    showModelSelector={true}
+                                    showSessionList={true}
+                                    persistSessions={true}
+                                    suggestedPrompts={[
+                                        { label: 'Test Connection', prompt: 'Hello! Are you connected via the OpenAI SDK?' },
+                                        { label: 'Generate Content', prompt: 'Write a short paragraph about ionic minerals.' },
+                                        { label: 'Analyze Text', prompt: 'Analyze the sentiment of this text: "I love Andara products!"' },
+                                    ]}
+                                />
                             </div>
                         ) : activeCategory === 'ai_agents' ? (
                             <AIAgentsPanel />
@@ -1150,6 +1192,55 @@ Return a JSON object with: imagePrompts, videoPrompts, layoutSpecs, animationSpe
                                         </p>
                                     </div>
                                 )}
+                            </div>
+                        ) : activeCategory === 'seo' ? (
+                            <div className="space-y-6">
+                                <div className="bg-card border rounded-lg p-6">
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-3 bg-blue-500/10 rounded-lg">
+                                            <Globe className="w-8 h-8 text-blue-500" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-lg font-semibold mb-2">XML Sitemap</h3>
+                                            <p className="text-sm text-muted-foreground mb-4">
+                                                Your sitemap is automatically generated based on page settings. Submit this URL to Google Search Console to speed up indexing.
+                                            </p>
+                                            <div className="flex items-center gap-2 p-2 bg-muted rounded border font-mono text-sm mb-4">
+                                                <span className="flex-1 truncate text-muted-foreground">
+                                                    {typeof window !== 'undefined' ? `${window.location.origin}/sitemap.xml` : '/sitemap.xml'}
+                                                </span>
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    className="h-8 w-8 p-0"
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(`${window.location.origin}/sitemap.xml`);
+                                                        toast({ title: "Copied!", description: "Sitemap URL copied to clipboard." });
+                                                    }}
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    className="h-8 w-8 p-0"
+                                                    onClick={() => window.open(`${window.location.origin}/sitemap.xml`, '_blank')}
+                                                >
+                                                    <ExternalLink className="w-4 h-4" />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Redirects Manager */}
+                                <div className="bg-card border rounded-lg p-6">
+                                    <RedirectsManager />
+                                </div>
+
+                                <div className="space-y-4">
+                                    {categorySettings.map(renderSettingInput)}
+                                </div>
                             </div>
                         ) : categorySettings.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground">
