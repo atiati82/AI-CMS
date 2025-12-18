@@ -29,6 +29,7 @@ import aiAgentsRouter from './ai/agents';
 import aiChatRouter from './ai/chat';
 import aiLearningRouter from './ai/learning';
 import aiAuditRouter from './ai/audit';
+import aiWorkflowsRouter from './ai/workflows';
 import designAiRouter from './design-ai';
 import aiAgentMetricsRouter from './ai/agent-metrics';
 import aiAgentConfigRouter from './ai/agent-config';
@@ -77,6 +78,7 @@ export async function registerModularRoutes(
     app.use('/api/ai', aiChatRouter);
     app.use('/api/ai', aiLearningRouter);
     app.use('/api/ai', aiAuditRouter);
+    app.use('/api/ai/workflows', aiWorkflowsRouter);
     app.use('/api/ai', aiAgentMetricsRouter);
     app.use('/api/ai', aiAgentConfigRouter);
 

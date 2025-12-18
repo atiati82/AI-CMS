@@ -193,7 +193,7 @@ export async function logAgentAction(
 ) {
     try {
         await pool.query(`
-            INSERT INTO agent_audit_logs (run_id, agent_name, action_type, content, metadata, created_at)
+            INSERT INTO agent_audit_log (run_id, agent_name, action_type, content, metadata, created_at)
             VALUES ($1, $2, $3, $4, $5, NOW())
         `, [runId, agentName, actionType, content, JSON.stringify(metadata)]);
     } catch (error) {
@@ -208,7 +208,7 @@ export async function logAgentAction(
 export async function getAgentRunLogs(runId: string) {
     try {
         const result = await pool.query(`
-            SELECT * FROM agent_audit_logs 
+            SELECT * FROM agent_audit_log 
             WHERE run_id = $1 
             ORDER BY created_at ASC
         `, [runId]);
@@ -231,7 +231,7 @@ export async function getRecentAgentRuns(limit: number = 20) {
                 MIN(created_at) as start_time, 
                 MAX(created_at) as end_time, 
                 COUNT(*) as steps
-            FROM agent_audit_logs
+            FROM agent_audit_log
             GROUP BY run_id, agent_name
             ORDER BY start_time DESC
             LIMIT $1

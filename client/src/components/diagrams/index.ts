@@ -10,8 +10,8 @@ export { MagnetPlacementDiagram } from './MagnetPlacementDiagram';
 export { HexagonalGridDiagram } from './HexagonalGridDiagram';
 
 // Existing diagram components
-export { default as InterfacialWaterDiagram } from './InterfacialWaterDiagram';
-export { default as MineralWaterInteraction } from './MineralWaterInteraction';
-export { default as WaterGeometryCanvas } from './WaterGeometryCanvas';
-export { default as WaterJobsVisualization } from './WaterJobsVisualization';
-export { default as WaterMolecularDiagram } from './WaterMolecularDiagram';
+export { InterfacialWaterDiagram } from './InterfacialWaterDiagram';
+export { MineralWaterInteraction } from './MineralWaterInteraction';
+export { WaterGeometryCanvas } from './WaterGeometryCanvas';
+export { WaterJobsVisualization } from './WaterJobsVisualization';
+export { WaterMolecularDiagram } from './WaterMolecularDiagram';

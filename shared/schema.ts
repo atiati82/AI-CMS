@@ -179,6 +179,9 @@ export const pages = pgTable("pages", {
 
   status: text("status").notNull().default('draft'),
 
+  isInSitemap: boolean("is_in_sitemap").notNull().default(true),
+  sitemapPriority: integer("sitemap_priority").default(70), // stored as 0-100 to avoid float issues, divide by 100 for XML
+
   metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
   visualConfig: jsonb("visual_config").$type<VisualConfig>(),
 
@@ -234,6 +237,9 @@ export const products = pgTable("products", {
   templateId: text("template_id"),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
+  isInSitemap: boolean("is_in_sitemap").notNull().default(true),
+  sitemapPriority: integer("sitemap_priority").default(80), // products usually higher priority
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -260,6 +266,9 @@ export const scienceArticles = pgTable("science_articles", {
   publishedAt: timestamp("published_at").notNull(),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
+  isInSitemap: boolean("is_in_sitemap").notNull().default(true),
+  sitemapPriority: integer("sitemap_priority").default(60),
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -757,6 +766,115 @@ export const insertAiFileSchema = createInsertSchema(aiFiles).omit({
 export const selectAiFileSchema = createSelectSchema(aiFiles);
 export type InsertAiFile = z.infer<typeof insertAiFileSchema>;
 export type AiFile = typeof aiFiles.$inferSelect;
+
+// --- WORKFLOW TEMPLATES TABLE ---
+export const workflowTemplates = pgTable("workflow_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description"),
+  steps: jsonb("steps").$type<Array<{
+    id: string;
+    name: string;
+    type: 'ai' | 'human' | 'system';
+    description?: string;
+    config?: any;
+  }>>().notNull().default([]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertWorkflowTemplateSchema = createInsertSchema(workflowTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+export const selectWorkflowTemplateSchema = createSelectSchema(workflowTemplates);
+export type InsertWorkflowTemplate = z.infer<typeof insertWorkflowTemplateSchema>;
+export type WorkflowTemplate = typeof workflowTemplates.$inferSelect;
+
+
+// --- WORKFLOW EXECUTIONS TABLE ---
+export const WORKFLOW_STATUS = ['running', 'paused', 'completed', 'failed'] as const;
+export type WorkflowStatus = typeof WORKFLOW_STATUS[number];
+
+
+
+// --- REDIRECTS TABLE ---
+export const redirects = pgTable("redirects", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sourcePath: text("source_path").notNull().unique(), // The incoming path to match
+  targetPath: text("target_path").notNull(), // Where to redirect to
+  type: text("type").notNull().default('301'), // 301 (Permanent) or 302 (Temporary)
+  isActive: boolean("is_active").notNull().default(true),
+  description: text("description"), // Admin note
+  lastTriggeredAt: timestamp("last_triggered_at"),
+  triggerCount: integer("trigger_count").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertRedirectSchema = createInsertSchema(redirects).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  lastTriggeredAt: true,
+  triggerCount: true,
+});
+export const selectRedirectSchema = createSelectSchema(redirects);
+export type InsertRedirect = z.infer<typeof insertRedirectSchema>;
+export type Redirect = typeof redirects.$inferSelect;
+
+// --- WORKFLOW EXECUTIONS TABLE ---
+// Tracks individual runs of a workflow template
+export const workflowExecutions = pgTable("workflow_executions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  templateId: varchar("template_id").references(() => workflowTemplates.id, { onDelete: 'set null' }),
+  name: text("name").notNull(),
+  status: text("status").notNull().default('running'),
+  currentStepIndex: integer("current_step_index").notNull().default(0),
+  context: jsonb("context").$type<Record<string, any>>().default({}),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertWorkflowExecutionSchema = createInsertSchema(workflowExecutions).omit({
+  id: true,
+  startedAt: true,
+  completedAt: true,
+  updatedAt: true,
+});
+export const selectWorkflowExecutionSchema = createSelectSchema(workflowExecutions);
+export type InsertWorkflowExecution = z.infer<typeof insertWorkflowExecutionSchema>;
+export type WorkflowExecution = typeof workflowExecutions.$inferSelect;
+
+// --- WORKFLOW STEPS TABLE (Execution History) ---
+export const STEP_STATUS = ['pending', 'running', 'completed', 'failed', 'skipped'] as const;
+export type WorkflowStepStatus = typeof STEP_STATUS[number];
+
+export const workflowSteps = pgTable("workflow_steps", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  executionId: varchar("execution_id").notNull().references(() => workflowExecutions.id, { onDelete: 'cascade' }),
+  stepIndex: integer("step_index").notNull(),
+  stepName: text("step_name").notNull(),
+  stepType: text("step_type").notNull(),
+  status: text("status").notNull().default('pending'),
+  input: jsonb("input").$type<any>(),
+  output: jsonb("output").$type<any>(),
+  logs: text("logs").array().notNull().default(sql`ARRAY[]::text[]`),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  error: text("error"),
+});
+
+export const insertWorkflowStepSchema = createInsertSchema(workflowSteps).omit({
+  id: true,
+  startedAt: true,
+  completedAt: true,
+});
+export const selectWorkflowStepSchema = createSelectSchema(workflowSteps);
+export type InsertWorkflowStep = z.infer<typeof insertWorkflowStepSchema>;
+export type WorkflowStep = typeof workflowSteps.$inferSelect;
 
 // --- PAGE IMAGE PROMPTS TABLE (AI-generated image slots per page) ---
 export const IMAGE_SLOT_TYPES = [

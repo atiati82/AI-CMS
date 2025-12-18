@@ -181,6 +181,7 @@ import { seoAgent } from './seo';
 import { designAgent, devopsAgent } from './design';
 import { visualInterpreterAgent } from './visual-interpreter';
 import { researchAgent } from './research';
+import { SandboxAgent } from './sandbox';
 
 export function initializeAgents(): void {
     agentRegistry.register(contentAgent);
@@ -189,6 +190,7 @@ export function initializeAgents(): void {
     agentRegistry.register(devopsAgent);
     agentRegistry.register(visualInterpreterAgent);
     agentRegistry.register(researchAgent);
+    agentRegistry.register(new SandboxAgent());
     agentRegistry.register(orchestratorAgent);
 
     console.log('✅ AI Agents initialized:', agentRegistry.getAll().map(a => a.name).join(', '));

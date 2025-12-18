@@ -11,7 +11,7 @@ const DesignInterpreterTab = lazy(() => import('./admin/tabs/DesignInterpreterTa
 const WorkflowsTab = lazy(() => import('./admin/tabs/WorkflowsTab'));
 const DashboardTab = lazy(() => import('./admin/tabs/DashboardTab'));
 const AIAuditTab = lazy(() => import('./admin/tabs/AIAuditTab'));
-const AIAgentsTab = lazy(() => import('./admin/tabs/AIAgentsTab'));
+const AIAgentsTab = lazy(() => import('@/components/admin/tabs/AIAgentsTab'));
 const PageEditorModal = lazy(() => import('@/components/admin/modals/PageEditorModal'));
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -23,6 +23,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminSection, FormRow, FormField } from "@/components/admin/AdminSection";
 import { cn } from "@/lib/utils";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -121,7 +122,7 @@ function DocumentCard({ document, onEdit, onDelete, onIndex, isIndexing }: { doc
   const canIndex = document.status === 'pending' || document.status === 'failed';
 
   return (
-    <div className="bg-card border rounded-xl p-5 shadow-sm hover:border-primary/30 transition-colors" data-testid={`document-card-${document.id}`}>
+    <div className="bg-card border rounded-xl p-5 shadow-sm hover:border-[var(--andara-amber)] hover:shadow-[0_0_15px_-5px_var(--andara-amber)] transition-all duration-300" data-testid={`document-card-${document.id}`}>
       <div className="flex justify-between items-start gap-4 mb-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           <div className={`p-2 rounded-lg bg-muted ${sourceConfig.color}`}>
@@ -297,7 +298,7 @@ function DocumentsTab({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-bold">Knowledge Base</h2>
+        <h2 className="text-3xl font-bold mb-2 text-gradient-gold-shine">Knowledge Base</h2>
         <p className="text-sm text-muted-foreground">Add documents to power AI-driven content generation and recommendations</p>
       </div>
 
@@ -434,7 +435,7 @@ function DocumentsTab({
             }
           </p>
           {documents.length === 0 && (
-            <Button onClick={onCreate} variant="outline" data-testid="button-add-first-document">
+            <Button onClick={onCreate} className="bg-gradient-gold text-black border-none hover:opacity-90 transition-opacity" data-testid="button-add-first-document">
               <Plus className="w-4 h-4 mr-2" /> Add Document
             </Button>
           )}
@@ -4585,23 +4586,23 @@ function MaintenancePanel() {
             ))}
           </div>
 
-          {latestReport.routeMismatches.missingBackend.length > 0 && (
+          {latestReport.routeMismatches && latestReport.routeMismatches.missingBackend && latestReport.routeMismatches.missingBackend.length > 0 && (
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
               <h5 className="font-medium text-amber-800 text-sm mb-2">Missing Backend Routes</h5>
               <ul className="text-xs text-amber-700 space-y-1">
                 {latestReport.routeMismatches.missingBackend.slice(0, 5).map((route, i) => (
                   <li key={i}>{route}</li>
                 ))}
-                {latestReport.routeMismatches.missingBackend.length > 5 && (
+                {latestReport.routeMismatches!.missingBackend.length > 5 && (
                   <li className="text-muted-foreground">
-                    ... and {latestReport.routeMismatches.missingBackend.length - 5} more
+                    ... and {latestReport.routeMismatches!.missingBackend.length - 5} more
                   </li>
                 )}
               </ul>
             </div>
           )}
 
-          {latestReport.suggestions.length > 0 && (
+          {latestReport.suggestions && latestReport.suggestions.length > 0 && (
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <h5 className="font-medium text-blue-800 text-sm mb-2">Suggestions</h5>
               <ul className="text-xs text-blue-700 space-y-1">
@@ -6427,7 +6428,38 @@ const PAGE_TEMPLATES = [
 ];
 
 function AdminPage() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState(() => {
+    // Initialize tab from URL to avoid race conditions with effects
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('tab');
+    // Clean any trailing characters like = or /
+    const cleanTab = tabParam ? tabParam.replace(/[=/]+$/, '') : null;
+    console.log('[Admin] Initializing tab from URL:', cleanTab || 'dashboard');
+    return cleanTab || "dashboard";
+  });
+
+  // Sync state with URL on back/forward navigation AND initial load check
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const params = new URLSearchParams(window.location.search);
+      let tab = params.get('tab');
+      if (tab) {
+        // Clean trailing chars matching the initializer logic
+        tab = tab.replace(/[=/]+$/, '');
+        setActiveTab(prev => {
+          if (prev !== tab) return tab!;
+          return prev;
+        });
+      }
+    };
+
+    // Check on mount
+    handleUrlChange();
+
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
+  }, []);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -6441,6 +6473,26 @@ function AdminPage() {
   const [isArticleEditorOpen, setIsArticleEditorOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [isDocumentEditorOpen, setIsDocumentEditorOpen] = useState(false);
+
+  // Force sync tab from URL when auth check finishes (handles race conditions)
+  useEffect(() => {
+    if (!isCheckingAuth) {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      if (tab) {
+        const cleanTab = tab.replace(/[=/]+$/, '');
+        console.log('[Admin] Auth ready, forcing tab sync:', cleanTab);
+        setActiveTab(cleanTab);
+      }
+    }
+  }, [isCheckingAuth]);
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('tab', tab);
+    window.history.pushState({}, '', newUrl);
+  };
+
   const [viewingChunksDocId, setViewingChunksDocId] = useState<string | null>(null);
   const [viewingChunksDocTitle, setViewingChunksDocTitle] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
@@ -6515,6 +6567,7 @@ function AdminPage() {
   const { data: magicPages = [] } = useQuery<MagicPageSuggestion[]>({
     queryKey: ["/api/admin/magic-pages"],
     enabled: isAuthenticated,
+    refetchInterval: 5000, // Poll for updates
   });
 
   const { data: linkingRules = [] } = useQuery<LinkingRule[]>({
@@ -6541,21 +6594,29 @@ function AdminPage() {
   // Store pending edit ID to persist it until pageTree loads
   const pendingEditId = React.useRef<string | null>(null);
 
-  // Initial parse of URL params (runs once on mount)
+  // Initial parse of URL params for EDIT param (runs once on mount)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const tabParam = params.get('tab');
     const editParam = params.get('edit');
-
-    if (tabParam) {
-      setActiveTab(tabParam);
-    }
 
     // Store edit param for when pageTree loads
     if (editParam) {
       pendingEditId.current = editParam;
     }
   }, []);
+
+  // Update URL when tab changes
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (activeTab !== 'dashboard') {
+      params.set('tab', activeTab);
+    } else {
+      params.delete('tab');
+    }
+    const newSearch = params.toString();
+    const newUrl = window.location.pathname + (newSearch ? '?' + newSearch : '');
+    window.history.replaceState({}, '', newUrl);
+  }, [activeTab]);
 
   // Open editor when pageTree is ready and we have a pending edit
   useEffect(() => {
@@ -7390,7 +7451,7 @@ function AdminPage() {
     <div className={cn("min-h-screen admin-theme", isDarkMode ? "dark bg-[hsl(258,35%,8%)] text-white" : "bg-slate-50")}>
       <AdminSidebar
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
@@ -7412,7 +7473,9 @@ function AdminPage() {
         )}
       >
         {activeTab === "dashboard" && (
-          <DashboardTab stats={stats || null} onCreatePage={handleCreateNewPage} />
+          <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
+            <DashboardTab stats={stats || null} onCreatePage={handleCreateNewPage} />
+          </Suspense>
         )}
 
         {activeTab === "pages" && (
@@ -7553,28 +7616,35 @@ function AdminPage() {
         )}
 
         {activeTab === "ai-audit" && (
-          <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
-            <AIAuditTab />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
+              <AIAuditTab />
+            </Suspense>
+          </ErrorBoundary>
         )}
 
+        {/* Workflows Tab */}
         {activeTab === "workflows" && (
-          <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
-            <WorkflowsTab />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
+              <WorkflowsTab />
+            </Suspense>
+          </ErrorBoundary>
         )}
       </main>
 
-      <PageEditorModal
-        page={selectedPage}
-        pages={pageTree}
-        clusters={clusters}
-        isOpen={isPageEditorOpen}
-        onClose={handleClosePageEditor}
-        onSave={handleSavePage}
-        onDelete={handleDeletePage}
-        isNew={isCreatingNewPage}
-      />
+      <Suspense fallback={null}>
+        <PageEditorModal
+          page={selectedPage}
+          pages={pageTree}
+          clusters={clusters}
+          isOpen={isPageEditorOpen}
+          onClose={handleClosePageEditor}
+          onSave={handleSavePage}
+          onDelete={handleDeletePage}
+          isNew={isCreatingNewPage}
+        />
+      </Suspense>
 
       <ProductEditorModal
         product={selectedProduct}

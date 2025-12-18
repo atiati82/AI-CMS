@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -70,6 +71,27 @@ function Router() {
   );
 }
 
+function MetaInjector() {
+  useEffect(() => {
+    fetch('/api/public-settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.google_site_verification_id) {
+          let meta = document.querySelector('meta[name="google-site-verification"]');
+          if (!meta) {
+            meta = document.createElement('meta');
+            meta.setAttribute('name', 'google-site-verification');
+            document.head.appendChild(meta);
+          }
+          meta.setAttribute('content', data.google_site_verification_id);
+        }
+      })
+      .catch(err => console.error("Failed to load public settings", err));
+  }, []);
+
+  return null;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -78,6 +100,7 @@ function App() {
           <CartProvider>
             <Toaster />
             <CartDrawer />
+            <MetaInjector />
             <Router />
           </CartProvider>
         </TooltipProvider>

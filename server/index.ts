@@ -202,8 +202,24 @@ app.use((req, res, next) => {
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(port, () => {
+  // DEBUG PORT ISSUE
+  const rawPort = process.env.PORT;
+  console.log(`[DEBUG] process.env.PORT is: ${rawPort}`);
+
+  // Force 5001 if 3000 is detected, or use env, or default to 3000
+  let port = parseInt(rawPort || "3000", 10);
+  if (port === 5001) {
+    console.log('Forcing port 3000 as requested');
+    port = 3000;
+  }
+  /* 
+  if (port === 3000) {
+     // Override removed to allow port 3000 as requested
+     // port = 5001;
+  } 
+  */
+
+  httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
 })();

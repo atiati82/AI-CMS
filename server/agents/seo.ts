@@ -430,6 +430,21 @@ async function findSeoIssues(input: any): Promise<AgentResult> {
         issues.push({ type: 'no_internal_links', severity: 'warning', message: 'No internal links', impact: 'Poor cluster connectivity' });
     }
 
+    // URL / Slug Checks
+    const slug = page.path.split('/').filter(Boolean).pop() || '';
+    if (page.path.split('/').filter(Boolean).length > 3) {
+        issues.push({ type: 'url_depth', severity: 'info', message: 'URL is very deep (>3 levels)', impact: 'May dilute authority' });
+    }
+    if (/[A-Z]/.test(page.path)) {
+        issues.push({ type: 'url_case', severity: 'warning', message: 'URL contains uppercase letters', impact: 'Duplicate content risk' });
+    }
+    if (/[_ ]/.test(page.path)) {
+        issues.push({ type: 'url_chars', severity: 'warning', message: 'URL contains underscores or spaces', impact: 'Use hyphens instead' });
+    }
+    if (page.seoFocus && !slug.toLowerCase().includes(page.seoFocus.toLowerCase().replace(/ /g, '-'))) {
+        issues.push({ type: 'url_keyword', severity: 'info', message: 'URL does not contain focus keyword', impact: 'Missed keyword signal' });
+    }
+
     return createSuccessResult({
         pageId,
         pagePath: page.path,
@@ -458,12 +473,14 @@ Optimize SEO metadata for this page:
 Title: ${page.title}
 Current SEO Title: ${page.seoTitle || 'Not set'}
 Current Description: ${page.seoDescription || 'Not set'}
+Current URL Path: ${page.path}
 Content Preview: ${(page.content || '').substring(0, 500)}
 
 Generate optimized metadata:
 {
   "seoTitle": "50-60 chars, keyword-rich, compelling",
   "seoDescription": "150-160 chars, includes CTA, compelling",
+  "suggestedPath": "short, lowercase, hyphenated, keyword-rich (only if current is poor)",
   "focusKeyword": "primary keyword phrase",
   "secondaryKeywords": ["kw1", "kw2", "kw3"],
   "improvements": ["what was improved 1", "what was improved 2"]

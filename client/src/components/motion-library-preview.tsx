@@ -230,17 +230,16 @@ interface MotionPreviewBoxProps {
 
 function MotionPreviewBox({ archetype, isPlaying, onSelect, isSelected }: MotionPreviewBoxProps) {
   const Icon = archetype.icon;
-  
+
   return (
-    <Card 
-      className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${
-        isSelected ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'
-      } ${archetype.borderColor}`}
+    <Card
+      className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-primary' : 'hover:ring-1 hover:ring-primary/50'
+        } ${archetype.borderColor}`}
       onClick={() => onSelect?.(archetype.key)}
       data-testid={`motion-preview-${archetype.key}`}
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${archetype.color} opacity-50`} />
-      
+
       <CardHeader className="relative pb-2">
         <div className="flex items-center gap-2">
           <Icon className="w-4 h-4 text-primary" />
@@ -248,7 +247,7 @@ function MotionPreviewBox({ archetype, isPlaying, onSelect, isSelected }: Motion
         </div>
         <CardDescription className="text-xs">{archetype.description}</CardDescription>
       </CardHeader>
-      
+
       <CardContent className="relative pb-4">
         <div className="flex justify-center py-4">
           <motion.div
@@ -259,7 +258,7 @@ function MotionPreviewBox({ archetype, isPlaying, onSelect, isSelected }: Motion
             <Icon className="w-6 h-6 text-foreground/80" />
           </motion.div>
         </div>
-        
+
         <div className="flex flex-wrap gap-1 mt-2">
           {archetype.useCases.slice(0, 2).map((useCase, i) => (
             <Badge key={i} variant="secondary" className="text-[10px] px-1.5 py-0">
@@ -310,14 +309,14 @@ interface MotionLibraryPreviewProps {
   compact?: boolean;
 }
 
-export function MotionLibraryPreview({ 
-  onSelectArchetype, 
+export function MotionLibraryPreview({
+  onSelectArchetype,
   selectedArchetype,
-  compact = false 
+  compact = false
 }: MotionLibraryPreviewProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [activeTab, setActiveTab] = useState("grid");
-  
+
   return (
     <div className="space-y-4" data-testid="motion-library-preview">
       <div className="flex items-center justify-between">
@@ -325,7 +324,7 @@ export function MotionLibraryPreview({
           <h3 className="text-lg font-semibold">Motion Archetypes</h3>
           <p className="text-sm text-muted-foreground">10 Andara Motion Patterns for page elements</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -338,13 +337,13 @@ export function MotionLibraryPreview({
           </Button>
         </div>
       </div>
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="grid" data-testid="tab-grid">Grid View</TabsTrigger>
           <TabsTrigger value="demo" data-testid="tab-demo">Parallax Demo</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="grid" className="mt-4">
           <div className={`grid gap-3 ${compact ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'}`}>
             {MOTION_ARCHETYPES.map((archetype) => (
@@ -358,7 +357,7 @@ export function MotionLibraryPreview({
             ))}
           </div>
         </TabsContent>
-        
+
         <TabsContent value="demo" className="mt-4">
           <Card>
             <CardHeader>
@@ -371,7 +370,7 @@ export function MotionLibraryPreview({
           </Card>
         </TabsContent>
       </Tabs>
-      
+
       {selectedArchetype && (
         <Card className="border-primary/50" data-testid="selected-archetype-details">
           <CardHeader className="pb-2">
@@ -401,16 +400,17 @@ export function MotionLibraryPreview({
 interface SingleMotionPreviewProps {
   archetypeKey: string;
   size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
-export function SingleMotionPreview({ archetypeKey, size = 'md' }: SingleMotionPreviewProps) {
+export function SingleMotionPreview({ archetypeKey, size = 'md', className = '' }: SingleMotionPreviewProps) {
   const archetype = MOTION_ARCHETYPES.find(a => a.key === archetypeKey);
   if (!archetype) return null;
-  
+
   const Icon = archetype.icon;
   const sizeClasses = {
     sm: 'w-12 h-12',
-    md: 'w-16 h-16', 
+    md: 'w-16 h-16',
     lg: 'w-24 h-24'
   };
   const iconSizes = {
@@ -418,10 +418,10 @@ export function SingleMotionPreview({ archetypeKey, size = 'md' }: SingleMotionP
     md: 'w-6 h-6',
     lg: 'w-10 h-10'
   };
-  
+
   return (
     <motion.div
-      className={`${sizeClasses[size]} rounded-xl bg-gradient-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center shadow-lg`}
+      className={`${sizeClasses[size]} ${className} rounded-xl bg-gradient-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center shadow-lg`}
       {...archetype.animation}
       data-testid={`single-motion-preview-${archetypeKey}`}
     >
