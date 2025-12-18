@@ -64,7 +64,7 @@ class SeoBrainService {
 
     const latestMetrics = await storage.getLatestPageSearchMetrics(pageId);
     const pageSeo = await storage.getPageSeo(pageId);
-    
+
     let impressionsWithLowCtr = 0;
     let positionImprovement = 0;
     let contentGap = 0;
@@ -126,7 +126,7 @@ class SeoBrainService {
 
     const pageSeo = await storage.getPageSeo(pageId);
     const latestMetrics = await storage.getLatestPageSearchMetrics(pageId);
-    
+
     const prompt = `Analyze this page and generate SEO improvement suggestions:
 
 PAGE TITLE: ${page.title}
@@ -202,9 +202,62 @@ Return as JSON array.`;
 
     if (createdSuggestions.length > 0) {
       await storage.bulkCreatePageAiSuggestions(createdSuggestions);
+
+      // Auto-generate content block drafts for certain suggestion types
+      await this.autoGenerateContentBlocks(pageId, suggestions);
     }
 
     return createdSuggestions;
+  }
+
+  /**
+   * Auto-generate content block drafts based on AI suggestions
+   */
+  private async autoGenerateContentBlocks(pageId: string, suggestions: any[]): Promise<void> {
+    const blockTypes: Record<string, string> = {
+      'faq_block': 'faq',
+      'content_expansion': 'insight',
+      'new_section': 'insight',
+      'internal_linking': 'related_links',
+    };
+
+    for (const suggestion of suggestions) {
+      const blockType = blockTypes[suggestion.type];
+      if (!blockType) continue;
+
+      // Only auto-generate for high-impact suggestions
+      if (suggestion.impactScore < 40) continue;
+
+      try {
+        const hook = suggestion.insertAfter
+          ? `after_h2:${suggestion.insertAfter.toLowerCase().replace(/\s+/g, '-')}`
+          : 'inline';
+
+        const htmlContent = await this.generateContentBlock(
+          pageId,
+          blockType,
+          hook,
+          suggestion.rationale
+        );
+
+        if (htmlContent) {
+          await storage.createAiContentBlock({
+            pageId,
+            hook,
+            blockType,
+            htmlContent,
+            focusKeyword: suggestion.keywords?.[0] || null,
+            secondaryKeywords: suggestion.keywords?.slice(1) || [],
+            priority: Math.ceil((100 - suggestion.impactScore) / 20),
+            status: 'draft',
+            generatedAt: new Date(),
+          });
+          console.log(`[SEO Brain] Auto-generated ${blockType} block draft for page ${pageId}`);
+        }
+      } catch (error) {
+        console.error(`[SEO Brain] Failed to auto-generate block for suggestion:`, error);
+      }
+    }
   }
 
   async syncSearchConsoleMetrics(): Promise<number> {
@@ -227,7 +280,7 @@ Return as JSON array.`;
 
         const urlPath = new URL(pagePath).pathname;
         const page = pagePathMap.get(urlPath);
-        
+
         if (page) {
           const metrics: InsertPageSearchMetrics = {
             pageId: page.id,
@@ -253,7 +306,7 @@ Return as JSON array.`;
 
   async runDailyOptimization(): Promise<DailySeoReport> {
     console.log("[SEO Brain] Starting daily optimization run...");
-    
+
     const run = await storage.createSeoOptimizationRun({
       status: 'running',
       pagesAnalyzed: 0,
@@ -279,7 +332,7 @@ Return as JSON array.`;
         const score = await this.calculateOpportunityScore(page.id);
         if (score && score.opportunityScore > 20) {
           opportunityScores.push(score);
-          
+
           const suggestions = await this.createSuggestionsForPage(page.id);
           totalSuggestions += suggestions.length;
         }
@@ -383,7 +436,7 @@ Provide the response as JSON with this structure:
         const jsonMatch = response.response.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const data = JSON.parse(jsonMatch[0]);
-          
+
           return {
             targetKeyword,
             searchVolume: data.searchVolume || 0,

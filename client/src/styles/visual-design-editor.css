@@ -1,0 +1,419 @@
+/* Visual Design Editor - Overlay styles for in-page editing */
+
+/* Edit Mode Container */
+.visual-design-editor {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.visual-design-editor.active {
+    pointer-events: auto;
+}
+
+/* Selection Overlay Canvas */
+.vde-overlay {
+    position: absolute;
+    inset: 0;
+    cursor: crosshair;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+
+.vde-overlay.selecting {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+/* Selection Rectangle */
+.vde-selection-box {
+    position: absolute;
+    border: 2px dashed rgba(99, 102, 241, 0.8);
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow:
+        0 0 0 1px rgba(99, 102, 241, 0.3),
+        0 4px 20px rgba(99, 102, 241, 0.15);
+    animation: selectionPulse 2s ease-in-out infinite;
+}
+
+@keyframes selectionPulse {
+
+    0%,
+    100% {
+        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow:
+            0 0 0 1px rgba(99, 102, 241, 0.3),
+            0 4px 20px rgba(99, 102, 241, 0.15);
+    }
+
+    50% {
+        border-color: rgba(139, 92, 246, 0.9);
+        box-shadow:
+            0 0 0 2px rgba(139, 92, 246, 0.4),
+            0 4px 30px rgba(139, 92, 246, 0.25);
+    }
+}
+
+/* Highlighted Elements */
+.vde-highlight {
+    outline: 2px solid rgba(99, 102, 241, 0.6) !important;
+    outline-offset: 2px;
+    transition: outline 0.15s ease;
+}
+
+.vde-highlight:hover {
+    outline-color: rgba(139, 92, 246, 0.8) !important;
+    background: rgba(99, 102, 241, 0.05) !important;
+}
+
+/* Edit Mode Toggle Button */
+.vde-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(226, 184, 94, 0.3);
+    background: linear-gradient(135deg,
+            rgba(15, 23, 42, 0.95),
+            rgba(30, 41, 59, 0.95));
+    backdrop-filter: blur(20px);
+    color: #f8fafc;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(226, 184, 94, 0.1);
+}
+
+.vde-toggle-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(226, 184, 94, 0.5);
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(226, 184, 94, 0.2);
+}
+
+.vde-toggle-btn.active {
+    border-color: rgba(99, 102, 241, 0.6);
+    background: linear-gradient(135deg,
+            rgba(99, 102, 241, 0.2),
+            rgba(139, 92, 246, 0.2));
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 25px rgba(99, 102, 241, 0.3);
+}
+
+.vde-toggle-btn .icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* AI Chat Panel */
+.vde-chat-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 380px;
+    max-height: calc(100vh - 160px);
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    border: 1px solid rgba(226, 184, 94, 0.2);
+    background: linear-gradient(180deg,
+            rgba(15, 23, 42, 0.98),
+            rgba(30, 41, 59, 0.98));
+    backdrop-filter: blur(24px);
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(99, 102, 241, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    animation: panelSlideIn 0.3s ease;
+}
+
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.vde-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.vde-chat-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.vde-chat-header .brain-icon {
+    width: 20px;
+    height: 20px;
+    color: #a78bfa;
+}
+
+.vde-chat-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.vde-chat-close:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Selection Context Badge */
+.vde-selection-context {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.vde-selection-context .label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #a78bfa;
+    margin-bottom: 6px;
+}
+
+.vde-selection-context .content {
+    font-size: 13px;
+    color: #e2e8f0;
+    line-height: 1.5;
+}
+
+.vde-selection-context .element-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.vde-selection-context .tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(99, 102, 241, 0.2);
+    font-size: 11px;
+    font-weight: 500;
+    color: #c4b5fd;
+}
+
+/* Chat Messages */
+.vde-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vde-chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.vde-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.vde-chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.vde-message {
+    max-width: 90%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.vde-message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg,
+            rgba(99, 102, 241, 0.3),
+            rgba(139, 92, 246, 0.3));
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #f8fafc;
+}
+
+.vde-message.assistant {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+.vde-message.assistant .suggestion {
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    font-size: 12px;
+}
+
+/* Chat Input */
+.vde-chat-input {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.vde-chat-input textarea {
+    flex: 1;
+    min-height: 40px;
+    max-height: 100px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.vde-chat-input textarea::placeholder {
+    color: #64748b;
+}
+
+.vde-chat-input textarea:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+.vde-chat-input button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vde-chat-input button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.vde-chat-input button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Quick Actions */
+.vde-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vde-quick-action {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #94a3b8;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.vde-quick-action:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.1);
+    color: #c4b5fd;
+}
+
+/* Loading State */
+.vde-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    color: #a78bfa;
+    font-size: 13px;
+}
+
+.vde-loading .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(167, 139, 250, 0.3);
+    border-top-color: #a78bfa;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .vde-toggle-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .vde-chat-panel {
+        top: auto;
+        bottom: 80px;
+        right: 10px;
+        left: 10px;
+        width: auto;
+        max-height: 60vh;
+    }
+}

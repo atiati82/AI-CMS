@@ -1,0 +1,162 @@
+{
+    "page": {
+        "key": "three-six-nine-harmonics",
+        "title": "3-6-9 Harmonics — Pattern Language",
+        "path": "/three-six-nine-harmonics",
+        "pageType": "article",
+        "template": "brand_pillar",
+        "clusterKey": "crystalline-matrix",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "3-6-9 Harmonics: Andara Pattern Language for Water & Minerals",
+        "description": "A clean, non-dogmatic explanation of 3-6-9 as a pattern language for organizing complex topics—used for library navigation, coherence mapping, and geometry-based learning.",
+        "focusKeyword": "3-6-9 harmonics",
+        "secondaryKeywords": [
+            "pattern language",
+            "sacred geometry navigation",
+            "coherence model",
+            "Andara design system",
+            "triad model"
+        ],
+        "intent": [
+            "learn",
+            "understand",
+            "explore"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "3-6-9 Harmonics — Pattern Language",
+            "description": "Foundations (3) • Relationships (6) • Integration (9)",
+            "imagePrompt": "minimalist 3–6–9 node map with glowing lines + subtle hex grid"
+        }
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "geometric",
+            "harmonic",
+            "foundational",
+            "coherent"
+        ],
+        "emotionalTone": [
+            "awe",
+            "order",
+            "clarity"
+        ],
+        "motionPreset": "geometric-unfold",
+        "colorPalette": "crystalline",
+        "treeTheme": "geometry"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Pattern Language</span>\n      <h1 class=\"h1\">3-6-9 Harmonics</h1>\n      <p class=\"p tagline\">A Pattern Language for Organizing Water, Minerals & Field Concepts</p>\n      <p class=\"p\">This page is not here to \"prove physics with a number.\" It is here to give you a pattern language that makes complex science learnable.</p>\n      <ul class=\"andara-hero__bullets\">\n        <li><strong>3 = Foundations</strong> (Core Building Blocks)</li>\n        <li><strong>6 = Relationships</strong> (How Blocks Interact)</li>\n        <li><strong>9 = Integration</strong> (Full System Map)</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Definition</h2>\n      <p class=\"p callout large\"><strong>3-6-9 Harmonics</strong> is an organizing pattern language: <strong>3 foundations → 6 relationships → 9 integrations</strong>, used to map complexity into learnable structure.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "why-pattern",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"why-pattern\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Why Pattern Language Matters</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <p class=\"p\">People don't struggle with water science because it's impossible. They struggle because it's <strong>fragmented</strong>.</p>\n        <p class=\"p\">Chemistry doesn't create meaning without physics. Structure doesn't matter without testing. A pattern language creates a stable \"skeleton\" so learning becomes a coherent journey.</p>\n      </div>\n      <div class=\"panel pad\">\n        <!-- COMPONENT: HarmonicsNavigator size={300} -->\n        <p class=\"caption\">The 3-6-9 Navigation Model</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "the-model",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"the-model\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The 3-6-9 Model</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">The \"3\" — Foundations</h3>\n        <p class=\"p\">The core building blocks of the Andara universe.</p>\n        <ul class=\"list-check\">\n          <li>Water</li>\n          <li>Minerals</li>\n          <li>Fields/Flow</li>\n        </ul>\n        <a href=\"/water-crystal-geometry-map\" class=\"chip\">The Integrated Map</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">The \"6\" — Relationships</h3>\n        <p class=\"p\">How the foundations interact. Example pairs:</p>\n        <ul class=\"list-check\">\n          <li>Water ↔ Minerals (Conductivity)</li>\n          <li>Water ↔ Fields (Structure)</li>\n          <li>Time ↔ Storage (Stability)</li>\n        </ul>\n        <a href=\"/light-and-water\" class=\"chip\">Light Interactions</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">The \"9\" — Integrations</h3>\n        <p class=\"p\">Full system maps and topic wheels.</p>\n        <ul class=\"list-check\">\n          <li>9-Node Fingerprint Maps</li>\n          <li>Experiment Workflows</li>\n          <li>Terrain Models</li>\n        </ul>\n        <a href=\"/andara-library-index\" class=\"chip\">Library Index</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "canonical-map",
+            "type": "grid",
+            "html": "<section class=\"section\" id=\"canonical-map\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Andara \"9-Node Knowledge Map\"</h2>\n    <p class=\"p subtitle\">A coherent wheel of science.</p>\n    <div class=\"grid cols-3\">\n      <a href=\"/phases-of-water\" class=\"panel pad link-card\">\n        <span class=\"number\">1</span>\n        <strong>Water Phases</strong>\n      </a>\n      <a href=\"/hydration-layers-interfaces\" class=\"panel pad link-card\">\n        <span class=\"number\">2</span>\n        <strong>Interfaces</strong>\n      </a>\n      <a href=\"/conductivity-tds-water\" class=\"panel pad link-card\">\n        <span class=\"number\">3</span>\n        <strong>Conductivity</strong>\n      </a>\n      <a href=\"/orp-redox-water\" class=\"panel pad link-card\">\n        <span class=\"number\">4</span>\n        <strong>ORP / Redox</strong>\n      </a>\n      <a href=\"/ph-balance-water\" class=\"panel pad link-card\">\n        <span class=\"number\">5</span>\n        <strong>pH / Buffering</strong>\n      </a>\n      <a href=\"/turbidity-clarity\" class=\"panel pad link-card\">\n        <span class=\"number\">6</span>\n        <strong>Turbidity</strong>\n      </a>\n      <a href=\"/tetrahedral-sulfate-geometry\" class=\"panel pad link-card\">\n        <span class=\"number\">7</span>\n        <strong>Mineral Geometry</strong>\n      </a>\n      <a href=\"/light-and-water\" class=\"panel pad link-card\">\n        <span class=\"number\">8</span>\n        <strong>Light Inputs</strong>\n      </a>\n      <a href=\"/vortex-technologies\" class=\"panel pad link-card\">\n        <span class=\"number\">9</span>\n        <strong>Flow Inputs</strong>\n      </a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "how-to-use",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"how-to-use\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Use This Page</h2>\n    <div class=\"grid cols-1\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Beginner: Start with the 3</h3>\n        <p class=\"p\">Read the 3 Foundations hubs. Do one measurement protocol.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Intermediate: Explore the 6</h3>\n        <p class=\"p\">Choose one relationship pair (e.g., Water ↔ Light) and run a controlled comparison.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Advanced: Build the 9</h3>\n        <p class=\"p\">Build a 9-node map for your local water. Submit results.</p>\n        <div class=\"btn-group\">\n          <a href=\"/experiments-index\" class=\"btn secondary\">Experiments</a>\n          <a href=\"/citizen-science-hub\" class=\"btn primary\">Submit Data</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — 3-6-9 Harmonics",
+        "items": [
+            {
+                "question": "Is 3-6-9 a scientific law?",
+                "answer": "This page uses 3-6-9 as a pattern language for organizing complex topics and designing navigation, grounded in systems thinking."
+            },
+            {
+                "question": "Why does Andara use it?",
+                "answer": "Because it helps people learn: foundations → relationships → integrations."
+            },
+            {
+                "question": "How do I apply it practically?",
+                "answer": "Use it to navigate: start with 3 foundations, explore 6 relationships, then use 9-node maps to integrate and test with consistent protocols."
+            },
+            {
+                "question": "Is it connected to sacred geometry?",
+                "answer": "It can be used as a geometry-inspired navigation framework, while keeping scientific claims grounded in measurement."
+            },
+            {
+                "question": "What's the best next page?",
+                "answer": "For the integrated triangle go to /water-crystal-geometry-map. For testing discipline go to /experiments-index."
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "nineNodeMap": {
+            "trigger": "page lacks the canonical 9-node list",
+            "placement": "after Step 6",
+            "action": "addHubLinks"
+        },
+        "visualBooster": {
+            "trigger": "fewer than 2 visuals present",
+            "placement": "after Step 3",
+            "action": "addDiagrams"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 7",
+            "action": "addHubLinks"
+        },
+        "safetyFrame": {
+            "trigger": "page mentions 'harmonics' without stating it is a navigation model",
+            "placement": "after Step 1",
+            "action": "addGlossaryTooltips",
+            "requiredTerms": [
+                "harmonic",
+                "pattern language",
+                "navigation"
+            ]
+        }
+    },
+    "internalLinks": [
+        "/water-science-architecture-of-life",
+        "/mineral-science-blueprint",
+        "/crystalline-matrix-hub",
+        "/water-crystal-geometry-map",
+        "/light-and-water",
+        "/bioelectric-water",
+        "/topic-map-internal-links",
+        "/andara-library-index",
+        "/phases-of-water",
+        "/hydration-layers-interfaces",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/tetrahedral-sulfate-geometry",
+        "/vortex-technologies",
+        "/vortex-spin-experiments",
+        "/parameter-tracking",
+        "/citizen-science-hub",
+        "/experiments-index"
+    ]
+}

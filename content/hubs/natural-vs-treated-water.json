@@ -1,0 +1,166 @@
+{
+    "page": {
+        "key": "natural-vs-treated-water",
+        "title": "Natural vs Treated Water — Source Comparison",
+        "path": "/natural-vs-treated-water",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Natural vs Treated Water: Spring, Well, Tap, RO — Comparison Map",
+        "description": "Compare natural and treated water sources with a clear parameter framework: EC/TDS, ORP/redox, pH, turbidity, minerals, gases, storage effects, and testing protocols.",
+        "focusKeyword": "natural vs treated water",
+        "secondaryKeywords": [
+            "spring water vs tap water",
+            "groundwater vs municipal",
+            "RO water comparison",
+            "parameters water",
+            "ORP EC pH turbidity"
+        ],
+        "intent": [
+            "compare",
+            "learn",
+            "decide"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Natural vs Treated Water — Source Comparison",
+            "description": "Minerals, Gases, Interfaces & Measurable Fingerprints",
+            "imagePrompt": "split panel: spring stream vs city tap vs RO system + overlay of 4-parameter icons"
+        }
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "comparative",
+            "balanced",
+            "structured",
+            "revealing"
+        ],
+        "emotionalTone": [
+            "objectivity",
+            "clarity",
+            "empowerment"
+        ],
+        "motionPreset": "smooth-flow",
+        "colorPalette": "mineral",
+        "treeTheme": "science"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Comparison</span>\n      <h1 class=\"h1\">Natural vs Treated Water</h1>\n      <p class=\"p tagline\">A Practical Source Comparison: Minerals, Gases, Interfaces & Measurable Fingerprints</p>\n      <p class=\"p\">\"Natural water\" and \"treated water\" are not moral categories. They are source pathways with different fingerprints.</p>\n      <p class=\"p\">This page helps you compare water types without ideology:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li>What differs in chemistry and gases</li>\n        <li>What differs in clarity/particles</li>\n        <li>What differs in stability over time</li>\n        <li>How to measure and log it properly</li>\n      </ul>\n      <p class=\"p callout\">The goal: a clean decision framework for your ecosystem and experiments.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">One-Sentence Definition</h2>\n      <p class=\"p callout large\"><strong>Natural waters</strong> are shaped by geology and environment; <strong>treated waters</strong> are shaped by engineered processes—both can be evaluated by consistent measurement fingerprints and source context.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "source-spectrum",
+            "type": "list-map",
+            "html": "<section class=\"section\" id=\"source-spectrum\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Source Spectrum</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Natural-Source Waters</h3>\n        <ul class=\"list-check\">\n          <li><strong>Spring water:</strong> surface-fed / mountain-fed</li>\n          <li><strong>Groundwater / well water:</strong> geology-driven mineral profile</li>\n          <li><strong>River / lake water:</strong> variable, seasonal, high particulate variability</li>\n          <li><strong>Rainwater:</strong> low minerals, depends on collection conditions</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Treated-Source Waters</h3>\n        <ul class=\"list-check\">\n          <li><strong>Municipal tap water:</strong> treated + disinfected, variable by city</li>\n          <li><strong>Filtered tap:</strong> carbon, sediment, multi-stage filters</li>\n          <li><strong>RO water:</strong> low mineral content, consistent \"stripped\" profile</li>\n          <li><strong>Distilled water:</strong> very low solids; storage effects can dominate</li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"center-text spacer-top\">\n      <a href=\"/water-case-studies-world\" class=\"chip\">View Global Case Studies</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "fingerprint-framework",
+            "type": "comparison",
+            "html": "<section class=\"section\" id=\"fingerprint-framework\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The \"Fingerprint Framework\"</h2>\n    <p class=\"p subtitle\">Compare by Measured Windows, Not Ideology</p>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Window A — EC/TDS (Density)</h4>\n        <p class=\"p\">Tells you roughly how many dissolved solids/ions are present, but not their identity.</p>\n        <a href=\"/conductivity-tds-water\" class=\"chip\">Read EC/TDS</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Window B — ORP (Redox)</h4>\n        <p class=\"p\">Sensitive to dissolved gases, temperature, and time. Use as a pattern, not a single score.</p>\n        <a href=\"/orp-redox-water\" class=\"chip\">Read ORP</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Window C — pH (Context)</h4>\n        <p class=\"p\">Influenced by CO₂ equilibrium and buffering minerals. Changes with exposure.</p>\n        <a href=\"/ph-balance-water\" class=\"chip\">Read pH</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Window D — Turbidity (Clarity)</h4>\n        <p class=\"p\">Tells you about particulate load and settling behavior.</p>\n        <a href=\"/turbidity-clarity\" class=\"chip\">Read Turbidity</a>\n      </div>\n    </div>\n    <div class=\"panel pad featured spacer-top\">\n      <p class=\"p center-text\"><strong>Always log:</strong> temperature + container type + time points</p>\n      <div class=\"center-text\">\n        <a href=\"/parameter-tracking\" class=\"btn secondary\">Logging Standard</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "differences",
+            "type": "features",
+            "html": "<section class=\"section\" id=\"differences\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What Usually Differs</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">1. Mineral Profile</h3>\n        <p class=\"p\"><strong>Natural:</strong> Geology interactions. <strong>Treated:</strong> Engineered consistency.</p>\n        <a href=\"/mineral-science-blueprint\" class=\"chip\">Mineral Blueprint</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">2. Dissolved Gases</h3>\n        <p class=\"p\"><strong>Natural:</strong> Spring emergence profile. <strong>Treated:</strong> Disinfectant off-gassing, pipe stagnation.</p>\n        <p class=\"p small\">Time matters immensely here.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">3. Particles & Turbidity</h3>\n        <p class=\"p\"><strong>Natural:</strong> Seasonal sediments, organics. <strong>Treated:</strong> Engineered clarity or pipe byproducts.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">4. Stability Over Time</h3>\n        <p class=\"p\">Fingerprints shift due to gas exchange, temp equalization, and container interfaces (especially in RO/Distilled).</p>\n        <a href=\"/hydration-layers-interfaces\" class=\"chip\">Read Interfaces</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "decision-matrix",
+            "type": "table",
+            "html": "<section class=\"section\" id=\"decision-matrix\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Source Decision Matrix</h2>\n    <div class=\"overflow-table\">\n      <table class=\"andara-table\">\n        <thead>\n          <tr>\n            <th>Source</th>\n            <th>Typical Strengths</th>\n            <th>Typical Variables</th>\n            <th>Key Measures</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <td><strong>Spring</strong></td>\n            <td>Natural mineral complexity</td>\n            <td>Source integrity, bottling</td>\n            <td>EC/TDS + ORP + pH</td>\n          </tr>\n          <tr>\n            <td><strong>Well</strong></td>\n            <td>Geology-driven minerals</td>\n            <td>Wide variability, particulates</td>\n            <td>Turbidity + EC/TDS</td>\n          </tr>\n          <tr>\n            <td><strong>Tap (City)</strong></td>\n            <td>Consistent availability</td>\n            <td>Treatment chemistry, pipes</td>\n            <td>ORP/pH drift + turbidity</td>\n          </tr>\n          <tr>\n            <td><strong>RO</strong></td>\n            <td>Consistency, low solids</td>\n            <td>Storage effects dominate</td>\n            <td>Drift rate with exposure</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol",
+            "type": "experiment",
+            "html": "<section class=\"section\" id=\"protocol\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical: Comparison Protocol</h2>\n    <p class=\"p subtitle\">Andara Standard</p>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Goal</h3>\n      <p class=\"p\">Compare 2 sources (e.g., Spring vs Tap) in a reproducible way.</p>\n      <h3 class=\"h4\">Setup</h3>\n      <ul>\n        <li>Identical glass containers, same volume</li>\n        <li>Same environment (temp, light, time)</li>\n      </ul>\n      <h3 class=\"h4\">Measure At</h3>\n      <p class=\"p\">0 / 30 min / 2 h / 24 h</p>\n      <p class=\"p\"><strong>Log:</strong> Temperature (always), EC/TDS, ORP, pH, Turbidity</p>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"btn secondary\">Get Kit</a>\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"btn primary\">Full Protocol</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "routing",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"routing\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What's Next?</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Real Examples</h4>\n        <a href=\"/water-case-studies-world\">Global Case Studies</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Structure & Physics</h4>\n        <a href=\"/structured-water-basics\">Structure Basics</a><br>\n        <a href=\"/ez-water-overview\">EZ Water</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Measurement</h4>\n        <a href=\"/conductivity-tds-water\">Conductivity</a><br>\n        <a href=\"/orp-redox-water\">Redox</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Natural vs Treated Water",
+        "items": [
+            {
+                "question": "Is natural water always better?",
+                "answer": "Not automatically. Source integrity, handling, and storage matter. Compare using consistent measurement fingerprints and protocols."
+            },
+            {
+                "question": "Why does tap water change after it sits?",
+                "answer": "Gas exchange, temperature stabilization, and treatment chemistry off-gassing can shift ORP and pH patterns over time."
+            },
+            {
+                "question": "Why does RO water 'feel different' to some people?",
+                "answer": "RO has low dissolved solids; storage/container effects and taste/mineral absence can change perceived experience. Treat it as a different baseline profile."
+            },
+            {
+                "question": "What's the best first comparison?",
+                "answer": "Tap vs your chosen bottled spring—or tap vs filtered tap—using the same logging protocol."
+            },
+            {
+                "question": "What matters more: TDS or ORP?",
+                "answer": "Neither alone. Use patterns across EC/TDS + ORP + pH + turbidity over time."
+            },
+            {
+                "question": "Where do I submit results?",
+                "answer": "Use /citizen-science-hub with the standard log template."
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "sourceCardsBooster": {
+            "trigger": "page lacks a source decision matrix",
+            "placement": "after Step 5",
+            "action": "addSourceCards"
+        },
+        "protocolBooster": {
+            "trigger": "missing links to /parameter-tracking",
+            "placement": "before Step 6",
+            "action": "addProtocolLink"
+        },
+        "temperatureGuardrail": {
+            "trigger": "ORP/pH mentioned without temperature logging",
+            "placement": "near Step 3 or Step 6",
+            "action": "addTempWarning"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 7",
+            "action": "addHubLinks"
+        }
+    },
+    "internalLinks": [
+        "/water-case-studies-world",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/parameter-tracking",
+        "/mineral-science-blueprint",
+        "/mineral-sources-comparison",
+        "/light-and-water",
+        "/andara-vs-baseline-water-protocol",
+        "/hydration-layers-interfaces",
+        "/home-water-test-kit",
+        "/citizen-science-hub",
+        "/structured-water-basics",
+        "/ez-water-overview"
+    ]
+}

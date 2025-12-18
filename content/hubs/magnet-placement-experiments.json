@@ -1,0 +1,174 @@
+{
+    "page": {
+        "key": "magnet-placement-experiments",
+        "title": "Magnet Placement Experiments — Protocols",
+        "path": "/magnet-placement-experiments",
+        "pageType": "protocols",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Magnet Placement Experiments: Step-by-Step Protocols (Control + Logging)",
+        "description": "A complete magnet placement experiment guide: still vs flow setups, polarity orientation tests, distance control, exposure timing, and time-point logging with EC/TDS, ORP, pH and turbidity.",
+        "focusKeyword": "magnet placement water experiment",
+        "secondaryKeywords": [
+            "magnetize water protocol",
+            "neodymium magnet water test",
+            "magnetic field water ORP",
+            "polarity water experiment"
+        ],
+        "intent": [
+            "do",
+            "test",
+            "replicate"
+        ],
+        "schemaType": [
+            "HowTo",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Magnet Placement Experiments — Protocols",
+            "description": "Step-by-Step Protocols to Test Orientation Effects With Real Controls",
+            "imagePrompt": "top-down diagram of glass + magnets around it + checklist overlay"
+        }
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "rigorous",
+            "geometric",
+            "controlled",
+            "precise"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "focus",
+            "integrity"
+        ],
+        "motionPreset": "magnetic-align",
+        "colorPalette": "crystalline",
+        "treeTheme": "physics"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Experiments</span>\n      <h1 class=\"h1\">Magnet Placement Experiments</h1>\n      <p class=\"p tagline\">Step-by-Step Protocols to Test Orientation Effects With Real Controls</p>\n      <p class=\"p\">If someone claims magnetics changes water, the correct response is: \"Which placement? What polarity? What distance? Still or flowing?\"</p>\n      <p class=\"p\">This page gives you the standards to test and compare results globally.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Definition</h2>\n      <p class=\"p callout large\"><strong>Magnet placement experiments</strong> test whether field position, polarity and distance create repeatable changes in water fingerprints compared to a baseline under identical conditions.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "equipment",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"equipment\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Equipment & Minimum Kit</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Minimum Kit</h3>\n        <ul class=\"list-check\">\n          <li>2–4 identical glass containers</li>\n          <li>Thermometer</li>\n          <li>EC/TDS meter</li>\n          <li>ORP meter</li>\n          <li>pH meter/strips</li>\n          <li>Turbidity tube</li>\n          <li>1–2 magnets (same size)</li>\n        </ul>\n        <a href=\"/home-water-test-kit\" class=\"chip\">Get The Kit</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Recommended Upgrade</h3>\n        <ul class=\"list-check\">\n          <li>Known magnet strength (Gauss)</li>\n          <li>Ruler/spacer blocks (fix distance)</li>\n          <li>Labels & permanent marker</li>\n          <li>Light exposure control box</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "variables",
+            "type": "warning",
+            "html": "<section class=\"section\" id=\"variables\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Variables You MUST Fix</h2>\n    <div class=\"panel pad warning\">\n      <p class=\"p centered\"><strong>Golden Rule: One change at a time.</strong></p>\n      <div class=\"grid cols-3 smallish\">\n        <ul>\n          <li>1. Water source</li>\n          <li>2. Volume (mL)</li>\n          <li>3. Container Material</li>\n        </ul>\n        <ul>\n          <li>4. Room conditions</li>\n          <li>5. Open vs Closed</li>\n          <li>6. Magnet type</li>\n        </ul>\n        <ul>\n          <li>7. Distance (mm)</li>\n          <li>8. Duration</li>\n          <li>9. Time Points</li>\n        </ul>\n      </div>\n      <a href=\"/parameter-tracking\" class=\"btn secondary\">Download Log Sheet</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "time-points",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"time-points\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Standard Time Points</h2>\n    <div class=\"panel pad center-text\">\n      <h3 class=\"h3\">T0 (Setup) • T30 (30m) • T2h (2 Hours) • T24h (24 Hours)</h3>\n      <p class=\"p\">Measure full fingerprint at every point: Temp, EC, ORP, pH, Turbidity.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol-a",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"protocol-a\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Protocol A: Still Water / Side Placement</h2>\n    <div class=\"panel pad card\">\n      <h3 class=\"h4\">Goal: Test Field Exposure (Starter)</h3>\n      <p class=\"p\"><strong>Setup:</strong> A = Control (No magnet). B = Magnet at side.</p>\n      <p class=\"p\"><strong>Placement:</strong> Fixed spacer distance (e.g. 10mm). Mark polarity.</p>\n      <p class=\"p\"><strong>Measure:</strong> All time points.</p>\n      <p class=\"p small\">Tests exposure without flow confounders.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol-b",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"protocol-b\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Protocol B: Two-Sided Field (N↔S)</h2>\n    <div class=\"panel pad card\">\n      <h3 class=\"h4\">Goal: Strong Orientation Test</h3>\n      <p class=\"p\"><strong>Setup:</strong> A = Control. B = Magnet pair opposite sides.</p>\n      <p class=\"p\"><strong>Placement:</strong> N facing water one side, S facing water other side. Aligned height.</p>\n      <p class=\"p small\">Creates clear directional field across volume.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol-c",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"protocol-c\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Protocol C: Polarity Flip (N vs S)</h2>\n    <div class=\"panel pad card\">\n      <h3 class=\"h4\">Goal: Does Polarity Matter?</h3>\n      <p class=\"p\"><strong>Setup:</strong> A = Control. B = N facing. C = S facing.</p>\n      <p class=\"p\"><strong>Interpretation:</strong> Only count if B and C diverge consistently.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol-e",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"protocol-e\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Protocol E: Flow-Through (Advanced)</h2>\n    <div class=\"panel pad warning\">\n      <h3 class=\"h4\">Warning: Flow Changes Gases</h3>\n      <p class=\"p\"><strong>Setup:</strong> A = Flow control (tubing, no magnet). B = Flow + magnet.</p>\n      <p class=\"p\"><strong>Control:</strong> You must match flow pattern exactly. Flow alters ORP via aeration.</p>\n      <a href=\"/vortex-spin-experiments\" class=\"chip\">Vortex/Flow Logic</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "interpretation",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"interpretation\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Results Interpretation</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Meaningful Result</h4>\n        <ul class=\"list-check\">\n          <li>Repeatable directional change across 3 runs.</li>\n          <li>Consistent divergence from control.</li>\n          <li>Not explained by temp diffs.</li>\n        </ul>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">Noise / Artifact</h4>\n        <ul class=\"list-check\">\n          <li>Single number shift.</li>\n          <li>Inconsistent flipping.</li>\n          <li>Correlates with temperature drift.</li>\n        </ul>\n      </div>\n    </div>\n    <p class=\"p centered spacer-top\"><strong>Mantra:</strong> Patterns over numbers.</p>\n  </div>\n</section>"
+        },
+        {
+            "id": "submission",
+            "type": "featured",
+            "html": "<section class=\"section\" id=\"submission\">\n  <div class=\"container\">\n    <div class=\"panel pad featured center-text\">\n      <h2 class=\"h2\">Submit Your Data</h2>\n      <p class=\"p\">Mandatory fields: Location, Source, Container, Magnet Type, Polarity, Distance, Duration, Temp + Fingerprints.</p>\n      <a href=\"/citizen-science-hub\" class=\"btn primary\">Upload to Citizen Science Hub</a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Magnet Placement Experiments",
+        "items": [
+            {
+                "question": "What magnets should I use?",
+                "answer": "Use consistent magnets (same type/size). Neodymium is common for repeatability, but consistency matters more than strength."
+            },
+            {
+                "question": "Do I need to know polarity?",
+                "answer": "It helps for Protocol C, but you can run side-placement and distance tests without it."
+            },
+            {
+                "question": "Why is temperature so important?",
+                "answer": "Temperature shifts can change ORP and pH readings and can mimic \"effects.\""
+            },
+            {
+                "question": "Still water or flowing water first?",
+                "answer": "Still water first—flow introduces too many confounders."
+            },
+            {
+                "question": "How many repeats are enough?",
+                "answer": "Minimum 3 repeats on different days for each protocol."
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "mandatoryVariables": {
+            "trigger": "always show on this page",
+            "placement": "after Step 3",
+            "action": "addProtocolLinks"
+        },
+        "discardRun": {
+            "trigger": "if temperature mismatch detected",
+            "placement": "near Step 11",
+            "action": "addTempWarning"
+        },
+        "uploadSchema": {
+            "trigger": "always show on this page",
+            "placement": "after Step 13",
+            "action": "addProtocolLinks"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 15",
+            "placement": "near Step 14",
+            "action": "addHubLinks"
+        }
+    },
+    "internalLinks": [
+        "/home-water-test-kit",
+        "/parameter-tracking",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/vortex-spin-experiments",
+        "/light-and-water",
+        "/citizen-science-hub",
+        "/magnetics-water",
+        "/experiments-index",
+        "/water-crystal-geometry-map",
+        "/andara-vs-baseline-water-protocol"
+    ]
+}

@@ -1,0 +1,156 @@
+{
+    "page": {
+        "key": "magnetics-water",
+        "title": "Magnetics & Water — Orientation Effects",
+        "path": "/magnetics-water",
+        "pageType": "education",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Magnetics & Water: Orientation Effects, What Changes, How to Test",
+        "description": "A clean guide to magnetic field effects on water: what’s plausible, what’s commonly confused, and how to run controlled magnet placement experiments using EC/TDS, ORP, pH and turbidity with temperature logging.",
+        "focusKeyword": "magnetics and water",
+        "secondaryKeywords": [
+            "magnetic field water experiment",
+            "magnet placement water",
+            "magnetic conditioning",
+            "water orientation",
+            "ORP magnet water"
+        ],
+        "intent": [
+            "learn",
+            "test",
+            "compare"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Magnetics & Water — Orientation Effects",
+            "description": "Orientation Effects: A Clean Model + Controlled Experiments",
+            "imagePrompt": "glass of water with two magnets + field lines overlay + measurement icons"
+        }
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "force-fields",
+            "orientation",
+            "clean",
+            "magnetic"
+        ],
+        "emotionalTone": [
+            "curiosity",
+            "balance",
+            "precision"
+        ],
+        "motionPreset": "magnetic-align",
+        "colorPalette": "magnetic",
+        "treeTheme": "physics"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Physics Bridge</span>\n      <h1 class=\"h1\">Magnetics & Water</h1>\n      <p class=\"p tagline\">Orientation Effects: A Clean Model + Controlled Experiments</p>\n      <p class=\"p\">Magnetics is often misunderstood. Some claim \"magic,\" others claim \"nothing.\" Andara takes the third path:</p>\n      <p class=\"p\">Define variables, test one at a time, log patterns, and interpret with humility.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Definition</h2>\n      <p class=\"p callout large\"><strong>Magnetics and water experiments</strong> test whether an applied magnetic field changes measurable water fingerprints (especially over time) through orientation, flow, temperature, and dissolved-ion context.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "pathways",
+            "type": "features",
+            "html": "<section class=\"section\" id=\"pathways\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The 4 Pathways of Influence</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">A. Ion Context (Conductivity)</h3>\n        <p class=\"p\">Magnetics may interact with moving ions. Effects often show as system-level changes (scaling), not instant magic.</p>\n        <a href=\"/conductivity-tds-water\" class=\"link\">Conductivity Logic</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">B. Flow + Shear (The Confounder)</h3>\n        <p class=\"p\">Many demos secretly involve flow/vortexing. If you don't separate flow from field, you don't know what caused the change.</p>\n        <a href=\"/vortex-spin-experiments\" class=\"link\">Vortex Logic</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">C. Temperature (Environmental)</h3>\n        <p class=\"p\">Magnets change how a container sits. Temp drift mimics ORP/pH changes. Always log temp.</p>\n        <a href=\"/light-and-water\" class=\"link\">Heat Logic</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">D. Orientation (Geometry)</h3>\n        <p class=\"p\">Conceptually, magnetics is about orientation. Field lines provide direction for the crystalline matrix.</p>\n        <a href=\"/crystalline-matrix-hub\" class=\"link\">Geometry Logic</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "rules",
+            "type": "warning",
+            "html": "<section class=\"section\" id=\"rules\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Magnetics Rules</h2>\n    <div class=\"panel pad warning\">\n      <ul class=\"list-check\">\n        <li><strong>Still vs Flowing</strong> are different experiments. Don't mix them up.</li>\n        <li><strong>Use identical containers.</strong> Material matters.</li>\n        <li><strong>Log Temperature.</strong> Mandatory.</li>\n        <li><strong>Fix variables.</strong> Strength, distance, polarity.</li>\n        <li><strong>Run time points.</strong> 0 / 30m / 2h / 24h.</li>\n        <li><strong>Patterns > Numbers.</strong> Look for trends.</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "variables",
+            "type": "text-block",
+            "html": "<section class=\"section\" id=\"variables\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Setup Variables to Define</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">The Magnet</h4>\n        <p class=\"p\">Type (Neodymium/Ferrite), Strength, Shape.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">The Placement</h4>\n        <p class=\"p\">Polarity (N/S facing), Distance (mm), Orientation (Side/Bottom).</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">The Context</h4>\n        <p class=\"p\">Duration, Still vs Flowing, Container Type.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "interpretations",
+            "type": "grid",
+            "html": "<section class=\"section\" id=\"interpretations\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Interpretation Guide</h2>\n    <div class=\"grid cols-4\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">EC/TDS</h4>\n        <p class=\"p smallish\">Changes indicate concentration or noise unless controlled.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">ORP</h4>\n        <p class=\"p smallish\">Often indicates gas exchange or temp influence.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">pH</h4>\n        <p class=\"p smallish\">Drift usually means CO₂ equilibrium shift.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">Turbidity</h4>\n        <p class=\"p smallish\">Particle settling or precipitation.</p>\n      </div>\n    </div>\n    <p class=\"p centered spacer-top\"><strong>Key Rule:</strong> Only interpret changes you can repeat.</p>\n  </div>\n</section>"
+        },
+        {
+            "id": "ladder",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"ladder\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Experiment Ladder</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">1. Still Water Exposure (Baseline)</h3>\n      <p class=\"p\">Control vs Magnet. Fixed distance. Measure at 0/30m/2h/24h.</p>\n      <h3 class=\"h4\">2. Polarity Orientation Test</h3>\n      <p class=\"p\">Container A (Control) vs B (North) vs C (South). Does direction matter?</p>\n      <h3 class=\"h4\">3. Flow-Through (Advanced)</h3>\n      <p class=\"p\">Magnet fixed around flow path. <strong>Warning:</strong> Flow alters gases/ORP. Must match control flow exactly.</p>\n      <div class=\"btn-group\">\n        <a href=\"/magnet-placement-experiments\" class=\"btn primary\">Full Protocols</a>\n        <a href=\"/experiments-index\" class=\"btn secondary\">Experiment Index</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Magnetics & Water",
+        "items": [
+            {
+                "question": "Can magnetics change water?",
+                "answer": "Magnetics can influence systems via orientation and flow context, but effects must be tested under controls and logged over time."
+            },
+            {
+                "question": "Should I test still water or flowing water?",
+                "answer": "Both are valid but they are different experiments. Start with still water to reduce confounders."
+            },
+            {
+                "question": "Why do people get contradictory results?",
+                "answer": "Because variables differ: magnet strength, distance, container, temperature drift, open/closed state, and flow effects."
+            },
+            {
+                "question": "What readings matter most?",
+                "answer": "The full fingerprint: Temperature + EC/TDS + ORP + pH + Turbidity."
+            },
+            {
+                "question": "Where is the detailed protocol?",
+                "answer": "/magnet-placement-experiments"
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "rulesBox": {
+            "trigger": "page mentions magnetics but lacks controls list",
+            "placement": "after Step 2",
+            "action": "addProtocolLinks"
+        },
+        "protocolBooster": {
+            "trigger": "missing /parameter-tracking or /andara-vs-baseline-water-protocol",
+            "placement": "after Step 4",
+            "action": "addProtocolLinks"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 9",
+            "action": "addHubLinks"
+        },
+        "visualBooster": {
+            "trigger": "no placement diagrams",
+            "placement": "after Step 6",
+            "action": "addDiagrams"
+        }
+    },
+    "internalLinks": [
+        "/conductivity-tds-water",
+        "/vortex-spin-experiments",
+        "/vortex-technologies",
+        "/light-and-water",
+        "/crystalline-matrix-hub",
+        "/water-crystal-geometry-map",
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/magnet-placement-experiments",
+        "/experiments-index",
+        "/citizen-science-hub"
+    ]
+}

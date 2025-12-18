@@ -1,0 +1,51 @@
+{
+    "page": {
+        "key": "home-water-test-kit",
+        "title": "Home Water Test Kit — Getting Started",
+        "path": "/home-water-test-kit",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Home Water Test Kit: Essential Equipment for Testing",
+        "description": "What you need to test water at home: meters, calibration solutions, and protocols for EC/TDS, ORP, pH, and turbidity measurement.",
+        "focusKeyword": "water test kit"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Equipment</span>\n      <h1 class=\"h1\">Home Water Test Kit</h1>\n      <p class=\"p tagline\">Getting Started — Your Basic Testing Equipment</p>\n      <p class=\"p\">You don't need a lab. A few affordable tools let you track water parameters consistently.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "essential",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"essential\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Essential Equipment</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Meters</h3>\n        <ul>\n          <li><strong>TDS/EC meter</strong> — $10-30</li>\n          <li><strong>pH meter</strong> — $15-50</li>\n          <li><strong>ORP meter</strong> — $30-100</li>\n          <li><strong>Thermometer</strong> — $5-15</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Calibration</h3>\n        <ul>\n          <li>TDS calibration solution (342 ppm)</li>\n          <li>pH buffer solutions (4.0, 7.0)</li>\n          <li>ORP calibration solution (optional)</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "optional",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"optional\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Optional/Advanced</h2>\n    <div class=\"panel pad\">\n      <ul>\n        <li>Dissolved oxygen meter</li>\n        <li>Turbidity meter (nephelometer)</li>\n        <li>Microscope for particle observation</li>\n        <li>Refractometer</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "tips",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"tips\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Tips for Accuracy</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>Calibrate before each session</strong></li>\n        <li>Rinse probes with sample water</li>\n        <li>Wait for readings to stabilize</li>\n        <li>Record temperature</li>\n        <li>Use the same measurement sequence</li>\n      </ul>\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Start Tracking →</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">EC/TDS</h3></a>\n      <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">ORP</h3></a>\n      <a href=\"/ph-balance-water\" class=\"panel facet pad link-card\"><h3 class=\"h4\">pH</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/parameter-tracking",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity"
+    ]
+}

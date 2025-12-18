@@ -1,0 +1,37 @@
+{
+    "page": {
+        "key": "experiments-index",
+        "title": "Experiments Index — All Protocols",
+        "path": "/experiments-index",
+        "pageType": "index",
+        "template": "index_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Water Experiments Index: All Testing Protocols",
+        "description": "Complete index of water experiments and testing protocols: from basic comparisons to advanced multi-variable tests.",
+        "focusKeyword": "water experiments"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Index</span>\n      <h1 class=\"h1\">Experiments Index</h1>\n      <p class=\"p tagline\">All Testing Protocols</p>\n      <p class=\"p\">Find experiments by complexity level or topic.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "by-level",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"by-level\">\n  <div class=\"container\">\n    <h2 class=\"h2\">By Complexity Level</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Beginner</h3>\n        <ul>\n          <li><a href=\"/andara-vs-baseline-water-protocol\">Andara vs Baseline</a></li>\n          <li><a href=\"/light-and-water#experiment-ladder\">Sun vs Shade</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Intermediate</h3>\n        <ul>\n          <li><a href=\"/light-and-water#experiment-ladder\">IR Emphasis</a></li>\n          <li><a href=\"/vortex-technologies\">Basic Vortex</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Advanced</h3>\n        <ul>\n          <li><a href=\"/light-and-water#experiment-ladder\">Light + Interface Material</a></li>\n          <li><a href=\"/light-and-water#experiment-ladder\">Multi-Input (Light + Vortex)</a></li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Tools</h3>\n        <ul>\n          <li><a href=\"/home-water-test-kit\">Test Kit</a></li>\n          <li><a href=\"/parameter-tracking\">Logging</a></li>\n          <li><a href=\"/citizen-science-hub\">Submit Data</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/andara-vs-baseline-water-protocol",
+        "/light-and-water",
+        "/vortex-technologies",
+        "/home-water-test-kit",
+        "/parameter-tracking",
+        "/citizen-science-hub"
+    ]
+}

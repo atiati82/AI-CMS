@@ -23,9 +23,11 @@ router.get('/', async (req, res) => {
             return res.json(pages);
         }
 
-        const pages = await storage.getAllPages();
+        // Default: return page tree
+        const pages = await storage.getPageTree();
         res.json(pages);
     } catch (error) {
+        console.error('Get pages error:', error);
         res.status(500).json({ error: 'Failed to fetch pages' });
     }
 });
@@ -36,11 +38,37 @@ router.get('/by-path/*', async (req, res) => {
         const pathParam = (req.params as Record<string, string>)[0] || '';
         const path = '/' + pathParam;
         const page = await storage.getPageByPath(path);
+
         if (!page) {
             return res.status(404).json({ error: 'Page not found' });
         }
+
+        // Apply Dynamic Box Rules if present
+        if (page.metadata && (page.metadata as any).dynamicBoxRules) {
+            try {
+                const { processPageWithRules } = await import('../../services/dynamic-box-rules');
+                const result = await processPageWithRules(page.id.toString());
+
+                // Return enriched page with enhanced HTML
+                return res.json({
+                    ...page,
+                    aiStartupHtml: result.enhancedHtml,
+                    content: result.enhancedHtml,
+                    metadata: {
+                        ...page.metadata as object,
+                        appliedRules: result.appliedRules
+                    }
+                });
+            } catch (ruleError) {
+                console.warn('Failed to apply dynamic rules:', ruleError);
+                // Fallback to original page
+                return res.json(page);
+            }
+        }
+
         res.json(page);
     } catch (error) {
+        console.error('Fetch page error:', error);
         res.status(500).json({ error: 'Failed to fetch page' });
     }
 });

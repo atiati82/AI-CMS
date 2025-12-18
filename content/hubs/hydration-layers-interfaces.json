@@ -1,0 +1,112 @@
+{
+    "page": {
+        "key": "hydration-layers-interfaces",
+        "title": "Hydration Layers & Interfaces — Where Structure Happens",
+        "path": "/hydration-layers-interfaces",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Hydration Layers & Interfaces: Where Water Structure Forms",
+        "description": "Understanding hydration layers and water interfaces: where ordering happens, what surfaces matter, and how to think about water structure near boundaries.",
+        "focusKeyword": "hydration layers",
+        "secondaryKeywords": [
+            "water interfaces",
+            "surface water",
+            "boundary water",
+            "interfacial ordering"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "scientific",
+            "educational",
+            "precise"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "understanding",
+            "grounded"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Interfaces</span>\n      <h1 class=\"h1\">Hydration Layers & Interfaces</h1>\n      <p class=\"p tagline\">Where Structure Happens</p>\n      <p class=\"p\">If you want to understand \"structured water,\" start here: water behaves differently near surfaces.</p>\n      <p class=\"p callout\">Interfaces are where ordering happens. Surfaces create the conditions for different water behavior.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "what-are-hydration-layers",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-are-hydration-layers\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What Are Hydration Layers?</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Hydration layers are organized water molecules near:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Ions</strong> — water shells around dissolved ions</li>\n        <li><strong>Surfaces</strong> — water ordered against solid materials</li>\n        <li><strong>Membranes</strong> — biological boundary layers</li>\n        <li><strong>Macromolecules</strong> — protein and DNA hydration</li>\n      </ul>\n      <p class=\"p\">These layers have different properties than bulk water: altered viscosity, different dielectric behavior, slower rotation.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "surfaces-matter",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"surfaces-matter\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What Surfaces Matter?</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Hydrophilic (Water-Loving)</h3>\n        <ul>\n          <li>Glass, quartz, silica</li>\n          <li>Certain ceramics</li>\n          <li>Nafion membranes (in research)</li>\n          <li>Many biological surfaces</li>\n        </ul>\n        <p class=\"p small\">These create stronger ordering effects</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Hydrophobic (Water-Repelling)</h3>\n        <ul>\n          <li>Plastics, Teflon</li>\n          <li>Oils and waxes</li>\n          <li>Some metals</li>\n        </ul>\n        <p class=\"p small\">Create different boundary behavior</p>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "practical",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"practical\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical Implications</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li><strong>Container choice matters</strong> — glass vs plastic can affect measurements over time</li>\n        <li><strong>Surface area matters</strong> — more contact = more interface effects</li>\n        <li><strong>Clean surfaces matter</strong> — contamination affects ordering</li>\n        <li><strong>Time matters</strong> — interface effects develop over hours</li>\n      </ul>\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Track Changes Over Time →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related Topics</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/structured-water-basics\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Structured Water</h3>\n      </a>\n      <a href=\"/ez-water-overview\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">EZ Water</h3>\n      </a>\n      <a href=\"/science/water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Water Hub</h3>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ",
+        "items": [
+            {
+                "question": "How thick are hydration layers?",
+                "answer": "Typically a few nanometers to hundreds of nanometers, depending on the surface."
+            },
+            {
+                "question": "Can I see hydration layers?",
+                "answer": "Not directly. They're detected through indirect measurements like viscometry or spectroscopy."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Hydration Layers & Interfaces",
+        "description": "Where water structure happens: understanding hydration layers and interfacial water."
+    },
+    "internalLinks": [
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/parameter-tracking",
+        "/science/water"
+    ]
+}

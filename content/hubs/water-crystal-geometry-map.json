@@ -1,0 +1,299 @@
+{
+    "page": {
+        "key": "water-crystal-geometry-map",
+        "title": "Water, Crystal & Geometry — Integrated Field Map",
+        "path": "/water-crystal-geometry-map",
+        "pageType": "article",
+        "template": "pillar_bridge",
+        "clusterKey": "crystalline-matrix",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Water–Crystal–Geometry Map: Structure, Minerals & Fields",
+        "description": "A clear integrated map linking water structure (EZ/interfaces), mineral geometry (SO₄ tetrahedron), and field patterning (light/flow/harmonics)—with practical measurement bridges.",
+        "focusKeyword": "water crystal geometry",
+        "secondaryKeywords": [
+            "integrated field map",
+            "water structure",
+            "mineral geometry",
+            "SO4 tetrahedron",
+            "EZ water",
+            "interfaces"
+        ],
+        "intent": [
+            "learn",
+            "explore",
+            "compare"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Water–Crystal–Geometry — The Integrated Map",
+            "description": "Understand how water, minerals, geometry, and fields connect—then ground it with ORP/EC/pH/turbidity protocols.",
+            "imagePrompt": "Triangle map (Water–Minerals–Fields) + SO₄ tetrahedron overlay + water ripple texture, premium scientific aesthetic"
+        }
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "integrative",
+            "scientific",
+            "educational",
+            "navigational",
+            "premium"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "coherence",
+            "grounded",
+            "empowering"
+        ],
+        "motionPreset": "knowledge-flow",
+        "colorPalette": "matrix",
+        "treeTheme": "matrix",
+        "requiredVisuals": [
+            "Triangle Map SVG (Water–Minerals–Fields)",
+            "SO₄ tetrahedron diagram",
+            "Pattern Stack visualization",
+            "3-Glass Experiment diagram"
+        ],
+        "componentSuggestions": [
+            "TriangleMapSVG",
+            "PatternStackCard",
+            "ExperimentCard",
+            "MeasurementBridge"
+        ]
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Pillar Bridge</span>\n        <h1 class=\"h1\">Water, Crystal & Geometry</h1>\n        <p class=\"p tagline\">The Integrated Field Map: How Structure, Minerals, and Fields Connect</p>\n        <p class=\"p\">Most people learn water science in fragments:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li>Some learn chemistry (pH, minerals, TDS)</li>\n          <li>Others learn structure (EZ water, interfaces)</li>\n          <li>Others talk about fields (light, magnetics, resonance)</li>\n        </ul>\n        <p class=\"p callout\"><strong>This page is your unifying map.</strong><br>Not as a belief-system — but as a navigation tool that keeps the library coherent.</p>\n        <p class=\"p\">Water behavior = <em>chemistry + interfaces + time + field conditions</em></p>\n        <div class=\"btn-group\">\n          <a href=\"#triangle-model\" class=\"btn primary\">The Triangle Model →</a>\n          <a href=\"#measurement-bridge\" class=\"btn secondary\">Measurement Bridge →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Integrated triangle diagram with Water-Minerals-Fields at vertices, SO4 tetrahedron in center, flowing cyan and gold lines connecting, premium scientific aesthetic -->\n        <!-- COMPONENT: TriangleMapSVG -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "triangle-model",
+            "type": "framework",
+            "html": "<section class=\"section\" id=\"triangle-model\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Triangle Model</h2>\n    <p class=\"p subtitle\">Your core navigation — The Andara Triangle</p>\n    \n    <div class=\"grid cols-3\">\n      <div class=\"panel pad pillar water\">\n        <span class=\"kicker\"><span class=\"dot\"></span>1</span>\n        <h3 class=\"h3\">Water Structure (Interfaces)</h3>\n        <ul>\n          <li>Structured water, hydration layers, EZ concepts</li>\n          <li>Ordering near surfaces</li>\n          <li>Time-based stabilization</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/structured-water-basics\" class=\"chip\">Structured Water</a>\n          <a href=\"/ez-water-overview\" class=\"chip\">EZ Water</a>\n        </div>\n      </div>\n      \n      <div class=\"panel pad pillar mineral\">\n        <span class=\"kicker\"><span class=\"dot\"></span>2</span>\n        <h3 class=\"h3\">Mineral Geometry (Ions & Lattices)</h3>\n        <ul>\n          <li>Sulfate tetrahedron (SO₄) as \"hard geometry anchor\"</li>\n          <li>Ionic vs colloidal vs solid forms</li>\n          <li>Mineral sources and co-factors</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/tetrahedral-sulfate-geometry\" class=\"chip\">SO₄ Tetrahedron</a>\n          <a href=\"/sulfate-chemistry\" class=\"chip\">Sulfate Chemistry</a>\n        </div>\n      </div>\n      \n      <div class=\"panel pad pillar field\">\n        <span class=\"kicker\"><span class=\"dot\"></span>3</span>\n        <h3 class=\"h3\">Fields & Flow (Pattern Inputs)</h3>\n        <ul>\n          <li>Vortex/spin (flow geometry)</li>\n          <li>Magnetics (orientation experiments)</li>\n          <li>Light/IR (photonic input + thermal context)</li>\n          <li>Harmonics (design/navigation metaphor)</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/vortex-technologies\" class=\"chip\">Vortex</a>\n          <a href=\"/light-and-water\" class=\"chip\">Light</a>\n        </div>\n      </div>\n    </div>\n    \n    <p class=\"p callout center\">If someone understands this triangle, they can navigate the entire Andara Science Library without confusion.</p>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "100ms"
+            }
+        },
+        {
+            "id": "water-structure",
+            "type": "pillar-section",
+            "html": "<section class=\"section\" id=\"water-structure\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Water Structure: The Interface Layer</h2>\n    <p class=\"p tagline\">Water is not uniform. Near surfaces, water can behave differently.</p>\n    \n    <div class=\"panel pad\">\n      <p class=\"p\">The interface layer includes:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Hydration layers</strong> — organized boundary behavior</li>\n        <li><strong>EZ water concepts</strong> — interfacial ordering models</li>\n        <li><strong>Surface chemistry effects</strong> — materials matter</li>\n      </ul>\n      \n      <div class=\"callout-box\">\n        <h4 class=\"h4\">Key principle</h4>\n        <p class=\"p\">Interfaces create order.<br>Order creates different behavior over time.<br>So the question becomes: <strong>what variables change interfaces?</strong></p>\n      </div>\n      \n      <div class=\"btn-group\">\n        <a href=\"/structured-water-basics\" class=\"btn primary\">Structured Water Basics →</a>\n        <a href=\"/ez-water-overview\" class=\"chip\">EZ Water Overview</a>\n        <a href=\"/hydration-layers-interfaces\" class=\"chip\">Hydration Layers</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "mineral-geometry",
+            "type": "pillar-section",
+            "html": "<section class=\"section\" id=\"mineral-geometry\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h2 class=\"h2\">Mineral Geometry: The \"Code Layer\"</h2>\n        <p class=\"p\">Minerals are not only \"content.\" They shape:</p>\n        <ul class=\"feature-list\">\n          <li><strong>Conductivity</strong> — charge carrier density</li>\n          <li><strong>Redox behavior</strong> — electron tendencies</li>\n          <li><strong>Clarity behavior</strong> — particle interactions</li>\n          <li><strong>Interface behavior</strong> — surfaces and adsorption</li>\n        </ul>\n        \n        <h3 class=\"h4\">Your strongest geometry anchor: SO₄ Tetrahedron</h3>\n        <p class=\"p\">Sulfate (SO₄²⁻) is a tetrahedral ion — a clean example where geometry is literal.</p>\n        \n        <p class=\"p\"><strong>Why this matters for a map:</strong></p>\n        <ul>\n          <li>It's visually memorable</li>\n          <li>It links chemistry to structure</li>\n          <li>It bridges into lattice logic and mineral systems</li>\n          <li>It supports the \"Crystalline Matrix\" narrative without exaggerated claims</li>\n        </ul>\n        \n        <div class=\"btn-group\">\n          <a href=\"/tetrahedral-sulfate-geometry\" class=\"btn primary\">SO₄ Tetrahedron →</a>\n          <a href=\"/sulfate-chemistry\" class=\"chip\">Sulfate Chemistry</a>\n          <a href=\"/mineral-science-blueprint\" class=\"chip\">Mineral Blueprint</a>\n          <a href=\"/ionic-vs-colloidal-vs-solid\" class=\"chip\">Ionic vs Colloidal</a>\n        </div>\n      </div>\n      <div class=\"field visual diagram\">\n        <!-- AI_IMAGE_PROMPT: SO4 tetrahedron molecular diagram, gold wireframe on deep blue, labeled S and O atoms, scientific elegant style -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "fields-flow",
+            "type": "pillar-section",
+            "html": "<section class=\"section\" id=\"fields-flow\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Fields & Flow: The \"Input Layer\"</h2>\n    <p class=\"p subtitle\">Water and mineral systems respond to conditions</p>\n    \n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">A) Flow geometry (vortex)</h3>\n        <p class=\"p\">Flow changes:</p>\n        <ul>\n          <li>Mixing dynamics</li>\n          <li>Surface exposure</li>\n          <li>Gas exchange behavior</li>\n          <li>Particle interactions (clarity patterns)</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/vortex-technologies\" class=\"chip\">Vortex Technologies</a>\n          <a href=\"/vortex-spin-experiments\" class=\"chip\">Spin Experiments</a>\n        </div>\n      </div>\n      \n      <div class=\"panel pad\">\n        <h3 class=\"h4\">B) Magnetics (orientation)</h3>\n        <p class=\"p\">Magnetics are best treated as a repeatable experimental variable:</p>\n        <ul>\n          <li>Fixed distance</li>\n          <li>Fixed exposure time</li>\n          <li>Consistent measurement schedule</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/magnetics-water\" class=\"chip\">Magnetics & Water</a>\n          <a href=\"/magnet-placement-experiments\" class=\"chip\">Placement Experiments</a>\n        </div>\n      </div>\n      \n      <div class=\"panel pad\">\n        <h3 class=\"h4\">C) Light / IR (photonic + thermal)</h3>\n        <p class=\"p\">Light affects:</p>\n        <ul>\n          <li>Temperature (changes meter readings)</li>\n          <li>Gas equilibrium</li>\n          <li>Surface dynamics and time patterns</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/light-and-water\" class=\"chip\">Light & Water</a>\n          <a href=\"/light-lattices-photonic-flow\" class=\"chip\">Photonic Flow</a>\n        </div>\n      </div>\n      \n      <div class=\"panel pad\">\n        <h3 class=\"h4\">D) Harmonics (navigation metaphor)</h3>\n        <p class=\"p\">3-6-9 here is used as:</p>\n        <ul>\n          <li>A library architecture</li>\n          <li>A coherent \"triad mapping\" approach</li>\n          <li>A UI design language</li>\n        </ul>\n        <a href=\"/three-six-nine-harmonics\" class=\"chip\">3-6-9 Harmonics</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "pattern-stack",
+            "type": "framework",
+            "html": "<section class=\"section\" id=\"pattern-stack\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The \"Pattern Stack\"</h2>\n    <p class=\"p subtitle\">How to think correctly — avoiding confusion</p>\n    \n    <div class=\"panel pad featured\">\n      <div class=\"stack-grid\">\n        <div class=\"stack-level\">\n          <span class=\"level-number\">1</span>\n          <h4 class=\"h4\">Chemistry</h4>\n          <p class=\"p small\">What's in the water — EC/TDS gives a rough density window, ion types matter more than raw numbers</p>\n        </div>\n        <div class=\"stack-level\">\n          <span class=\"level-number\">2</span>\n          <h4 class=\"h4\">Interfaces</h4>\n          <p class=\"p small\">Where ordering happens — surfaces, containers, materials, hydration layers</p>\n        </div>\n        <div class=\"stack-level\">\n          <span class=\"level-number\">3</span>\n          <h4 class=\"h4\">Time</h4>\n          <p class=\"p small\">Stabilization — water changes after sitting, readings shift with gas exchange + settling</p>\n        </div>\n        <div class=\"stack-level\">\n          <span class=\"level-number\">4</span>\n          <h4 class=\"h4\">Inputs</h4>\n          <p class=\"p small\">Flow/field/light — vortex, magnetics, light, temperature</p>\n        </div>\n      </div>\n      \n      <p class=\"p callout\"><strong>When people skip the stack, they get random results.</strong><br>When they follow it, they start seeing repeatable patterns.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "measurement-bridge",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"measurement-bridge\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Measurement Bridge</h2>\n    <p class=\"p subtitle\">Your credibility engine — this page becomes powerful when it ends in measurement discipline</p>\n    \n    <div class=\"panel pad\">\n      <h3 class=\"h4\">The 4-Parameter Fingerprint</h3>\n      <p class=\"p\">Use this to ground any \"structure / geometry / field\" conversation:</p>\n      <div class=\"grid cols-4\">\n        <a href=\"/conductivity-tds-water\" class=\"panel facet pad link-card\">\n          <div class=\"number\">1</div>\n          <h4 class=\"h5\">EC/TDS</h4>\n        </a>\n        <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\">\n          <div class=\"number\">2</div>\n          <h4 class=\"h5\">ORP</h4>\n        </a>\n        <a href=\"/ph-balance-water\" class=\"panel facet pad link-card\">\n          <div class=\"number\">3</div>\n          <h4 class=\"h5\">pH</h4>\n        </a>\n        <a href=\"/turbidity-clarity\" class=\"panel facet pad link-card\">\n          <div class=\"number\">4</div>\n          <h4 class=\"h5\">Turbidity</h4>\n        </a>\n      </div>\n    </div>\n    \n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Standard Protocol</h3>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"btn primary\">Home Kit →</a>\n        <a href=\"/parameter-tracking\" class=\"chip\">Logging</a>\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"chip\">Comparison Protocol</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "experiment",
+            "type": "experiment",
+            "html": "<section class=\"section\" id=\"experiment\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Integrated Map Experiment</h2>\n    <p class=\"p subtitle\">Easy + repeatable — show how interfaces + time + inputs create different fingerprints</p>\n    \n    <div class=\"panel pad featured experiment-card\">\n      <h3 class=\"h4\">Setup (3 glasses)</h3>\n      <p class=\"p\">Use the same baseline water.</p>\n      \n      <div class=\"grid cols-3\">\n        <div class=\"glass-card\">\n          <span class=\"label\">Glass A — Baseline</span>\n          <p class=\"p small\">No treatment, just sit</p>\n        </div>\n        <div class=\"glass-card\">\n          <span class=\"label\">Glass B — Interface</span>\n          <p class=\"p small\">Add a controlled interface variable (clean mineral stone / hydrophilic surface / same container type)<br>Do not change anything else</p>\n        </div>\n        <div class=\"glass-card\">\n          <span class=\"label\">Glass C — Input</span>\n          <p class=\"p small\">Vortex or light exposure (choose one variable only)<br>Keep everything else equal</p>\n        </div>\n      </div>\n      \n      <h4 class=\"h4\">Measure at 0 / 30 min / 2 h / 24 h</h4>\n      <ul>\n        <li>EC/TDS</li>\n        <li>pH</li>\n        <li>ORP</li>\n        <li>Turbidity (DIY clarity)</li>\n      </ul>\n      \n      <h4 class=\"h4\">Log it</h4>\n      <p class=\"p\">Use the same format every time:</p>\n      <div class=\"btn-group\">\n        <a href=\"/parameter-tracking\" class=\"chip\">Parameter Tracking</a>\n        <a href=\"/citizen-science-hub\" class=\"chip\">Submit to Citizen Science</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "hub-connections",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"hub-connections\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How This Map Connects to the Other Hubs</h2>\n    \n    <div class=\"grid cols-4\">\n      <a href=\"/science/water\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">💧</div>\n        <h3 class=\"h4\">Water Hub</h3>\n        <p class=\"p small\">Water Science → Architecture of Life</p>\n      </a>\n      <a href=\"/mineral-science-blueprint\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">🔷</div>\n        <h3 class=\"h4\">Minerals Hub</h3>\n        <p class=\"p small\">Mineral Science Blueprint</p>\n      </a>\n      <a href=\"/science/bioelectric\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">⚡</div>\n        <h3 class=\"h4\">Bioelectric Hub</h3>\n        <p class=\"p small\">Bioelectric Water & Voltage</p>\n      </a>\n      <a href=\"/science/geometry\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">◇</div>\n        <h3 class=\"h4\">Geometry Hub</h3>\n        <p class=\"p small\">Crystalline Matrix Hub</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Water, Crystal & Geometry Map",
+        "items": [
+            {
+                "question": "Is this map \"science\" or \"metaphor\"?",
+                "answer": "Both. Sulfate geometry and crystal lattices are literal; the triangle is a navigation model. Measurement anchors the interpretation."
+            },
+            {
+                "question": "Why do you emphasize interfaces so much?",
+                "answer": "Because ordering happens near surfaces. Interfaces are where \"structure talk\" becomes most coherent."
+            },
+            {
+                "question": "What's the fastest way to validate this map?",
+                "answer": "Run the 3-glass experiment and track 4 parameters across time: EC/TDS, ORP, pH, turbidity."
+            },
+            {
+                "question": "Why do results vary between people?",
+                "answer": "Different baseline water chemistry, containers, temperature, and inconsistent logging. Standardization solves most noise."
+            },
+            {
+                "question": "What should I read after this page?",
+                "answer": "If you want structure: /structured-water-basics + /ez-water-overview. If you want chemistry: /sulfate-chemistry + /ionic-vs-colloidal-vs-solid. If you want inputs: /vortex-technologies + /light-and-water."
+            }
+        ]
+    },
+    "jsonLd": {
+        "article": {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Water, Crystal & Geometry – Integrated Field Map",
+            "description": "An integrated map linking water structure (interfaces/EZ), mineral geometry (SO4 tetrahedron), and field inputs (light/flow/magnetics), grounded with measurement protocols.",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://andara-ionic.com/water-crystal-geometry-map"
+            },
+            "author": {
+                "@type": "Organization",
+                "name": "Andara Ionic"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Andara Ionic"
+            },
+            "about": [
+                "Water structure",
+                "Interfacial water",
+                "Sulfate geometry",
+                "Crystal lattices",
+                "Redox",
+                "Conductivity"
+            ]
+        },
+        "faqPage": {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Is this map science or metaphor?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Both. Sulfate geometry and crystal lattices are literal; the triangle is a navigation model. Measurement anchors interpretation."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Why do you emphasize interfaces?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Interfaces are where ordering happens. Surface interactions and hydration layers make structure discussions most coherent."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What's the fastest way to validate the map?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Run a controlled comparison (3-glass experiment) and log EC/TDS, ORP, pH and turbidity over time."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Why do results vary between people?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Baseline water chemistry, containers, temperature, and inconsistent logging introduce noise. Standard protocols reduce variance."
+                    }
+                }
+            ]
+        }
+    },
+    "dynamicBoxRules": {
+        "visualMapBooster": {
+            "trigger": "page lacks visible triangle diagram",
+            "placement": "after Step 1",
+            "action": "addTriangleMapSVG"
+        },
+        "protocolBooster": {
+            "trigger": "/parameter-tracking not linked",
+            "placement": "before Step 7",
+            "action": "addProtocolLink"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 8",
+            "action": "addHubLinks"
+        },
+        "glossaryBooster": {
+            "trigger": "missing definitions",
+            "placement": "after Step 5",
+            "requiredTerms": [
+                "interface",
+                "lattice",
+                "redox",
+                "conductivity",
+                "turbidity"
+            ],
+            "action": "addGlossaryTooltips"
+        }
+    },
+    "internalLinks": [
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/hydration-layers-interfaces",
+        "/tetrahedral-sulfate-geometry",
+        "/sulfate-chemistry",
+        "/mineral-science-blueprint",
+        "/ionic-vs-colloidal-vs-solid",
+        "/vortex-technologies",
+        "/vortex-spin-experiments",
+        "/magnetics-water",
+        "/magnet-placement-experiments",
+        "/light-and-water",
+        "/light-lattices-photonic-flow",
+        "/three-six-nine-harmonics",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/citizen-science-hub",
+        "/science/water",
+        "/science/bioelectric",
+        "/science/geometry",
+        "/bioelectric-water",
+        "/bioelectricity-invisible-voltage"
+    ]
+}

@@ -1,0 +1,158 @@
+{
+    "page": {
+        "key": "bioelectricity-hub",
+        "title": "Bioelectricity Hub — The Invisible Voltage System",
+        "path": "/science/bioelectric",
+        "pageType": "hub",
+        "template": "pillar_overview",
+        "clusterKey": "bioelectric-science",
+        "priority": 1,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Bioelectricity Hub: Voltage, Ion Gradients & Terrain Model",
+        "description": "Learn the charge model: cell-as-battery, ion channels, proton gradients, tissue conductivity, and how water/minerals map into terrain thinking.",
+        "focusKeyword": "bioelectricity",
+        "secondaryKeywords": [
+            "cell membrane voltage",
+            "ion gradients",
+            "proton gradients",
+            "conductivity tissues",
+            "terrain model"
+        ],
+        "intent": [
+            "learn",
+            "understand",
+            "explore"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "scientific",
+            "charge-first",
+            "visionary",
+            "educational"
+        ],
+        "emotionalTone": [
+            "intelligent",
+            "grounded",
+            "transformative"
+        ],
+        "motionPreset": "bioelectric-pulse",
+        "colorPalette": "bioelectric",
+        "treeTheme": "bioelectric"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Science Hub</span>\n        <h1 class=\"h1\">Bioelectricity Hub</h1>\n        <p class=\"p tagline\">The Invisible Voltage System — Charge, Gradients, and Terrain Logic</p>\n        <p class=\"p\">Bioelectricity is the study of how systems move charge and how that shapes behavior across:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li><strong>Water</strong> — electrical medium</li>\n          <li><strong>Tissues</strong> — conductive interfaces</li>\n          <li><strong>Minerals</strong> — charge carriers and cofactors</li>\n          <li><strong>Gradients</strong> — direction = function</li>\n        </ul>\n        <p class=\"p\">This hub builds a clean ladder: <em>concept → model → measurements → maps → case patterns</em></p>\n        <div class=\"btn-group\">\n          <a href=\"/bioelectricity-invisible-voltage\" class=\"btn primary\">Start: Bioelectricity Overview →</a>\n          <a href=\"/cell-membrane-electric-model\" class=\"btn secondary\">Cell as Battery →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Abstract visualization of bioelectric field with cell membrane cross-section, ion channels glowing with charge flow, gradient visualization from positive to negative, emerald and electric blue tones, premium scientific aesthetic -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "core-ladder",
+            "type": "navigation-map",
+            "html": "<section class=\"section\" id=\"core-ladder\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Core Ladder</h2>\n    <p class=\"p subtitle\">Navigate from concept to application</p>\n    \n    <div class=\"ladder-grid\">\n      <div class=\"panel pad level\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Level 1</span>\n        <h3 class=\"h3\">The Battery Model</h3>\n        <ul>\n          <li><a href=\"/bioelectricity-invisible-voltage\">Bioelectricity overview</a></li>\n          <li><a href=\"/cell-membrane-electric-model\">Cell membrane electric model</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad level\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Level 2</span>\n        <h3 class=\"h3\">Gateways & Gradients</h3>\n        <ul>\n          <li><a href=\"/ion-channels-gradients\">Ion channels & gradients</a></li>\n          <li><a href=\"/proton-gradients-energy-transfer\">Proton gradients & energy transfer</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad level\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Level 3</span>\n        <h3 class=\"h3\">Conductivity & Tissue Mapping</h3>\n        <ul>\n          <li><a href=\"/bioelectric-conductivity-tissues\">Bioelectric conductivity in tissues</a></li>\n          <li><a href=\"/bioelectric-maps-water-body-soil\">Bioelectric maps: water · body · soil</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad level\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Level 4</span>\n        <h3 class=\"h3\">Terrain Bridge</h3>\n        <ul>\n          <li><a href=\"/terrain-concepts\">Terrain concepts</a></li>\n          <li><a href=\"/voltage-detox-pathways\">Voltage & detox pathways map</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad level\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Level 5</span>\n        <h3 class=\"h3\">Field Environment</h3>\n        <ul>\n          <li><a href=\"/emf-minerals-shielding\">EMF, minerals & shielding basics</a></li>\n          <li><a href=\"/bioelectric-case-studies\">Case patterns</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "100ms"
+            }
+        },
+        {
+            "id": "gradients-explanation",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"gradients-explanation\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Why Gradients Matter</h2>\n      <p class=\"p tagline\">Charge isn't just \"amount.\" It's direction + separation</p>\n      <p class=\"p\">A gradient is a stored difference — and stored differences create potential.</p>\n      <p class=\"p\">That's why \"terrain thinking\" is fundamentally gradient thinking:</p>\n      <ul class=\"feature-list\">\n        <li>Gradients across <strong>membranes</strong></li>\n        <li>Gradients across <strong>interfaces</strong></li>\n        <li>Gradients across <strong>environments</strong> (water/soil/tissue)</li>\n      </ul>\n      <div class=\"bridge-links\">\n        <span class=\"label\">Bridge pages:</span>\n        <a href=\"/bioelectric-water\" class=\"chip\">Bioelectric Water</a>\n        <a href=\"/mineral-science-blueprint\" class=\"chip\">Mineral Blueprint</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "measurement-bridge",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"measurement-bridge\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Measurement Bridge</h2>\n    <p class=\"p tagline\">What can we measure without philosophy?</p>\n    \n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">In Water</h3>\n        <ul>\n          <li>EC/TDS + ORP + pH + turbidity</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/conductivity-tds-water\" class=\"chip\">EC/TDS</a>\n          <a href=\"/orp-redox-water\" class=\"chip\">ORP</a>\n        </div>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h3\">In Systems</h3>\n        <ul>\n          <li>Patterns: consistency, stability, recovery, variability</li>\n        </ul>\n        <a href=\"/parameter-tracking\" class=\"chip\">Parameter Tracking</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "maps-section",
+            "type": "unique-positioning",
+            "html": "<section class=\"section\" id=\"maps-section\">\n  <div class=\"container\">\n    <div class=\"panel pad featured highlight\">\n      <h2 class=\"h2\">Water · Body · Soil</h2>\n      <p class=\"p tagline\">One conductive continuum — your differentiator</p>\n      <p class=\"p\">Your differentiator is the three-environment map:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Water</strong> carries charge</li>\n        <li><strong>Minerals</strong> modulate charge</li>\n        <li><strong>Interfaces</strong> organize charge</li>\n        <li><strong>Gradients</strong> determine behavior</li>\n      </ul>\n      <a href=\"/bioelectric-maps-water-body-soil\" class=\"btn primary\">Go Deeper: Bioelectric Maps →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Bioelectricity",
+        "items": [
+            {
+                "question": "Is bioelectricity only a biology topic?",
+                "answer": "No — it's a systems topic. Water, minerals, and interfaces form an electrical ecology."
+            },
+            {
+                "question": "Why do ion gradients matter?",
+                "answer": "Because gradients are stored potential — they create direction and regulation."
+            },
+            {
+                "question": "What page connects this to practical experiments?",
+                "answer": "Start with the Home Water Test Kit and the Andara vs Baseline Water Protocol."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Bioelectricity Hub",
+        "description": "Charge-first model: cell-as-battery, ion gradients, proton gradients, tissue conductivity, terrain bridge, and measurement protocols.",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://andara-ionic.com/science/bioelectric"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Andara Ionic"
+        }
+    },
+    "dynamicBoxRules": {
+        "mapBooster": {
+            "condition": "!sections.find(s => s.id === 'maps-section')",
+            "action": "addMapsSection"
+        },
+        "protocolBooster": {
+            "condition": "!internalLinks.some(l => l.includes('measurement') || l.includes('tracking'))",
+            "action": "addMeasurementLinks"
+        },
+        "faqBooster": {
+            "condition": "faq.items.length < 6",
+            "action": "generateAdditionalFAQ"
+        },
+        "linkBooster": {
+            "condition": "internalLinks.length < 12",
+            "action": "generateAdditionalLinks"
+        }
+    },
+    "internalLinks": [
+        "/bioelectricity-invisible-voltage",
+        "/cell-membrane-electric-model",
+        "/ion-channels-gradients",
+        "/proton-gradients-energy-transfer",
+        "/bioelectric-conductivity-tissues",
+        "/bioelectric-maps-water-body-soil",
+        "/terrain-concepts",
+        "/voltage-detox-pathways",
+        "/emf-minerals-shielding",
+        "/bioelectric-case-studies",
+        "/bioelectric-water",
+        "/mineral-science-blueprint",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/parameter-tracking",
+        "/home-water-test-kit",
+        "/andara-vs-baseline-water-protocol"
+    ]
+}

@@ -1,0 +1,103 @@
+{
+    "page": {
+        "key": "iron-sulfur-synergy",
+        "title": "Iron-Sulfur Synergy — Mineral Partnerships",
+        "path": "/iron-sulfur-synergy",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "mineral-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Iron-Sulfur Synergy: Why These Minerals Work Together",
+        "description": "The iron-sulfur connection in nature: Fe-S clusters, electron transport, and why sulfate and iron are paired in geological and biological systems.",
+        "focusKeyword": "iron sulfur",
+        "secondaryKeywords": [
+            "Fe-S clusters",
+            "mineral synergy",
+            "iron metabolism",
+            "sulfur biology"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "scientific",
+            "educational",
+            "precise"
+        ],
+        "emotionalTone": [
+            "expertise",
+            "clarity",
+            "insight"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "matrix"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Synergy</span>\n      <h1 class=\"h1\">Iron-Sulfur Synergy</h1>\n      <p class=\"p tagline\">Why These Minerals Are Paired in Nature</p>\n      <p class=\"p\">Iron and sulfur have been partners since Earth's early chemistry. They work together in:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li>Fe-S clusters (enzyme cofactors)</li>\n        <li>Electron transport chains</li>\n        <li>Geological mineral deposits</li>\n        <li>Sulfate-reducing bacterial systems</li>\n      </ul>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "fe-s-clusters",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"fe-s-clusters\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Fe-S Clusters in Biology</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Iron-sulfur clusters are ancient and essential:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Electron carriers</strong> — shuttle electrons in respiration</li>\n        <li><strong>Enzyme cofactors</strong> — enable catalytic function</li>\n        <li><strong>Sensors</strong> — detect oxygen and iron levels</li>\n        <li><strong>Structural elements</strong> — maintain protein shape</li>\n      </ul>\n      <p class=\"p\">Found in: mitochondria, chloroplasts, bacteria, archaea.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "geology",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"geology\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Geological Connection</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Iron and sulfur combine naturally in:</p>\n      <ul>\n        <li><strong>Pyrite (FeS₂)</strong> — \"fool's gold\"</li>\n        <li><strong>Pyrrhotite (Fe₁₋ₓS)</strong> — magnetic iron sulfide</li>\n        <li><strong>Black mica deposits</strong> — sulfated biotite/phlogopite</li>\n        <li><strong>Hydrothermal systems</strong> — hot springs and vents</li>\n      </ul>\n      <a href=\"/black-mica-sulfated-minerals\" class=\"chip\">Black Mica & Sulfated Minerals</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/sulfate-chemistry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Sulfate Chemistry</h3>\n      </a>\n      <a href=\"/mineral-science-blueprint\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Mineral Blueprint</h3>\n      </a>\n      <a href=\"/tetrahedral-sulfate-geometry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">SO₄ Tetrahedron</h3>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ",
+        "items": [
+            {
+                "question": "Why do iron and sulfur work together?",
+                "answer": "Their electron properties complement each other, enabling efficient electron transfer."
+            },
+            {
+                "question": "Is this relevant to supplements?",
+                "answer": "Understanding synergies can inform mineral pairing, but consult health professionals for supplementation."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Iron-Sulfur Synergy",
+        "description": "Why iron and sulfur are paired in nature."
+    },
+    "internalLinks": [
+        "/sulfate-chemistry",
+        "/mineral-science-blueprint",
+        "/tetrahedral-sulfate-geometry",
+        "/black-mica-sulfated-minerals"
+    ]
+}

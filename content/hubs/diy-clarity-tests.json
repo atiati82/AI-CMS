@@ -1,0 +1,39 @@
+{
+    "page": {
+        "key": "diy-clarity-tests",
+        "title": "DIY Clarity Tests — Home Methods",
+        "path": "/diy-clarity-tests",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 3,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "DIY Clarity Tests: Simple Turbidity Measurement at Home",
+        "description": "Simple methods to measure water clarity at home without expensive equipment: comparison tubes, photography, and sediment observation.",
+        "focusKeyword": "DIY water clarity"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • DIY</span>\n      <h1 class=\"h1\">DIY Clarity Tests</h1>\n      <p class=\"p tagline\">Home Methods for Turbidity</p>\n      <p class=\"p\">You don't need a nephelometer. These simple methods let you track clarity changes.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "methods",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"methods\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Simple Methods</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Comparison Tubes</h3>\n        <p class=\"p\">Fill identical tubes, view against white background, compare side by side.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Photography</h3>\n        <p class=\"p\">Same light, same angle, same background. Compare photos over time.</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Flashlight Test</h3>\n        <p class=\"p\">Shine through sample. More scatter = more turbidity (Tyndall effect).</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Settling Time</h3>\n        <p class=\"p\">Note how long particles take to settle. Faster = larger particles.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/turbidity-clarity\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Turbidity</h3></a>\n      <a href=\"/ionic-vs-colloidal-vs-solid\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Ionic vs Colloidal</h3></a>\n      <a href=\"/parameter-tracking\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Tracking</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/turbidity-clarity",
+        "/ionic-vs-colloidal-vs-solid",
+        "/parameter-tracking"
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "page": {
+        "key": "andara-vs-baseline-water-protocol",
+        "title": "Andara vs Baseline — Comparison Protocol",
+        "path": "/andara-vs-baseline-water-protocol",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2"
+    },
+    "seo": {
+        "title": "Andara vs Baseline Water: Comparison Protocol",
+        "description": "Step-by-step protocol for comparing Andara-treated water to baseline: controlled testing, time points, and parameter tracking.",
+        "focusKeyword": "water comparison protocol"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Protocol</span>\n      <h1 class=\"h1\">Andara vs Baseline</h1>\n      <p class=\"p tagline\">Comparison Protocol — Side-by-Side Testing</p>\n      <p class=\"p\">The only way to know if something changes water is to compare it to unchanged water under the same conditions.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "protocol",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"protocol\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Protocol</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Setup</h3>\n      <ol>\n        <li>Use identical containers (same material, size)</li>\n        <li>Same source water, same temperature</li>\n        <li>Split into two glasses: A (baseline), B (treated)</li>\n        <li>Apply Andara to glass B only</li>\n        <li>Place side by side, same environment</li>\n      </ol>\n      <h3 class=\"h4\">Measure</h3>\n      <ul>\n        <li>T0 — immediately after treatment</li>\n        <li>T30 — 30 minutes</li>\n        <li>T2h — 2 hours</li>\n        <li>T24h — 24 hours</li>\n      </ul>\n      <h3 class=\"h4\">Parameters</h3>\n      <p>EC/TDS, ORP, pH, turbidity</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "controls",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"controls\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Control Variables</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li>Same containers</li>\n        <li>Same water source</li>\n        <li>Same room, same temperature</li>\n        <li>Same time elapsed</li>\n        <li>Same measurement sequence</li>\n      </ul>\n      <p class=\"p\">The only difference should be the treatment applied.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "log",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"log\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Log & Share</h2>\n    <div class=\"panel pad\">\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Log Your Data →</a>\n      <a href=\"/citizen-science-hub\" class=\"btn secondary\">Submit to Community →</a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/parameter-tracking",
+        "/citizen-science-hub",
+        "/home-water-test-kit",
+        "/conductivity-tds-water"
+    ]
+}

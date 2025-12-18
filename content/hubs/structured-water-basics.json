@@ -1,0 +1,133 @@
+{
+    "page": {
+        "key": "structured-water-basics",
+        "title": "Structured Water Basics — Order, Interfaces & Measurement",
+        "path": "/structured-water-basics",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Structured Water Basics: What It Means & How to Measure It",
+        "description": "A grounded introduction to structured water concepts: interfacial ordering, EZ water research, and practical measurement approaches with ORP/EC/pH protocols.",
+        "focusKeyword": "structured water",
+        "secondaryKeywords": [
+            "EZ water",
+            "interfacial water",
+            "water ordering",
+            "hydration layers",
+            "water structure"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "educational",
+            "scientific",
+            "grounded",
+            "accessible"
+        ],
+        "emotionalTone": [
+            "clarity",
+            "curiosity",
+            "trustworthy"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "mineral",
+        "treeTheme": "mineral"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Foundation</span>\n        <h1 class=\"h1\">Structured Water Basics</h1>\n        <p class=\"p tagline\">Order, Interfaces & Measurement</p>\n        <p class=\"p\">\"Structured water\" is one of the most discussed — and misused — terms in alternative water science.</p>\n        <p class=\"p\">This page gives you a grounded foundation:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li>What \"structure\" actually refers to</li>\n          <li>Where the science is strong vs speculative</li>\n          <li>How to measure and compare for yourself</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"#what-it-means\" class=\"btn primary\">What It Means →</a>\n          <a href=\"/ez-water-overview\" class=\"btn secondary\">EZ Water →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Abstract water molecular structure with hexagonal ordering patterns, soft blue gradient, scientific aesthetic -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "what-it-means",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-it-means\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What \"Structured Water\" Actually Means</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">In scientific terms, \"structured water\" refers to:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Interfacial ordering</strong> — water molecules arranging near surfaces</li>\n        <li><strong>Hydration layers</strong> — organized water around hydrophilic materials</li>\n        <li><strong>Hydrogen bond networks</strong> — temporary patterns that form and reform</li>\n      </ul>\n      <p class=\"p callout\"><strong>Key point:</strong> Water structure is not permanent. It's a dynamic property influenced by surfaces, temperature, ions, and time.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "where-structure-happens",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"where-structure-happens\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Where Structure Happens</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Near Surfaces</h3>\n        <p class=\"p\">Hydrophilic surfaces create boundary layers where water molecules align differently than bulk water.</p>\n        <a href=\"/hydration-layers-interfaces\" class=\"chip\">Hydration Layers</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">At Interfaces</h3>\n        <p class=\"p\">Air-water, solid-water, and membrane interfaces are where ordering effects are most measurable.</p>\n        <a href=\"/ez-water-overview\" class=\"chip\">EZ Water</a>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Over Time</h3>\n        <p class=\"p\">Water that \"sits\" can develop different properties than freshly agitated water.</p>\n        <a href=\"/parameter-tracking\" class=\"chip\">Parameter Tracking</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "evidence-levels",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"evidence-levels\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Evidence Levels</h2>\n    <div class=\"panel pad\">\n      <div class=\"grid cols-2\">\n        <div>\n          <h3 class=\"h4\">Strong Evidence</h3>\n          <ul>\n            <li>Interfacial water exists and behaves differently</li>\n            <li>Hydrogen bonding creates temporary networks</li>\n            <li>Hydration shells form around ions and surfaces</li>\n          </ul>\n        </div>\n        <div>\n          <h3 class=\"h4\">Speculative / Requires Caution</h3>\n          <ul>\n            <li>\"Permanent\" hexagonal restructuring</li>\n            <li>Water \"memory\" claims</li>\n            <li>Health benefits from structure alone</li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "measurement",
+            "type": "measurement",
+            "html": "<section class=\"section\" id=\"measurement\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Measure Structure Effects</h2>\n    <p class=\"p subtitle\">Structure itself isn't directly measured — but its effects can be tracked</p>\n    <div class=\"panel pad\">\n      <p class=\"p\">Use the 4-parameter fingerprint over time:</p>\n      <div class=\"grid cols-4\">\n        <a href=\"/conductivity-tds-water\" class=\"chip\">EC/TDS</a>\n        <a href=\"/orp-redox-water\" class=\"chip\">ORP</a>\n        <a href=\"/ph-balance-water\" class=\"chip\">pH</a>\n        <a href=\"/turbidity-clarity\" class=\"chip\">Turbidity</a>\n      </div>\n      <p class=\"p\">Compare readings at 0 / 30 min / 2h / 24h to see time-based patterns.</p>\n      <a href=\"/home-water-test-kit\" class=\"btn primary\">Get Started →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "next-steps",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"next-steps\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Go Deeper</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/ez-water-overview\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">EZ Water Overview</h3>\n        <p class=\"p small\">Pollack's exclusion zone research</p>\n      </a>\n      <a href=\"/hydration-layers-interfaces\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Hydration Layers & Interfaces</h3>\n        <p class=\"p small\">Where ordering happens</p>\n      </a>\n      <a href=\"/science/water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Water Science Hub</h3>\n        <p class=\"p small\">Complete water library</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Structured Water",
+        "items": [
+            {
+                "question": "Is 'structured water' proven?",
+                "answer": "Interfacial ordering is proven. Permanent restructuring claims require more caution."
+            },
+            {
+                "question": "Can I make structured water at home?",
+                "answer": "You can create conditions for ordering (surfaces, time, flow) and measure the effects."
+            },
+            {
+                "question": "What's the best way to verify?",
+                "answer": "Use the 4-parameter fingerprint over time and compare to a baseline."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Structured Water Basics",
+        "description": "A grounded introduction to structured water: interfacial ordering, EZ water research, and practical measurement."
+    },
+    "internalLinks": [
+        "/ez-water-overview",
+        "/hydration-layers-interfaces",
+        "/parameter-tracking",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/science/water"
+    ]
+}

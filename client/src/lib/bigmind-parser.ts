@@ -59,50 +59,50 @@ function decodeHtmlEntities(text: string): string {
  */
 function cleanAIResponse(content: string): string {
   let cleaned = content;
-  
+
   // Decode HTML entities first
   cleaned = decodeHtmlEntities(cleaned);
-  
+
   // Remove wrapping ```html ... ``` if present at start/end of entire content
   cleaned = cleaned.replace(/^```(?:html|tsx|jsx)?\n?/i, '').replace(/\n?```$/i, '');
-  
+
   // Fix hybrid format: ``<code class="...">blockname becomes ```blockname
   // Pattern: ``<code class="bg-muted/50 px-1 py-0.5 rounded text-sm font-mono">visual-config
   // Allow optional whitespace/newlines between tags and block name
   cleaned = cleaned.replace(/``<code[^>]*>\s*([a-z-]+)/gi, '```$1');
-  
+
   // IMPORTANT: Order matters - process full <pre><code></code></pre> patterns FIRST
   // before partial patterns like </code></pre>
-  
+
   // Full wrapper: <pre><code class="language-"></code></pre>blockname → ```blockname
   cleaned = cleaned.replace(/<pre>\s*<code[^>]*>\s*<\/code>\s*<\/pre>\s*([a-z-]+)/gi, '```$1');
-  
+
   // Remove orphaned empty wrappers: <pre><code class="language-"></code></pre> → nothing
   cleaned = cleaned.replace(/<pre>\s*<code[^>]*>\s*<\/code>\s*<\/pre>\s*/gi, '');
-  
+
   // Partial pattern (runs after full pattern): </code></pre>blockname → ```blockname
   cleaned = cleaned.replace(/<\/code>\s*<\/pre>\s*([a-z-]+)/gi, '```$1');
-  
+
   // Clean orphaned opening tags that might remain
   cleaned = cleaned.replace(/<pre>\s*<code[^>]*>\s*/gi, '');
-  
+
   // Fix double backtick code fences (``code`` instead of ```code```)
   cleaned = cleaned.replace(/``\s*([a-z-]+)\s*\n/gi, '```$1\n');
   cleaned = cleaned.replace(/\n``(\s*$)/gi, '\n```$1');
-  
+
   // Clean up escaped entities in code blocks
   cleaned = cleaned.replace(/&amp;lt;/g, '<').replace(/&amp;gt;/g, '>');
-  
+
   // Remove inline <code> tags that wrap block names (allow whitespace)
   cleaned = cleaned.replace(/<code[^>]*>\s*([a-z-]+)\s*<\/code>/gi, '$1');
-  
+
   return cleaned;
 }
 
 export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse {
   // Pre-process content to fix common AI output issues - use this for ALL regex operations
   const content = cleanAIResponse(rawContent);
-  
+
   const result: ParsedBigMindResponse = {
     pageMetadata: {},
     visualConfig: {},
@@ -113,13 +113,13 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   const pageMetadataMatch = content.match(/```page-metadata\n([\s\S]*?)```/);
   if (pageMetadataMatch) {
     const metaText = pageMetadataMatch[1];
-    
+
     // TITLE (display title)
     const titleMatch = metaText.match(/^TITLE:\s*(.+)/im);
     if (titleMatch) {
       result.pageMetadata.title = titleMatch[1].trim();
     }
-    
+
     // H1_TITLE (main headline)
     const h1Match = metaText.match(/H1_TITLE:\s*(.+)/i);
     if (h1Match) {
@@ -127,68 +127,68 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
     } else if (result.pageMetadata.title) {
       result.pageMetadata.h1Title = result.pageMetadata.title;
     }
-    
+
     // PATH (URL path)
     const pathMatch = metaText.match(/PATH:\s*(.+)/i);
     if (pathMatch) {
       result.pageMetadata.path = pathMatch[1].trim();
       result.pageMetadata.urlSlug = pathMatch[1].trim().replace(/^\//, '');
     }
-    
+
     // SLUG (fallback)
     const slugMatchNew = metaText.match(/SLUG:\s*(.+)/i);
     if (slugMatchNew && !result.pageMetadata.urlSlug) {
       result.pageMetadata.urlSlug = slugMatchNew[1].trim();
     }
-    
+
     // CLUSTER
     const clusterMatch = metaText.match(/CLUSTER:\s*(.+)/i);
     if (clusterMatch) {
       result.pageMetadata.cluster = clusterMatch[1].trim();
     }
-    
+
     // SEO_TITLE
     const seoTitleMatch = metaText.match(/SEO_TITLE:\s*(.+)/i);
     if (seoTitleMatch) {
       result.pageMetadata.metaTitle = seoTitleMatch[1].trim();
     }
-    
+
     // SEO_DESCRIPTION
     const seoDescMatch = metaText.match(/SEO_DESCRIPTION:\s*(.+)/i);
     if (seoDescMatch) {
       result.pageMetadata.metaDescription = seoDescMatch[1].trim();
     }
-    
+
     // SEO_FOCUS (primary keyword)
     const seoFocusMatch = metaText.match(/SEO_FOCUS:\s*(.+)/i);
     if (seoFocusMatch) {
       result.pageMetadata.seoFocus = seoFocusMatch[1].trim();
     }
-    
+
     // SEO_KEYWORDS
     const seoKeywordsMatch = metaText.match(/SEO_KEYWORDS:\s*(.+)/i);
     if (seoKeywordsMatch) {
       result.pageMetadata.seoKeywords = seoKeywordsMatch[1].split(',').map(k => k.trim()).filter(Boolean);
     }
-    
+
     // TEMPLATE
     const templateMatch = metaText.match(/TEMPLATE:\s*(.+)/i);
     if (templateMatch) {
       result.pageMetadata.template = templateMatch[1].trim();
     }
-    
+
     // PRIORITY
     const priorityMatch = metaText.match(/PRIORITY:\s*(.+)/i);
     if (priorityMatch) {
       result.pageMetadata.priority = priorityMatch[1].trim();
     }
-    
+
     // SUMMARY
     const summaryMatch = metaText.match(/SUMMARY:\s*(.+)/i);
     if (summaryMatch) {
       result.pageMetadata.summary = summaryMatch[1].trim();
     }
-    
+
     // ZONE (legacy)
     const zoneMatch = metaText.match(/ZONE:\s*(\d+)/i);
     if (zoneMatch) {
@@ -199,7 +199,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 1. Extract URL slug (fallback to old format)
   if (!result.pageMetadata.urlSlug) {
     const slugMatch = content.match(/\*\*URL slug:\*\*\s*`?([^`\n]+)`?/i) ||
-                      content.match(/URL slug:\s*`?([^`\n]+)`?/i);
+      content.match(/URL slug:\s*`?([^`\n]+)`?/i);
     if (slugMatch) {
       result.pageMetadata.urlSlug = slugMatch[1].trim();
     }
@@ -208,8 +208,8 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 2. Extract H1 title (fallback to old format)
   if (!result.pageMetadata.h1Title) {
     const h1Match = content.match(/\*\*H1 title:\*\*\s*(.+)/i) ||
-                    content.match(/H1 title:\s*(.+)/i) ||
-                    content.match(/\*\*Page Title:\*\*\s*(.+)/i);
+      content.match(/H1 title:\s*(.+)/i) ||
+      content.match(/\*\*Page Title:\*\*\s*(.+)/i);
     if (h1Match) {
       result.pageMetadata.h1Title = h1Match[1].trim();
     }
@@ -218,7 +218,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 3. Extract Meta title (fallback to old format)
   if (!result.pageMetadata.metaTitle) {
     const metaTitleMatch = content.match(/\*\*Meta title:\*\*\s*(.+)/i) ||
-                           content.match(/Meta title:\s*(.+)/i);
+      content.match(/Meta title:\s*(.+)/i);
     if (metaTitleMatch) {
       result.pageMetadata.metaTitle = metaTitleMatch[1].trim();
     }
@@ -227,7 +227,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 4. Extract Meta description (fallback to old format)
   if (!result.pageMetadata.metaDescription) {
     const metaDescMatch = content.match(/\*\*Meta description:\*\*\s*(.+)/i) ||
-                          content.match(/Meta description:\s*(.+)/i);
+      content.match(/Meta description:\s*(.+)/i);
     if (metaDescMatch) {
       result.pageMetadata.metaDescription = metaDescMatch[1].trim();
     }
@@ -236,7 +236,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 5. Extract SEO keywords (fallback to old format)
   if (!result.pageMetadata.seoKeywords) {
     const keywordsMatch = content.match(/\*\*(?:\d+[-–]?\d*\s*)?SEO keywords:\*\*\s*(.+)/i) ||
-                          content.match(/SEO keywords:\s*(.+)/i);
+      content.match(/SEO keywords:\s*(.+)/i);
     if (keywordsMatch) {
       result.pageMetadata.seoKeywords = keywordsMatch[1]
         .split(/,\s*/)
@@ -248,58 +248,58 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   // 6. Extract visual-config block - support multiple formats
   // Try standard markdown code fence first, then fallback to inline detection
   const visualConfigMatch = content.match(/```visual-config\n([\s\S]*?)```/) ||
-                            content.match(/``visual-config\n?([\s\S]*?)``/) ||
-                            content.match(/<code>visual-config\n?([\s\S]*?)<\/code>/) ||
-                            content.match(/visual-config\n(VIBE KEYWORDS:[\s\S]*?)(?:\n\n|\n```|$)/i);
-  
+    content.match(/``visual-config\n?([\s\S]*?)``/) ||
+    content.match(/<code>visual-config\n?([\s\S]*?)<\/code>/) ||
+    content.match(/visual-config\n(VIBE KEYWORDS:[\s\S]*?)(?:\n\n|\n```|$)/i);
+
   if (visualConfigMatch) {
     const configText = visualConfigMatch[1];
-    
+
     // Parse VIBE KEYWORDS - support both [brackets] and plain comma-separated
     const vibeMatch = configText.match(/VIBE KEYWORDS:\s*\[([^\]]+)\]/i) ||
-                      configText.match(/VIBE KEYWORDS:\s*([^\n]+)/i);
+      configText.match(/VIBE KEYWORDS:\s*([^\n]+)/i);
     if (vibeMatch) {
       result.visualConfig.vibeKeywords = vibeMatch[1].split(',').map(s => s.trim()).filter(Boolean);
     }
-    
+
     // Parse EMOTIONAL TONE - support both [brackets] and plain comma-separated
     const toneMatch = configText.match(/EMOTIONAL TONE:\s*\[([^\]]+)\]/i) ||
-                      configText.match(/EMOTIONAL TONE:\s*([^\n]+)/i);
+      configText.match(/EMOTIONAL TONE:\s*([^\n]+)/i);
     if (toneMatch) {
       result.visualConfig.emotionalTone = toneMatch[1].split(',').map(s => s.trim()).filter(Boolean);
     }
-    
+
     const colorMatch = configText.match(/COLOR PALETTE:\s*([^\n]+)/i);
     if (colorMatch) {
       result.visualConfig.colorPalette = colorMatch[1].trim();
     }
-    
+
     const layoutMatch = configText.match(/LAYOUT(?:S?)[\s_]DETECTED:\s*([^\n]+)/i);
     if (layoutMatch) {
       result.visualConfig.layoutsDetected = layoutMatch[1].split(',').map(s => s.trim()).filter(Boolean);
     }
-    
+
     const motionMatch = configText.match(/MOTION PRESET:\s*([^\n]+)/i);
     if (motionMatch) {
       result.visualConfig.motionPreset = motionMatch[1].trim();
     }
-    
+
     const entranceMatch = configText.match(/ENTRANCE:\s*([^\n]+)/i);
     if (entranceMatch) {
       result.visualConfig.entranceMotion = entranceMatch[1].trim();
     }
-    
+
     const hoverMatch = configText.match(/HOVER:\s*([^\n]+)/i);
     if (hoverMatch) {
       result.visualConfig.hoverMotion = hoverMatch[1].trim();
     }
-    
+
     const ambientMatch = configText.match(/AMBIENT:\s*([^\n]+)/i);
     if (ambientMatch) {
       result.visualConfig.ambientMotion = ambientMatch[1].trim();
     }
   }
-  
+
   // Also try to extract visual config from loose format (not in code block)
   if (!result.visualConfig.vibeKeywords) {
     const looseVibeMatch = content.match(/VIBE KEYWORDS:\s*([^\n]+)/i);
@@ -342,16 +342,16 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
   const romanMotionSection = content.match(/(?:III|IV|V)\.?\s*MOTION\s*LAYOUT[^\n]*\n([\s\S]*?)(?=\n(?:I{1,3}V?|V)\.?\s+[A-Z]|\n\n\n|$)/i);
   if (romanMotionSection) {
     const sectionContent = romanMotionSection[1];
-    
+
     // Try to extract motion preset from section
     if (!result.visualConfig.motionPreset) {
       const presetInSection = sectionContent.match(/(?:MOTION|PRESET|ARCHETYPE):\s*([^\n,]+)/i) ||
-                               sectionContent.match(/(?:liquid-crystal|energetic-pulse|magnetic-drift|krystal-bloom|scalar-slide|vortex-reveal|parallax-depth|ripple-emergence|subtle-shimmer|layered-parallax)/i);
+        sectionContent.match(/(?:liquid-crystal|energetic-pulse|magnetic-drift|krystal-bloom|scalar-slide|vortex-reveal|parallax-depth|ripple-emergence|subtle-shimmer|layered-parallax)/i);
       if (presetInSection) {
         result.visualConfig.motionPreset = presetInSection[1]?.trim() || presetInSection[0].trim();
       }
     }
-    
+
     // Try to extract layouts from section
     if (!result.visualConfig.layoutsDetected) {
       const layoutsInSection = sectionContent.match(/(?:LAYOUTS?|SECTIONS?):\s*([^\n]+)/i);
@@ -373,8 +373,8 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
 
   // 8. Extract HTML content - support various formats and decode entities
   const htmlMatch = content.match(/```html\n([\s\S]*?)```/) ||
-                    content.match(/```tsx\n([\s\S]*?)```/) ||
-                    content.match(/```jsx\n([\s\S]*?)```/);
+    content.match(/```tsx\n([\s\S]*?)```/) ||
+    content.match(/```jsx\n([\s\S]*?)```/);
   if (htmlMatch) {
     // Decode any HTML entities in the extracted content
     result.htmlContent = decodeHtmlEntities(htmlMatch[1].trim());
@@ -407,25 +407,25 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
 
   // 10. Also extract from image-prompts code block - support multiple formats
   const imagePromptsMatch = content.match(/```image-prompts\n([\s\S]*?)```/) ||
-                            content.match(/``image-prompts\n?([\s\S]*?)``/) ||
-                            content.match(/<\/code><\/pre>image-prompts\n?([\s\S]*?)(?=\n\n\n|$)/i) ||
-                            content.match(/image-prompts\n((?:Hero|Section|Featured|Background|Icon)[^\n]*:[\s\S]*?)(?:\n\n\n|$)/i);
+    content.match(/``image-prompts\n?([\s\S]*?)``/) ||
+    content.match(/<\/code><\/pre>image-prompts\n?([\s\S]*?)(?=\n\n\n|$)/i) ||
+    content.match(/image-prompts\n((?:Hero|Section|Featured|Background|Icon)[^\n]*:[\s\S]*?)(?:\n\n\n|$)/i);
   if (imagePromptsMatch) {
     const promptsText = imagePromptsMatch[1];
     // Handle multi-line prompts where lines without : are continuations
     const entries: { label: string; prompt: string }[] = [];
     let currentLabel = '';
     let currentPrompt = '';
-    
+
     const lines = promptsText.split('\n');
     for (const line of lines) {
       const trimmedLine = line.trim();
       if (!trimmedLine) continue;
-      
+
       // Check if this is a new entry (has a label with colon)
       const colonIdx = trimmedLine.indexOf(':');
       const potentialLabel = colonIdx > 0 ? trimmedLine.substring(0, colonIdx).trim() : '';
-      
+
       // Detect if this looks like a new label (starts with known patterns or numbered sections)
       const isNewEntry = colonIdx > 0 && (
         /^(Hero|Section|Featured|Background|Icon|Gallery)/i.test(potentialLabel) ||
@@ -433,7 +433,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
         /^[A-Z][a-z]+\s+\d+/i.test(potentialLabel) || // e.g., "Section 2.1"
         /^[A-Z][a-z]+\s+Visual/i.test(potentialLabel) // e.g., "Hero Visual"
       );
-      
+
       if (isNewEntry) {
         // Save previous entry if exists
         if (currentLabel && currentPrompt) {
@@ -450,11 +450,11 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
     if (currentLabel && currentPrompt) {
       entries.push({ label: currentLabel, prompt: currentPrompt.trim() });
     }
-    
+
     for (const { label, prompt } of entries) {
       const slotType = detectSlotTypeFromLabel(label);
       const id = `imgblock-${result.imagePrompts.length + 1}-${Date.now()}`;
-      
+
       result.imagePrompts.push({
         id,
         slotKey: label.toLowerCase().replace(/\s+/g, '-'),
@@ -467,7 +467,7 @@ export function parseBigMindResponse(rawContent: string): ParsedBigMindResponse 
 
   // 11. Extract atmosphere description
   const atmosphereMatch = content.match(/\*\*V\.\s*SIGNATURE ANDARA ATMOSPHERE\*\*\n([\s\S]*?)(?=\n---|\n\*\*|\n```|$)/i) ||
-                          content.match(/SIGNATURE ANDARA ATMOSPHERE\*?\*?\n([\s\S]*?)(?=\n---|\n\*\*|\n```|$)/i);
+    content.match(/SIGNATURE ANDARA ATMOSPHERE\*?\*?\n([\s\S]*?)(?=\n---|\n\*\*|\n```|$)/i);
   if (atmosphereMatch) {
     result.atmosphere = atmosphereMatch[1].trim().substring(0, 500);
   }
@@ -505,15 +505,16 @@ export function generateSlugFromTitle(title: string): string {
 }
 
 // --- ENHANCEMENT EXTRACTION ---
-export type EnhancementType = 'title' | 'summary' | 'seo_title' | 'seo_description' | 'hero_content' | 'section_content' | 'faq' | 'cta' | 'image_prompt' | 'internal_link' | 'tag' | 'keyword' | 'cluster' | 'template' | 'path' | 'motion_preset' | 'layout' | 'entrance_motion' | 'hover_motion' | 'ambient_motion';
+export type EnhancementType = 'title' | 'summary' | 'seo_title' | 'seo_description' | 'hero_content' | 'section_content' | 'faq' | 'cta' | 'image_prompt' | 'internal_link' | 'tag' | 'keyword' | 'cluster' | 'template' | 'path' | 'motion_preset' | 'layout' | 'entrance_motion' | 'hover_motion' | 'ambient_motion' | 'page-metadata' | 'visual-config';
 
 export interface ParsedEnhancement {
   id: string;
-  enhancementType: EnhancementType;
+  type: EnhancementType;
   fieldName?: string;
-  suggestedValue: string;
+  content: string; // The suggested value
   reason?: string;
   confidence: number;
+  data?: any; // For complex objects
 }
 
 export interface ExtractedEnhancements {
@@ -526,16 +527,16 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   const content = cleanAIResponse(rawContent);
   const enhancements: ParsedEnhancement[] = [];
   let idx = 0;
-  
+
   const generateId = () => `enh-${++idx}-${Date.now()}`;
 
   // Extract from parsed metadata
   if (parsed.pageMetadata.h1Title) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'title',
+      type: 'title',
       fieldName: 'title',
-      suggestedValue: parsed.pageMetadata.h1Title,
+      content: parsed.pageMetadata.h1Title,
       reason: 'Extracted from AI-generated page title',
       confidence: 90
     });
@@ -544,9 +545,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.metaTitle) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'seo_title',
+      type: 'seo_title',
       fieldName: 'seoTitle',
-      suggestedValue: parsed.pageMetadata.metaTitle,
+      content: parsed.pageMetadata.metaTitle,
       reason: 'Optimized SEO meta title',
       confidence: 85
     });
@@ -555,9 +556,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.metaDescription) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'seo_description',
+      type: 'seo_description',
       fieldName: 'seoDescription',
-      suggestedValue: parsed.pageMetadata.metaDescription,
+      content: parsed.pageMetadata.metaDescription,
       reason: 'Optimized SEO meta description',
       confidence: 85
     });
@@ -566,9 +567,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.seoKeywords && parsed.pageMetadata.seoKeywords.length > 0) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'keyword',
+      type: 'keyword',
       fieldName: 'seoFocus',
-      suggestedValue: parsed.pageMetadata.seoKeywords[0],
+      content: parsed.pageMetadata.seoKeywords[0],
       reason: 'Primary SEO focus keyword',
       confidence: 80
     });
@@ -578,9 +579,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.cluster) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'cluster',
+      type: 'cluster',
       fieldName: 'clusterKey',
-      suggestedValue: parsed.pageMetadata.cluster,
+      content: parsed.pageMetadata.cluster,
       reason: 'Content cluster assignment',
       confidence: 90
     });
@@ -590,9 +591,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.template) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'template',
+      type: 'template',
       fieldName: 'template',
-      suggestedValue: parsed.pageMetadata.template,
+      content: parsed.pageMetadata.template,
       reason: 'Page template type',
       confidence: 85
     });
@@ -602,9 +603,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.pageMetadata.urlSlug) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'path',
+      type: 'path',
       fieldName: 'path',
-      suggestedValue: parsed.pageMetadata.urlSlug,
+      content: parsed.pageMetadata.urlSlug,
       reason: 'URL path for the page',
       confidence: 90
     });
@@ -614,98 +615,98 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   if (parsed.htmlContent) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'hero_content',
+      type: 'hero_content',
       fieldName: 'aiStartupHtml',
-      suggestedValue: parsed.htmlContent,
+      content: parsed.htmlContent,
       reason: 'Full page HTML content generated by AI',
       confidence: 90
     });
   }
-  
+
   // Extract visual config as enhancements
   if (parsed.visualConfig.vibeKeywords && parsed.visualConfig.vibeKeywords.length > 0) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'tag' as EnhancementType,
+      type: 'tag' as EnhancementType,
       fieldName: 'visualConfig.vibeKeywords',
-      suggestedValue: JSON.stringify(parsed.visualConfig.vibeKeywords),
+      content: JSON.stringify(parsed.visualConfig.vibeKeywords),
       reason: 'Visual vibe keywords for page design',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.emotionalTone && parsed.visualConfig.emotionalTone.length > 0) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'tag' as EnhancementType,
+      type: 'tag' as EnhancementType,
       fieldName: 'visualConfig.emotionalTone',
-      suggestedValue: JSON.stringify(parsed.visualConfig.emotionalTone),
+      content: JSON.stringify(parsed.visualConfig.emotionalTone),
       reason: 'Emotional tone for page atmosphere',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.colorPalette) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'tag' as EnhancementType,
+      type: 'tag' as EnhancementType,
       fieldName: 'visualConfig.colorPalette',
-      suggestedValue: parsed.visualConfig.colorPalette,
+      content: parsed.visualConfig.colorPalette,
       reason: 'Suggested color palette',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.motionPreset) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'motion_preset',
+      type: 'motion_preset',
       fieldName: 'visualConfig.motionPreset',
-      suggestedValue: parsed.visualConfig.motionPreset,
+      content: parsed.visualConfig.motionPreset,
       reason: 'Animation motion preset for page elements',
       confidence: 90
     });
   }
-  
+
   if (parsed.visualConfig.entranceMotion) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'entrance_motion',
+      type: 'entrance_motion',
       fieldName: 'visualConfig.entranceMotion',
-      suggestedValue: parsed.visualConfig.entranceMotion,
+      content: parsed.visualConfig.entranceMotion,
       reason: 'Entrance animation for elements',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.hoverMotion) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'hover_motion',
+      type: 'hover_motion',
       fieldName: 'visualConfig.hoverMotion',
-      suggestedValue: parsed.visualConfig.hoverMotion,
+      content: parsed.visualConfig.hoverMotion,
       reason: 'Hover animation for interactive elements',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.ambientMotion) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'ambient_motion',
+      type: 'ambient_motion',
       fieldName: 'visualConfig.ambientMotion',
-      suggestedValue: parsed.visualConfig.ambientMotion,
+      content: parsed.visualConfig.ambientMotion,
       reason: 'Ambient background animation',
       confidence: 85
     });
   }
-  
+
   if (parsed.visualConfig.layoutsDetected && parsed.visualConfig.layoutsDetected.length > 0) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'layout',
+      type: 'layout',
       fieldName: 'visualConfig.layoutsDetected',
-      suggestedValue: JSON.stringify(parsed.visualConfig.layoutsDetected),
+      content: JSON.stringify(parsed.visualConfig.layoutsDetected),
       reason: 'Detected layout patterns for page structure',
       confidence: 85
     });
@@ -715,9 +716,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
   for (const imgPrompt of parsed.imagePrompts) {
     enhancements.push({
       id: generateId(),
-      enhancementType: 'image_prompt',
+      type: 'image_prompt',
       fieldName: imgPrompt.slotKey,
-      suggestedValue: imgPrompt.prompt,
+      content: imgPrompt.prompt,
       reason: `Image prompt for ${imgPrompt.location}`,
       confidence: 85
     });
@@ -728,9 +729,9 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
     for (const link of parsed.pageMetadata.internalLinks) {
       enhancements.push({
         id: generateId(),
-        enhancementType: 'internal_link',
+        type: 'internal_link',
         fieldName: link.slug,
-        suggestedValue: JSON.stringify(link),
+        content: JSON.stringify(link),
         reason: `Internal link suggestion: "${link.anchorText}" -> ${link.slug}`,
         confidence: 75
       });
@@ -750,12 +751,12 @@ export function extractEnhancements(rawContent: string, parsed: ParsedBigMindRes
     let match;
     while ((match = pattern.exec(content)) !== null) {
       const value = match[1].trim();
-      if (value && !enhancements.some(e => e.suggestedValue === value)) {
+      if (value && !enhancements.some(e => e.content === value)) {
         enhancements.push({
           id: generateId(),
-          enhancementType: type,
+          type: type,
           fieldName: field,
-          suggestedValue: value,
+          content: value,
           reason: 'Extracted from AI suggestions',
           confidence: 70
         });
@@ -807,7 +808,7 @@ export function hasEnhancementContent(rawContent: string): boolean {
 }
 
 // --- BIGMIND RECOMMENDATION EXTRACTION ---
-export type BigmindSuggestionType = 
+export type BigmindSuggestionType =
   | 'content_gap'
   | 'visual_config'
   | 'motion_config'

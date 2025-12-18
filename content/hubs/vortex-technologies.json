@@ -1,0 +1,103 @@
+{
+    "page": {
+        "key": "vortex-technologies",
+        "title": "Vortex Technologies — Flow Geometry & Water",
+        "path": "/vortex-technologies",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Vortex Technologies: Flow Geometry in Water Science",
+        "description": "Exploring vortex and flow geometry: how spinning water affects mixing, aeration, and measurable parameters like ORP, turbidity, and dissolved oxygen.",
+        "focusKeyword": "vortex water",
+        "secondaryKeywords": [
+            "flow geometry",
+            "water vortex",
+            "spinning water",
+            "Viktor Schauberger"
+        ],
+        "intent": [
+            "learn",
+            "explore"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "dynamic",
+            "experimental",
+            "scientific"
+        ],
+        "emotionalTone": [
+            "curiosity",
+            "exploration",
+            "grounded"
+        ],
+        "motionPreset": "knowledge-flow",
+        "colorPalette": "matrix"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Flow</span>\n      <h1 class=\"h1\">Vortex Technologies</h1>\n      <p class=\"p tagline\">Flow Geometry & Water</p>\n      <p class=\"p\">Vortex flow is one of the \"input\" variables in the Pattern Stack. Spinning water changes:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li>Mixing dynamics</li>\n        <li>Surface exposure (aeration)</li>\n        <li>Gas exchange behavior</li>\n        <li>Particle distribution (turbidity patterns)</li>\n      </ul>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "what-vortex-does",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-vortex-does\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What Vortex Flow Actually Does</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Observable, measurable effects:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Increased aeration</strong> — more contact with air</li>\n        <li><strong>Temperature equilibration</strong> — faster mixing</li>\n        <li><strong>Dissolved gas changes</strong> — O₂ and CO₂ exchange</li>\n        <li><strong>Particle dynamics</strong> — centrifugal separation effects</li>\n      </ul>\n      <p class=\"p callout\">Measure ORP and dissolved oxygen before/after vortexing to see effects.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "experiments",
+            "type": "experiment",
+            "html": "<section class=\"section\" id=\"experiments\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Simple Experiments</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Basic Vortex Test</h3>\n      <ol>\n        <li>Measure baseline: ORP, pH, turbidity, DO</li>\n        <li>Vortex water for 60 seconds (stir vigorously in one direction)</li>\n        <li>Measure immediately after</li>\n        <li>Measure at 30 min and 2 hours</li>\n        <li>Compare to undisturbed control</li>\n      </ol>\n      <a href=\"/parameter-tracking\" class=\"btn primary\">Log Results →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/water-crystal-geometry-map\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Integrated Map</h3>\n      </a>\n      <a href=\"/light-and-water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Light & Water</h3>\n      </a>\n      <a href=\"/orp-redox-water\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">ORP/Redox</h3>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ",
+        "items": [
+            {
+                "question": "Does vortexing 'structure' water?",
+                "answer": "It changes measurable parameters. Whether that constitutes 'structuring' depends on your definition."
+            },
+            {
+                "question": "How long do effects last?",
+                "answer": "Measure to find out! Gas exchange effects may equilibrate within hours."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Vortex Technologies",
+        "description": "Flow geometry and its effects on water parameters."
+    },
+    "internalLinks": [
+        "/water-crystal-geometry-map",
+        "/light-and-water",
+        "/orp-redox-water",
+        "/parameter-tracking"
+    ]
+}

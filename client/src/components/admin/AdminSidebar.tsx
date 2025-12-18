@@ -3,7 +3,7 @@ import {
   LayoutDashboard, FileText, Package, Beaker, FolderTree, FileUp,
   Target, Wand2, Link, Code2, Settings, Brain, ChevronLeft, ChevronRight,
   ShoppingCart, GraduationCap, Truck, Mail, MessageSquare, Calendar, Kanban,
-  Palette, Menu, X, BarChart3, Cpu
+  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -36,7 +36,7 @@ const navSections: NavSection[] = [
     title: "Content",
     items: [
       { id: "clusters", label: "Clusters", icon: FolderTree },
-      { id: "documents", label: "Documents", icon: FileUp },
+      { id: 'documents', label: 'Knowledge Base', icon: FileText },
       { id: "templates", label: "Templates", icon: Code2 },
     ],
   },
@@ -50,12 +50,14 @@ const navSections: NavSection[] = [
       { id: "linking", label: "Linking Rules", icon: Link },
       { id: "bigmind", label: "Big Mind", icon: Brain },
       { id: "ai-agents", label: "AI Agents", icon: Cpu },
+      { id: "workflows", label: "Workflows", icon: Layers },
     ],
   },
   {
     title: "System",
     items: [
-      { id: "design", label: "Design", icon: Palette },
+      { id: "design", label: "Design System", icon: Palette },
+      { id: "design-interpreter", label: "Visual Interpreter", icon: Sparkles },
       { id: "settings", label: "Settings", icon: Settings },
     ],
   },
@@ -103,8 +105,8 @@ function SidebarContent({
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                       isActive
-                        ? "bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg shadow-purple-500/25"
-                        : "text-admin-sidebar-foreground hover:bg-admin-sidebar-hover hover:text-white"
+                        ? "bg-gradient-to-r from-transparent to-cyan-500/10 text-cyan-400 border-r-2 border-cyan-500 shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)]"
+                        : "text-muted-foreground hover:bg-white/5 hover:text-white"
                     )}
                     data-testid={`sidebar-${item.id}`}
                   >
@@ -125,8 +127,9 @@ function SidebarContent({
             })}
           </ul>
         </div>
-      ))}
-    </nav>
+      ))
+      }
+    </nav >
   );
 }
 
@@ -195,8 +198,8 @@ export function AdminSidebar({
         {/* Logo Section */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-admin-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-900/50 to-purple-900/50 border border-white/10 flex items-center justify-center shadow-lg shadow-cyan-500/10">
+              <span className="text-cyan-400 font-bold text-sm drop-shadow-md">A</span>
             </div>
             {!isCollapsed && (
               <span className="font-display font-bold text-admin-sidebar-foreground text-lg">

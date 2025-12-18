@@ -1,0 +1,127 @@
+{
+    "page": {
+        "key": "sulfate-chemistry",
+        "title": "Sulfate Chemistry — The Essential Ion",
+        "path": "/sulfate-chemistry",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "crystalline-matrix",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Sulfate Chemistry: SO₄ in Water, Minerals & Biology",
+        "description": "Complete overview of sulfate chemistry: forms, sources, biological roles, and how it connects to water quality, mineral systems, and the sulfur cycle.",
+        "focusKeyword": "sulfate chemistry",
+        "secondaryKeywords": [
+            "SO4",
+            "sulfate minerals",
+            "sulfur cycle",
+            "magnesium sulfate",
+            "ionic sulfate"
+        ],
+        "intent": [
+            "learn",
+            "understand"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "scientific",
+            "comprehensive",
+            "educational"
+        ],
+        "emotionalTone": [
+            "expertise",
+            "trustworthy",
+            "clear"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "matrix"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Chemistry</span>\n      <h1 class=\"h1\">Sulfate Chemistry</h1>\n      <p class=\"p tagline\">The Essential Ion — SO₄²⁻ in Water, Minerals & Biology</p>\n      <p class=\"p\">Sulfate is one of the most important anions in natural systems. It appears in:</p>\n      <ul class=\"andara-hero__bullets\">\n        <li>Mineral springs and ocean water</li>\n        <li>Biological sulfur cycles</li>\n        <li>Essential mineral supplements</li>\n        <li>Industrial and agricultural applications</li>\n      </ul>\n      <div class=\"btn-group\">\n        <a href=\"#forms\" class=\"btn primary\">Forms of Sulfate →</a>\n        <a href=\"/tetrahedral-sulfate-geometry\" class=\"btn secondary\">SO₄ Geometry →</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "what-is-sulfate",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-is-sulfate\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What is Sulfate?</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Sulfate (SO₄²⁻) is a polyatomic ion consisting of:</p>\n      <ul class=\"feature-list\">\n        <li><strong>1 Sulfur atom</strong> — oxidation state +6</li>\n        <li><strong>4 Oxygen atoms</strong> — arranged tetrahedrally</li>\n        <li><strong>2- charge</strong> — making it an anion</li>\n      </ul>\n      <p class=\"p\">It's formed when sulfuric acid (H₂SO₄) loses its hydrogen ions, or when sulfur-containing minerals oxidize.</p>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "forms",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"forms\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Forms of Sulfate</h2>\n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Ionic (Dissolved)</h3>\n        <p class=\"p\">Free SO₄²⁻ ions in solution. Fully dissociated, highest bioavailability.</p>\n        <p class=\"p small\">Examples: sea water, mineral springs</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Salt Crystals</h3>\n        <p class=\"p\">Bound with cations in solid form. Must dissolve before availability.</p>\n        <p class=\"p small\">Examples: Epsom salt (MgSO₄), gypsum (CaSO₄)</p>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Organic Sulfate</h3>\n        <p class=\"p\">Sulfate groups attached to organic molecules (sulfation).</p>\n        <p class=\"p small\">Examples: chondroitin sulfate, heparan sulfate</p>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "sources",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"sources\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Natural Sources</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Geological</h3>\n        <ul>\n          <li>Volcanic activity</li>\n          <li>Mineral deposits (gypsum, anhydrite)</li>\n          <li>Weathering of sulfide minerals</li>\n          <li>Hot springs and geothermal systems</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Biological</h3>\n        <ul>\n          <li>Sulfur-oxidizing bacteria</li>\n          <li>Decomposition of organic matter</li>\n          <li>Ocean sulfur cycle</li>\n          <li>Volcanic/ocean exchange</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "biology",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"biology\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Biological Roles</h2>\n    <div class=\"panel pad\">\n      <p class=\"p\">Sulfate is essential for:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Sulfation reactions</strong> — phase II liver detoxification</li>\n        <li><strong>Connective tissue</strong> — glycosaminoglycan synthesis</li>\n        <li><strong>Neurotransmitter metabolism</strong> — hormone and drug processing</li>\n        <li><strong>Skin integrity</strong> — barrier function maintenance</li>\n      </ul>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Related Topics</h2>\n    <div class=\"grid cols-4\">\n      <a href=\"/tetrahedral-sulfate-geometry\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">SO₄ Tetrahedron</h3>\n        <p class=\"p small\">The geometry</p>\n      </a>\n      <a href=\"/iron-sulfur-synergy\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Iron-Sulfur</h3>\n        <p class=\"p small\">Mineral synergy</p>\n      </a>\n      <a href=\"/mineral-science-blueprint\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Mineral Blueprint</h3>\n        <p class=\"p small\">Full overview</p>\n      </a>\n      <a href=\"/ionic-vs-colloidal-vs-solid\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Ionic vs Colloidal</h3>\n        <p class=\"p small\">Form comparison</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Sulfate Chemistry",
+        "items": [
+            {
+                "question": "Is sulfate the same as sulfur?",
+                "answer": "No. Sulfate (SO₄²⁻) is an oxidized form of sulfur bonded with oxygen."
+            },
+            {
+                "question": "Is sulfate safe?",
+                "answer": "Yes. Sulfate is naturally present in water and food. It's essential for many biological processes."
+            },
+            {
+                "question": "What's the difference between sulfate and sulfite?",
+                "answer": "Sulfate has 4 oxygens (SO₄²⁻), sulfite has 3 oxygens (SO₃²⁻). Different chemistry and roles."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Sulfate Chemistry – The Essential Ion",
+        "description": "Complete overview of sulfate chemistry in water, minerals, and biology."
+    },
+    "internalLinks": [
+        "/tetrahedral-sulfate-geometry",
+        "/iron-sulfur-synergy",
+        "/mineral-science-blueprint",
+        "/ionic-vs-colloidal-vs-solid",
+        "/science/geometry"
+    ]
+}

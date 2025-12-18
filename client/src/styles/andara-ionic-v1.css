@@ -1,0 +1,425 @@
+/* =========================
+   ANDARA IONIC 1.0 CSS
+   Design Language System
+   ========================= */
+
+/* =========================
+   CORE TOKENS
+   ========================= */
+
+:root {
+    /* ---- Neutrals / Field ---- */
+    --bg-0: #05060b;
+    /* deepest space */
+    --bg-1: #070a12;
+    /* primary background */
+    --bg-2: #0b1020;
+    /* elevated background */
+    --panel: rgba(255, 255, 255, 0.04);
+    --panel-2: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.10);
+    --border-2: rgba(255, 255, 255, 0.16);
+
+    --text-1: rgba(255, 255, 255, 0.92);
+    --text-2: rgba(255, 255, 255, 0.72);
+    --text-3: rgba(255, 255, 255, 0.55);
+
+    /* ---- Brand "Light" accents (default) ---- */
+    --a1: #3cc9ff;
+    /* ocean-cyan */
+    --a2: #7ee6ff;
+    /* ice-cyan */
+    --a3: #7c4dff;
+    /* violet ray */
+    --gold: #f6d56a;
+
+    /* ---- Tree palette (semantic) ---- */
+    --water-1: #1aa7ff;
+    --water-2: #38ffd1;
+
+    --mineral-1: #63b4ff;
+    --mineral-2: #b8e3ff;
+
+    --matrix-1: #f6d56a;
+    --matrix-2: #ffb74a;
+
+    --bioelectric-1: #2cff9a;
+    --bioelectric-2: #00c2ff;
+
+    --sulfur-1: #ffe66b;
+    --sulfur-2: #ffb300;
+
+    --liquidcrystal-1: #dfe7f1;
+    --liquidcrystal-2: #9aa7b6;
+
+    --dna-1: #9b7bff;
+    --dna-2: #ff5fd7;
+
+    --earth-1: #c49a6c;
+    --earth-2: #7a5a3a;
+
+    /* ---- Radii / spacing ---- */
+    --r-sm: 12px;
+    --r-md: 18px;
+    --r-lg: 26px;
+    --r-xl: 34px;
+
+    --pad-1: 10px;
+    --pad-2: 14px;
+    --pad-3: 18px;
+    --pad-4: 24px;
+    --pad-5: 32px;
+
+    /* ---- Shadows / glow ---- */
+    --shadow-1: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --shadow-2: 0 18px 60px rgba(0, 0, 0, 0.55);
+
+    --glow-a: 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 0 40px rgba(60, 201, 255, 0.18);
+
+    /* ---- Type ---- */
+    --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Inter, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+    --h1: clamp(38px, 4.2vw, 64px);
+    --h2: clamp(28px, 3.2vw, 44px);
+    --h3: clamp(20px, 2.0vw, 28px);
+    --p: clamp(15px, 1.2vw, 17px);
+
+    --lh-tight: 1.12;
+    --lh: 1.5;
+
+    /* ---- Motion timing ---- */
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-inout: cubic-bezier(.65, 0, .35, 1);
+    --dur-1: 160ms;
+    --dur-2: 260ms;
+    --dur-3: 420ms;
+}
+
+/* =========================
+   TREE THEMING (one switch)
+   ========================= */
+/* Set on <body data-tree="water"> etc. */
+body[data-tree="water"] {
+    --accent-1: var(--water-1);
+    --accent-2: var(--water-2);
+}
+
+body[data-tree="mineral"] {
+    --accent-1: var(--mineral-1);
+    --accent-2: var(--mineral-2);
+}
+
+body[data-tree="matrix"] {
+    --accent-1: var(--matrix-1);
+    --accent-2: var(--matrix-2);
+}
+
+body[data-tree="bioelectric"] {
+    --accent-1: var(--bioelectric-1);
+    --accent-2: var(--bioelectric-2);
+}
+
+body[data-tree="sulfur"] {
+    --accent-1: var(--sulfur-1);
+    --accent-2: var(--sulfur-2);
+}
+
+body[data-tree="liquid"] {
+    --accent-1: var(--liquidcrystal-1);
+    --accent-2: var(--liquidcrystal-2);
+}
+
+body[data-tree="dna"] {
+    --accent-1: var(--dna-1);
+    --accent-2: var(--dna-2);
+}
+
+body[data-tree="earth"] {
+    --accent-1: var(--earth-1);
+    --accent-2: var(--earth-2);
+}
+
+/* Default if no tree set */
+body:not([data-tree]) {
+    --accent-1: var(--a1);
+    --accent-2: var(--a3);
+}
+
+/* =========================
+   GLOBAL BASE
+   ========================= */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--text-1);
+    background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(124, 77, 255, 0.10), transparent 60%),
+        radial-gradient(900px 700px at 80% 30%, rgba(60, 201, 255, 0.10), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(246, 213, 106, 0.06), transparent 55%),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1));
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+::selection {
+    background: rgba(60, 201, 255, 0.25);
+}
+
+/* =========================
+   LAYOUT PRIMITIVES
+   ========================= */
+
+.container {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.section {
+    padding: 80px 0;
+}
+
+.section.tight {
+    padding: 56px 0;
+}
+
+.grid {
+    display: grid;
+    gap: 18px;
+}
+
+.grid.cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid.cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+
+    .grid.cols-2,
+    .grid.cols-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   CRYSTAL PANELS / CARDS
+   ========================= */
+
+.panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.panel.pad {
+    padding: var(--pad-5);
+}
+
+.panel.pad-md {
+    padding: var(--pad-4);
+}
+
+.facet {
+    position: relative;
+    overflow: hidden;
+}
+
+.facet::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(600px 280px at 20% 0%, rgba(255, 255, 255, 0.10), transparent 55%);
+    pointer-events: none;
+}
+
+.facet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 320px at 75% 10%, color-mix(in oklab, var(--accent-1), transparent 85%), transparent 60%);
+    opacity: .9;
+    pointer-events: none;
+}
+
+/* =========================
+   TYPOGRAPHY
+   ========================= */
+
+.h1 {
+    font-size: var(--h1);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.02em;
+}
+
+.h2 {
+    font-size: var(--h2);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.015em;
+}
+
+.h3 {
+    font-size: var(--h3);
+    line-height: 1.2;
+}
+
+.p {
+    font-size: var(--p);
+    line-height: var(--lh);
+    color: var(--text-2);
+}
+
+.kicker {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+
+.kicker .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    box-shadow: 0 0 24px color-mix(in oklab, var(--accent-1), transparent 70%);
+}
+
+/* =========================
+   BUTTONS (Activators)
+   ========================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border-2);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-1);
+    transition: transform var(--dur-2) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out),
+        background var(--dur-2) var(--ease-out);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-2), var(--glow-a);
+}
+
+.btn.primary {
+    border-color: color-mix(in oklab, var(--accent-1), white 10%);
+    background: linear-gradient(135deg,
+            color-mix(in oklab, var(--accent-1), transparent 10%),
+            color-mix(in oklab, var(--accent-2), transparent 10%));
+}
+
+.btn.primary:hover {
+    box-shadow: var(--shadow-2),
+        0 0 55px color-mix(in oklab, var(--accent-1), transparent 75%);
+}
+
+/* =========================
+   BADGES / CHIPS
+   ========================= */
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-2);
+    font-size: 13px;
+}
+
+.chip .spark {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+}
+
+/* =========================
+   DIVIDERS / LINES
+   ========================= */
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            color-mix(in oklab, var(--accent-1), transparent 45%),
+            color-mix(in oklab, var(--accent-2), transparent 55%),
+            transparent);
+    opacity: .9;
+}
+
+/* =========================
+   HERO BACKDROP "FIELD"
+   ========================= */
+
+.field {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-xl);
+    border: 1px solid var(--border);
+    background:
+        radial-gradient(900px 520px at 20% 10%, color-mix(in oklab, var(--accent-1), transparent 78%), transparent 60%),
+        radial-gradient(800px 520px at 80% 40%, color-mix(in oklab, var(--accent-2), transparent 80%), transparent 60%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    box-shadow: var(--shadow-2);
+}
+
+.field::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: .15;
+    pointer-events: none;
+}
+
+/* =========================
+   MOTION RULES
+   ========================= */
+
+/* Micro-interactions */
+/* Hover lift: y: -2 (buttons), y: -4 (cards) */
+/* Glow fade in: opacity 0 → 1 in 260ms with ease-out */
+/* Tap: scale 0.98 for 120–160ms */
+
+/* Scroll / reveal */
+/* Use "soft slide": y: 18 → 0, opacity 0 → 1, duration 420ms, ease ease-out */
+/* Stagger lists: 60–90ms per item */
+
+/* Never */
+/* Hard bounce / elastic for science pages */
+/* Over-rotations (keep sacred geometry subtle) */

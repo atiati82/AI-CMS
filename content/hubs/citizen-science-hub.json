@@ -1,0 +1,45 @@
+{
+    "page": {
+        "key": "citizen-science-hub",
+        "title": "Citizen Science Hub — Community Research",
+        "path": "/citizen-science-hub",
+        "pageType": "hub",
+        "template": "community_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z3"
+    },
+    "seo": {
+        "title": "Citizen Science Hub: Community Water Research",
+        "description": "Join the Andara community research effort: submit your water testing data, compare results, and contribute to collective understanding.",
+        "focusKeyword": "citizen science water"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 3 • Community</span>\n      <h1 class=\"h1\">Citizen Science Hub</h1>\n      <p class=\"p tagline\">Community Research — Collective Testing</p>\n      <p class=\"p\">Science improves with more data. This hub collects community water testing results.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "contribute",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"contribute\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Contribute</h2>\n    <div class=\"panel pad\">\n      <ol>\n        <li>Use the <a href=\"/parameter-tracking\">standard logging format</a></li>\n        <li>Follow the <a href=\"/andara-vs-baseline-water-protocol\">comparison protocol</a></li>\n        <li>Record all 4 parameters + temperature</li>\n        <li>Submit via form (coming soon)</li>\n      </ol>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "why",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"why\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Why This Matters</h2>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li>More data = better patterns</li>\n        <li>Different water sources, different conditions</li>\n        <li>Reproducibility builds credibility</li>\n        <li>Community learns together</li>\n      </ul>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "related",
+            "type": "navigation",
+            "html": "<section class=\"section\" id=\"related\">\n  <div class=\"container\">\n    <div class=\"grid cols-3\">\n      <a href=\"/parameter-tracking\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Tracking</h3></a>\n      <a href=\"/home-water-test-kit\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Test Kit</h3></a>\n      <a href=\"/experiments-index\" class=\"panel facet pad link-card\"><h3 class=\"h4\">Experiments</h3></a>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "internalLinks": [
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol",
+        "/home-water-test-kit",
+        "/experiments-index"
+    ]
+}

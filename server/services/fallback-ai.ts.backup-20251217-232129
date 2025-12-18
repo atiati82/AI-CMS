@@ -1,0 +1,139 @@
+import { searchKnowledge } from './knowledge-base';
+
+/**
+ * Fallback AI system that uses RAG when external AI providers fail
+ */
+
+export interface FallbackResponse {
+    response: string;
+    sources: Array<{ title: string; source: string }>;
+    usedFallback: true;
+}
+
+/**
+ * Generate a response using only the RAG knowledge base
+ * This is used when external AI APIs (OpenAI/Gemini) are unavailable
+ */
+export async function generateFallbackResponse(query: string): Promise<FallbackResponse> {
+    console.log('[Fallback AI] External AI unavailable, using local RAG system');
+
+    // Search knowledge base for relevant information
+    const results = await searchKnowledge(query, 5);
+
+    if (results.length === 0) {
+        return {
+            response: `I apologize, but I couldn't find any relevant information in my knowledge base about "${query}". The external AI system is currently unavailable. Please try:\n\n1. Rephrasing your question\n2. Checking if documents about this topic have been ingested\n3. Trying again later when the AI system is back online\n\nYou can ingest documents using the knowledge base API.`,
+            sources: [],
+            usedFallback: true,
+        };
+    }
+
+    // Build a response from the search results
+    const responseText = buildResponseFromResults(query, results);
+    const sources = results.map(r => ({
+        title: r.title,
+        source: r.source,
+    }));
+
+    return {
+        response: responseText,
+        sources,
+        usedFallback: true,
+    };
+}
+
+/**
+ * Build a coherent response from search results
+ */
+function buildResponseFromResults(query: string, results: Array<any>): string {
+    const topResult = results[0];
+
+    let response = `Based on my knowledge base, here's what I found about "${query}":\n\n`;
+
+    // Clean and format the main content
+    const mainContent = cleanContent(topResult.content);
+    response += `${mainContent}\n\n`;
+
+    // Add related information if available (limit to avoid duplication)
+    if (results.length > 1) {
+        response += `### Related Information\n\n`;
+        for (let i = 1; i < Math.min(results.length, 3); i++) {
+            const result = results[i];
+            const snippet = cleanContent(result.content.substring(0, 200));
+            response += `• ${snippet}...\n\n`;
+        }
+    }
+
+    // Add sources section
+    response += `### Sources\n\n`;
+    // Use a Set to prevent duplicate sources
+    const uniqueSources = new Map<string, { title: string; source: string }>();
+    results.forEach((result) => {
+        const key = `${result.title}-${result.source}`;
+        if (!uniqueSources.has(key)) {
+            uniqueSources.set(key, { title: result.title, source: result.source });
+        }
+    });
+
+    let sourceIndex = 1;
+    uniqueSources.forEach(({ title, source }) => {
+        response += `${sourceIndex}. **${title}** (${source})\n`;
+        sourceIndex++;
+    });
+
+    response += `\n*Note: This response was generated using the local knowledge base. External AI is currently unavailable.*`;
+
+    return response;
+}
+
+/**
+ * Clean and normalize content for display
+ */
+function cleanContent(content: string): string {
+    if (!content) return '';
+
+    // Remove excessive newlines (more than 2 consecutive)
+    let cleaned = content.replace(/\n{3,}/g, '\n\n');
+
+    // Ensure proper spacing after headers
+    cleaned = cleaned.replace(/(#{1,6}\s+[^\n]+)\n([^\n])/g, '$1\n\n$2');
+
+    // Trim whitespace
+    cleaned = cleaned.trim();
+
+    return cleaned;
+}
+
+
+/**
+ * Smart response generator that provides helpful answers for common queries
+ */
+export function generateSmartFallback(query: string): string | null {
+    const lowerQuery = query.toLowerCase();
+
+    // CMS-related queries
+    if (lowerQuery.includes('create page') || lowerQuery.includes('new page')) {
+        return `To create a new page, I would normally use the createPage function, but external AI is currently unavailable. Here's what you can do manually:
+
+1. Go to the Pages section
+2. Click "New Page"
+3. Fill in the required fields:
+   - Title
+   - Path (URL slug)
+   - Cluster
+   - Content
+
+Or wait for the AI system to come back online for automated page creation.`;
+    }
+
+    if (lowerQuery.includes('list page') || lowerQuery.includes('show page')) {
+        return `I can help you list pages once the external AI is back online. In the meantime, you can view all pages in the admin panel under the Pages tab.`;
+    }
+
+    if (lowerQuery.includes('seo') || lowerQuery.includes('search engine')) {
+        return `For SEO optimization, I would normally provide detailed suggestions, but the external AI is unavailable. Check your knowledge base for SEO best practices that may have been ingested.`;
+    }
+
+    // Return null if no smart fallback matches
+    return null;
+}

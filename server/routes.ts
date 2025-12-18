@@ -22,6 +22,8 @@ import fs from "fs";
 import { createCrudHandler, createUpdateHandler, createDeleteHandler, handleZodError } from "./route-helpers";
 import { parsePdfBuffer } from "./pdf-parser";
 import { searchConsoleService } from "./services/searchConsoleService";
+import { requireAdmin } from "./routes/middleware/auth";
+import designRouter from "./routes/admin/design";
 
 const uploadDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadDir)) {
@@ -49,6 +51,27 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // --- ADMIN AUTH MIDDLEWARE (JWT-based) ---
+  const requireAdmin = async (req: any, res: any, next: any) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    try {
+      const token = authHeader.substring(7);
+      const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string };
+      const user = await storage.getAdminUser(decoded.userId);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid token" });
+      }
+      req.adminUser = user;
+      next();
+    } catch {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+  };
 
   // --- PUBLIC PRODUCT ROUTES ---
   app.get("/api/products", async (req, res) => {
@@ -282,6 +305,118 @@ export async function registerRoutes(
   });
 
   // --- ADMIN AUTH (JWT-based) ---
+  app.post("/api/admin/bigmind/pages/:id/apply", requireAdmin, async (req, res) => {
+    const pageId = parseInt(req.params.id);
+    const { enhancements } = req.body; // Array of { type, content, fieldName }
+
+    if (!enhancements || !Array.isArray(enhancements)) {
+      return res.status(400).json({ error: "Invalid enhancements data" });
+    }
+
+    try {
+      const page = await storage.getPage(pageId);
+      if (!page) return res.status(404).send("Page not found");
+
+      const updates: any = {};
+      let visualConfig = (page.visualConfig as any) || {};
+
+      for (const enhancement of enhancements) {
+        const { type, content } = enhancement;
+
+        switch (type) {
+          case 'title':
+            updates.title = content;
+            break;
+          case 'seo_title':
+            updates.seoTitle = content;
+            break;
+          case 'seo_description':
+            updates.seoDescription = content;
+            break;
+          case 'keyword':
+            // Assuming content is a single keyword string. 
+            // If we want to replace all:
+            updates.seoKeywords = [content];
+            // If we wanted to append, we'd need to check existing. 
+            // For now, let's treat it as "Primary Focus" -> replace or prepend? 
+            // Let's replace to be safe/clear.
+            break;
+          case 'path':
+            if (content.startsWith('/')) updates.path = content;
+            break;
+          case 'hero_content':
+          case 'section_content':
+            // Direct HTML replacement for now
+            // Remove markdown blocks if present
+            updates.htmlContent = content.replace(/```html/g, '').replace(/```/g, '').trim();
+            break;
+
+          // Visual Config Updates
+          case 'motion_preset':
+            visualConfig.motionPreset = content;
+            break;
+          case 'entrance_motion':
+            visualConfig.entranceMotion = content;
+            break;
+          case 'hover_motion':
+            visualConfig.hoverMotion = content;
+            break;
+          case 'ambient_motion':
+            visualConfig.ambientMotion = content;
+            break;
+          case 'template':
+            // If we have a template field in DB? assuming yes or metadata
+            // For now put in visualConfig if uncertain, or updates.template if schema exists
+            updates.template = content;
+            break;
+          case 'cluster':
+            updates.clusterKey = content;
+            break;
+
+          case 'tag':
+            // These are JSON arrays usually (vibeKeywords, emotionalTone, etc)
+            if (enhancement.fieldName) {
+              // fieldName is like 'visualConfig.vibeKeywords'
+              const key = enhancement.fieldName.split('.').pop(); // vibeKeywords
+              if (key) {
+                try {
+                  visualConfig[key] = JSON.parse(content);
+                } catch (e) {
+                  // If it's not JSON, treat as string or array split
+                  visualConfig[key] = content.split(',').map((s: string) => s.trim());
+                }
+              }
+            }
+            break;
+
+          case 'color_palette': // from parser it's 'tag' with fieldName but check if specific type exists? 
+            // Actually parser uses 'tag' for colorPalette too.
+            break;
+
+          case 'image_prompt':
+            // Store prompts in visualConfig.aiPrompts
+            if (!visualConfig.aiPrompts) visualConfig.aiPrompts = {};
+            // Use fieldName (slotKey) as key
+            if (enhancement.fieldName) {
+              visualConfig.aiPrompts[enhancement.fieldName] = content;
+            }
+            break;
+        }
+      }
+
+      if (Object.keys(visualConfig).length > 0) {
+        updates.visualConfig = visualConfig;
+      }
+
+      await storage.updatePage(pageId, updates);
+
+      res.json({ success: true, updates });
+    } catch (error) {
+      console.error('Failed to apply enhancements:', error);
+      res.status(500).json({ error: String(error) });
+    }
+  });
+
   app.post("/api/admin/login", async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -335,26 +470,6 @@ export async function registerRoutes(
     }
   });
 
-  // --- ADMIN AUTH MIDDLEWARE (JWT-based) ---
-  const requireAdmin = async (req: any, res: any, next: any) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
-
-    try {
-      const token = authHeader.substring(7);
-      const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; username: string };
-      const user = await storage.getAdminUser(decoded.userId);
-      if (!user) {
-        return res.status(401).json({ error: "Invalid token" });
-      }
-      req.adminUser = user;
-      next();
-    } catch {
-      return res.status(401).json({ error: "Invalid token" });
-    }
-  };
 
   // --- GOOGLE SEARCH CONSOLE (SEO Analytics) ---
   app.get("/api/admin/seo/status", requireAdmin, async (req, res) => {
@@ -453,6 +568,19 @@ export async function registerRoutes(
         return res.status(400).json({ error: fromZodError(error).toString() });
       }
       res.status(500).json({ error: "Failed to bulk create pages" });
+    }
+  });
+
+  // GET single page by ID
+  app.get("/api/admin/pages/:id", requireAdmin, async (req, res) => {
+    try {
+      const page = await storage.getPage(req.params.id);
+      if (!page) {
+        return res.status(404).json({ error: "Page not found" });
+      }
+      res.json(page);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch page" });
     }
   });
 
@@ -668,6 +796,28 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Image regeneration error:", error);
       res.status(500).json({ error: "Failed to regenerate image" });
+    }
+  });
+
+  // --- DESIGN INTERPRETER ROUTES ---
+  app.use("/api/admin/design", requireAdmin, designRouter);
+
+
+  // --- DEMO ROUTES ---
+  app.post("/api/demo/water-science/generate", async (req, res) => {
+    try {
+      const { WaterScienceAgent } = await import("./agents/water-science-agent-demo");
+      const { prompt } = req.body;
+
+      if (!prompt) {
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+
+      const result = await WaterScienceAgent.generate(prompt);
+      res.json(result);
+    } catch (error) {
+      console.error("Demo generation error:", error);
+      res.status(500).json({ error: "Failed to generate demo content" });
     }
   });
 
@@ -1785,13 +1935,13 @@ export async function registerRoutes(
   app.post("/api/admin/bigmind/chat", requireAdmin, async (req, res) => {
     try {
       const { chatWithFunctions } = await import("./services/bigmind-cms");
-      const { messages, model } = req.body;
+      const { messages, model, context } = req.body;
 
       if (!messages || !Array.isArray(messages) || messages.length === 0) {
         return res.status(400).json({ error: "Messages array is required" });
       }
 
-      const result = await chatWithFunctions(messages, undefined, model);
+      const result = await chatWithFunctions(messages, undefined, model, context);
       res.json(result);
     } catch (error) {
       console.error("BigMind CMS error:", error);
@@ -3291,6 +3441,93 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Sync metrics error:", error);
       res.status(500).json({ error: "Failed to sync metrics" });
+    }
+  });
+
+  // --- SCHEDULED ENRICHMENT ROUTES ---
+  app.get("/api/admin/enrichment/status", requireAdmin, async (req, res) => {
+    try {
+      const { getEnrichmentLogs, findPagesNeedingEnrichment, getEnrichmentAnalytics } = await import("./services/scheduled-enrichment");
+      const logs = getEnrichmentLogs();
+      const analytics = getEnrichmentAnalytics();
+      const pendingPages = await findPagesNeedingEnrichment(5);
+      res.json({
+        analytics,
+        recentRuns: logs,
+        pendingCount: pendingPages.length,
+        pendingPages: pendingPages.map(p => ({ id: p.id, title: p.title }))
+      });
+    } catch (error) {
+      console.error("Get enrichment status error:", error);
+      res.status(500).json({ error: "Failed to get enrichment status" });
+    }
+  });
+
+  app.post("/api/admin/enrichment/run", requireAdmin, async (req, res) => {
+    try {
+      const { runScheduledEnrichment } = await import("./services/scheduled-enrichment");
+      const limit = req.body.limit || 10;
+      const log = await runScheduledEnrichment(limit);
+      res.json(log);
+    } catch (error) {
+      console.error("Run enrichment error:", error);
+      res.status(500).json({ error: "Failed to run enrichment" });
+    }
+  });
+
+  app.get("/api/admin/enrichment/history", requireAdmin, async (req, res) => {
+    try {
+      const { getPageConfigHistory } = await import("./services/scheduled-enrichment");
+      const pageId = req.query.pageId as string | undefined;
+      const history = getPageConfigHistory(pageId);
+      res.json({ history });
+    } catch (error) {
+      console.error("Get history error:", error);
+      res.status(500).json({ error: "Failed to get history" });
+    }
+  });
+
+  app.post("/api/admin/enrichment/undo/:pageId", requireAdmin, async (req, res) => {
+    try {
+      const { getPreviousConfig } = await import("./services/scheduled-enrichment");
+      const previousConfig = getPreviousConfig(req.params.pageId);
+
+      if (!previousConfig) {
+        return res.status(404).json({ error: "No previous config found for this page" });
+      }
+
+      const page = await storage.updatePage(req.params.pageId, {
+        visualConfig: previousConfig,
+      });
+
+      res.json({ success: true, message: "Reverted to previous visualConfig", page });
+    } catch (error) {
+      console.error("Undo enrichment error:", error);
+      res.status(500).json({ error: "Failed to undo enrichment" });
+    }
+  });
+
+  app.get("/api/admin/enrichment/diff/:pageId", requireAdmin, async (req, res) => {
+    try {
+      const { getPageConfigHistory } = await import("./services/scheduled-enrichment");
+      const history = getPageConfigHistory(req.params.pageId);
+
+      if (history.length === 0) {
+        return res.json({ hasDiff: false, message: "No enrichment history for this page" });
+      }
+
+      const latest = history[0];
+      res.json({
+        hasDiff: true,
+        pageId: latest.pageId,
+        pageTitle: latest.pageTitle,
+        previous: latest.previousConfig,
+        current: latest.newConfig,
+        timestamp: latest.timestamp,
+      });
+    } catch (error) {
+      console.error("Get diff error:", error);
+      res.status(500).json({ error: "Failed to get diff" });
     }
   });
 

@@ -24,6 +24,17 @@ router.get('/stats', requireAdmin, async (req, res) => {
     }
 });
 
+// GET /api/admin/pages
+router.get('/pages', requireAdmin, async (req, res) => {
+    try {
+        const pages = await storage.getPageTree();
+        res.json({ ok: true, pages });
+    } catch (error) {
+        console.error('Get pages error:', error);
+        res.status(500).json({ ok: false, error: 'Failed to fetch pages' });
+    }
+});
+
 // POST /api/admin/pages
 router.post('/pages', requireAdmin, createCrudHandler(
     insertPageSchema, storage.createPage.bind(storage), 'Failed to create page'
@@ -50,7 +61,42 @@ router.post('/pages/bulk', requireAdmin, async (req, res) => {
 // PUT /api/admin/pages/:id
 router.put('/pages/:id', requireAdmin, async (req, res) => {
     try {
+        const existingPage = await storage.getPage(req.params.id);
         const page = await storage.updatePage(req.params.id, req.body);
+
+        // Auto-enrich on publish if visualConfig is missing
+        if (
+            existingPage &&
+            existingPage.status !== 'published' &&
+            req.body.status === 'published' &&
+            (!page.visualConfig || Object.keys(page.visualConfig).length === 0)
+        ) {
+            // Trigger enrichment in background (non-blocking)
+            setImmediate(async () => {
+                try {
+                    const { enrichPageHtml } = await import('../../services/ai-enricher');
+                    const contentToAnalyze = page.aiStartupHtml || page.content || '';
+                    if (contentToAnalyze) {
+                        console.log(`[Auto-Enrich] Publishing triggers enrichment for: ${page.title}`);
+                        const enrichment = await enrichPageHtml(contentToAnalyze);
+                        if (enrichment.visualConfig) {
+                            await storage.updatePage(page.id, {
+                                visualConfig: {
+                                    ...(page.visualConfig || {}),
+                                    ...enrichment.visualConfig,
+                                    autoEnrichedOnPublish: true,
+                                    updatedAt: new Date().toISOString(),
+                                } as any,
+                            });
+                            console.log(`[Auto-Enrich] Completed for: ${page.title}`);
+                        }
+                    }
+                } catch (err: any) {
+                    console.error(`[Auto-Enrich] Failed for ${page.title}:`, err?.message);
+                }
+            });
+        }
+
         res.json(page);
     } catch (error: any) {
         console.error('[PAGE UPDATE ERROR]', error?.message || error);

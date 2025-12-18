@@ -1,0 +1,183 @@
+{
+    "page": {
+        "key": "product-hub",
+        "title": "Product Hub — Andara Ionic Overview",
+        "path": "/shop",
+        "pageType": "hub",
+        "template": "shop_overview",
+        "clusterKey": "products",
+        "priority": 1,
+        "zone": "Z1"
+    },
+    "seo": {
+        "title": "Shop Andara Ionic: Products, Bundles, Calculator & Getting Started",
+        "description": "Choose your Andara Ionic format (100 ml or 1 L), see bundles, use the dilution calculator, and start with the 7-day guide—simple and clear.",
+        "focusKeyword": "Andara Ionic",
+        "secondaryKeywords": [
+            "ionic sulfate minerals",
+            "water clarification",
+            "dilution calculator",
+            "100ml",
+            "1L",
+            "bundles"
+        ],
+        "intent": [
+            "buy",
+            "choose",
+            "calculate",
+            "start"
+        ]
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "premium",
+            "clean",
+            "trustworthy",
+            "conversion"
+        ],
+        "emotionalTone": [
+            "confident",
+            "simple",
+            "inviting"
+        ],
+        "motionPreset": "product-reveal",
+        "colorPalette": "brand",
+        "treeTheme": "product"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 1 • Shop</span>\n        <h1 class=\"h1\">Product Hub</h1>\n        <p class=\"p tagline\">Andara Ionic — Ionic Sulfate Mineral Conditioning for Water Systems</p>\n        \n        <div class=\"entry-options\">\n          <div class=\"option\">\n            <h3 class=\"h4\">Option A — Start simple (recommended)</h3>\n            <a href=\"/getting-started-first-7-days\" class=\"btn secondary\">Getting Started (7 days) →</a>\n          </div>\n          <div class=\"option\">\n            <h3 class=\"h4\">Option B — Choose your format</h3>\n            <div class=\"btn-group\">\n              <a href=\"/andara-ionic-100ml\" class=\"chip\">100 ml Blue Bottle</a>\n              <a href=\"/andara-ionic-1l\" class=\"chip\">1 L Pure</a>\n            </div>\n          </div>\n          <div class=\"option\">\n            <h3 class=\"h4\">Option C — Calculate your dilution</h3>\n            <a href=\"/andara-dilution-calculator\" class=\"chip\">Dilution Calculator</a>\n          </div>\n        </div>\n        \n        <div class=\"btn-group cta-main\">\n          <a href=\"/andara-ionic-100ml\" class=\"btn primary\">Shop 100 ml</a>\n          <a href=\"/andara-dilution-calculator\" class=\"btn secondary\">Use Dilution Calculator</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Premium Andara Ionic blue bottle product shot on clean white surface, subtle water droplets, professional product photography, soft dramatic lighting, conversion-focused hero image -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "what-is-it",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"what-is-it\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <h2 class=\"h2\">What is Andara Ionic?</h2>\n      <p class=\"p\">Andara Ionic is a mineral-based water conditioning concept focused on ionic mineral chemistry and measurable water parameters.</p>\n      <p class=\"p\">This hub is a navigation layer: it routes you into:</p>\n      <ul class=\"feature-list\">\n        <li>Product selection</li>\n        <li>Usage basics</li>\n        <li>Measurement & experiments</li>\n        <li>Boundaries & safe use language</li>\n      </ul>\n      <a href=\"/what-is-andara-ionic\" class=\"chip\">Brand Intro →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "product-chooser",
+            "type": "product-grid",
+            "html": "<section class=\"section\" id=\"product-chooser\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Choose Your Line</h2>\n    \n    <div class=\"grid cols-2\">\n      <div class=\"panel pad product-card\">\n        <div class=\"product-badge\">Starter / Travel / Testing</div>\n        <h3 class=\"h3\">100 ml — Blue Bottle</h3>\n        <ul>\n          <li><a href=\"/andara-ionic-100ml\">Product page</a></li>\n          <li><a href=\"/andara-ionic-100ml-bundles\">Bundles</a></li>\n        </ul>\n        <a href=\"/andara-ionic-100ml\" class=\"btn primary\">Shop 100 ml →</a>\n      </div>\n      \n      <div class=\"panel pad product-card\">\n        <div class=\"product-badge\">Home / Long-term / Labs</div>\n        <h3 class=\"h3\">1 L — Pure</h3>\n        <ul>\n          <li><a href=\"/andara-ionic-1l\">Product page</a></li>\n          <li><a href=\"/andara-ionic-1l-bundles\">Bundles</a></li>\n        </ul>\n        <a href=\"/andara-ionic-1l\" class=\"btn primary\">Shop 1 L →</a>\n      </div>\n    </div>\n    \n    <div class=\"center\">\n      <a href=\"/price-per-liter-explainer\" class=\"chip\">Price Logic Explainer</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "100ms"
+            }
+        },
+        {
+            "id": "how-it-works",
+            "type": "storytelling",
+            "html": "<section class=\"section\" id=\"how-it-works\">\n  <div class=\"container\">\n    <h2 class=\"h2\">What Happens in the Glass</h2>\n    <p class=\"p subtitle\">And how to read it</p>\n    <p class=\"p\">Your experience should be anchored in measurement + clarity:</p>\n    <ul class=\"feature-list\">\n      <li>Turbidity changes</li>\n      <li>Settling behavior</li>\n      <li>ORP/EC shifts (depending on baseline)</li>\n    </ul>\n    <div class=\"bridge-links\">\n      <a href=\"/how-andara-works-clarification-conditioning\" class=\"chip\">How It Works</a>\n      <a href=\"/before-after-gallery-water\" class=\"chip\">Before/After Gallery</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "safety-boundaries",
+            "type": "trust-block",
+            "html": "<section class=\"section\" id=\"safety-boundaries\">\n  <div class=\"container\">\n    <div class=\"panel pad trust-block\">\n      <h2 class=\"h2\">Safety, Boundaries & Legal Clarity</h2>\n      <p class=\"p\">This is where trust is built — and where your firewall stays clean.</p>\n      <div class=\"link-grid\">\n        <a href=\"/safety-boundaries-legal-use\" class=\"chip\">Safety & Boundaries</a>\n        <a href=\"/legal-disclaimers\" class=\"chip\">Legal Disclaimers</a>\n        <a href=\"/privacy-cookies\" class=\"chip\">Privacy & Cookies</a>\n        <a href=\"/imprint-impressum\" class=\"chip\">Imprint</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "support-routes",
+            "type": "support",
+            "html": "<section class=\"section\" id=\"support-routes\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Need Help Choosing?</h2>\n    <div class=\"grid cols-4\">\n      <a href=\"/faq-product-application\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">FAQ</h3>\n        <p class=\"p small\">Product & application</p>\n      </a>\n      <a href=\"/contact-support\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Contact</h3>\n        <p class=\"p small\">Support & help</p>\n      </a>\n      <a href=\"/global-shipping-packaging\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Shipping</h3>\n        <p class=\"p small\">Global packaging</p>\n      </a>\n      <a href=\"/eu-vs-bali-lines\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">EU vs Bali</h3>\n        <p class=\"p small\">Line comparison</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "proof-experiments",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"proof-experiments\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Measure It. Log It. Compare It.</h2>\n    <div class=\"grid cols-4\">\n      <a href=\"/home-water-test-kit\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Home Test Kit</h3>\n      </a>\n      <a href=\"/andara-vs-baseline-water-protocol\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Comparison Protocol</h3>\n      </a>\n      <a href=\"/parameter-tracking\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Parameter Tracking</h3>\n      </a>\n      <a href=\"/experiments-measurements-overview\" class=\"panel facet pad link-card\">\n        <h3 class=\"h4\">Experiments Overview</h3>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Products",
+        "items": [
+            {
+                "question": "Which product should I start with?",
+                "answer": "If you want a simple entry, start with 100 ml + the 7-day guide."
+            },
+            {
+                "question": "Do I need lab equipment?",
+                "answer": "No. A basic EC/TDS + ORP + pH + clarity method already gives you a usable fingerprint."
+            },
+            {
+                "question": "Where do I find the right dilution?",
+                "answer": "Use the dilution calculator at /andara-dilution-calculator."
+            }
+        ]
+    },
+    "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Product Hub – Andara Ionic",
+        "description": "Shop entry point for Andara Ionic products, bundles, dilution calculator, getting started guide, safety boundaries, and support.",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://andara-ionic.com/shop"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Andara Ionic"
+        }
+    },
+    "dynamicBoxRules": {
+        "chooserBooster": {
+            "condition": "!aboveFoldProducts",
+            "action": "moveProductChoicerUp"
+        },
+        "trustBooster": {
+            "condition": "!internalLinks.includes('/safety-boundaries-legal-use')",
+            "action": "addSafetyLink"
+        },
+        "faqBooster": {
+            "condition": "faq.items.length < 6",
+            "action": "generateAdditionalFAQ"
+        },
+        "proofBooster": {
+            "condition": "!internalLinks.some(l => l.includes('experiment'))",
+            "action": "addExperimentLinks"
+        }
+    },
+    "internalLinks": [
+        "/getting-started-first-7-days",
+        "/andara-ionic-100ml",
+        "/andara-ionic-1l",
+        "/andara-dilution-calculator",
+        "/what-is-andara-ionic",
+        "/andara-ionic-100ml-bundles",
+        "/andara-ionic-1l-bundles",
+        "/price-per-liter-explainer",
+        "/how-andara-works-clarification-conditioning",
+        "/before-after-gallery-water",
+        "/safety-boundaries-legal-use",
+        "/legal-disclaimers",
+        "/privacy-cookies",
+        "/imprint-impressum",
+        "/faq-product-application",
+        "/contact-support",
+        "/global-shipping-packaging",
+        "/eu-vs-bali-lines",
+        "/home-water-test-kit",
+        "/andara-vs-baseline-water-protocol",
+        "/parameter-tracking",
+        "/experiments-measurements-overview"
+    ]
+}

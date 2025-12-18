@@ -24,6 +24,17 @@ export async function processUploadedDocument(
         rawText = file.buffer?.toString('utf-8') || '';
     } else if (file.mimetype === 'text/markdown' || file.originalname.endsWith('.md')) {
         rawText = file.buffer?.toString('utf-8') || '';
+    } else if (file.mimetype === 'application/pdf' || file.originalname.endsWith('.pdf')) {
+        try {
+            // @ts-ignore - Handle CommonJS/ESM interop for pdf-parse
+            const pdfModule = await import('pdf-parse');
+            const pdfParser = pdfModule.default || pdfModule;
+            const data = await pdfParser(file.buffer);
+            rawText = data.text;
+        } catch (error) {
+            console.error('PDF parsing failed:', error);
+            rawText = `Error extracting PDF content: ${error instanceof Error ? error.message : String(error)}`;
+        }
     } else {
         // For other file types, just store the filename
         rawText = `Content from file: ${file.originalname}`;

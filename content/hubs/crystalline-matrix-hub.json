@@ -1,0 +1,327 @@
+{
+    "page": {
+        "key": "crystalline-matrix-hub",
+        "title": "Crystalline Matrix – Water, Minerals & Fields",
+        "path": "/science/geometry",
+        "pageType": "hub",
+        "template": "pillar_overview",
+        "clusterKey": "crystalline-matrix",
+        "priority": 1,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Crystalline Matrix: Water Geometry, SO₄ Tetrahedron & 3-6-9",
+        "description": "A clear map of geometry in water and minerals: hexagonal symmetry, sulfate tetrahedron, crystal grids in nature, light lattices, and field-based navigation.",
+        "focusKeyword": "crystalline matrix",
+        "secondaryKeywords": [
+            "tetrahedral sulfate",
+            "hexagonal water",
+            "3-6-9 harmonics",
+            "photonic flow",
+            "crystal grids",
+            "water geometry"
+        ],
+        "intent": [
+            "learn",
+            "explore"
+        ],
+        "schemaType": [
+            "CollectionPage",
+            "FAQPage"
+        ],
+        "og": {
+            "title": "Crystalline Matrix — Geometry of Water & Minerals",
+            "description": "The pattern language behind water structure, mineral chemistry, and field coherence—explained with diagrams, experiments, and a topic map.",
+            "imagePrompt": "Clean mineral macro + subtle tetrahedron overlay + water ripple texture, premium scientific aesthetic"
+        }
+    },
+    "visualConfig": {
+        "priority": "P1",
+        "vibeKeywords": [
+            "sacred",
+            "scientific",
+            "geometric",
+            "visionary",
+            "beautiful",
+            "premium"
+        ],
+        "emotionalTone": [
+            "awe",
+            "precision",
+            "coherent",
+            "grounded"
+        ],
+        "motionPreset": "crystalline-shimmer",
+        "colorPalette": "matrix",
+        "treeTheme": "matrix",
+        "requiredVisuals": [
+            "SO₄ tetrahedron diagram (clean SVG, labeled)",
+            "Hexagonal symmetry illustration (simple, modern)",
+            "3-6-9 navigation motif (3 tiles → 6 links → 9 nodes map)",
+            "Photonic lattice abstract (soft glow, lines, interference feel)",
+            "Integrated triangle map (Water–Minerals–Fields)"
+        ],
+        "componentSuggestions": [
+            "DiagramCard",
+            "SymmetryPanel",
+            "HarmonicsNavigator",
+            "FieldMap"
+        ]
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Science Hub</span>\n        <h1 class=\"h1\">Crystalline Matrix & Geometry</h1>\n        <p class=\"p tagline\">Water, Minerals & Fields — Geometry as the Pattern Language of Nature</p>\n        <p class=\"p\">Geometry is not decoration. It's the organizational code that shows up everywhere:</p>\n        <ul class=\"andara-hero__bullets\">\n          <li><strong>Molecules</strong> form shapes</li>\n          <li><strong>Ions</strong> form repeating structures</li>\n          <li><strong>Crystals</strong> form lattices</li>\n          <li><strong>Surfaces</strong> create interfaces</li>\n          <li><strong>Fields</strong> organize flow patterns</li>\n        </ul>\n        <p class=\"p\">This hub is your navigation portal into the \"pattern layer\" of the Andara library — where science and sacred geometry meet in a clean, measurable way.</p>\n        <div class=\"btn-group\">\n          <a href=\"/hexagonal-water-structures\" class=\"btn primary\">Hexagonal Water →</a>\n          <a href=\"/tetrahedral-sulfate-geometry\" class=\"btn secondary\">SO₄ Tetrahedron →</a>\n        </div>\n      </div>\n      <div class=\"field visual\">\n        <!-- AI_IMAGE_PROMPT: Abstract geometric crystalline structure with hexagonal water patterns, SO4 tetrahedron glowing gold, sacred geometry overlay with soft light lattices, premium scientific-mystical aesthetic, gold and deep blue tones -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp",
+                "stagger": true
+            }
+        },
+        {
+            "id": "fast-track",
+            "type": "navigation",
+            "html": "<section class=\"section tight\" id=\"fast-track\">\n  <div class=\"container\">\n    <h2 class=\"h3\">Fast track:</h2>\n    <div class=\"grid cols-3\">\n      <a href=\"/hexagonal-water-structures\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">⬡</div>\n        <h3 class=\"h4\">Hexagonal Water Structures</h3>\n        <p class=\"p small\">Symmetry & ordering patterns</p>\n      </a>\n      <a href=\"/tetrahedral-sulfate-geometry\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">△</div>\n        <h3 class=\"h4\">The SO₄ Tetrahedron</h3>\n        <p class=\"p small\">Sulfate structure in chemistry</p>\n      </a>\n      <a href=\"/water-crystal-geometry-map\" class=\"panel facet pad link-card\">\n        <div class=\"icon\">◇</div>\n        <h3 class=\"h4\">Water, Crystal & Geometry Map</h3>\n        <p class=\"p small\">The integrated field view</p>\n      </a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "60ms"
+            }
+        },
+        {
+            "id": "definition",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">What \"Crystalline Matrix\" Means</h2>\n      <p class=\"p tagline\">The crystalline matrix is the interface between structure and behavior</p>\n      <p class=\"p\">In Andara language, \"Crystalline Matrix\" is a teaching lens:</p>\n      <ul class=\"feature-list\">\n        <li><strong>Structure</strong> = how matter arranges itself</li>\n        <li><strong>Matrix</strong> = the repeating field of relationships</li>\n        <li><strong>Crystalline</strong> = stable pattern and lattice logic</li>\n      </ul>\n      <p class=\"p callout\">It doesn't mean \"everything is a crystal.\"<br>It means: <strong>nature often stabilizes itself through repeating geometry.</strong></p>\n      <p class=\"p\">That geometry can be observed in:</p>\n      <ul>\n        <li>Mineral lattice forms</li>\n        <li>Ionic geometry (like sulfate)</li>\n        <li>Ordering near surfaces (interfaces)</li>\n        <li>Symmetry patterns in flow and ice</li>\n        <li>Photonic and wave-like patterning</li>\n      </ul>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "library-map",
+            "type": "navigation-map",
+            "html": "<section class=\"section\" id=\"library-map\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Crystalline Matrix Library Map</h2>\n    \n    <div class=\"grid cols-2\">\n      <div class=\"panel pad category\">\n        <span class=\"kicker\"><span class=\"dot\"></span>A) Water Symmetry</span>\n        <ul>\n          <li><a href=\"/hexagonal-water-structures\">Hexagonal Water Structures</a></li>\n          <li><a href=\"/water-crystal-geometry-map\">Water, Crystal & Geometry Map</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad category\">\n        <span class=\"kicker\"><span class=\"dot\"></span>B) Mineral Geometry</span>\n        <ul>\n          <li><a href=\"/tetrahedral-sulfate-geometry\">Tetrahedral Sulfate Geometry (SO₄)</a></li>\n          <li><a href=\"/sulfate-chemistry\">Sulfate Chemistry</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad category\">\n        <span class=\"kicker\"><span class=\"dot\"></span>C) Harmonics & Pattern Metaphor</span>\n        <ul>\n          <li><a href=\"/three-six-nine-harmonics\">3-6-9 Harmonics – Layout & Energy Metaphor</a></li>\n          <li><a href=\"/spiritual-electricity-ion-intelligence\">Spiritual Electricity & Ion Intelligence</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad category\">\n        <span class=\"kicker\"><span class=\"dot\"></span>D) Nature Grids & Photonic Flow</span>\n        <ul>\n          <li><a href=\"/crystal-grids-in-nature\">Crystal Grids in Nature</a></li>\n          <li><a href=\"/light-lattices-photonic-flow\">Light Lattices & Photonic Flow</a></li>\n          <li><a href=\"/light-and-water\">Light & Water</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "science-bridge",
+            "type": "explanation",
+            "html": "<section class=\"section\" id=\"science-bridge\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Why Geometry Matters in Water + Minerals</h2>\n    <p class=\"p subtitle\">The science bridge</p>\n    \n    <div class=\"grid cols-3\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">1) Geometry creates stability</h3>\n        <p class=\"p\">Atoms don't just \"exist.\" They form stable configurations:</p>\n        <ul>\n          <li>Angles</li>\n          <li>Bonds</li>\n          <li>Symmetries</li>\n          <li>Repeating motifs</li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad\">\n        <h3 class=\"h4\">2) Geometry shapes interfaces</h3>\n        <p class=\"p\">When water touches a surface, it can form organized boundary behavior (hydration layers).</p>\n        <a href=\"/hydration-layers-interfaces\" class=\"chip\">Bridge: Hydration Layers</a>\n      </div>\n      \n      <div class=\"panel pad\">\n        <h3 class=\"h4\">3) Geometry becomes a map</h3>\n        <p class=\"p\">Once you learn the main patterns, you can navigate complex topics:</p>\n        <ul>\n          <li>Sulfate tetrahedron → mineral chemistry logic</li>\n          <li>Hex symmetry → water structure metaphors</li>\n          <li>Grids/lattices → natural repeating patterns</li>\n          <li>Harmonics → rhythm and scaling</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "80ms"
+            }
+        },
+        {
+            "id": "so4-tetrahedron",
+            "type": "anchor-section",
+            "html": "<section class=\"section\" id=\"so4-tetrahedron\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Your Strongest Geometry Anchor</span>\n        <h2 class=\"h2\">The SO₄ Tetrahedron</h2>\n        <p class=\"p\">Sulfate (SO₄²⁻) is a clear example of geometry in chemistry: a tetrahedral structure that repeats across sulfate salts and mineral systems.</p>\n        <p class=\"p\"><strong>Why it matters:</strong></p>\n        <ul>\n          <li>It gives a clean visual people remember</li>\n          <li>It bridges mineral chemistry to crystal lattice thinking</li>\n          <li>It creates a \"symbol of structure\" without needing mystical claims</li>\n        </ul>\n        <div class=\"btn-group\">\n          <a href=\"/tetrahedral-sulfate-geometry\" class=\"btn primary\">Tetrahedron Deep Dive →</a>\n          <a href=\"/sulfate-chemistry\" class=\"chip\">Sulfate Chemistry</a>\n          <a href=\"/iron-sulfur-synergy\" class=\"chip\">Iron-Sulfur Synergy</a>\n        </div>\n      </div>\n      <div class=\"field visual diagram\">\n        <!-- AI_IMAGE_PROMPT: Clean SO4 tetrahedron molecular diagram, sulfur atom center with four oxygen atoms at vertices, gold wireframe on dark blue background, labeled vertices, scientific but elegant aesthetic -->\n        <!-- COMPONENT: DiagramCard type=\"tetrahedron\" -->\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "hexagonal-structures",
+            "type": "anchor-section",
+            "html": "<section class=\"section\" id=\"hexagonal-structures\">\n  <div class=\"container\">\n    <div class=\"grid cols-2\">\n      <div class=\"field visual diagram\">\n        <!-- AI_IMAGE_PROMPT: Hexagonal water symmetry illustration, snowflake-like pattern with glowing cyan edges, molecular arrangement overlay, clean modern scientific aesthetic -->\n        <!-- COMPONENT: SymmetryPanel type=\"hexagonal\" -->\n      </div>\n      <div class=\"panel pad\">\n        <span class=\"kicker\"><span class=\"dot\"></span>Your Water Symmetry Anchor</span>\n        <h2 class=\"h2\">Hexagonal Water Structures</h2>\n        <p class=\"p\">Hexagonal motifs appear widely in nature:</p>\n        <ul>\n          <li>Snowflakes</li>\n          <li>Some ice structures</li>\n          <li>Honeycomb patterns</li>\n          <li>Many biological packing patterns</li>\n        </ul>\n        <p class=\"p callout\">In water discussions, \"hexagonal\" is best used as: <strong>a visual metaphor for symmetry + ordering</strong> — not a simplistic guarantee.</p>\n        <div class=\"btn-group\">\n          <a href=\"/hexagonal-water-structures\" class=\"btn primary\">Hexagonal Deep Dive →</a>\n          <a href=\"/structured-water-basics\" class=\"chip\">Structured Water</a>\n          <a href=\"/ez-water-overview\" class=\"chip\">EZ Water</a>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "crystal-grids",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"crystal-grids\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Crystal Grids in Nature</h2>\n    <p class=\"p subtitle\">The \"Earth code\" layer — how repeating structures show up across geology</p>\n    <div class=\"panel pad\">\n      <p class=\"p\">Examples include:</p>\n      <ul class=\"feature-list\">\n        <li>Mineral crystal forms</li>\n        <li>Lattice symmetry in rock growth</li>\n        <li>Repeating fracture/vein patterns</li>\n        <li>Soil mineral networks and aggregation patterns</li>\n      </ul>\n      <div class=\"btn-group\">\n        <a href=\"/crystal-grids-in-nature\" class=\"btn primary\">Explore Crystal Grids →</a>\n        <a href=\"/black-mica-sulfated-minerals\" class=\"chip\">Geology Bridge: Black Mica</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "photonic-flow",
+            "type": "content-section",
+            "html": "<section class=\"section\" id=\"photonic-flow\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Light Lattices & Photonic Flow</h2>\n    <p class=\"p subtitle\">The high-visual layer — leaning into \"field\" aspects in a grounded way</p>\n    <div class=\"panel pad\">\n      <ul class=\"feature-list\">\n        <li>Light influences temperature and interface behavior</li>\n        <li>Surfaces + light can change how water \"behaves over time\"</li>\n        <li>Photonic metaphors help understand coherence without pseudo-certainty</li>\n      </ul>\n      <div class=\"btn-group\">\n        <a href=\"/light-lattices-photonic-flow\" class=\"btn primary\">Photonic Flow →</a>\n        <a href=\"/light-and-water\" class=\"chip\">Light & Water</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "harmonics-369",
+            "type": "unique-positioning",
+            "html": "<section class=\"section\" id=\"harmonics-369\">\n  <div class=\"container\">\n    <div class=\"panel pad featured highlight\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Your Unique Design Layer</span>\n      <h2 class=\"h2\">3-6-9 Harmonics</h2>\n      <p class=\"p tagline\">This is where Andara becomes unmistakable</p>\n      \n      <div class=\"grid cols-2\">\n        <div>\n          <p class=\"p\"><strong>How to position 3-6-9 correctly:</strong></p>\n          <ul>\n            <li>❌ Not as \"proof of physics claims\"</li>\n            <li>✅ Yes as a navigation geometry and pattern metaphor</li>\n          </ul>\n          <p class=\"p\"><strong>The pattern:</strong></p>\n          <ul>\n            <li><strong>3</strong> = foundation</li>\n            <li><strong>6</strong> = relationship/network</li>\n            <li><strong>9</strong> = integration/field view</li>\n          </ul>\n        </div>\n        <div>\n          <p class=\"p\"><strong>Use it to:</strong></p>\n          <ul>\n            <li>Structure the library UI</li>\n            <li>Create \"triads\" of learning paths</li>\n            <li>Express coherence and scaling</li>\n          </ul>\n        </div>\n      </div>\n      \n      <a href=\"/three-six-nine-harmonics\" class=\"btn primary\">Explore 3-6-9 Harmonics →</a>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        },
+        {
+            "id": "integrated-field-map",
+            "type": "integration",
+            "html": "<section class=\"section\" id=\"integrated-field-map\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Integrated Field Map</h2>\n    <p class=\"p tagline\">Water · Minerals · Fields = one coherent map</p>\n    <p class=\"p\">This hub exists to connect three realities. If someone understands this triangle, they understand the Andara library:</p>\n    \n    <div class=\"grid cols-3\">\n      <div class=\"panel pad pillar water\">\n        <h3 class=\"h4\">1. Water Ordering (Interfaces)</h3>\n        <ul>\n          <li><a href=\"/structured-water-basics\">Structured Water Basics</a></li>\n          <li><a href=\"/ez-water-overview\">EZ Water Overview</a></li>\n          <li><a href=\"/hydration-layers-interfaces\">Hydration Layers & Interfaces</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad pillar mineral\">\n        <h3 class=\"h4\">2. Mineral Chemistry (Ions & Geometry)</h3>\n        <ul>\n          <li><a href=\"/mineral-science-blueprint\">Mineral Science Blueprint</a></li>\n          <li><a href=\"/sulfate-chemistry\">Sulfate Chemistry</a></li>\n          <li><a href=\"/tetrahedral-sulfate-geometry\">Tetrahedral Sulfate Geometry</a></li>\n        </ul>\n      </div>\n      \n      <div class=\"panel pad pillar bioelectric\">\n        <h3 class=\"h4\">3. Bioelectric Bridge (Charge)</h3>\n        <ul>\n          <li><a href=\"/bioelectric-water\">Bioelectric Water</a></li>\n          <li><a href=\"/bioelectricity-invisible-voltage\">Bioelectricity Overview</a></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "staggeredFadeIn",
+                "stagger": "100ms"
+            }
+        },
+        {
+            "id": "measurement-anchor",
+            "type": "credibility",
+            "html": "<section class=\"section\" id=\"measurement-anchor\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to \"Measure the Pattern\"</h2>\n    <p class=\"p subtitle\">Geometry can guide the mind — but your system stays strong because it returns to measurement</p>\n    \n    <div class=\"panel pad\">\n      <h3 class=\"h4\">The 4-Parameter Baseline</h3>\n      <p class=\"p\">Use this for any water pattern exploration:</p>\n      <div class=\"grid cols-4\">\n        <a href=\"/conductivity-tds-water\" class=\"chip\">EC/TDS</a>\n        <a href=\"/orp-redox-water\" class=\"chip\">ORP</a>\n        <a href=\"/ph-balance-water\" class=\"chip\">pH</a>\n        <a href=\"/turbidity-clarity\" class=\"chip\">Turbidity</a>\n      </div>\n    </div>\n    \n    <div class=\"panel pad\">\n      <h3 class=\"h4\">Protocol + Logging</h3>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"chip\">Home Test Kit</a>\n        <a href=\"/parameter-tracking\" class=\"chip\">Parameter Tracking</a>\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"chip\">Comparison Protocol</a>\n      </div>\n    </div>\n  </div>\n</section>",
+            "motion": {
+                "preset": "fadeInUp"
+            }
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Crystalline Matrix & Geometry",
+        "items": [
+            {
+                "question": "Is \"crystalline matrix\" literal or metaphor?",
+                "answer": "Both. Mineral lattices and sulfate geometry are literal; \"field maps\" and harmonics can be used as organizing metaphors."
+            },
+            {
+                "question": "Does water become permanently \"hexagonal\"?",
+                "answer": "It's better to treat hexagonal language as a symmetry/ordering model rather than a permanent state claim."
+            },
+            {
+                "question": "Why include sulfate geometry specifically?",
+                "answer": "Because SO₄ is a clean, memorable example of stable geometry in real chemistry—and it bridges into mineral system thinking."
+            },
+            {
+                "question": "How do I connect geometry to real testing?",
+                "answer": "Use geometry for understanding and navigation, then verify patterns with consistent measurement: ORP/EC/pH/turbidity over time."
+            },
+            {
+                "question": "What's the best next page if I'm new?",
+                "answer": "Start with /water-crystal-geometry-map and then go into /structured-water-basics."
+            },
+            {
+                "question": "Where does \"spiritual electricity\" fit here?",
+                "answer": "As a meaning layer and narrative lens—kept separate from measurement claims and anchored in education. See /spiritual-electricity-ion-intelligence."
+            }
+        ]
+    },
+    "jsonLd": {
+        "collectionPage": {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Crystalline Matrix & Geometry",
+            "description": "Geometry lens for water and minerals: sulfate tetrahedron, hexagonal symmetry, crystal grids in nature, photonic flow, 3-6-9 harmonics, and integrated field maps.",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://andara-ionic.com/science/geometry"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Andara Ionic"
+            }
+        },
+        "faqPage": {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Is crystalline matrix literal or metaphor?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Both. Mineral lattices and sulfate geometry are literal; harmonics and field maps can be used as organizing metaphors anchored in education and measurement."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does water become permanently hexagonal?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "It's best to treat hexagonal language as a symmetry/ordering model rather than a permanent state claim. Interface conditions and context matter."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Why include sulfate geometry?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "SO₄ tetrahedral geometry is a clear, memorable example of stable structure in real chemistry and helps bridge mineral science to lattice thinking."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How can I connect geometry to testing?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Use geometry for navigation and understanding, then verify patterns with consistent measurements such as ORP, EC/TDS, pH, and turbidity logged over time."
+                    }
+                }
+            ]
+        }
+    },
+    "dynamicBoxRules": {
+        "visualBooster": {
+            "trigger": "fewer than 2 diagrams present",
+            "placement": "after Step 4",
+            "action": "addDiagrams",
+            "adds": [
+                "SO₄ tetrahedron",
+                "Hex symmetry illustration"
+            ]
+        },
+        "glossaryBooster": {
+            "trigger": "missing key definitions",
+            "placement": "after Step 2",
+            "requiredTerms": [
+                "lattice",
+                "symmetry",
+                "tetrahedron",
+                "interface",
+                "harmonic",
+                "coherence"
+            ],
+            "action": "addGlossaryTooltips"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "before FAQ",
+            "action": "addHubLinks",
+            "adds": [
+                "Water Hub",
+                "Mineral Hub",
+                "Bioelectric Hub"
+            ]
+        },
+        "protocolBooster": {
+            "trigger": "no measurement links found",
+            "placement": "after Step 10",
+            "action": "addProtocolLinks",
+            "adds": [
+                "/parameter-tracking",
+                "/andara-vs-baseline-water-protocol"
+            ]
+        }
+    },
+    "internalLinks": [
+        "/hexagonal-water-structures",
+        "/tetrahedral-sulfate-geometry",
+        "/water-crystal-geometry-map",
+        "/sulfate-chemistry",
+        "/three-six-nine-harmonics",
+        "/spiritual-electricity-ion-intelligence",
+        "/crystal-grids-in-nature",
+        "/light-lattices-photonic-flow",
+        "/light-and-water",
+        "/hydration-layers-interfaces",
+        "/iron-sulfur-synergy",
+        "/structured-water-basics",
+        "/ez-water-overview",
+        "/black-mica-sulfated-minerals",
+        "/mineral-science-blueprint",
+        "/bioelectric-water",
+        "/bioelectricity-invisible-voltage",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/home-water-test-kit",
+        "/parameter-tracking",
+        "/andara-vs-baseline-water-protocol"
+    ]
+}

@@ -1,0 +1,166 @@
+{
+    "page": {
+        "key": "water-case-studies-world",
+        "title": "Water Case Studies — Global Examples",
+        "path": "/water-case-studies-world",
+        "pageType": "article",
+        "template": "science_page",
+        "clusterKey": "water-science",
+        "priority": 2,
+        "zone": "Z2",
+        "firewallClass": "Z2_education"
+    },
+    "seo": {
+        "title": "Water Case Studies: Global Water Profiles (EC/ORP/pH/Turbidity)",
+        "description": "A global map of water profiles—spring, well, tap, mineral, RO—compared using the same 4-parameter fingerprint (EC/TDS, ORP, pH, turbidity) with notes on geology, treatment and time effects.",
+        "focusKeyword": "water case studies",
+        "secondaryKeywords": [
+            "water profiles",
+            "spring water comparison",
+            "tap water comparison",
+            "water parameters",
+            "ORP EC pH examples"
+        ],
+        "intent": [
+            "learn",
+            "compare",
+            "explore"
+        ],
+        "schemaType": [
+            "Article",
+            "FAQPage",
+            "ItemList"
+        ],
+        "og": {
+            "title": "Water Case Studies — Global Examples",
+            "description": "A Global Water Profile Map Using One Comparison Language",
+            "imagePrompt": "world map outline + dotted nodes + parameter icons"
+        }
+    },
+    "visualConfig": {
+        "priority": "P2",
+        "vibeKeywords": [
+            "comparative",
+            "global",
+            "data-driven",
+            "structured"
+        ],
+        "emotionalTone": [
+            "curiosity",
+            "trust",
+            "objectivity"
+        ],
+        "motionPreset": "gentle-flow",
+        "colorPalette": "mineral",
+        "treeTheme": "science"
+    },
+    "sections": [
+        {
+            "id": "hero",
+            "type": "hero",
+            "html": "<section class=\"section andara-hero\" id=\"hero\">\n  <div class=\"container\">\n    <div class=\"panel pad\">\n      <span class=\"kicker\"><span class=\"dot\"></span>Zone 2 • Case Studies</span>\n      <h1 class=\"h1\">Water Case Studies</h1>\n      <p class=\"p tagline\">Global Examples • One Measurement Language</p>\n      <p class=\"p\">People argue about \"the best water\" because they compare different waters with different metrics. This page solves that.</p>\n      <p class=\"p\">We use one universal comparison fingerprint (EC, ORP, pH, Turbidity) + context: source type, geology, treatment, and time.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "definition",
+            "type": "summary",
+            "html": "<section class=\"section\" id=\"definition\">\n  <div class=\"container\">\n    <div class=\"panel pad featured\">\n      <h2 class=\"h2\">Definition</h2>\n      <p class=\"p callout large\"><strong>Water case studies</strong> are standardized profiles that compare different sources using the same fingerprint (EC/TDS, ORP, pH, turbidity) plus source context and time-based drift.</p>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "source-map",
+            "type": "list-map",
+            "html": "<section class=\"section\" id=\"source-map\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The Source Categories</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Natural Sources</h3>\n        <ul class=\"list-check\">\n          <li><strong>Springs:</strong> Mountain, volcanic, limestone</li>\n          <li><strong>Groundwater:</strong> Mineral-heavy wells</li>\n          <li><strong>Surface:</strong> Rivers, lakes (variable turbidity)</li>\n        </ul>\n      </div>\n      <div class=\"panel pad\">\n        <h3 class=\"h4\">Treated Sources</h3>\n        <ul class=\"list-check\">\n          <li><strong>Municipal:</strong> Treatment + distribution effects</li>\n          <li><strong>Filtered:</strong> Carbon, multi-stage</li>\n          <li><strong>RO/Distilled:</strong> Low solids, container-sensitive</li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"center-text spacer-top\">\n      <a href=\"/natural-vs-treated-water\" class=\"chip\">Comparison Framework</a>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "fingerprint-guide",
+            "type": "features",
+            "html": "<section class=\"section\" id=\"fingerprint-guide\">\n  <div class=\"container\">\n    <h2 class=\"h2\">The 4-Parameter Interpretation Guide</h2>\n    <div class=\"grid cols-4\">\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">1. EC/TDS</h4>\n        <p class=\"p smallish\">\"How many charge carriers?\" Not identity, not quality alone.</p>\n        <a href=\"/conductivity-tds-water\" class=\"link\">Read More</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">2. ORP</h4>\n        <p class=\"p smallish\">Redox context. Driven by oxygen, temp, and time.</p>\n        <a href=\"/orp-redox-water\" class=\"link\">Read More</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">3. pH</h4>\n        <p class=\"p smallish\">Buffer + gas context. Drifts with CO₂ exchange.</p>\n        <a href=\"/ph-balance-water\" class=\"link\">Read More</a>\n      </div>\n      <div class=\"panel pad\">\n        <h4 class=\"h5\">4. Turbidity</h4>\n        <p class=\"p smallish\">Particle load & settling behavior.</p>\n        <a href=\"/turbidity-clarity\" class=\"link\">Read More</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "case-studies",
+            "type": "grid",
+            "html": "<section class=\"section\" id=\"case-studies\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Global Profiles (Starter Set)</h2>\n    <div class=\"grid cols-2\">\n      <!-- Case 01 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 01: Mountain Spring</h3>\n        <span class=\"chip\">Natural</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Moderate EC/TDS, Stable Clarity.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Geology dominates mineral identity. Bottling affects gases.</p>\n        <a href=\"/natural-vs-treated-water\">Compare Source</a>\n      </div>\n      <!-- Case 02 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 02: Volcanic Spring</h3>\n        <span class=\"chip\">Mineral</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Higher minerals, unique ion identity.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Strong \"mineral geometry\" narrative.</p>\n        <a href=\"/sulfate-chemistry\">Sulfate Context</a>\n      </div>\n      <!-- Case 03 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 03: Limestone Spring</h3>\n        <span class=\"chip\">Buffered</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Strong buffering, stable pH.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Carbonate buffering context.</p>\n        <a href=\"/ph-balance-water\">pH Context</a>\n      </div>\n      <!-- Case 04 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 04: Deep Well</h3>\n        <span class=\"chip\">Groundwater</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> High EC typical. Variable turbidity.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Need repeated sampling.</p>\n        <a href=\"/conductivity-tds-water\">EC Context</a>\n      </div>\n      <!-- Case 05 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 05: Municipal Tap</h3>\n        <span class=\"chip\">Treated</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Clear. ORP/pH drift after sitting.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Distribution & off-gassing effects.</p>\n        <a href=\"/light-and-water\">Gas Exchange</a>\n      </div>\n      <!-- Case 06 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 06: Filtered Tap</h3>\n        <span class=\"chip\">Filtered</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Parameters depend on filter age.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Compare pre/post filter.</p>\n      </div>\n      <!-- Case 07 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 07: RO Water</h3>\n        <span class=\"chip\">Stripped</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Low EC. Drifts fast.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Container affects storage dominatingly.</p>\n      </div>\n      <!-- Case 08 -->\n      <div class=\"panel pad card\">\n        <h3 class=\"h4\">Case 08: River/Lake</h3>\n        <span class=\"chip\">Surface</span>\n        <p class=\"p\"><strong>Expected Fingerprint:</strong> Turbidity dominates.</p>\n        <p class=\"p small\"><strong>Notes:</strong> Seasonal drift.</p>\n        <a href=\"/turbidity-clarity\">Turbidity Context</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "create-case",
+            "type": "process",
+            "html": "<section class=\"section\" id=\"create-case\">\n  <div class=\"container\">\n    <h2 class=\"h2\">Practical: Creating a Case Study</h2>\n    <div class=\"panel pad\">\n      <h3 class=\"h4\">The Kit</h3>\n      <p class=\"p\">Glass jar, Thermometer, EC/TDS, ORP, pH meters.</p>\n      <h3 class=\"h4\">The Rule</h3>\n      <ul>\n        <li>Measure at 0h, 2h, 24h.</li>\n        <li>Always log temperature and container type.</li>\n      </ul>\n      <div class=\"btn-group\">\n        <a href=\"/home-water-test-kit\" class=\"btn secondary\">Get Kit</a>\n        <a href=\"/parameter-tracking\" class=\"btn primary\">Log Template</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "citizen-science",
+            "type": "featured",
+            "html": "<section class=\"section\" id=\"citizen-science\">\n  <div class=\"container\">\n    <div class=\"panel pad featured center-text\">\n      <h2 class=\"h2\">Join the Network</h2>\n      <p class=\"p\">This library becomes a living engine with your data.</p>\n      <div class=\"chip-group\">\n        <a href=\"/citizen-science-hub\" class=\"chip\">Citizen Science Hub</a>\n        <a href=\"/experiments-index\" class=\"chip\">Experiments Index</a>\n        <a href=\"/andara-vs-baseline-water-protocol\" class=\"chip\">Comparison Protocol</a>\n      </div>\n    </div>\n  </div>\n</section>"
+        },
+        {
+            "id": "map-reading",
+            "type": "warning",
+            "html": "<section class=\"section\" id=\"map-reading\">\n  <div class=\"container\">\n    <h2 class=\"h2\">How to Read the Map (Warnings)</h2>\n    <div class=\"grid cols-2\">\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">Rule 1: Patterns over Points</h4>\n        <p class=\"p\">Don't compare single readings. Compare patterns over time.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">Rule 2: Container Effects</h4>\n        <p class=\"p\">Different sizes/materials distort comparisons.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">Rule 3: Temperature</h4>\n        <p class=\"p\">Temp shifts can mimic chemical effects.</p>\n      </div>\n      <div class=\"panel pad warning\">\n        <h4 class=\"h5\">Rule 4: Source Context</h4>\n        <p class=\"p\">A spring is an ecosystem. A tap is a pipe network.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+        }
+    ],
+    "faq": {
+        "title": "FAQ — Water Case Studies",
+        "items": [
+            {
+                "question": "Why do we need case studies?",
+                "answer": "To compare different waters with the same measurement language and reduce confusion."
+            },
+            {
+                "question": "What's the best baseline water for experiments?",
+                "answer": "RO or distilled can be useful as a 'low solids baseline,' but storage effects matter. Use controlled containers."
+            },
+            {
+                "question": "Why does tap water drift after sitting?",
+                "answer": "Gas exchange and distribution chemistry can change ORP/pH over time."
+            },
+            {
+                "question": "Can I submit water from anywhere?",
+                "answer": "Yes—any location is useful if logged with the standard protocol."
+            },
+            {
+                "question": "What readings matter most?",
+                "answer": "The whole fingerprint: EC/TDS + ORP + pH + turbidity, plus temperature and time."
+            },
+            {
+                "question": "Where do I submit results?",
+                "answer": "/citizen-science-hub"
+            }
+        ]
+    },
+    "dynamicBoxRules": {
+        "caseStudyCards": {
+            "trigger": "page has fewer than 6 cases listed",
+            "placement": "after Step 5",
+            "action": "addSourceCards"
+        },
+        "protocolBooster": {
+            "trigger": "missing /parameter-tracking or /andara-vs-baseline-water-protocol",
+            "placement": "near Step 6",
+            "action": "addProtocolLinks"
+        },
+        "mapBooster": {
+            "trigger": "no 'world map' visual component",
+            "placement": "hero",
+            "action": "addDiagrams"
+        },
+        "linkBooster": {
+            "trigger": "outbound links < 12",
+            "placement": "near Step 7",
+            "action": "addHubLinks"
+        }
+    },
+    "internalLinks": [
+        "/natural-vs-treated-water",
+        "/conductivity-tds-water",
+        "/orp-redox-water",
+        "/ph-balance-water",
+        "/turbidity-clarity",
+        "/parameter-tracking",
+        "/sulfate-chemistry",
+        "/tetrahedral-sulfate-geometry",
+        "/light-and-water",
+        "/andara-vs-baseline-water-protocol",
+        "/diy-clarity-tests",
+        "/home-water-test-kit",
+        "/citizen-science-hub",
+        "/experiments-index"
+    ]
+}
