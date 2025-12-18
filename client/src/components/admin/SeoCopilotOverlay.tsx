@@ -38,6 +38,7 @@ interface PageSeoMetrics {
     internalLinksOut: number;
     internalLinksIn: number;
     hasFaqBlock: boolean;
+    hasProofBlock: boolean;
     hasSchema: boolean;
     kwInTitle: boolean;
     kwInH1: boolean;

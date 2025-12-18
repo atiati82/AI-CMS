@@ -11,6 +11,7 @@ import { generateDailyRecommendations, getTodaysRecommendations, getRecommendati
 import { calculatePriorityScore, calculateAllScores } from '../../services/scoring-engine.service';
 import { analyzePageContent, analyzeAllPages } from '../../services/content-analyzer.service';
 import { seoAgent } from '../../agents/seo';
+import { v4 as uuidv4 } from 'uuid';
 import contentBlocksRouter from './content-blocks';
 
 const router = Router();
@@ -118,6 +119,7 @@ router.post('/generate/faq', async (req, res) => {
     try {
         const { pageId, topic } = req.body;
         const result = await seoAgent.execute({
+            id: uuidv4(),
             type: 'generate_faq_block',
             input: { pageId, topic }
         });
@@ -136,6 +138,7 @@ router.post('/generate/proof', async (req, res) => {
     try {
         const { claim, evidenceType } = req.body;
         const result = await seoAgent.execute({
+            id: uuidv4(),
             type: 'generate_proof_block',
             input: { claim, evidenceType }
         });
@@ -154,6 +157,7 @@ router.post('/generate/patch', async (req, res) => {
     try {
         const { pageId, instructions } = req.body;
         const result = await seoAgent.execute({
+            id: uuidv4(),
             type: 'generate_patch',
             input: { pageId, instructions }
         });
@@ -172,6 +176,7 @@ router.post('/generate/internal-links', async (req, res) => {
     try {
         const { pageId } = req.body;
         const result = await seoAgent.execute({
+            id: uuidv4(),
             type: 'suggest_internal_links',
             input: { pageId }
         });

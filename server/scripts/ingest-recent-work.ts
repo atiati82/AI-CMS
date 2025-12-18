@@ -57,7 +57,7 @@ async function run() {
             title: 'AI CMS Development Log - 2025-12-18',
             content: teachingContent,
             source: 'system-learning-2025-12-18',
-            type: 'report',
+            type: 'document',
             metadata: {
                 date: '2025-12-18',
                 topics: ['RAG', 'Visual Editor', 'SEO', 'Workflows', 'Design System'],

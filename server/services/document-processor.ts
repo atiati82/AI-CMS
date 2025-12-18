@@ -27,7 +27,7 @@ export async function processUploadedDocument(
     } else if (file.mimetype === 'application/pdf' || file.originalname.endsWith('.pdf')) {
         try {
             // @ts-ignore - Handle CommonJS/ESM interop for pdf-parse
-            const pdfModule = await import('pdf-parse');
+            const pdfModule = await import('pdf-parse') as any;
             const pdfParser = pdfModule.default || pdfModule;
             const data = await pdfParser(file.buffer);
             rawText = data.text;

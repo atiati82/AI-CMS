@@ -63,6 +63,7 @@ export type VisualConfig = {
     appliedAt: string;
   };
   layoutsDetected?: string[];
+  autoEnriched?: boolean;
   updatedAt?: string;
   batchUpdatedAt?: string;
 };
@@ -158,12 +159,14 @@ export const pages = pgTable("pages", {
   path: text("path").notNull().unique(),
   pageType: text("page_type").notNull().default('page'),
   template: text("template").notNull().default('article'),
+  schemaType: text("schema_type").default('Article'),
   clusterKey: text("cluster_key"),
   parentKey: text("parent_key"),
   priority: integer("priority").notNull().default(5),
 
   summary: text("summary"),
   content: text("content"),
+  componentBlocks: text("component_blocks").array().default(sql`ARRAY[]::text[]`),
 
   seoFocus: text("seo_focus"),
   seoTitle: text("seo_title"),
@@ -171,6 +174,7 @@ export const pages = pgTable("pages", {
   seoScore: integer("seo_score"),
   readabilityScore: integer("readability_score"),
   contentLengthWords: integer("content_length_words"),
+  refreshIntervalDays: integer("refresh_interval_days").default(30),
   internalLinks: jsonb("internal_links").$type<string[]>().default([]),
   entities: jsonb("entities").$type<string[]>().default([]),
 

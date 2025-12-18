@@ -101,7 +101,7 @@ async function runMigration() {
 }
 
 // Run if called directly
-import { fileURLToPath } from 'url';
+// Run if called directly
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
     runMigration().then(() => process.exit(0));
 }

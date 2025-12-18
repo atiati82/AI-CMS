@@ -46,7 +46,7 @@ async function techRag() {
         // 2. Index (Chunk & Embed)
         console.log('🧠 Indexing document for RAG...');
         const indexedDoc = await indexDocument(processedDoc.id);
-        console.log(`✅ Indexing Complete! Created ${indexedDoc.chunkCount} chunks.`);
+        console.log(`✅ Indexing Complete! Created ${indexedDoc.chunksCreated} chunks.`);
 
     } catch (error) {
         console.error('❌ Error during ingestion:', error);
