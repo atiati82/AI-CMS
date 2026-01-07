@@ -71,6 +71,7 @@ export function AndaraDynamicIcon({
         if (lower.match(/sacred-hex|honeycomb|sacred-triangle/)) return "sacredHexTriangle";
         if (lower.match(/sacred-matrix|lattice|geometric-matrix/)) return "sacredMatrix";
         if (lower.match(/sacred-network|mesh|node-network/)) return "sacredNetwork";
+        if (lower.match(/lotus|flower-of-life|kryst|source-code|spiring|creation|love|order/)) return "lotusFlower";
 
         // Generic category fallbacks
         if (lower.match(/water|hydration|fluid/)) return "water";
@@ -472,6 +473,58 @@ export function AndaraDynamicIcon({
                 ))}
             </g>
         ),
+
+        lotusFlower: (
+            <g>
+                <GradientDefs />
+                {/* Lotus Flower of Life Pattern */}
+                <motion.g
+                    initial={{ opacity: 0, scale: 0.8, rotate: -30 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                >
+                    {/* Center Circle */}
+                    <circle cx="50" cy="50" r="15" stroke="url(#andaraGold)" strokeWidth="1.5" fill="none" />
+
+                    {/* Inner Ring (6 Circles) */}
+                    {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+                        <motion.circle
+                            key={`inner-${i}`}
+                            cx={50 + 15 * Math.cos((angle * Math.PI) / 180)}
+                            cy={50 + 15 * Math.sin((angle * Math.PI) / 180)}
+                            r="15"
+                            stroke="url(#andaraGold)"
+                            strokeWidth="1.2"
+                            fill="none"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ duration: 1, delay: 0.2 + (i * 0.1) }}
+                        />
+                    ))}
+
+                    {/* Outer Ring (12 intersections, simplified to 6 main outer petals for icon clarity) */}
+                    {[30, 90, 150, 210, 270, 330].map((angle, i) => (
+                        <motion.circle
+                            key={`outer-${i}`}
+                            cx={50 + 26 * Math.cos((angle * Math.PI) / 180)}
+                            cy={50 + 26 * Math.sin((angle * Math.PI) / 180)}
+                            r="15"
+                            stroke="url(#andaraGold)"
+                            strokeWidth="1"
+                            fill="rgba(255,215,0,0.05)"
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 1.2, delay: 1 + (i * 0.1) }}
+                        />
+                    ))}
+
+                    {/* Central Glow */}
+                    <circle cx="50" cy="50" r="4" fill="#B8860B" opacity="0.8">
+                        <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite" />
+                    </circle>
+                </motion.g>
+            </g>
+        ),
     };
 
     const glowColors: Record<string, string> = {
@@ -496,6 +549,7 @@ export function AndaraDynamicIcon({
         sacredHexTriangle: "bg-cyan-500",
         sacredMatrix: "bg-cyan-500",
         sacredNetwork: "bg-cyan-500",
+        lotusFlower: "bg-amber-400",
         science: "bg-cyan-500",
         shop: "bg-amber-500",
         trust: "bg-emerald-500",
@@ -590,4 +644,8 @@ export const SacredMatrixIcon = ({ size = 48, className }: { size?: number; clas
 
 export const SacredNetworkIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
     <AndaraDynamicIcon topic="sacred-network" size={size} className={className} />
+);
+
+export const LotusFlowerIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
+    <AndaraDynamicIcon topic="lotus-flower" size={size} className={className} />
 );

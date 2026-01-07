@@ -401,6 +401,16 @@ export const IMAGE_REGISTRY: Record<string, ImageAsset> = {
         archetype: 'Geometry',
         routes: ['/vortex-technologies', '/vortex-spiral-hydrodynamics']
     },
+    'geo-lotus-flower': {
+        id: 'geo-lotus-flower',
+        url: '/images/geometry/lotus-flower-gold.svg',
+        alt: 'Lotus Flower of Life',
+        tags: ['lotusflower of life', 'kryst code', 'source code', 'sacred geometry', 'spiring', 'order', 'love', 'creation'],
+        description: 'Golden animated Lotus Flower of Life sacred geometry symbol.',
+        domColors: ['#f6d56a', '#020617'],
+        archetype: 'Geometry',
+        overlayBlendMode: 'screen'
+    },
     'interface-bio': {
         id: 'interface-bio',
         url: '/images/water/interface-bio.png',
