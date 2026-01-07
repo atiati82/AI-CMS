@@ -31,8 +31,7 @@ import HowToUseAndaraPage from "@/pages/how-to-use-andara";
 import AndaraDilutionCalculator from "@/pages/andara-dilution-calculator";
 import AndaraIonicDilutionTable from "@/pages/andara-ionic-dilution-table";
 import DilutionFuturisticPage from "@/pages/demos/dilution-futuristic";
-// import IconDemoPage from "@/pages/demos/icons"; // Temporarily disabled due to JSX parsing errors
-
+import IconDemoPage from "@/pages/demos/icons";
 import DnaMineralCodesPage from "@/pages/dna-mineral-codes";
 import BioelectricityInvisibleVoltagePage from "@/pages/bioelectricity-invisible-voltage";
 import HexagonalWaterStructuresPage from "@/pages/hexagonal-water-structures";
@@ -96,7 +95,7 @@ function Router() {
       <Route path="/trust" component={DynamicPage} />
       <Route path="/trust/:slug" component={DynamicPage} />
       <Route path="/blog" component={DynamicPage} />
-      {/* <Route path="/demos/icons" component={IconDemoPage} /> */} {/* Temporarily disabled */}
+      <Route path="/demos/icons" component={IconDemoPage} />
       <Route path="/demos/dilution-futuristic" component={DilutionFuturisticPage} />
       <Route path="/imprint" component={DynamicPage} />
       <Route path="/privacy" component={DynamicPage} />

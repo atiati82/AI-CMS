@@ -496,36 +496,36 @@ export default function AndaraIconsDemo() {
                             </svg>
                         </div>
                     </div>
-                </div>
                     <span className="text-[13px] font-medium text-cyan-400">Sacred Network</span>
                 </div>
-            {/* 23. Lotus Flower */}
-            <div className="icon-card active">
-                <div className="w-12 h-12 flex items-center justify-center mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">
-                    <div className="w-full h-full">
-                        <svg viewBox="0 0 100 100" className="w-full h-full">
-                            <g className="alive-pulse">
-                                {/* Center */}
-                                <circle cx="50" cy="50" r="15" stroke="url(#gold-grad)" strokeWidth="2" fill="none" />
-                                {/* Inner Ring */}
-                                {[0, 60, 120, 180, 240, 300].map(deg => (
-                                    <circle key={deg} cx={50 + 15 * Math.cos(deg * Math.PI / 180)} cy={50 + 15 * Math.sin(deg * Math.PI / 180)} r="15" stroke="url(#gold-grad)" strokeWidth="1.2" fill="none" />
-                                ))}
-                            </g>
-                            {/* Outer Ring - Rotating */}
-                            <g className="alive-spin" style={{ transformOrigin: '50% 50%', animationDuration: '60s' }}>
-                                {[30, 90, 150, 210, 270, 330].map(deg => (
-                                    <circle key={deg} cx={50 + 26 * Math.cos(deg * Math.PI / 180)} cy={50 + 26 * Math.sin(deg * Math.PI / 180)} r="15" stroke="url(#gold-grad)" strokeWidth="0.8" fill="rgba(255, 215, 0, 0.05)" />
-                                ))}
-                            </g>
-                            {/* Central Glow */}
-                            <circle cx="50" cy="50" r="4" fill="#FFD700" className="alive-pulse" />
-                        </svg>
+
+                {/* 23. Lotus Flower */}
+                <div className="icon-card active">
+                    <div className="w-12 h-12 flex items-center justify-center mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">
+                        <div className="w-full h-full">
+                            <svg viewBox="0 0 100 100" className="w-full h-full">
+                                <g className="alive-pulse">
+                                    {/* Center */}
+                                    <circle cx="50" cy="50" r="15" stroke="url(#gold-grad)" strokeWidth="2" fill="none" />
+                                    {/* Inner Ring */}
+                                    {[0, 60, 120, 180, 240, 300].map(deg => (
+                                        <circle key={deg} cx={50 + 15 * Math.cos(deg * Math.PI / 180)} cy={50 + 15 * Math.sin(deg * Math.PI / 180)} r="15" stroke="url(#gold-grad)" strokeWidth="1.2" fill="none" />
+                                    ))}
+                                </g>
+                                {/* Outer Ring - Rotating */}
+                                <g className="alive-spin" style={{ transformOrigin: '50% 50%', animationDuration: '60s' }}>
+                                    {[30, 90, 150, 210, 270, 330].map(deg => (
+                                        <circle key={deg} cx={50 + 26 * Math.cos(deg * Math.PI / 180)} cy={50 + 26 * Math.sin(deg * Math.PI / 180)} r="15" stroke="url(#gold-grad)" strokeWidth="0.8" fill="rgba(255, 215, 0, 0.05)" />
+                                    ))}
+                                </g>
+                                {/* Central Glow */}
+                                <circle cx="50" cy="50" r="4" fill="#FFD700" className="alive-pulse" />
+                            </svg>
+                        </div>
                     </div>
+                    <span className="text-[13px] font-medium text-[#FFD700]">Lotus Flower</span>
                 </div>
-                <span className="text-[13px] font-medium text-[#FFD700]">Lotus Flower</span>
             </div>
-        </div>
         </div>
     );
 }
