@@ -497,9 +497,8 @@ export default function AndaraIconsDemo() {
                         </div>
                     </div>
                 </div>
-                <span className="text-[13px] font-medium text-cyan-400">Scrd Network</span>
-            </div>
-
+                    <span className="text-[13px] font-medium text-cyan-400">Sacred Network</span>
+                </div>
             {/* 23. Lotus Flower */}
             <div className="icon-card active">
                 <div className="w-12 h-12 flex items-center justify-center mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">
@@ -527,7 +526,7 @@ export default function AndaraIconsDemo() {
                 <span className="text-[13px] font-medium text-[#FFD700]">Lotus Flower</span>
             </div>
         </div>
-        </div >
+        </div>
     );
 }
 // @ts-nocheck
