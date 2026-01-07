@@ -108,7 +108,14 @@ import {
   type InsertWorkflowStep,
   workflowTemplates,
   workflowExecutions,
-  workflowSteps
+  workflowSteps,
+  // Health
+  type HealthRun,
+  type InsertHealthRun,
+  type HealthIssue,
+  type InsertHealthIssue,
+  healthRuns,
+  healthIssues
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, or, sql, desc, and, isNull, asc, ilike, inArray } from "drizzle-orm";
@@ -437,6 +444,15 @@ export interface IStorage {
   createWorkflowStep(step: InsertWorkflowStep): Promise<WorkflowStep>;
   getWorkflowSteps(executionId: string): Promise<WorkflowStep[]>;
   updateWorkflowStep(id: string, step: Partial<WorkflowStep>): Promise<WorkflowStep>;
+
+  // Health Monitoring
+  getHealthRuns(limit?: number): Promise<HealthRun[]>;
+  getHealthRun(id: string): Promise<HealthRun | undefined>;
+  createHealthRun(run: InsertHealthRun): Promise<HealthRun>;
+  updateHealthRun(id: string, run: Partial<HealthRun>): Promise<HealthRun>;
+  getHealthIssues(runId: string): Promise<HealthIssue[]>;
+  createHealthIssue(issue: InsertHealthIssue): Promise<HealthIssue>;
+  updateHealthIssue(id: string, issue: Partial<HealthIssue>): Promise<HealthIssue>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -2276,6 +2292,48 @@ export class DatabaseStorage implements IStorage {
       .update(workflowSteps)
       .set(step)
       .where(eq(workflowSteps.id, id))
+      .returning();
+    return updated;
+  }
+
+  // --- Health Monitoring ---
+  async getHealthRuns(limit: number = 20): Promise<HealthRun[]> {
+    return db.select().from(healthRuns).orderBy(desc(healthRuns.startedAt)).limit(limit);
+  }
+
+  async getHealthRun(id: string): Promise<HealthRun | undefined> {
+    const [run] = await db.select().from(healthRuns).where(eq(healthRuns.id, id));
+    return run || undefined;
+  }
+
+  async createHealthRun(run: InsertHealthRun): Promise<HealthRun> {
+    const [created] = await db.insert(healthRuns).values(run as any).returning();
+    return created;
+  }
+
+  async updateHealthRun(id: string, run: Partial<HealthRun>): Promise<HealthRun> {
+    const [updated] = await db
+      .update(healthRuns)
+      .set(run as any)
+      .where(eq(healthRuns.id, id))
+      .returning();
+    return updated;
+  }
+
+  async getHealthIssues(runId: string): Promise<HealthIssue[]> {
+    return db.select().from(healthIssues).where(eq(healthIssues.runId, runId)).orderBy(asc(healthIssues.createdAt));
+  }
+
+  async createHealthIssue(issue: InsertHealthIssue): Promise<HealthIssue> {
+    const [created] = await db.insert(healthIssues).values(issue as any).returning();
+    return created;
+  }
+
+  async updateHealthIssue(id: string, issue: Partial<HealthIssue>): Promise<HealthIssue> {
+    const [updated] = await db
+      .update(healthIssues)
+      .set(issue as any)
+      .where(eq(healthIssues.id, id))
       .returning();
     return updated;
   }

@@ -25,7 +25,7 @@ async function auditShop() {
     }
 
     console.log(`\n--- RICH CONTENT (${rich.length}) ---`);
-    rich.forEach(p => console.log(`[${p.content.length}] ${p.path} (${p.title})`));
+    rich.forEach(p => console.log(`[${p.content?.length || 0}] ${p.path} (${p.title})`));
 
     if (hollow.length > 0) {
         console.log(`\n--- HOLLOW CONTENT (${hollow.length}) ---`);

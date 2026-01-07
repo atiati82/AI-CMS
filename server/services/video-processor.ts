@@ -40,7 +40,7 @@ export const videoProcessor = {
                 .videoFilters(`select='gt(scene,${threshold})',showinfo`)
                 .output('NUL') // Do not generate an output file, just analyze
                 .format('null')
-                .on('stderr', (stdLine) => {
+                .on('stderr', (stdLine: string) => {
                     // ffmpeg outputs info to stderr. We look for "pts_time:X.XXXXXX" in lines containing "showinfo"
                     // Example: [Parsed_showinfo_1 @ 0x...] n:   0 pts:  7200 pts_time:0.08    pos:    23146 ...
                     if (stdLine.includes('showinfo')) {
@@ -104,7 +104,7 @@ export const videoProcessor = {
                         outputFiles.push(outputPath);
                         resolve();
                     })
-                    .on('error', (err) => {
+                    .on('error', (err: Error) => {
                         console.error(`[VideoProcessor] Failed to create clip ${i}:`, err);
                         reject(err);
                     })
@@ -120,7 +120,7 @@ export const videoProcessor = {
      */
     getVideoDuration(inputPath: string): Promise<number> {
         return new Promise((resolve, reject) => {
-            ffmpeg.ffprobe(inputPath, (err, metadata) => {
+            ffmpeg.ffprobe(inputPath, (err: Error | null, metadata: any) => {
                 if (err) return reject(err);
                 if (metadata && metadata.format && metadata.format.duration) {
                     resolve(metadata.format.duration);

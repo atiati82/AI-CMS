@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
 import Layout from "@/components/layout";
 import { CLUSTERS, ARTICLES } from "@/lib/data";
 import { ArrowRight, Search, X } from "lucide-react";
@@ -96,8 +97,8 @@ export default function ScienceLibrary() {
                   onClick={() => setSelectedCluster(isActive ? null : cluster.id)}
                   disabled={!hasArticles && searchQuery !== ""}
                   className={`group relative flex flex-col items-center p-6 rounded-2xl border transition-all duration-300 ${isActive
-                      ? "bg-white/10 border-white/20 shadow-xl"
-                      : "bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10"
+                    ? "bg-white/10 border-white/20 shadow-xl"
+                    : "bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10"
                     } ${!hasArticles && searchQuery !== "" ? "opacity-30 grayscale cursor-not-allowed" : ""}`}
                 >
                   <div

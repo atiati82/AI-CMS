@@ -45,7 +45,7 @@ export const videoIntelligenceService = {
                 .on('end', () => {
                     resolve(outputPath);
                 })
-                .on('error', (err) => {
+                .on('error', (err: Error) => {
                     reject(err);
                 })
         });

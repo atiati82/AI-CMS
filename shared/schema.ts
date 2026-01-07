@@ -1670,3 +1670,45 @@ export const insertCronJobLogSchema = createInsertSchema(cronJobLogs).omit({
 export const selectCronJobLogSchema = createSelectSchema(cronJobLogs);
 export type InsertCronJobLog = z.infer<typeof insertCronJobLogSchema>;
 export type CronJobLog = typeof cronJobLogs.$inferSelect;
+// --- HEALTH RUNS TABLE ---
+export const healthRuns = pgTable("health_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  status: text("status").notNull().default('running'), // running, success, failed, warning
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  durationMs: integer("duration_ms"),
+  triggerSource: text("trigger_source").notNull(), // manual, scheduled, startup
+  overallScore: integer("overall_score"),
+  summary: jsonb("summary").$type<Record<string, any>>().default({}),
+  metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
+});
+
+export const insertHealthRunSchema = createInsertSchema(healthRuns).omit({
+  id: true,
+  startedAt: true,
+});
+export const selectHealthRunSchema = createSelectSchema(healthRuns);
+export type InsertHealthRun = z.infer<typeof insertHealthRunSchema>;
+export type HealthRun = typeof healthRuns.$inferSelect;
+
+// --- HEALTH ISSUES TABLE ---
+export const healthIssues = pgTable("health_issues", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  runId: varchar("run_id").notNull().references(() => healthRuns.id, { onDelete: 'cascade' }),
+  category: text("category").notNull(), // database, filesystem, api, seo, etc.
+  severity: text("severity").notNull().default('medium'), // critical, high, medium, low, info
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  details: jsonb("details").$type<Record<string, any>>().default({}),
+  resolved: boolean("resolved").notNull().default(false),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertHealthIssueSchema = createInsertSchema(healthIssues).omit({
+  id: true,
+  createdAt: true,
+});
+export const selectHealthIssueSchema = createSelectSchema(healthIssues);
+export type InsertHealthIssue = z.infer<typeof insertHealthIssueSchema>;
+export type HealthIssue = typeof healthIssues.$inferSelect;
