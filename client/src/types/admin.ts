@@ -364,3 +364,25 @@ export type PageFormData = {
     aiChatInput?: string;
 };
 
+export const SOURCE_TYPE_CONFIG: Record<string, { label: string; icon: any; color: string }> = {
+    upload: { label: 'File Upload', icon: 'file-up', color: 'bg-blue-100 text-blue-700' },
+    youtube: { label: 'YouTube Video', icon: 'youtube', color: 'bg-red-100 text-red-700' },
+    url: { label: 'Website URL', icon: 'link', color: 'bg-cyan-100 text-cyan-700' },
+    paste: { label: 'Pasted Text', icon: 'clipboard', color: 'bg-slate-100 text-slate-700' },
+};
+
+export const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+    pending: { label: 'Pending', color: 'bg-slate-100 text-slate-700' },
+    processing: { label: 'Processing', color: 'bg-blue-100 text-blue-700' },
+    indexed: { label: 'Indexed', color: 'bg-green-100 text-green-700' },
+    failed: { label: 'Failed', color: 'bg-red-100 text-red-700' },
+};
+
+export type DocumentFormData = {
+    title: string;
+    sourceType: 'upload' | 'youtube' | 'url' | 'paste';
+    sourceUrl: string | null;
+    rawText: string;
+    tags: string[];
+    metadata: Record<string, unknown>;
+};
