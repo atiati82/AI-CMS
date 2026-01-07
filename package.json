@@ -6,8 +6,8 @@
   "scripts": {
     "dev:client": "vite dev --port 5173",
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "tsx script/build.ts",
-    "start": "NODE_ENV=production node dist/index.cjs",
+    "build": "vite build && esbuild server/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js --external:fsevents --external:pg-native --external:onnxruntime-node --external:lightningcss --external:@babel/core --external:@babel/preset-typescript --external:@tailwindcss/oxide --external:sharp --external:bcryptjs",
+    "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
