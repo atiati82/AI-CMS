@@ -28,7 +28,7 @@ Thumbs.db
 *.sqlite
 
 # Uploads and generated files
-attached_assets/generated_images/
+# attached_assets/generated_images/  # Allow in git for Railway
 uploads/
 
 # Session data
