@@ -67,6 +67,10 @@ export function AndaraDynamicIcon({
         if (lower.match(/terrain|model|symptom/)) return "terrain";
         if (lower.match(/dna|collagen|liquid-crystal/)) return "dna";
         if (lower.match(/consciousness|spirit|ion-intelligence/)) return "consciousness";
+        if (lower.match(/sacred-dna|helix|strand/)) return "sacredDna";
+        if (lower.match(/sacred-hex|honeycomb|sacred-triangle/)) return "sacredHexTriangle";
+        if (lower.match(/sacred-matrix|lattice|geometric-matrix/)) return "sacredMatrix";
+        if (lower.match(/sacred-network|mesh|node-network/)) return "sacredNetwork";
 
         // Generic category fallbacks
         if (lower.match(/water|hydration|fluid/)) return "water";
@@ -300,31 +304,203 @@ export function AndaraDynamicIcon({
                 <circle cx="50" cy="50" r="3" fill="url(#andaraGold)" />
             </g>
         )
-    };
+        // === SACRED GEOMETRY (NEW) ===
+        sacredDna: (
+            <g>
+                <GradientDefs />
+                {/* DNA Helix - Double Strand with Draw Animation */}
+                {/* Strand 1 */}
+                <motion.path
+                    d="M35 15 Q50 30 65 15 Q50 30 35 45 Q50 60 65 45 Q50 60 35 75 Q50 90 65 75"
+                    stroke="url(#andaraCyan)" strokeWidth="1.5" fill="none"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, ease: "easeInOut" }}
+                />
+                {/* Strand 2 */}
+                <motion.path
+                    d="M65 15 Q50 30 35 15 Q50 30 65 45 Q50 60 35 45 Q50 60 65 75 Q50 90 35 75"
+                    stroke="url(#andaraCyan)" strokeWidth="1.5" fill="none"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.5, ease: "easeInOut" }}
+                />
 
-    const glowColors: Record<string, string> = {
-        water: "bg-cyan-500",
-        ezWater: "bg-cyan-500",
-        waterPhases: "bg-cyan-500",
-        turbidity: "bg-cyan-400",
-        vortex: "bg-purple-500",
-        bioelectric: "bg-amber-500",
-        proton: "bg-amber-400",
-        energy: "bg-amber-500",
-        mineral: "bg-amber-400",
-        sulfate: "bg-amber-500",
-        crystalline: "bg-amber-400",
-        microbiome: "bg-emerald-500",
-        dna: "bg-purple-500",
-        terrain: "bg-emerald-400",
-        magnetics: "bg-purple-500",
-        field: "bg-purple-400",
-        consciousness: "bg-purple-500",
-        science: "bg-cyan-500",
-        shop: "bg-amber-500",
-        trust: "bg-emerald-500",
-        about: "bg-amber-500",
-        default: "bg-slate-500"
+                {/* Connecting Rungs (Staggered Draw) */}
+                {[20, 35, 50, 65, 80].map((y, i) => (
+                    <motion.line
+                        key={i} x1="38" y1={y} x2="62" y2={y}
+                        stroke="url(#andaraPurple)" strokeWidth="1" opacity="0.6"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{ duration: 0.5, delay: 1 + (i * 0.2) }}
+                    />
+                ))}
+
+                {/* Pulsing Nodes at crossings */}
+                {[30, 45, 60, 75].map((y, i) => (
+                    <motion.circle
+                        key={i} cx="50" cy={y} r="2" fill="#06b6d4"
+                        animate={{ r: [1.5, 3, 1.5], opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                    />
+                ))}
+            </g>
+        ),
+
+        sacredHexTriangle: (
+            <g>
+                <GradientDefs />
+                {/* Rotating Hexagon Container */}
+                <motion.path
+                    d="M50 10 L85 30 L85 70 L50 90 L15 70 L15 30 Z"
+                    stroke="url(#andaraCyan)" strokeWidth="1" fill="rgba(6,182,212,0.05)"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                    style={{ transformOrigin: "50px 50px" }}
+                />
+
+                {/* Build-up Triangle */}
+                <motion.path
+                    d="M50 25 L75 75 L25 75 Z"
+                    stroke="url(#andaraGold)" strokeWidth="2" fill="none"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                />
+
+                {/* Inner Pattern */}
+                <motion.path
+                    d="M50 25 L50 55 M75 75 L50 55 M25 75 L50 55"
+                    stroke="url(#andaraCyan)" strokeWidth="1" opacity="0.5"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1, delay: 1 }}
+                />
+
+                {/* Central Pulse */}
+                <motion.circle
+                    cx="50" cy="55" r="3" fill="#06b6d4"
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                />
+            </g>
+        ),
+
+        sacredMatrix: (
+            <g>
+                <GradientDefs />
+                {/* Triangular Network with glowing nodes */}
+                <motion.path
+                    d="M50 15 L80 80 L20 80 Z"
+                    stroke="url(#andaraCyan)" strokeWidth="1.5" fill="none"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2 }}
+                />
+                {/* Internal Geometry */}
+                <motion.path
+                    d="M50 15 L50 55 M80 80 L50 55 M20 80 L50 55"
+                    stroke="url(#andaraCyan)" strokeWidth="1" opacity="0.5"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5 }}
+                />
+                <motion.path
+                    d="M35 48 L65 48 M35 48 L50 80 M65 48 L50 80"
+                    stroke="url(#andaraCyan)" strokeWidth="1" opacity="0.3"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 1 }}
+                />
+
+                {/* Glowing Nodes (Staggered Pulse) */}
+                {[
+                    { x: 50, y: 15 }, { x: 80, y: 80 }, { x: 20, y: 80 }, // Outer
+                    { x: 50, y: 55 }, // Center
+                    { x: 35, y: 48 }, { x: 65, y: 48 }, { x: 50, y: 80 } // Mid
+                ].map((p, i) => (
+                    <motion.circle
+                        key={i} cx={p.x} cy={p.y} r={i === 3 ? 3 : 2} fill={i === 3 ? "#06b6d4" : "#0891b2"}
+                        animate={{
+                            scale: [1, 1.3, 1],
+                            opacity: [0.6, 1, 0.6],
+                            boxShadow: "0 0 10px #06b6d4"
+                        }}
+                        transition={{ duration: 2 + Math.random(), repeat: Infinity, delay: i * 0.2 }}
+                    />
+                ))}
+            </g>
+        ),
+
+        sacredNetwork: (
+            <g>
+                <GradientDefs />
+                {/* Complex Node Mesh */}
+                <motion.g
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+                    style={{ transformOrigin: "50px 50px" }}
+                >
+                    {/* Outer Ring */}
+                    <circle cx="50" cy="50" r="40" stroke="url(#andaraPurple)" strokeWidth="0.5" opacity="0.3" strokeDasharray="4 4" />
+                </motion.g>
+
+                {/* Hex Geometry */}
+                <motion.path
+                    d="M50 10 L85 30 L85 70 L50 90 L15 70 L15 30 Z"
+                    stroke="url(#andaraCyan)" strokeWidth="1.5" fill="none"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2.5 }}
+                />
+
+                {/* Internal Web */}
+                <motion.path
+                    d="M50 10 L85 70 M85 30 L50 90 M85 70 L15 30 M50 90 L15 30 M15 70 L85 30 M15 30 L85 70"
+                    stroke="url(#andaraCyan)" strokeWidth="0.5" opacity="0.4"
+                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 3, delay: 0.5 }}
+                />
+
+                {/* Central Triangle */}
+                <motion.path
+                    d="M50 30 L68 62 L32 62 Z"
+                    stroke="url(#andaraGold)" strokeWidth="1.5" fill="rgba(6,182,212,0.1)"
+                    initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1, delay: 1.5 }}
+                    style={{ transformOrigin: "50px 50px" }}
+                />
+
+                {/* Many Glowing Nodes */}
+                {[
+                    { x: 50, y: 10 }, { x: 85, y: 30 }, { x: 85, y: 70 }, { x: 50, y: 90 }, { x: 15, y: 70 }, { x: 15, y: 30 }, // Outer Hex
+                    { x: 50, y: 50 }, // Center
+                    { x: 50, y: 30 }, { x: 68, y: 62 }, { x: 32, y: 62 } // Inner Triangle
+                ].map((p, i) => (
+                    <motion.circle
+                        key={i} cx={p.x} cy={p.y} r={2} fill="#06b6d4"
+                        animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }}
+                        transition={{ duration: 1.5 + Math.random(), repeat: Infinity, delay: Math.random() }}
+                    />
+                ))}
+            </g>
+        ),
+
+
+        const glowColors: Record<string, string> = {
+            water: "bg-cyan-500",
+            ezWater: "bg-cyan-500",
+            waterPhases: "bg-cyan-500",
+            turbidity: "bg-cyan-400",
+            vortex: "bg-purple-500",
+            bioelectric: "bg-amber-500",
+            proton: "bg-amber-400",
+            energy: "bg-amber-500",
+            mineral: "bg-amber-400",
+            sulfate: "bg-amber-500",
+            crystalline: "bg-amber-400",
+            microbiome: "bg-emerald-500",
+            dna: "bg-purple-500",
+            terrain: "bg-emerald-400",
+            magnetics: "bg-purple-500",
+            field: "bg-purple-400",
+            consciousness: "bg-purple-500",
+            sacredDna: "bg-cyan-500",
+            sacredHexTriangle: "bg-cyan-500",
+            sacredMatrix: "bg-cyan-500",
+            sacredNetwork: "bg-cyan-500",
+            science: "bg-cyan-500",
+            shop: "bg-amber-500",
+            trust: "bg-emerald-500",
+            about: "bg-amber-500",
+            default: "bg-slate-500"
     };
 
     return (
@@ -396,4 +572,22 @@ export const TrustIcon = ({ size = 48, className }: { size?: number; className?:
 
 export const AboutIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
     <AndaraDynamicIcon topic="about" size={size} className={className} />
+);
+
+// === SACRED GEOMETRY EXPORTS ===
+
+export const SacredDnaIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
+    <AndaraDynamicIcon topic="sacred-dna" size={size} className={className} />
+);
+
+export const SacredHexTriangleIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
+    <AndaraDynamicIcon topic="sacred-hex" size={size} className={className} />
+);
+
+export const SacredMatrixIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
+    <AndaraDynamicIcon topic="sacred-matrix" size={size} className={className} />
+);
+
+export const SacredNetworkIcon = ({ size = 48, className }: { size?: number; className?: string }) => (
+    <AndaraDynamicIcon topic="sacred-network" size={size} className={className} />
 );
