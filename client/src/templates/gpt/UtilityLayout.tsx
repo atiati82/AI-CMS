@@ -1,3 +1,4 @@
+// CANONICAL_LAYOUT_V1 — Do not overwrite. Generator must use props only.
 // client/src/templates/gpt/UtilityLayout.tsx
 // Utility Layout - Trust/Support/Tools | Spacing System v1.0 (8px grid)
 import React, { useEffect } from "react";

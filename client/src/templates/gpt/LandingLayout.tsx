@@ -1,3 +1,4 @@
+// CANONICAL_LAYOUT_V1 — Do not overwrite. Generator must use props only.
 // client/src/templates/gpt/LandingLayout.tsx
 // Landing Layout - "The Closer" | Spacing System v1.0 (8px grid)
 import React from "react";

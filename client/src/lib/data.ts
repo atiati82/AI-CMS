@@ -124,6 +124,38 @@ export const CLUSTERS: Cluster[] = [
     description: "Geometric ordering of molecules in nature.",
     icon: Activity,
     color: "#10b981"
+  },
+  {
+    id: "c5",
+    name: "Sulfur & Sulfate Pathways",
+    slug: "sulfur-sulfate",
+    description: "The vital role of sulfur compounds in detox and terrain structuring.",
+    icon: FlaskConical,
+    color: "#f59e0b"
+  },
+  {
+    id: "c6",
+    name: "Microbiome & Minerals",
+    slug: "microbiome-minerals",
+    description: "How minerals shape gut health and microbial ecosystems.",
+    icon: Dna,
+    color: "#ec4899"
+  },
+  {
+    id: "c7",
+    name: "Liquid Crystal Biology",
+    slug: "liquid-crystal",
+    description: "The semi-crystalline architecture of fascia and living tissue.",
+    icon: Activity,
+    color: "#14b8a6"
+  },
+  {
+    id: "c8",
+    name: "Consciousness & Fields",
+    slug: "consciousness-fields",
+    description: "Exploring the intersection of water, minerals, and subtle energy.",
+    icon: Info,
+    color: "#a855f7"
   }
 ];
 
@@ -131,7 +163,7 @@ export const ARTICLES: ScienceArticle[] = [
   // ===== WATER SCIENCE (c1) =====
   {
     id: "w1",
-    title: "Water Science Master",
+    title: "Water Science Master Overview",
     slug: "water-science",
     summary: "The comprehensive guide to water physics, structured water, and biological hydration.",
     content: "",
@@ -145,10 +177,10 @@ export const ARTICLES: ScienceArticle[] = [
     id: "w2",
     title: "The Fourth Phase of Water",
     slug: "fourth-phase-water",
-    summary: "Discover the exclusion zone (EZ) – a state of water that drives cellular energy.",
+    summary: "Exploring the exclusion zone (EZ) – a state of water that drives cellular energy.",
     content: "",
     clusterId: "c1",
-    tags: ["EZ water", "fourth phase", "Gerald Pollack"],
+    tags: ["EZ water", "fourth phase", "Pollack"],
     priority: 9,
     publishedAt: "2024-11-15",
     relatedProductIds: ["p1"]
@@ -157,7 +189,7 @@ export const ARTICLES: ScienceArticle[] = [
     id: "w3",
     title: "Water Structure & Physics",
     slug: "water",
-    summary: "Deep exploration of water's molecular architecture and unique properties.",
+    summary: "Deep exploration of water's molecular architecture and phase transitions.",
     content: "",
     clusterId: "c1",
     tags: ["water", "structure", "physics"],
@@ -167,52 +199,112 @@ export const ARTICLES: ScienceArticle[] = [
   },
   {
     id: "w4",
-    title: "Flocculation: Nature's Purification",
+    title: "Flocculation: nature's Purification",
     slug: "flocculation-purification",
-    summary: "How ionic minerals naturally clear water of impurities through coagulation.",
+    summary: "How ionic minerals naturally clear water through natural coagulation.",
     content: "",
     clusterId: "c1",
-    tags: ["purification", "flocculation", "clean water"],
+    tags: ["flocculation", "purification", "minerals"],
     priority: 7,
     publishedAt: "2024-01-05",
+    relatedProductIds: ["p1", "p2"]
+  },
+  {
+    id: "w5",
+    title: "Turbidity, Clarity & Flocculation",
+    slug: "turbidity-clarity-flocculation",
+    summary: "The mechanics of water clarification and mineral binding.",
+    content: "",
+    clusterId: "c1",
+    tags: ["clarity", "physics", "binding"],
+    priority: 8,
+    publishedAt: "2024-09-25",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "w6",
+    title: "pH, ORP & EC Explained",
+    slug: "ph-orp-ec",
+    summary: "Mastering the metrics of water quality and bioelectric potential.",
+    content: "",
+    clusterId: "c1",
+    tags: ["pH", "ORP", "metrics"],
+    priority: 9,
+    publishedAt: "2024-09-20",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "w7",
+    title: "Structured Water Basics",
+    slug: "structured-water-basics",
+    summary: "A foundational guide to order in liquid water systems.",
+    content: "",
+    clusterId: "c1",
+    tags: ["basics", "structure", "introduction"],
+    priority: 8,
+    publishedAt: "2024-09-05",
     relatedProductIds: ["p1", "p2"]
   },
 
   // ===== MINERAL SCIENCE (c2) =====
   {
     id: "m1",
-    title: "Mineral Sources",
-    slug: "mineral-sources",
-    summary: "Where minerals come from and why primordial volcanic origin matters.",
+    title: "Mineral Science Blueprint",
+    slug: "mineral-science-blueprint",
+    summary: "The master architectural framework for mineral biochemistry.",
     content: "",
     clusterId: "c2",
-    tags: ["minerals", "sources", "volcanic"],
+    tags: ["minerals", "blueprint", "biochemistry"],
     priority: 10,
     publishedAt: "2024-12-01",
     relatedProductIds: ["p1", "p2"]
   },
   {
     id: "m2",
-    title: "Sulfate: The Neglected Mineral",
-    slug: "sulfate-neglected-mineral",
-    summary: "Why ionic sulfate is crucial for biological water structure and detoxification.",
+    title: "Mineral Sources",
+    slug: "mineral-sources",
+    summary: "Detailed review of primordial geological deposits and bioavailability.",
     content: "",
     clusterId: "c2",
-    tags: ["sulfate", "minerals", "detox"],
+    tags: ["sources", "geology", "primordial"],
+    priority: 9,
+    publishedAt: "2024-11-20",
+    relatedProductIds: ["p1", "p2"]
+  },
+  {
+    id: "m3",
+    title: "Sulfate: The Neglected Mineral",
+    slug: "sulfate-neglected-mineral",
+    summary: "Why ionic sulfate is the key to biological water structuring.",
+    content: "",
+    clusterId: "c2",
+    tags: ["sulfate", "detox", "biology"],
     priority: 9,
     publishedAt: "2023-11-02",
     relatedProductIds: ["p1"]
   },
   {
-    id: "m3",
+    id: "m4",
     title: "DNA & Mineral Codes",
     slug: "minerals/dna-mineral-codes",
-    summary: "The mineral requirements for DNA function, repair, and genetic expression.",
+    summary: "How ionic elements provide the electrical signaling environment for DNA.",
     content: "",
     clusterId: "c2",
-    tags: ["DNA", "minerals", "genetics"],
+    tags: ["DNA", "genetics", "minerals"],
     priority: 8,
     publishedAt: "2024-11-20",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "m5",
+    title: "Ionic vs Colloidal vs Solid",
+    slug: "minerals/ionic-vs-colloidal-vs-solid",
+    summary: "Understanding state of matter in mineral absorption.",
+    content: "",
+    clusterId: "c2",
+    tags: ["physics", "absorption", "states"],
+    priority: 7,
+    publishedAt: "2024-11-25",
     relatedProductIds: ["p1"]
   },
 
@@ -221,10 +313,10 @@ export const ARTICLES: ScienceArticle[] = [
     id: "b1",
     title: "Bioelectricity Overview",
     slug: "bioelectricity",
-    summary: "The master guide to water's role in cellular electricity and voltage.",
+    summary: "Understanding the electrical voltage of life.",
     content: "",
     clusterId: "c3",
-    tags: ["bioelectric", "overview", "cellular"],
+    tags: ["bioelectric", "overview", "voltage"],
     priority: 10,
     publishedAt: "2024-12-01",
     relatedProductIds: ["p1"]
@@ -236,7 +328,7 @@ export const ARTICLES: ScienceArticle[] = [
     summary: "How structured water acts as a battery for your cells.",
     content: "",
     clusterId: "c3",
-    tags: ["bioelectric", "voltage", "energy"],
+    tags: ["voltage", "energy", "mitochondria"],
     priority: 9,
     publishedAt: "2023-12-10",
     relatedProductIds: ["p1"]
@@ -245,12 +337,24 @@ export const ARTICLES: ScienceArticle[] = [
     id: "b3",
     title: "The Invisible Voltage",
     slug: "bioelectricity/bioelectricity-invisible-voltage",
-    summary: "Understanding the electrical nature of living systems and how minerals power it.",
+    summary: "Exploring the subtle electrical gradients in healthy tissue.",
     content: "",
     clusterId: "c3",
     tags: ["voltage", "invisible", "life force"],
     priority: 8,
     publishedAt: "2024-11-25",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "b4",
+    title: "Proton Gradients",
+    slug: "bioelectricity/proton-gradients",
+    summary: "The flow of charge across membranes driven by water structure.",
+    content: "",
+    clusterId: "c3",
+    tags: ["protons", "energy", "ATP"],
+    priority: 7,
+    publishedAt: "2024-11-20",
     relatedProductIds: ["p1"]
   },
 
@@ -259,10 +363,10 @@ export const ARTICLES: ScienceArticle[] = [
     id: "x1",
     title: "The Crystalline Matrix",
     slug: "crystalline-matrix",
-    summary: "Introduction to the crystalline organization of living systems and water.",
+    summary: "The semi-crystalline architecture of living tissue and water.",
     content: "",
     clusterId: "c4",
-    tags: ["crystalline", "matrix", "structure"],
+    tags: ["crystalline", "matrix", "fascia"],
     priority: 10,
     publishedAt: "2024-12-01",
     relatedProductIds: ["p1"]
@@ -278,5 +382,86 @@ export const ARTICLES: ScienceArticle[] = [
     priority: 8,
     publishedAt: "2024-02-20",
     relatedProductIds: ["p1"]
+  },
+  {
+    id: "x3",
+    title: "Tetrahedral Geometry",
+    slug: "tetrahedral-sulfate-geometry",
+    summary: "The sacred geometry of sulfate minerals in solution.",
+    content: "",
+    clusterId: "c4",
+    tags: ["tetrahedral", "sulfate", "geometry"],
+    priority: 9,
+    publishedAt: "2024-11-15",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== SULFUR & SULFATE PATHWAYS (c5) =====
+  {
+    id: "s1",
+    title: "Sulfur & Sulfate Overview",
+    slug: "sulfur-sulfate-overview",
+    summary: "Why sulfur is the most vital overlooked element in metabolic health.",
+    content: "",
+    clusterId: "c5",
+    tags: ["sulfur", "sulfate", "metabolism"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "s2",
+    title: "Sulfate Pathways",
+    slug: "sulfate-pathways",
+    summary: "Detailed review of detox pathways and sulfur transport.",
+    content: "",
+    clusterId: "c5",
+    tags: ["detox", "pathways", "transport"],
+    priority: 9,
+    publishedAt: "2024-11-15",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== MICROBIOME & MINERALS (c6) =====
+  {
+    id: "mb1",
+    title: "Microbiome & Minerals",
+    slug: "minerals-microbiome-overview",
+    summary: "The intersection of soil-based microbes and primordial mineral salts.",
+    content: "",
+    clusterId: "c6",
+    tags: ["gut health", "microbiome", "bacteria"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== LIQUID CRYSTAL BIOLOGY (c7) =====
+  {
+    id: "lc1",
+    title: "Liquid Crystal Biology",
+    slug: "liquid-crystal-biology-overview",
+    summary: "Understanding living tissue as a semi-crystalline antenna.",
+    content: "",
+    clusterId: "c7",
+    tags: ["liquid crystal", "fascia", "collagen"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== CONSCIOUSNESS & FIELDS (c8) =====
+  {
+    id: "co1",
+    title: "Consciousness & Fields",
+    slug: "consciousness-fields-water",
+    summary: "Exploring water's role as the interface between energy and frequency.",
+    content: "",
+    clusterId: "c8",
+    tags: ["consciousness", "energy", "frequency"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
   }
 ];
+

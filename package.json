@@ -9,6 +9,8 @@
   "scripts": {
     "dev:client": "vite dev --port 5173",
     "dev": "NODE_ENV=development tsx server/index.ts",
+    "guard:layouts": "tsx scripts/guard-layouts.ts",
+    "prebuild": "npm run guard:layouts",
     "build": "vite build && esbuild server/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs --packages=external",
     "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
