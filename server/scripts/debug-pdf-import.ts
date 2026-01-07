@@ -6,7 +6,8 @@ async function debug() {
     try {
         const dynamicImport = await import('pdf-parse');
         console.log('Dynamic Import:', dynamicImport);
-        console.log('Dynamic Import Default:', dynamicImport.default);
+        const pdfParser = dynamicImport.default || (typeof dynamicImport === 'function' ? dynamicImport : null);
+        console.log('Detected Parser:', pdfParser);
 
         try {
             const reqImport = require('pdf-parse');

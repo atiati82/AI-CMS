@@ -5,11 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FileUp, Save, Upload, Loader2, ClipboardPaste, Link, Youtube, Hash } from "lucide-react";
+import { FileUp, Save, Upload, Loader2, ClipboardPaste, Link, Youtube, Hash, Edit, Trash, Database, FileText, Clock, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Document, DocumentChunk, DocumentFormData, SOURCE_TYPE_CONFIG } from "@/types/admin";
+
+const ICON_MAP: Record<string, any> = {
+    FileUp,
+    Save,
+    Upload,
+    Loader2,
+    ClipboardPaste,
+    Link,
+    Youtube,
+    Hash,
+    Edit,
+    Trash,
+    Database,
+    FileText,
+    Clock,
+    AlertCircle,
+    Clipboard: ClipboardPaste,
+};
 
 export function DocumentEditorModal({
     document,
@@ -43,6 +61,7 @@ export function DocumentEditorModal({
                 sourceUrl: document.sourceUrl,
                 rawText: document.rawText,
                 tags: document.tags || [],
+                metadata: document.metadata || {},
             });
             setTagsText((document.tags || []).join(', '));
         } else {
@@ -52,6 +71,7 @@ export function DocumentEditorModal({
                 sourceUrl: null,
                 rawText: '',
                 tags: [],
+                metadata: {},
             });
             setTagsText('');
         }
@@ -112,7 +132,7 @@ export function DocumentEditorModal({
                         <Label>Source Type</Label>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                             {Object.entries(SOURCE_TYPE_CONFIG).map(([key, config]) => {
-                                const Icon = config.icon;
+                                const Icon = ICON_MAP[config.icon] || FileUp;
                                 // @ts-ignore
                                 const isComingSoon = config.comingSoon;
                                 return (

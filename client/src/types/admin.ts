@@ -365,17 +365,17 @@ export type PageFormData = {
 };
 
 export const SOURCE_TYPE_CONFIG: Record<string, { label: string; icon: any; color: string }> = {
-    upload: { label: 'File Upload', icon: 'file-up', color: 'bg-blue-100 text-blue-700' },
-    youtube: { label: 'YouTube Video', icon: 'youtube', color: 'bg-red-100 text-red-700' },
-    url: { label: 'Website URL', icon: 'link', color: 'bg-cyan-100 text-cyan-700' },
-    paste: { label: 'Pasted Text', icon: 'clipboard', color: 'bg-slate-100 text-slate-700' },
+    upload: { label: 'File Upload', icon: 'FileUp', color: 'bg-blue-100 text-blue-700' },
+    youtube: { label: 'YouTube Video', icon: 'Youtube', color: 'bg-red-100 text-red-700' },
+    url: { label: 'Website URL', icon: 'Link', color: 'bg-cyan-100 text-cyan-700' },
+    paste: { label: 'Pasted Text', icon: 'Clipboard', color: 'bg-slate-100 text-slate-700' },
 };
 
-export const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-    pending: { label: 'Pending', color: 'bg-slate-100 text-slate-700' },
-    processing: { label: 'Processing', color: 'bg-blue-100 text-blue-700' },
-    indexed: { label: 'Indexed', color: 'bg-green-100 text-green-700' },
-    failed: { label: 'Failed', color: 'bg-red-100 text-red-700' },
+export const STATUS_CONFIG: Record<string, { label: string; color: string; icon: any; animate?: boolean }> = {
+    pending: { label: 'Pending', color: 'bg-slate-100 text-slate-700', icon: 'Clock' },
+    processing: { label: 'Processing', color: 'bg-blue-100 text-blue-700', icon: 'Loader2', animate: true },
+    indexed: { label: 'Indexed', color: 'bg-green-100 text-green-700', icon: 'Database' },
+    failed: { label: 'Failed', color: 'bg-red-100 text-red-700', icon: 'AlertCircle' },
 };
 
 export type DocumentFormData = {
@@ -384,5 +384,5 @@ export type DocumentFormData = {
     sourceUrl: string | null;
     rawText: string;
     tags: string[];
-    metadata: Record<string, unknown>;
+    metadata?: Record<string, unknown>;
 };

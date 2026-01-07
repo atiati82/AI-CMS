@@ -25,6 +25,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
     "downlevelIteration": true,
     "baseUrl": ".",
     "types": [

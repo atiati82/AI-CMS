@@ -2,8 +2,20 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Edit, Trash, Database, FileText, Clock } from "lucide-react";
+import { Loader2, Edit, Trash, Database, FileText, Clock, AlertCircle, FileUp, Youtube, Link, Clipboard } from "lucide-react";
 import { Document, SOURCE_TYPE_CONFIG, STATUS_CONFIG } from "@/types/admin";
+
+const ICON_MAP: Record<string, any> = {
+    Clock,
+    Loader2,
+    Database,
+    AlertCircle,
+    FileUp,
+    Youtube,
+    Link,
+    Clipboard,
+    FileText
+};
 
 export function DocumentCard({
     document,
@@ -18,12 +30,10 @@ export function DocumentCard({
     onIndex: (id: string) => void;
     isIndexing: boolean
 }) {
-    // @ts-ignore
-    const sourceConfig = SOURCE_TYPE_CONFIG[document.sourceType as keyof typeof SOURCE_TYPE_CONFIG] || { label: 'Unknown', icon: FileText, color: 'text-gray-600' };
-    // @ts-ignore
-    const statusConfig = STATUS_CONFIG[document.status] || { label: 'Unknown', icon: Clock, color: 'bg-gray-100 text-gray-800' };
-    const SourceIcon = sourceConfig.icon;
-    const StatusIcon = statusConfig.icon;
+    const sourceConfig = SOURCE_TYPE_CONFIG[document.sourceType as keyof typeof SOURCE_TYPE_CONFIG] || { label: 'Unknown', icon: 'FileText', color: 'text-gray-600' };
+    const statusConfig = STATUS_CONFIG[document.status] || { label: 'Unknown', icon: 'Clock', color: 'bg-gray-100 text-gray-800' };
+    const SourceIcon = ICON_MAP[sourceConfig.icon as string] || FileText;
+    const StatusIcon = ICON_MAP[statusConfig.icon as string] || Clock;
     const canIndex = document.status === 'pending' || document.status === 'failed';
 
     return (
