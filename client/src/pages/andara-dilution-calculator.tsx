@@ -12,7 +12,8 @@ import {
     RefreshCw,
     Check,
     ShoppingCart,
-    Copy
+    Copy,
+    ShieldCheck
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,14 +24,14 @@ export default function AndaraDilutionCalculator() {
     const [volume, setVolume] = useState<string>("1");
     const [unit, setUnit] = useState<"L" | "Gal">("L");
     const [appType, setAppType] = useState<string>("house");
+    const [solutionMode, setSolutionMode] = useState<"1:10" | "Stock">("1:10");
 
-    // --- SEO ---
     // --- SEO ---
     const calculatorSchema = {
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Andara Ionic Dilution Calculator",
-        "description": "Interactive calculator for exact mineral dosing of 1:10 working concentrate.",
+        "description": "Interactive calculator for exact mineral dosing of 1:10 Adya solution and Undiluted stock.",
         "applicationCategory": "HealthApplication",
         "operatingSystem": "All"
     };
@@ -38,14 +39,13 @@ export default function AndaraDilutionCalculator() {
     // --- CONSTANTS ---
     const APPLICATIONS = [
         { id: "house", label: "House Water (1:1,000)", ratio: 1000, icon: Droplets },
-        { id: "drinking_light", label: "Drinking - Light (1:1,000)", ratio: 1000, icon: FlaskConical },
-        { id: "drinking_strong", label: "Drinking - Strong (1:100)", ratio: 100, icon: FlaskConical },
-        { id: "bath", label: "Mineral Bath (1:1,000)", ratio: 1000, icon: Bath },
-        { id: "aquaculture", label: "Aquaculture (1:1,000)", ratio: 1000, icon: Waves },
-        { id: "waste", label: "Wastewater (1:500)", ratio: 500, icon: RefreshCw },
-        { id: "agri", label: "Agriculture (1:250)", ratio: 250, icon: Sprout },
-        { id: "odor_light", label: "Odor/Hygiene - Light (1:1,000)", ratio: 1000, icon: Check },
-        { id: "odor_strong", label: "Odor/Hygiene - Strong (1:50)", ratio: 50, icon: Check },
+        { id: "drinking_light", label: "Drinking - Light (1:1,000 ratio)", ratio: 1000, icon: FlaskConical },
+        { id: "drinking_strong", label: "Drinking - Strong (1:100 ratio)", ratio: 100, icon: FlaskConical },
+        { id: "bath", label: "Mineral Bath (1:1,000 ratio)", ratio: 1000, icon: Bath },
+        { id: "aquaculture", label: "Aquaculture (1:1,000 ratio)", ratio: 1000, icon: Waves },
+        { id: "waste", label: "Wastewater (1:500 ratio)", ratio: 500, icon: RefreshCw },
+        { id: "agri", label: "Agriculture (1:2,500 ratio)", ratio: 2500, icon: Sprout },
+        { id: "odor_strong", label: "Anti-Bacterial (1:50-500 ratio)", ratio: 500, icon: ShieldCheck },
     ];
 
     // --- CALCULATION ---
@@ -58,13 +58,16 @@ export default function AndaraDilutionCalculator() {
         // 1. Convert to Liters
         const volLiters = unit === "Gal" ? volNum * 3.78541 : volNum;
 
-        // 2. Calculate Dose needed in mL (based on 1:Ratio of Working Concentrate)
-        // Example: 1:1000 = 1mL concentrate per 1000mL water (1L)
-        const doseMl = (volLiters * 1000) / selectedApp.ratio;
+        // 2. Base Dose in mL (of Undiluted Stock)
+        const baseDoseMl = (volLiters * 1000) / selectedApp.ratio;
+
+        // 3. Adjust for solution mode
+        // If 1:10 mode, we need 10x more volume
+        const finalMl = solutionMode === "1:10" ? baseDoseMl * 10 : baseDoseMl;
 
         return {
-            ml: doseMl,
-            drops: doseMl * 20
+            ml: finalMl,
+            drops: finalMl * 20
         };
     };
 
@@ -74,7 +77,7 @@ export default function AndaraDilutionCalculator() {
         <StandardPageLayout
             title="Dilution Calculator"
             subtitle="Precision Dosing for Your 1:10 Working Concentrate"
-            
+
             heroVariant="cyan"
             heroIcon={Calculator}
             badges={[{ text: "Interactive Tool", icon: Calculator }]}
@@ -133,7 +136,7 @@ export default function AndaraDilutionCalculator() {
                                             {APPLICATIONS.map(app => (
                                                 <SelectItem key={app.id} value={app.id}>
                                                     <div className="flex items-center gap-2">
-                                                        {React.createElement(app.icon, { className: "w-4 h-4 opacity-50" })}
+                                                        {React.createElement((app as any).icon || Droplets, { className: "w-4 h-4 opacity-50" })}
                                                         {app.label}
                                                     </div>
                                                 </SelectItem>
@@ -142,9 +145,30 @@ export default function AndaraDilutionCalculator() {
                                     </Select>
                                 </div>
 
+                                {/* Solution Mode Selection */}
+                                <div className="space-y-4 pt-4 border-t border-white/5">
+                                    <label className="text-sm text-white/60">Solution Type (What bottle do you have?)</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button
+                                            onClick={() => setSolutionMode("1:10")}
+                                            className={`p-3 rounded-lg border text-sm transition-all ${solutionMode === "1:10" ? "border-cyan-500 bg-cyan-500/10 text-white font-bold" : "border-white/10 bg-black/20 text-white/40"}`}
+                                        >
+                                            Andara 1:10 (Ritual)
+                                        </button>
+                                        <button
+                                            onClick={() => setSolutionMode("Stock")}
+                                            className={`p-3 rounded-lg border text-sm transition-all ${solutionMode === "Stock" ? "border-amber-500 bg-amber-500/10 text-white font-bold" : "border-white/10 bg-black/20 text-white/40"}`}
+                                        >
+                                            Undiluted Stock
+                                        </button>
+                                    </div>
+                                </div>
+
                                 {/* Info Box */}
                                 <div className="p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-100/80">
-                                    <strong>Basis:</strong> 1:10 Working Concentrate (1 part concentrate + 9 parts water).
+                                    {solutionMode === "1:10"
+                                        ? "Dose calculated for the Adya-type 1:10 solution. (10x multiplier applied)"
+                                        : "Dose calculated for the pure Undiluted Stock minerals."}
                                 </div>
 
                             </div>
@@ -166,14 +190,14 @@ export default function AndaraDilutionCalculator() {
                                         ≈ {result.drops.toLocaleString(undefined, { maximumFractionDigits: 0 })} drops
                                     </div>
                                     <div className="text-white/40 text-sm mt-4 mb-6">
-                                        of 1:10 Working Concentrate
+                                        of {solutionMode === "1:10" ? "Andara 1:10 Ritual Solution" : "Undiluted Stock Minerals"}
                                     </div>
 
                                     <Button
                                         variant="ghost"
                                         size="sm"
                                         onClick={() => {
-                                            const text = `${volume} ${unit} target for ${selectedApp.label} needs ${result.ml.toFixed(1)}mL (${result.drops.toFixed(0)} drops) of Andara Ionic Working Concentrate.`;
+                                            const text = `${volume} ${unit} target for ${selectedApp.label} needs ${result.ml.toFixed(1)}mL (${result.drops.toFixed(0)} drops) of ${solutionMode === "1:10" ? "Andara 1:10 Solution" : "Undiluted Stock"}.`;
                                             navigator.clipboard.writeText(text);
                                         }}
                                         className="text-white/40 hover:text-white"

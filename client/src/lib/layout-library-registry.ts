@@ -379,6 +379,56 @@ export const LAYOUT_LIBRARY: LibraryEntry[] = [
         importPath: '@/components/visuals/DnaScrollAnimation',
     },
 
+    // --- SACRED GEOMETRY ICONS ---
+    {
+        id: 'icon-sacred-dna',
+        name: 'Sacred DNA Icon',
+        category: 'visual-component',
+        description: 'Animated double helix with glowing nodes and connecting rungs.',
+        tags: ['icon', 'dna', 'sacred', 'geometry', 'animated', 'svg'],
+        vibes: ['scientific', 'premium', 'glowing', 'bioelectric'],
+        useCases: ['science-page', 'hero-section'],
+        source: 'component',
+        importPath: '@/components/visuals/svg/AndaraIconRegistry',
+        example: '<SacredDnaIcon />'
+    },
+    {
+        id: 'icon-sacred-hex',
+        name: 'Sacred Hex Icon',
+        category: 'visual-component',
+        description: 'Rotating hexagonal honeycomb with central triangle and pulse.',
+        tags: ['icon', 'hex', 'geometry', 'sacred', 'animated', 'svg'],
+        vibes: ['scientific', 'premium', 'crystalline'],
+        useCases: ['science-page', 'feature-grid'],
+        source: 'component',
+        importPath: '@/components/visuals/svg/AndaraIconRegistry',
+        example: '<SacredHexTriangleIcon />'
+    },
+    {
+        id: 'icon-sacred-matrix',
+        name: 'Sacred Matrix Icon',
+        category: 'visual-component',
+        description: 'Triangular lattice network with staggered pulsing nodes.',
+        tags: ['icon', 'matrix', 'geometry', 'network', 'animated', 'svg'],
+        vibes: ['scientific', 'complex', 'glowing'],
+        useCases: ['science-page', 'hero-section'],
+        source: 'component',
+        importPath: '@/components/visuals/svg/AndaraIconRegistry',
+        example: '<SacredMatrixIcon />'
+    },
+    {
+        id: 'icon-sacred-network',
+        name: 'Sacred Network Icon',
+        category: 'visual-component',
+        description: 'Complex node mesh with orbiting ring and internal web.',
+        tags: ['icon', 'network', 'mesh', 'geometry', 'sacred', 'animated', 'svg'],
+        vibes: ['scientific', 'complex', 'glowing', 'energetic'],
+        useCases: ['science-page', 'hero-section'],
+        source: 'component',
+        importPath: '@/components/visuals/svg/AndaraIconRegistry',
+        example: '<SacredNetworkIcon />'
+    },
+
     // --- TRANSITIONS ---
     {
         id: 'reveal-from-bottom',

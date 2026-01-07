@@ -27,6 +27,9 @@ import ProductPage from "@/pages/product";
 import ShopPage from "@/pages/shop";
 import AndaraIonic100ml from "@/pages/andara-ionic-100ml";
 import PrimordialPage from "@/pages/primordial";
+import HowToUseAndaraPage from "@/pages/how-to-use-andara";
+import AndaraDilutionCalculator from "@/pages/andara-dilution-calculator";
+import AndaraIonicDilutionTable from "@/pages/andara-ionic-dilution-table";
 
 import DnaMineralCodesPage from "@/pages/dna-mineral-codes";
 import BioelectricityInvisibleVoltagePage from "@/pages/bioelectricity-invisible-voltage";
@@ -57,6 +60,9 @@ function Router() {
       <Route path="/shop" component={ShopPage} />
       <Route path="/shop/andara-ionic-100ml" component={AndaraIonic100ml} />
       <Route path="/shop/:slug" component={ProductPage} />
+      <Route path="/how-to-use-andara" component={HowToUseAndaraPage} />
+      <Route path="/andara-dilution-calculator" component={AndaraDilutionCalculator} />
+      <Route path="/andara-ionic-dilution-table" component={AndaraIonicDilutionTable} />
       <Route path="/about" component={DynamicPage} />
       <Route path="/about/:slug" component={DynamicPage} />
       <Route path="/trust" component={DynamicPage} />

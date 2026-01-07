@@ -94,6 +94,9 @@ export default function MineralBlueprintPage() {
                         <Link href="/science/mineral-sources">
                             <a className="text-primary hover:underline flex items-center gap-1">Mineral Sources <ArrowRight className="w-4 h-4" /></a>
                         </Link>
+                        <Link href="/andara-dilution-calculator">
+                            <a className="text-cyan-400 hover:underline flex items-center gap-1">Dosing Calculator <ArrowRight className="w-4 h-4" /></a>
+                        </Link>
                     </div>
                 </div>
             </section>

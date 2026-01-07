@@ -615,6 +615,24 @@ export default function WaterScienceMaster() {
                                 </React.Fragment>
                             ))}
                         </div>
+
+                        <motion.div
+                            className="mt-12 p-6 rounded-2xl border border-cyan-500/20 bg-cyan-950/10 flex flex-col items-center text-center"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                        >
+                            <Calculator className="w-8 h-8 text-cyan-400 mb-3" />
+                            <h4 className="text-white font-bold mb-2">Ready for Precision Dosing?</h4>
+                            <p className="text-sm text-white/60 mb-6">Access our interactive calculator and master table for all applications.</p>
+                            <div className="flex gap-4">
+                                <Link href="/andara-dilution-calculator">
+                                    <Button size="sm" className="bg-cyan-500 hover:bg-cyan-400 text-black">Open Calculator</Button>
+                                </Link>
+                                <Link href="/andara-ionic-dilution-table">
+                                    <Button size="sm" variant="outline" className="border-white/10 text-white">View Table</Button>
+                                </Link>
+                            </div>
+                        </motion.div>
                     </div>
                 </section>
 

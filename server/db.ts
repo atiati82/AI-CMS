@@ -10,7 +10,15 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
+console.log(`[DB] Connecting to: ${process.env.DATABASE_URL?.split('@')[1] || 'URL NOT SET'}`);
 export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+// Neon/Pooler optimization: Ensure search_path is set to public for every new connection
+pool.on('connect', (client) => {
+  client.query('SET search_path TO public, "$user"').catch(err => {
+    console.error('[DB] Error setting search_path on connect:', err);
+  });
+});
 
 // Drizzle ORM instance
 const drizzleDb = drizzle(pool, { schema });

@@ -472,35 +472,35 @@ export function AndaraDynamicIcon({
                 ))}
             </g>
         ),
+    };
 
-
-        const glowColors: Record<string, string> = {
-            water: "bg-cyan-500",
-            ezWater: "bg-cyan-500",
-            waterPhases: "bg-cyan-500",
-            turbidity: "bg-cyan-400",
-            vortex: "bg-purple-500",
-            bioelectric: "bg-amber-500",
-            proton: "bg-amber-400",
-            energy: "bg-amber-500",
-            mineral: "bg-amber-400",
-            sulfate: "bg-amber-500",
-            crystalline: "bg-amber-400",
-            microbiome: "bg-emerald-500",
-            dna: "bg-purple-500",
-            terrain: "bg-emerald-400",
-            magnetics: "bg-purple-500",
-            field: "bg-purple-400",
-            consciousness: "bg-purple-500",
-            sacredDna: "bg-cyan-500",
-            sacredHexTriangle: "bg-cyan-500",
-            sacredMatrix: "bg-cyan-500",
-            sacredNetwork: "bg-cyan-500",
-            science: "bg-cyan-500",
-            shop: "bg-amber-500",
-            trust: "bg-emerald-500",
-            about: "bg-amber-500",
-            default: "bg-slate-500"
+    const glowColors: Record<string, string> = {
+        water: "bg-cyan-500",
+        ezWater: "bg-cyan-500",
+        waterPhases: "bg-cyan-500",
+        turbidity: "bg-cyan-400",
+        vortex: "bg-purple-500",
+        bioelectric: "bg-amber-500",
+        proton: "bg-amber-400",
+        energy: "bg-amber-500",
+        mineral: "bg-amber-400",
+        sulfate: "bg-amber-500",
+        crystalline: "bg-amber-400",
+        microbiome: "bg-emerald-500",
+        dna: "bg-purple-500",
+        terrain: "bg-emerald-400",
+        magnetics: "bg-purple-500",
+        field: "bg-purple-400",
+        consciousness: "bg-purple-500",
+        sacredDna: "bg-cyan-500",
+        sacredHexTriangle: "bg-cyan-500",
+        sacredMatrix: "bg-cyan-500",
+        sacredNetwork: "bg-cyan-500",
+        science: "bg-cyan-500",
+        shop: "bg-amber-500",
+        trust: "bg-emerald-500",
+        about: "bg-amber-500",
+        default: "bg-slate-500"
     };
 
     return (
