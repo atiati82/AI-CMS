@@ -85,6 +85,7 @@ export default function DesignInterpreterTab() {
                 <TabsList>
                     <TabsTrigger value="interpreter">Interpreter</TabsTrigger>
                     <TabsTrigger value="library">Motion Library</TabsTrigger>
+                    <TabsTrigger value="geometry">Sacred Geometry</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="interpreter" className="space-y-6">
@@ -223,6 +224,48 @@ export default function DesignInterpreterTab() {
 
                 <TabsContent value="library">
                     <MotionLibraryShowcase />
+                </TabsContent>
+
+                <TabsContent value="geometry" className="space-y-6">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Sacred Geometry Icons</CardTitle>
+                            <CardDescription>
+                                Explore the sacred geometry patterns used throughout the Andara design system
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+                                    <CardHeader>
+                                        <CardTitle className="text-lg">Lotus Flower of Life</CardTitle>
+                                        <CardDescription>
+                                            The sacred Flower of Life pattern with 13 overlapping circles representing unity and creation
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        <div className="flex items-center justify-center p-8 bg-background/50 rounded-lg">
+                                            <img
+                                                src="/images/geometry/lotus-flower-gold.svg"
+                                                alt="Lotus Flower of Life"
+                                                className="w-32 h-32"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex flex-wrap gap-2">
+                                                <Badge variant="outline">Kryst Code</Badge>
+                                                <Badge variant="outline">Source Code</Badge>
+                                                <Badge variant="outline">Sacred Geometry</Badge>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground">
+                                                Used for representing divine unity, cosmic order, and the interconnection of all creation
+                                            </p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </TabsContent>
             </Tabs>
         </div>
