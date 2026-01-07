@@ -1,0 +1,219 @@
+[
+  {
+    "cluster": "home",
+    "key": "home_main",
+    "path": "/",
+    "title": "Andara Ionic – Primordial Ionic Sulfate Minerals",
+    "zone": "Mixed (Intro + Product + Library gateway)"
+  },
+  {
+    "cluster": "home",
+    "key": "home_choose_path",
+    "path": "/choose-your-path",
+    "title": "Choose Your Path – Curious, Deep Diver, Practitioner",
+    "zone": "Navigation"
+  },
+  {
+    "cluster": "shop",
+    "key": "product_100ml_main",
+    "path": "/shop/andara-ionic-100ml",
+    "title": "Andara Ionic – 100 ml Primordial Ionic Sulfate Minerals",
+    "zone": "Zone 1 · Product & Application"
+  },
+  {
+    "cluster": "shop",
+    "key": "product_100ml_bundles",
+    "path": "/shop/andara-ionic-100ml-bundles",
+    "title": "Andara Ionic 100 ml – Value Bundles (3+1, 6+2)",
+    "zone": "Zone 1"
+  },
+  {
+    "cluster": "shop",
+    "key": "dilution_calculator_main",
+    "path": "/andara-dilution-calculator",
+    "title": "Andara Dilution Calculator – Find Your Sulfate Activation Range",
+    "zone": "Tool / Zone 1-Science bridge"
+  },
+  {
+    "cluster": "shop",
+    "key": "product_b2b_reseller",
+    "path": "/b2b-reseller",
+    "title": "B2B, Wholesale & Reseller Partners",
+    "zone": "Commercial info"
+  },
+  {
+    "cluster": "water_science",
+    "key": "water_overview_hidden_architecture",
+    "path": "/science/water-science",
+    "title": "Water Science – The Hidden Architecture of Life",
+    "zone": "Science Zone 2"
+  },
+  {
+    "cluster": "water_science",
+    "key": "water_structured_ez",
+    "path": "/science/structured-water-ez",
+    "title": "Structured Water & EZ Domains",
+    "zone": "Science deep dive"
+  },
+  {
+    "cluster": "water_science",
+    "key": "water_ph_orp_ec",
+    "path": "/science/water-ph-orp-ec",
+    "title": "pH, ORP & EC – How Water Carries Charge & Signals",
+    "zone": "Science"
+  },
+  {
+    "cluster": "water_science",
+    "key": "water_turbidity_clarity",
+    "path": "/science/water-turbidity-clarity",
+    "title": "Turbidity & Clarity – Seeing the Invisible",
+    "zone": "Science"
+  },
+  {
+    "cluster": "mineral_science",
+    "key": "mineral_overview_blueprint",
+    "path": "/science/mineral-science",
+    "title": "Mineral Science – Decode the Elemental Blueprint",
+    "zone": "Science overview"
+  },
+  {
+    "cluster": "mineral_science",
+    "key": "mineral_sulfate_chemistry",
+    "path": "/science/sulfate-chemistry",
+    "title": "Sulfate Chemistry – Why Sulfate Matters in Water",
+    "zone": "Science"
+  },
+  {
+    "cluster": "mineral_science",
+    "key": "mineral_iron_magnesium_silicates",
+    "path": "/science/iron-magnesium-silicates",
+    "title": "Iron, Magnesium & Silicates – Earth's Catalytic Trio",
+    "zone": "Science"
+  },
+  {
+    "cluster": "mineral_science",
+    "key": "mineral_cofactors_enzymes",
+    "path": "/science/mineral-cofactors-enzymes",
+    "title": "Mineral Cofactors & Enzymes – The Hidden Keys",
+    "zone": "Science"
+  },
+  {
+    "cluster": "crystalline_matrix",
+    "key": "crystalline_overview",
+    "path": "/science/crystalline-matrix",
+    "title": "Crystalline Matrix – Geometry, Fields & Structure",
+    "zone": "Science overview"
+  },
+  {
+    "cluster": "crystalline_matrix",
+    "key": "crystalline_hexagonal",
+    "path": "/science/hexagonal-structures",
+    "title": "Hexagonal Structures – Honeycombs of Coherence",
+    "zone": "Geometry"
+  },
+  {
+    "cluster": "crystalline_matrix",
+    "key": "bioelectric_overview",
+    "path": "/science/bioelectricity",
+    "title": "Bioelectricity: The Invisible Voltage System",
+    "zone": "Science overview"
+  },
+  {
+    "cluster": "crystalline_matrix",
+    "key": "bioelectric_cell_voltage",
+    "path": "/science/cell-voltage",
+    "title": "Cell Voltage – Membrane Potentials & Coherence",
+    "zone": "Science"
+  },
+  {
+    "cluster": "terrain_model",
+    "key": "terrain_overview",
+    "path": "/science/terrain-model",
+    "title": "Terrain Model – The Body as a Living Ecosystem",
+    "zone": "Systems view"
+  },
+  {
+    "cluster": "terrain_model",
+    "key": "sulphur_sulfate_pathways_overview",
+    "path": "/science/sulphur-sulfate-pathways",
+    "title": "Sulphur & Sulfate Pathways – Earth's Transmutation Routes",
+    "zone": "Science"
+  },
+  {
+    "cluster": "terrain_model",
+    "key": "sulfate_activation_band",
+    "path": "/science/sulfate-activation-band",
+    "title": "The Sulfate Activation Band – 17–30 mg/L Window",
+    "zone": "Measurement"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "andara_how_it_works",
+    "path": "/andara/how-it-works",
+    "title": "How Andara Ionic Works – Water Clarification & Conditioning",
+    "zone": "Bridge: Product ↔ Science"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "andara_what_happens_when_added",
+    "path": "/andara/what-happens-when-you-add",
+    "title": "What Happens When You Add Andara to Water?",
+    "zone": "Explanation"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "andara_diy_water_testing",
+    "path": "/andara/diy-water-testing",
+    "title": "DIY Water Testing – See It With Your Own Eyes",
+    "zone": "Participation"
+  },
+  {
+    "cluster": "about",
+    "key": "brand_story_origin",
+    "path": "/about/andara-story",
+    "title": "The Andara Story – From Volcanic Origins to Liquid Light",
+    "zone": "Brand story"
+  },
+  {
+    "cluster": "about",
+    "key": "brand_intention",
+    "path": "/about/intention",
+    "title": "Intention – Why Andara Exists",
+    "zone": "Mission"
+  },
+  {
+    "cluster": "about",
+    "key": "community_stories",
+    "path": "/community/stories",
+    "title": "Andara Community Stories",
+    "zone": "Community"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "firewall_overview",
+    "path": "/firewall",
+    "title": "Andara Content Firewall – Zones, Language & Boundaries",
+    "zone": "Meta"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "disclaimer_science",
+    "path": "/disclaimer/science",
+    "title": "Science & Education Disclaimer",
+    "zone": "Legal"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "glossary_main",
+    "path": "/glossary",
+    "title": "Glossary – Water, Minerals & Fields",
+    "zone": "Support"
+  },
+  {
+    "cluster": "uncategorized",
+    "key": "andara_library_footer",
+    "path": "/andara-library",
+    "title": "Andara Library – Neural Science Footer Engine",
+    "zone": "System"
+  }
+]

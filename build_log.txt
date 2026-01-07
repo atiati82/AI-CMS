@@ -1,0 +1,1348 @@
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v7.1.12 building for production...
+transforming...
+
+/assets/noise.png referenced in /assets/noise.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/grid.svg referenced in /grid.svg didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/images/rock-texture-placeholder.png referenced in /images/rock-texture-placeholder.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/images/water/noise.png referenced in /images/water/noise.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/img/noise.png referenced in /img/noise.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+✓ 2470 modules transformed.
+
+✨ [36m[vite-plugin-image-optimizer][39m - optimized images successfully: 
+[2mpublic[22m/[94mandara-gold-logo.svg[39m                                        [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 1.49 kB <= optimized: 1.49 kB[22m
+[2mpublic[22m/[94mandara-logo-full.svg[39m                                        [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 97.82 kB <= optimized: 97.82 kB[22m
+[2mpublic[22m/[94mandara-icon.svg[39m                                             [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 86.78 kB <= optimized: 86.78 kB[22m
+[2mpublic[22m/[94mandara-logo.svg[39m                                             [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 134.84 kB <= optimized: 134.84 kB[22m
+[2mpublic[22m/[94mhex-grid-bg.svg[39m                                             [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 0.20 kB <= optimized: 0.20 kB[22m
+[2mpublic[22m/[94mimages/geometry/geo-hexagonal-gold.svg[39m                      [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 1.95 kB <= optimized: 1.95 kB[22m
+[2mpublic[22m/[94mimages/geometry/geo-tetrahedral-gold.svg[39m                    [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 1.53 kB <= optimized: 1.53 kB[22m
+[2mpublic[22m/[94mimages/geometry/geo-vortex-gold.svg[39m                         [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 1.37 kB <= optimized: 1.37 kB[22m
+[2mpublic[22m/[94massets/andara-ionic-100ml-box.jpg[39m                           [90m[31m+111%[39m[90m   [39m [33m[1mskipped[22m[39m [2moriginal: 72.49 kB <= optimized: 153.32 kB[22m
+[2mpublic[22m/[94massets/andara-ionic-100ml-nature.jpg[39m                        [90m[31m+108%[39m[90m   [39m [33m[1mskipped[22m[39m [2moriginal: 92.81 kB <= optimized: 193.76 kB[22m
+[2mpublic[22m/[94mapple-touch-icon.png[39m                                        [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 52.69 kB <= optimized: 52.69 kB[22m
+[2mpublic[22m/[94massets/andara-box-zoom.png[39m                                  [90m[32m-10%[39m[90m   [39m [2m129.76 kB ⭢  117.67 kB[22m
+[2mpublic[22m/[94massets/andara-bottle-zoom.png[39m                               [90m[31m+1%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 97.52 kB <= optimized: 98.97 kB[22m
+[2mpublic[22m/[94massets/generated_images/andara-ionic-100ml-transparent.png[39m  [90m[32m-4%[39m[90m    [39m [2m141.86 kB ⭢  137.31 kB[22m
+[2mpublic[22m/[94massets/generated_images/andara-ionic-100ml-quad-bundle.png[39m  [90m[31m+1%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 191.51 kB <= optimized: 194.53 kB[22m
+[2mpublic[22m/[94mfavicon.png[39m                                                 [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 0.30 kB <= optimized: 0.30 kB[22m
+[2mpublic[22m/[94mcell-membrane-bg.png[39m                                        [90m[32m-4%[39m[90m    [39m [2m275.49 kB ⭢  266.25 kB[22m
+[2mpublic[22m/[94mgoogle_nano_banana_3.png[39m                                    [90m[32m-4%[39m[90m    [39m [2m301.24 kB ⭢  289.32 kB[22m
+[2mpublic[22m/[94mgoogle_nano_banana_2.png[39m                                    [90m[32m-4%[39m[90m    [39m [2m342.85 kB ⭢  332.37 kB[22m
+[2mpublic[22m/[94mbioelectric-bg.png[39m                                          [90m[32m-6%[39m[90m    [39m [2m313.70 kB ⭢  295.06 kB[22m
+[2mpublic[22m/[94mgoogle_nano_banana_1.png[39m                                    [90m[32m-6%[39m[90m    [39m [2m395.13 kB ⭢  372.19 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/bioelectric-case-studies.png[39m             [90m[32m-4%[39m[90m    [39m [2m324.87 kB ⭢  313.02 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/cell-voltage-bg.png[39m                      [90m[32m-3%[39m[90m    [39m [2m292.76 kB ⭢  286.60 kB[22m
+[2mpublic[22m/[94mgoogle_nano_banana_4.png[39m                                    [90m[32m-3%[39m[90m    [39m [2m396.27 kB ⭢  385.55 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/human-cell-membrane-bg.png[39m               [90m[32m-6%[39m[90m    [39m [2m239.19 kB ⭢  225.88 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/proton-gradients-energy.png[39m              [90m[32m-4%[39m[90m    [39m [2m335.56 kB ⭢  324.11 kB[22m
+[2mpublic[22m/[94mimages/bioelectric-maps-card.png[39m                            [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 11.89 kB <= optimized: 11.89 kB[22m
+[2mpublic[22m/[94mimages/demo-v6/awakening.png[39m                                [90m[32m-5%[39m[90m    [39m [2m213.29 kB ⭢  204.55 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/spiritual-electricity.png[39m                [90m[32m-3%[39m[90m    [39m [2m380.76 kB ⭢  369.88 kB[22m
+[2mpublic[22m/[94mimages/demo-v6/matrix.png[39m                                   [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 153.73 kB <= optimized: 153.73 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/hydration-stack.png[39m                     [90m[32m-1%[39m[90m    [39m [2m176.88 kB ⭢  176.47 kB[22m
+[2mpublic[22m/[94mimages/bioelectric/voltage-detox-pathways.png[39m               [90m[32m-3%[39m[90m    [39m [2m332.22 kB ⭢  324.94 kB[22m
+[2mpublic[22m/[94mimages/demo-v6/origin.png[39m                                   [90m[32m-2%[39m[90m    [39m [2m286.07 kB ⭢  280.80 kB[22m
+[2mpublic[22m/[94mimages/demo-v6/flow.png[39m                                     [90m[32m-3%[39m[90m    [39m [2m249.69 kB ⭢  243.27 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/cell-membrane-battery.png[39m               [90m[32m-13%[39m[90m   [39m [2m191.23 kB ⭢  168.08 kB[22m
+[2mpublic[22m/[94mimages/demo-v6/resonance.png[39m                                [90m[32m-5%[39m[90m    [39m [2m266.12 kB ⭢  253.96 kB[22m
+[2mpublic[22m/[94mimages/generated/water-chaotic-molecular.png[39m                [90m[32m-7%[39m[90m    [39m [2m242.56 kB ⭢  227.13 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/mineral-triad.png[39m                       [90m[32m-1%[39m[90m    [39m [2m271.85 kB ⭢  271.10 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/shipping-box.png[39m                        [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 165.12 kB <= optimized: 165.12 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/search-help.png[39m                         [90m[32m-1%[39m[90m    [39m [2m237.26 kB ⭢  236.53 kB[22m
+[2mpublic[22m/[94mimages/generated/water-ez-interface.png[39m                     [90m[32m-3%[39m[90m    [39m [2m227.12 kB ⭢  221.29 kB[22m
+[2mpublic[22m/[94mimages/gen-diagrams/logic-strata.png[39m                        [90m[32m-8%[39m[90m    [39m [2m232.33 kB ⭢  215.52 kB[22m
+[2mpublic[22m/[94mimages/geometry/crystalline-matrix-bg.png[39m                   [90m[32m-5%[39m[90m    [39m [2m359.70 kB ⭢  343.31 kB[22m
+[2mpublic[22m/[94mimages/geometry/grid-overlay-bg.png[39m                         [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 148.65 kB <= optimized: 148.76 kB[22m
+[2mpublic[22m/[94mimages/generated/water-structured-hexagonal.png[39m             [90m[32m-4%[39m[90m    [39m [2m249.58 kB ⭢  241.85 kB[22m
+[2mpublic[22m/[94mimages/generated/water-vortex-spiral.png[39m                    [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 215.05 kB <= optimized: 215.40 kB[22m
+[2mpublic[22m/[94mimages/geometry/hexagonal-water-holographic.png[39m             [90m[32m-3%[39m[90m    [39m [2m232.00 kB ⭢  227.29 kB[22m
+[2mpublic[22m/[94mimages/hubs/science-library-hero.png[39m                        [90m[32m-5%[39m[90m    [39m [2m277.31 kB ⭢  264.51 kB[22m
+[2mpublic[22m/[94mimages/hubs/minerals-index-hero.png[39m                         [90m[32m-3%[39m[90m    [39m [2m445.98 kB ⭢  432.68 kB[22m
+[2mpublic[22m/[94mimages/light/link-lattices-bg.png[39m                           [90m[32m-6%[39m[90m    [39m [2m313.12 kB ⭢  294.62 kB[22m
+[2mpublic[22m/[94mimages/hubs/water-hub-hero.png[39m                              [90m[32m-3%[39m[90m    [39m [2m302.93 kB ⭢  295.34 kB[22m
+[2mpublic[22m/[94mimages/hubs/mineral-hub-hero.png[39m                            [90m[32m-3%[39m[90m    [39m [2m309.63 kB ⭢  301.69 kB[22m
+[2mpublic[22m/[94mimages/minerals/ocean.png[39m                                   [90m[32m-2%[39m[90m    [39m [2m211.79 kB ⭢  208.27 kB[22m
+[2mpublic[22m/[94mimages/minerals/black-mica-bg.png[39m                           [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 197.82 kB <= optimized: 197.82 kB[22m
+[2mpublic[22m/[94mimages/minerals/fulvic.png[39m                                  [90m[32m-5%[39m[90m    [39m [2m370.06 kB ⭢  352.24 kB[22m
+[2mpublic[22m/[94mimages/minerals-hub-bg.png[39m                                  [90m[32m-9%[39m[90m    [39m [2m113.15 kB ⭢  103.85 kB[22m
+[2mpublic[22m/[94mimages/minerals/minerals-microbiome.png[39m                     [90m[32m-2%[39m[90m    [39m [2m328.42 kB ⭢  323.11 kB[22m
+[2mpublic[22m/[94mimages/minerals/plant.png[39m                                   [90m[32m-6%[39m[90m    [39m [2m307.35 kB ⭢  290.78 kB[22m
+[2mpublic[22m/[94mimages/minerals/volcanic.png[39m                                [90m[32m-13%[39m[90m   [39m [2m358.79 kB ⭢  312.16 kB[22m
+[2mpublic[22m/[94mimages/minerals/salts.png[39m                                   [90m[32m-1%[39m[90m    [39m [2m188.90 kB ⭢  188.66 kB[22m
+[2mpublic[22m/[94mimages/minerals/volcanic-triad-bg.png[39m                       [90m[32m-2%[39m[90m    [39m [2m284.88 kB ⭢  281.24 kB[22m
+[2mpublic[22m/[94mimages/visuals/glass-clarity.png[39m                            [90m[32m-1%[39m[90m    [39m [2m155.25 kB ⭢  154.29 kB[22m
+[2mpublic[22m/[94mimages/tools/dilution-table-hero.png[39m                        [90m[32m-4%[39m[90m    [39m [2m288.06 kB ⭢  279.37 kB[22m
+[2mpublic[22m/[94mimages/tools/dilution-calculator-hero.png[39m                   [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 196.34 kB <= optimized: 197.70 kB[22m
+[2mpublic[22m/[94mimages/tools/shipping-hero.png[39m                              [90m[32m-8%[39m[90m    [39m [2m231.39 kB ⭢  214.54 kB[22m
+[2mpublic[22m/[94mimages/visuals/glass-activation.png[39m                         [90m[32m-1%[39m[90m    [39m [2m198.42 kB ⭢  198.39 kB[22m
+[2mpublic[22m/[94mimages/visuals/glass-resonance.png[39m                          [90m[31m+3%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 151.01 kB <= optimized: 156.89 kB[22m
+[2mpublic[22m/[94mimages/visuals/glass-origin.png[39m                             [90m[32m-7%[39m[90m    [39m [2m153.68 kB ⭢  144.43 kB[22m
+[2mpublic[22m/[94mimages/visuals/star-beam-bg.png[39m                             [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 143.37 kB <= optimized: 143.37 kB[22m
+[2mpublic[22m/[94mimages/water/electron-treasury-holographic.png[39m              [90m[32m-3%[39m[90m    [39m [2m306.40 kB ⭢  299.98 kB[22m
+[2mpublic[22m/[94mimages/water/chem-education-bg.png[39m                          [90m[32m-3%[39m[90m    [39m [2m244.45 kB ⭢  239.23 kB[22m
+[2mpublic[22m/[94mimages/water/context-framework.png[39m                          [90m[32m-4%[39m[90m    [39m [2m282.83 kB ⭢  271.79 kB[22m
+[2mpublic[22m/[94mimages/water/exclusion-zone-holographic.png[39m                 [90m[32m-4%[39m[90m    [39m [2m252.00 kB ⭢  243.97 kB[22m
+[2mpublic[22m/[94mimages/water/geo-hexagonal.png[39m                              [90m[32m-4%[39m[90m    [39m [2m228.29 kB ⭢  219.32 kB[22m
+[2mpublic[22m/[94mimages/water/geo-tetrahedral.png[39m                            [90m[32m-2%[39m[90m    [39m [2m164.48 kB ⭢  162.42 kB[22m
+[2mpublic[22m/[94mimages/water/geo-vortex.png[39m                                 [90m[32m-1%[39m[90m    [39m [2m249.33 kB ⭢  248.10 kB[22m
+[2mpublic[22m/[94mimages/water/field.png[39m                                      [90m[32m-3%[39m[90m    [39m [2m233.79 kB ⭢  227.55 kB[22m
+[2mpublic[22m/[94mimages/water/geometry.png[39m                                   [90m[32m-2%[39m[90m    [39m [2m262.83 kB ⭢  259.59 kB[22m
+[2mpublic[22m/[94mimages/water/hydration-clusters.png[39m                         [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 262.13 kB <= optimized: 262.43 kB[22m
+[2mpublic[22m/[94mimages/water/ionic-colloidal-bg.png[39m                         [90m[32m-10%[39m[90m   [39m [2m205.69 kB ⭢  186.91 kB[22m
+[2mpublic[22m/[94mimages/water/job-solvent.png[39m                                [90m[32m-2%[39m[90m    [39m [2m360.63 kB ⭢  353.83 kB[22m
+[2mpublic[22m/[94mimages/water/interface-soil.png[39m                             [90m[32m-5%[39m[90m    [39m [2m367.87 kB ⭢  353.01 kB[22m
+[2mpublic[22m/[94mimages/water/interface-bio.png[39m                              [90m[32m-3%[39m[90m    [39m [2m368.08 kB ⭢  358.60 kB[22m
+[2mpublic[22m/[94mimages/water/job-transport.png[39m                              [90m[32m-4%[39m[90m    [39m [2m321.33 kB ⭢  311.04 kB[22m
+[2mpublic[22m/[94mimages/water/job-battery.png[39m                                [90m[32m-4%[39m[90m    [39m [2m254.68 kB ⭢  245.30 kB[22m
+[2mpublic[22m/[94mimages/water/job-structure.png[39m                              [90m[32m-4%[39m[90m    [39m [2m342.29 kB ⭢  331.13 kB[22m
+[2mpublic[22m/[94mimages/water/context-education.png[39m                          [90m[32m-3%[39m[90m    [39m [2m239.02 kB ⭢  232.04 kB[22m
+[2mpublic[22m/[94mimages/water/liquid-crystal-biology.png[39m                     [90m[32m-5%[39m[90m    [39m [2m323.77 kB ⭢  308.14 kB[22m
+[2mpublic[22m/[94mimages/water/magnetic_flux_macro_1766233412476.png[39m          [90m[32m-4%[39m[90m    [39m [2m280.75 kB ⭢  270.17 kB[22m
+[2mpublic[22m/[94mimages/water/interface.png[39m                                  [90m[32m-2%[39m[90m    [39m [2m328.15 kB ⭢  321.68 kB[22m
+[2mpublic[22m/[94mimages/water/mineral-interaction.png[39m                        [90m[32m-3%[39m[90m    [39m [2m327.34 kB ⭢  319.99 kB[22m
+[2mpublic[22m/[94mimages/water/magnetics-water.png[39m                            [90m[32m-4%[39m[90m    [39m [2m290.90 kB ⭢  279.90 kB[22m
+[2mpublic[22m/[94mimages/water/magnetic-flux.png[39m                              [90m[32m-4%[39m[90m    [39m [2m280.75 kB ⭢  270.17 kB[22m
+[2mpublic[22m/[94mimages/water/mineral_fulvic_macro_1766231557090.png[39m         [90m[32m-5%[39m[90m    [39m [2m370.06 kB ⭢  352.24 kB[22m
+[2mpublic[22m/[94mimages/water/mineral_ocean_macro_1766231523218.png[39m          [90m[32m-2%[39m[90m    [39m [2m211.79 kB ⭢  208.27 kB[22m
+[2mpublic[22m/[94mimages/water/mineral_salt_macro_1766231571686.png[39m           [90m[32m-1%[39m[90m    [39m [2m188.90 kB ⭢  188.66 kB[22m
+[2mpublic[22m/[94mimages/water/network.png[39m                                    [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 209.99 kB <= optimized: 210.28 kB[22m
+[2mpublic[22m/[94mimages/water/mineral_plant_macro_1766231538557.png[39m          [90m[32m-6%[39m[90m    [39m [2m307.35 kB ⭢  290.78 kB[22m
+[2mpublic[22m/[94mimages/water/phase-bulk.png[39m                                 [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 294.14 kB <= optimized: 294.14 kB[22m
+[2mpublic[22m/[94mimages/water/molecular.png[39m                                  [90m[32m-5%[39m[90m    [39m [2m283.88 kB ⭢  271.49 kB[22m
+[2mpublic[22m/[94mimages/water/mineral_volcanic_macro_1766231591599.png[39m       [90m[32m-13%[39m[90m   [39m [2m358.79 kB ⭢  312.16 kB[22m
+[2mpublic[22m/[94mimages/water/pillar-electric.png[39m                            [90m[32m-3%[39m[90m    [39m [2m267.95 kB ⭢  261.79 kB[22m
+[2mpublic[22m/[94mimages/water/phase-gel.png[39m                                  [90m[32m-5%[39m[90m    [39m [2m326.21 kB ⭢  313.06 kB[22m
+[2mpublic[22m/[94mimages/water/phase-ordered.png[39m                              [90m[32m-2%[39m[90m    [39m [2m442.77 kB ⭢  434.25 kB[22m
+[2mpublic[22m/[94mimages/water/pillar-matrix.png[39m                              [90m[32m-5%[39m[90m    [39m [2m296.07 kB ⭢  283.14 kB[22m
+[2mpublic[22m/[94mimages/water/pillar-mineral.png[39m                             [90m[32m-4%[39m[90m    [39m [2m331.34 kB ⭢  320.43 kB[22m
+[2mpublic[22m/[94mimages/water/proton_gradient_macro_1766233372440.png[39m        [90m[32m-4%[39m[90m    [39m [2m242.50 kB ⭢  234.58 kB[22m
+[2mpublic[22m/[94mimages/water/proton_gradient_macro_1766233391473.png[39m        [90m[32m-2%[39m[90m    [39m [2m200.35 kB ⭢  196.85 kB[22m
+[2mpublic[22m/[94mimages/water/terrain-coherent.png[39m                           [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 208.22 kB <= optimized: 208.24 kB[22m
+[2mpublic[22m/[94mimages/water/structured.png[39m                                 [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 159.72 kB <= optimized: 160.41 kB[22m
+[2mpublic[22m/[94mimages/water/terrain-clear.png[39m                              [90m[32m-2%[39m[90m    [39m [2m310.31 kB ⭢  306.22 kB[22m
+[2mpublic[22m/[94mimages/water/terrain-concepts-bg.png[39m                        [90m[32m-3%[39m[90m    [39m [2m292.27 kB ⭢  284.06 kB[22m
+[2mpublic[22m/[94mimages/water/type-spring.png[39m                                [90m[32m-4%[39m[90m    [39m [2m354.50 kB ⭢  342.99 kB[22m
+[2mpublic[22m/[94mimages/water/type-ocean.png[39m                                 [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 181.01 kB <= optimized: 181.43 kB[22m
+[2mpublic[22m/[94mimages/water/terrain.png[39m                                    [90m[32m-4%[39m[90m    [39m [2m328.95 kB ⭢  317.89 kB[22m
+[2mpublic[22m/[94mimages/water/type-pure.png[39m                                  [90m[32m-4%[39m[90m    [39m [2m204.23 kB ⭢  197.45 kB[22m
+[2mpublic[22m/[94mimages/water/terrain-mineral.png[39m                            [90m[32m-2%[39m[90m    [39m [2m431.16 kB ⭢  424.53 kB[22m
+[2mpublic[22m/[94mimages/water/proton-gradient.png[39m                            [90m[32m-2%[39m[90m    [39m [2m200.35 kB ⭢  196.85 kB[22m
+[2mpublic[22m/[94mimages/water/type-sulfate.png[39m                               [90m[32m-3%[39m[90m    [39m [2m356.07 kB ⭢  347.67 kB[22m
+[2mpublic[22m/[94mimages/water/water_interface_macro_1766233086097.png[39m        [90m[32m-2%[39m[90m    [39m [2m328.15 kB ⭢  321.68 kB[22m
+[2mpublic[22m/[94mimages/water/water_geometry_macro_1766233067908.png[39m         [90m[32m-2%[39m[90m    [39m [2m262.83 kB ⭢  259.59 kB[22m
+[2mpublic[22m/[94mion-channels-bg.png[39m                                         [90m[32m-5%[39m[90m    [39m [2m278.84 kB ⭢  265.15 kB[22m
+[2mpublic[22m/[94mimages/water/water_network_macro_1766233048524.png[39m          [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 209.99 kB <= optimized: 210.28 kB[22m
+[2mpublic[22m/[94mimages/water/water_mineral_macro_1766233122742.png[39m          [90m[32m-3%[39m[90m    [39m [2m327.34 kB ⭢  319.99 kB[22m
+[2mpublic[22m/[94mimages/water/water_terrain_macro_1766233104436.png[39m          [90m[32m-4%[39m[90m    [39m [2m328.95 kB ⭢  317.89 kB[22m
+[2mpublic[22m/[94mmagnetic-water-bg.png[39m                                       [90m[32m0%[39m[90m     [39m [33m[1mskipped[22m[39m [2moriginal: 212.30 kB <= optimized: 213.30 kB[22m
+[2mpublic[22m/[94mion-field-bg.png[39m                                            [90m[32m-3%[39m[90m    [39m [2m235.17 kB ⭢  228.43 kB[22m
+[2mpublic[22m/[94mopengraph.jpg[39m                                               [90m[31m+157%[39m[90m   [39m [33m[1mskipped[22m[39m [2moriginal: 86.23 kB <= optimized: 221.98 kB[22m
+[2mpublic[22m/[94mproton-gradient-bg.png[39m                                      [90m[32m-4%[39m[90m    [39m [2m276.08 kB ⭢  265.23 kB[22m
+[2mpublic[22m/[94mwater-interface-bg.png[39m                                      [90m[32m-3%[39m[90m    [39m [2m308.68 kB ⭢  301.35 kB[22m
+[2mpublic[22m/[94mvoltage-detox-bg.png[39m                                        [90m[32m-2%[39m[90m    [39m [2m304.56 kB ⭢  299.13 kB[22m
+[2mpublic[22m/[94mimages/water/natural-springs.png[39m                            [90m[32m-4%[39m[90m    [39m [2m514.21 kB ⭢  494.11 kB[22m
+
+💰 total savings = [32m999.45kB[39m/[32m28462.66kB[39m ≈ [32m4%[39m
+
+
+
+✨ [vite-plugin-compression]:algorithm=gzip - compressed file successfully: 
+public/assets/AIAuditTab-KGpI1h2X.js.gz                               15.74kb / gzip: 4.54kb
+public/assets/AIBrainHealthTab-Cz6E27DB.js.gz                         10.94kb / gzip: 3.58kb
+public/assets/AIAuditTab-Ckbt_qUO.js.gz                               15.74kb / gzip: 4.54kb
+public/assets/AdvancedPageLayout_Proposal-hPohrN9B.js.gz              2.17kb / gzip: 1.02kb
+public/assets/AdminHeader-BaxWRE-L.js.gz                              21.94kb / gzip: 7.30kb
+public/assets/AnalyticsTab-DHQpk8sz.js.gz                             5.82kb / gzip: 1.44kb
+public/assets/AIBrainHealthTab-jkd7EwKj.js.gz                         11.44kb / gzip: 3.63kb
+public/assets/AnalyticsTab-Bdp6_MVB.js.gz                             5.82kb / gzip: 1.44kb
+public/assets/AndaraIconRegistry-8tgbYNby.js.gz                       2.57kb / gzip: 1.03kb
+public/assets/AdvancedPageLayout_Proposal-CRbwGIWd.js.gz              5.78kb / gzip: 2.00kb
+public/assets/AndaraIconRegistry-BeqUT5kV.js.gz                       2.57kb / gzip: 1.02kb
+public/assets/AdminHeader-A3gVGa5q.js.gz                              21.15kb / gzip: 7.17kb
+public/assets/ArticlesTab-Dgdsan24.js.gz                              5.32kb / gzip: 1.72kb
+public/assets/BundleCTA-BtySSJoY.js.gz                                8.79kb / gzip: 1.93kb
+public/assets/BundleCTA-DkSDLt-2.js.gz                                8.79kb / gzip: 1.93kb
+public/assets/ClustersTab-DMKHoTDG.js.gz                              8.28kb / gzip: 2.57kb
+public/assets/ArticlesTab-p04fqW8S.js.gz                              5.32kb / gzip: 1.72kb
+public/assets/ClustersTab-DwlNLViv.js.gz                              7.95kb / gzip: 2.46kb
+public/assets/DesignInterpreterTab-BQo3-qRB.js.gz                     5.96kb / gzip: 1.91kb
+public/assets/DashboardTab-DGEHhk4h.js.gz                             40.58kb / gzip: 10.56kb
+public/assets/DesignSystemTab-fjzZcG81.js.gz                          37.76kb / gzip: 9.54kb
+public/assets/CosmicPulse-Df0Ju24e.js.gz                              1.16kb / gzip: 0.47kb
+public/assets/DesignInterpreterTab-DigCOQyN.js.gz                     5.96kb / gzip: 1.91kb
+public/assets/DilutionTablePage-zoAxEVd6.js.gz                        8.02kb / gzip: 3.00kb
+public/assets/DashboardTab-BU34mGY4.js.gz                             39.93kb / gzip: 10.45kb
+public/assets/DocumentsTab-BGZnLrBD.js.gz                             10.81kb / gzip: 3.76kb
+public/assets/DilutionTablePage-D7E45YIV.js.gz                        8.00kb / gzip: 2.99kb
+public/assets/DocumentsTab-BkMmrDhC.js.gz                             12.87kb / gzip: 4.33kb
+public/assets/ElasticVelocity-uqvpqHvX.js.gz                          1.15kb / gzip: 0.59kb
+public/assets/CosmicPulse-Bo5IfSja.js.gz                              1.16kb / gzip: 0.46kb
+public/assets/DesignSystemTab-D-0w0Uem.js.gz                          37.83kb / gzip: 9.54kb
+public/assets/FlipCard3D-DeMj-ir-.js.gz                               1.90kb / gzip: 0.89kb
+public/assets/FlipCard3D-Bxts8iai.js.gz                               1.90kb / gzip: 0.89kb
+public/assets/FunctionsTab-DHO78au9.js.gz                             15.00kb / gzip: 4.50kb
+public/assets/GoldIcon-BHU48tbU.js.gz                                 2.09kb / gzip: 0.72kb
+public/assets/FunctionsTab-ESX9oBSO.js.gz                             15.00kb / gzip: 4.50kb
+public/assets/HarmonicsNavigator-BoIm-1AQ.js.gz                       5.92kb / gzip: 1.71kb
+public/assets/ElasticVelocity-CVMFLABl.js.gz                          1.15kb / gzip: 0.58kb
+public/assets/GoldIcon-BzKiKC_V.js.gz                                 2.09kb / gzip: 0.72kb
+public/assets/HealthGateTab-C-91m4DQ.js.gz                            6.15kb / gzip: 2.06kb
+public/assets/HarmonicsNavigator-DGk0jEtg.js.gz                       5.92kb / gzip: 1.71kb
+public/assets/HexagonalGridDiagram-1-S_Uwbd.js.gz                     2.45kb / gzip: 1.20kb
+public/assets/HeroGlass-BVpX06dO.js.gz                                7.49kb / gzip: 2.76kb
+public/assets/HexagonalGridDiagram-BLqdiKjY.js.gz                     2.45kb / gzip: 1.20kb
+public/assets/HubNavigationBar-DSk3TSTS.js.gz                         3.00kb / gzip: 1.12kb
+public/assets/HeroGlass-COvXI_ot.js.gz                                7.49kb / gzip: 2.76kb
+public/assets/HealthGateTab-164aHlxg.js.gz                            6.15kb / gzip: 2.06kb
+public/assets/HubNavigationBar-B-tA-1l7.js.gz                         3.00kb / gzip: 1.12kb
+public/assets/InteractiveBackground-BYHkozoO.js.gz                    1.97kb / gzip: 0.93kb
+public/assets/ImageRegistryTab-CeuEBLu-.js.gz                         5.86kb / gzip: 1.84kb
+public/assets/InteractiveBackground-CtonwMO-.js.gz                    1.97kb / gzip: 0.93kb
+public/assets/ImageRegistryTab-B7JJJr1g.js.gz                         5.86kb / gzip: 1.84kb
+public/assets/LiquidAlchemyExpansion-Ds5Exuo_.js.gz                   4.52kb / gzip: 1.66kb
+public/assets/LinkingTab-BAWNEA2i.js.gz                               11.80kb / gzip: 3.00kb
+public/assets/LivingGrid-DyDcVDzh.js.gz                               1.29kb / gzip: 0.72kb
+public/assets/LivingGrid-DEVbErwE.js.gz                               1.29kb / gzip: 0.72kb
+public/assets/MagicPagesTab-BFSQLtvm.js.gz                            6.45kb / gzip: 2.19kb
+public/assets/LiquidAlchemyExpansion-DkjD7sMp.js.gz                   4.54kb / gzip: 1.66kb
+public/assets/MagicPagesTab-DUuL3R7h.js.gz                            6.45kb / gzip: 2.19kb
+public/assets/MagnetPlacementDiagram-D6Chcicr.js.gz                   3.68kb / gzip: 1.38kb
+public/assets/MotionLibraryShowcase-VZlmDW3T.js.gz                    6.09kb / gzip: 2.08kb
+public/assets/LinkingTab-BODrg6za.js.gz                               11.80kb / gzip: 3.00kb
+public/assets/MotionLibraryShowcase-C5GF6fY_.js.gz                    6.09kb / gzip: 2.08kb
+public/assets/PagesTab-CspfRkcb.js.gz                                 6.37kb / gzip: 2.18kb
+public/assets/PagesTab-CJvppu75.js.gz                                 6.23kb / gzip: 2.14kb
+public/assets/MagnetPlacementDiagram-DpPX4iRE.js.gz                   3.68kb / gzip: 1.38kb
+public/assets/OrdersTab-C5Kl9bfI.js.gz                                23.68kb / gzip: 6.55kb
+public/assets/OrdersTab-CevoYDe2.js.gz                                22.29kb / gzip: 6.38kb
+public/assets/PatternStackCard-zTuFD5o0.js.gz                         3.74kb / gzip: 1.30kb
+public/assets/PageEditorModal-B8l7-bVK.js.gz                          46.21kb / gzip: 13.37kb
+public/assets/PageEditorModal-ClqOBjxn.js.gz                          45.36kb / gzip: 13.32kb
+public/assets/ProductsTab-C-uv1JUt.js.gz                              6.14kb / gzip: 1.90kb
+public/assets/ProductsTab-CSCfTJfJ.js.gz                              6.19kb / gzip: 1.92kb
+public/assets/SO4TetrahedronDiagram-4kBVRLpG.js.gz                    3.63kb / gzip: 1.26kb
+public/assets/SacredGeoDraw-gu33J-ZD.js.gz                            1.38kb / gzip: 0.75kb
+public/assets/SO4TetrahedronDiagram-BGw5ql1j.js.gz                    3.63kb / gzip: 1.27kb
+public/assets/ScienceLibraryTab-RCBk9c5K.js.gz                        3.86kb / gzip: 1.10kb
+public/assets/ScienceLibraryTab-Cp5WwsSk.js.gz                        3.87kb / gzip: 1.10kb
+public/assets/PatternStackCard-Chn8t5bv.js.gz                         3.74kb / gzip: 1.31kb
+public/assets/SacredGeoDraw-CUa2-TT8.js.gz                            1.38kb / gzip: 0.75kb
+public/assets/SeoCopilotOverlay-BXccyphd.js.gz                        12.03kb / gzip: 3.71kb
+public/assets/SeoDashboard-CcUk-Wha.js.gz                             23.08kb / gzip: 6.46kb
+public/assets/SeoDashboard-Ckh1yjB0.js.gz                             22.45kb / gzip: 6.18kb
+public/assets/SeoCopilotOverlay-C05oUFxY.js.gz                        12.04kb / gzip: 3.71kb
+public/assets/SmartImage-BU1Z0iRD.js.gz                               1.76kb / gzip: 0.90kb
+public/assets/SmartImage-mcz1g98U.js.gz                               1.76kb / gzip: 0.90kb
+public/assets/SettingsTab-86rGs8an.js.gz                              31.00kb / gzip: 8.14kb
+public/assets/StackedCard-PkbcHLWJ.js.gz                              3.21kb / gzip: 1.30kb
+public/assets/StackedCard-C5ST3Ria.js.gz                              3.21kb / gzip: 1.31kb
+public/assets/SettingsTab-jKrgrdaz.js.gz                              31.00kb / gzip: 8.14kb
+public/assets/StandardPageLayout-DTraWy66.js.gz                       5.50kb / gzip: 2.39kb
+public/assets/TemplatesTab-Ce1qvE8V.js.gz                             3.94kb / gzip: 1.52kb
+public/assets/StandardPageLayout-OZATKsD0.js.gz                       5.50kb / gzip: 2.39kb
+public/assets/TriangleMapSVG-Fyvn3zHq.js.gz                           3.46kb / gzip: 1.37kb
+public/assets/WorkflowsTab-DYDKMN1b.js.gz                             18.17kb / gzip: 5.30kb
+public/assets/WorkflowsTab-B2pyAvWd.js.gz                             18.17kb / gzip: 5.29kb
+public/assets/about-andara-Ct1KlO6Q.js.gz                             7.32kb / gzip: 2.85kb
+public/assets/TemplatesTab-Cmkhg0EL.js.gz                             3.94kb / gzip: 1.52kb
+public/assets/accordion-BeECh-U7.js.gz                                8.58kb / gzip: 2.91kb
+public/assets/about-andara-C8BHqgh_.js.gz                             7.29kb / gzip: 2.84kb
+public/assets/accordion-BmeCzhDI.js.gz                                8.58kb / gzip: 2.91kb
+public/assets/admin-BEHUn5zE.css.gz                                   1.29kb / gzip: 0.60kb
+public/assets/admin-BlCJMLu9.js.gz                                    12.54kb / gzip: 4.50kb
+public/assets/admin-D5H0RVjt.js.gz                                    12.54kb / gzip: 4.50kb
+public/assets/andara-css-showcase-B3Ppfsyh.js.gz                      11.36kb / gzip: 3.08kb
+public/assets/TriangleMapSVG-BIqHmhyd.js.gz                           3.46kb / gzip: 1.36kb
+public/assets/andara-dilution-calculator-CfiqzqKs.js.gz               7.01kb / gzip: 2.76kb
+public/assets/andara-css-showcase-ocr0kNqQ.js.gz                      11.33kb / gzip: 3.06kb
+public/assets/andara-ionic-100ml-bundles-hASM0_t_.js.gz               12.42kb / gzip: 2.79kb
+public/assets/andara-dilution-calculator-DuECetR2.js.gz               7.04kb / gzip: 2.77kb
+public/assets/andara-ionic-100ml-bundles-3EZ4RBAA.js.gz               12.39kb / gzip: 2.78kb
+public/assets/andara-ionic-100ml-qR6qD-Hl.js.gz                       27.34kb / gzip: 6.44kb
+public/assets/andara-ionic-100ml-1RXeob1F.js.gz                       27.37kb / gzip: 6.46kb
+public/assets/andara-ionic-1l-B7AViWjQ.js.gz                          15.79kb / gzip: 4.53kb
+public/assets/andara-ionic-dilution-table-CodyMXYo.js.gz              7.54kb / gzip: 2.29kb
+public/assets/andara-ionic-1l-bundles-DMtd-FzF.js.gz                  19.32kb / gzip: 4.57kb
+public/assets/andara-ionic-1l-bundles-C3u8H3Te.js.gz                  18.96kb / gzip: 4.36kb
+public/assets/andara-page-renderer-BzuAgn2S.js.gz                     8.93kb / gzip: 3.06kb
+public/assets/andara-story-D0B2EtZm.js.gz                             8.73kb / gzip: 2.94kb
+public/assets/andara-ionic-dilution-table-B6W-P5_N.js.gz              7.51kb / gzip: 2.28kb
+public/assets/andara-story-d-LxB-7Y.js.gz                             8.70kb / gzip: 2.93kb
+public/assets/animations-bfslW5A7.js.gz                               1.30kb / gzip: 0.54kb
+public/assets/andara-ionic-1l-HrH2ysff.js.gz                          15.82kb / gzip: 4.54kb
+public/assets/andara-page-renderer-CGVYkSWk.js.gz                     8.93kb / gzip: 3.06kb
+public/assets/applications-CLvGExtw.js.gz                             8.96kb / gzip: 3.38kb
+public/assets/animations-DPrMtOlB.js.gz                               1.30kb / gzip: 0.54kb
+public/assets/applications-Q1MKbVwZ.js.gz                             8.93kb / gzip: 3.37kb
+public/assets/applications-cleaning-surfaces-BlzahtiW.js.gz           10.34kb / gzip: 3.46kb
+public/assets/applications-cooking-tea-coffee-DYRrmQET.js.gz          9.69kb / gzip: 3.04kb
+public/assets/applications-detox-protocol-support-DqusWMd_.js.gz      15.33kb / gzip: 4.34kb
+public/assets/applications-detox-protocol-support-kekZe-40.js.gz      15.36kb / gzip: 4.35kb
+public/assets/applications-plant-watering-Pnn7-vh_.js.gz              9.56kb / gzip: 3.01kb
+public/assets/applications-cooking-tea-coffee-CyE0bbg2.js.gz          9.66kb / gzip: 3.04kb
+public/assets/applications-drinking-water-home-CbSVWvlB.js.gz         9.36kb / gzip: 2.94kb
+public/assets/applications-drinking-water-home-lR8lY3mA.js.gz         9.33kb / gzip: 2.93kb
+public/assets/applications-soil-garden-Cut6Gma-.js.gz                 8.91kb / gzip: 2.88kb
+public/assets/applications-shower-bath-D_yiXbjO.js.gz                 8.22kb / gzip: 2.70kb
+public/assets/applications-plant-watering-CZ5b0RKH.js.gz              9.53kb / gzip: 3.00kb
+public/assets/applications-shower-bath-SUlUqhpl.js.gz                 8.25kb / gzip: 2.71kb
+public/assets/applications-soil-garden-L5u9HpAP.js.gz                 8.94kb / gzip: 2.89kb
+public/assets/applications-travel-mobile-BeVYE0Wp.js.gz               9.69kb / gzip: 3.17kb
+public/assets/applications-travel-mobile-D2D7BWws.js.gz               9.72kb / gzip: 3.18kb
+public/assets/applications-cleaning-surfaces-CekBMkFd.js.gz           10.32kb / gzip: 3.45kb
+public/assets/applications-steam-sauna-CRzrSYYB.js.gz                 10.72kb / gzip: 3.47kb
+public/assets/applications-travel-portable-water-CWWguRrw.js.gz       8.01kb / gzip: 2.78kb
+public/assets/applications-water-devices-CiRJ17-9.js.gz               10.67kb / gzip: 3.29kb
+public/assets/applications-water-devices-BYJuGHg8.js.gz               10.65kb / gzip: 3.28kb
+public/assets/applications-travel-portable-water-DP9Q4Ooe.js.gz       8.04kb / gzip: 2.79kb
+public/assets/article-8U870RLh.js.gz                                  6.54kb / gzip: 2.27kb
+public/assets/article-BQ-jubtN.js.gz                                  6.54kb / gzip: 2.27kb
+public/assets/article-D5evrzj7.js.gz                                  6.56kb / gzip: 2.29kb
+public/assets/audit-highlight-DmXgt5d6.js.gz                          1.26kb / gzip: 0.67kb
+public/assets/article-BdwNeSxn.js.gz                                  6.56kb / gzip: 2.29kb
+public/assets/b2b-reseller-Dz-l-01q.js.gz                             6.10kb / gzip: 2.08kb
+public/assets/b2b-reseller-DJO8u7QJ.js.gz                             6.07kb / gzip: 2.08kb
+public/assets/bioelectric-terrain-model-CK5sI2St.js.gz                12.50kb / gzip: 3.74kb
+public/assets/bioelectric-water-gjG-BnT4.js.gz                        14.90kb / gzip: 3.73kb
+public/assets/bioelectric-water-DUR6veA8.js.gz                        14.93kb / gzip: 3.74kb
+public/assets/bioelectric-terrain-model-CWV6P71i.js.gz                12.47kb / gzip: 3.72kb
+public/assets/bioelectricity-BhJEXxuK.js.gz                           12.15kb / gzip: 3.72kb
+public/assets/bioelectricity-DAQLhSD1.js.gz                           12.12kb / gzip: 3.71kb
+public/assets/bioelectricity-9fAXJipS.js.gz                           34.67kb / gzip: 7.92kb
+public/assets/bioelectricity-invisible-voltage-CajZolOd.js.gz         31.20kb / gzip: 6.62kb
+public/assets/brain-health-BFMh8k81.js.gz                             3.42kb / gzip: 1.68kb
+public/assets/audit-highlight-Br7_pOC7.js.gz                          1.26kb / gzip: 0.67kb
+public/assets/bioelectricity-CpUG1zQ9.js.gz                           34.64kb / gzip: 7.91kb
+public/assets/bioelectricity-invisible-voltage-CcjElM9a.js.gz         31.17kb / gzip: 6.61kb
+public/assets/blog-B6P5kf_I.js.gz                                     2.14kb / gzip: 1.06kb
+public/assets/blog-CW7jvyN8.js.gz                                     2.12kb / gzip: 1.05kb
+public/assets/building-andara-library-BqgzMEtJ.js.gz                  5.55kb / gzip: 2.27kb
+public/assets/charge-coherence-DB_UJHEx.js.gz                         7.56kb / gzip: 2.59kb
+public/assets/building-andara-library-CQAfAfGQ.js.gz                  5.52kb / gzip: 2.26kb
+public/assets/brain-health-BAhcqgaP.js.gz                             3.40kb / gzip: 1.67kb
+public/assets/cell-voltage-DTdoRx9S.js.gz                             16.97kb / gzip: 5.04kb
+public/assets/charge-coherence-DpQkQYKy.js.gz                         7.53kb / gzip: 2.58kb
+public/assets/checkout-D6lCGz-p.js.gz                                 22.75kb / gzip: 8.17kb
+public/assets/cell-voltage-DmZroEAj.js.gz                             16.94kb / gzip: 5.03kb
+public/assets/coming-soon-BYB448Hm.js.gz                              2.54kb / gzip: 1.12kb
+public/assets/community-join-BONBPA7L.js.gz                           7.21kb / gzip: 2.57kb
+public/assets/coming-soon-DIbLFTDb.js.gz                              2.51kb / gzip: 1.11kb
+public/assets/community-events-CZO3ZN5q.js.gz                         8.40kb / gzip: 2.83kb
+public/assets/compare-bundles-Bzr1Imq0.js.gz                          6.81kb / gzip: 2.00kb
+public/assets/checkout-C1IPFc1X.js.gz                                 22.78kb / gzip: 8.18kb
+public/assets/community-events-jhxQwIfD.js.gz                         8.37kb / gzip: 2.82kb
+public/assets/comparison-other-mineral-products-Cg3Eluj0.js.gz        12.09kb / gzip: 3.51kb
+public/assets/compare-bundles-Dz4T61Oo.js.gz                          6.79kb / gzip: 1.99kb
+public/assets/comparison-other-mineral-products-B9wsRLa_.js.gz        12.12kb / gzip: 3.52kb
+public/assets/concept-monolith-O92Z4nxp.js.gz                         5.78kb / gzip: 2.24kb
+public/assets/conductivity-signals-Dr0W283-.js.gz                     16.14kb / gzip: 3.89kb
+public/assets/conductivity-signals-Bk_HiBWr.js.gz                     16.11kb / gzip: 3.88kb
+public/assets/community-join-BQLgiYh6.js.gz                           7.18kb / gzip: 2.56kb
+public/assets/concept-laboratory-CguO3hk8.js.gz                       7.59kb / gzip: 3.06kb
+public/assets/create-proxy-DQiES9Jj.js.gz                             5.27kb / gzip: 2.38kb
+public/assets/contact-support-D-4JAGhi.js.gz                          6.95kb / gzip: 2.59kb
+public/assets/contact-support-CLbV-UtI.js.gz                          6.98kb / gzip: 2.60kb
+public/assets/consciousness-fields-water-BLB2icAc.js.gz               14.34kb / gzip: 4.46kb
+public/assets/crystal-memory-minerals-CHgr5czl.js.gz                  17.47kb / gzip: 4.75kb
+public/assets/consciousness-fields-water-2wl4GYmX.js.gz               14.37kb / gzip: 4.47kb
+public/assets/crystal-memory-minerals-TnU_bNh1.js.gz                  17.45kb / gzip: 4.74kb
+public/assets/demo-advanced-layout-CTLrx09O.js.gz                     5.17kb / gzip: 1.99kb
+public/assets/demo-layout-v3-BHeq9G0M.js.gz                           3.76kb / gzip: 1.55kb
+public/assets/crystalline-matrix-overview-D641irAO.js.gz              16.80kb / gzip: 4.19kb
+public/assets/create-proxy-DpAqqjjE.js.gz                             5.27kb / gzip: 2.38kb
+public/assets/crystalline-matrix-DHZplYFW.js.gz                       17.65kb / gzip: 5.00kb
+public/assets/demo-layout-v4-B-B8d2wt.js.gz                           4.68kb / gzip: 1.81kb
+public/assets/crystalline-matrix-overview-DpkklcGq.js.gz              16.78kb / gzip: 4.18kb
+public/assets/demo-layout-v3-BLLiuN3d.js.gz                           3.73kb / gzip: 1.54kb
+public/assets/demo-layout-v4-BjqEUihm.js.gz                           4.65kb / gzip: 1.80kb
+public/assets/demo-advanced-layout-DfRi7XZX.js.gz                     5.15kb / gzip: 1.98kb
+public/assets/demo-layout-v5-ZMZdqw1R.js.gz                           2.54kb / gzip: 1.17kb
+public/assets/demo-layout-v6-B-KX9z1w.js.gz                           9.58kb / gzip: 3.05kb
+public/assets/demo-layout-v5-DY0eYy5m.js.gz                           2.57kb / gzip: 1.18kb
+public/assets/demo-layout-v6-Dcbh_bRY.js.gz                           9.58kb / gzip: 3.04kb
+public/assets/demo-standard-layout-BmQ8K1oA.js.gz                     6.06kb / gzip: 2.36kb
+public/assets/design-lab-WfPwHWHp.js.gz                               7.57kb / gzip: 2.50kb
+public/assets/design-lab-B4tcKTUz.js.gz                               7.54kb / gzip: 2.49kb
+public/assets/demo-standard-layout-C_1xIXON.js.gz                     6.03kb / gzip: 2.34kb
+public/assets/crystalline-matrix-CiSjHe6y.js.gz                       17.62kb / gzip: 4.99kb
+public/assets/design-simulation-CtpO450J.js.gz                        8.68kb / gzip: 2.48kb
+public/assets/applications-steam-sauna-Bpz45TyW.js.gz                 10.69kb / gzip: 3.46kb
+public/assets/design-simulation-BJDeAwzR.js.gz                        8.68kb / gzip: 2.48kb
+public/assets/dna-mineral-codes-7HTgKS7x.js.gz                        13.99kb / gzip: 4.08kb
+public/assets/dropdown-menu-BW-ql5rV.js.gz                            31.14kb / gzip: 8.98kb
+public/assets/dna-mineral-codes-BFniZar8.js.gz                        13.96kb / gzip: 4.07kb
+public/assets/dynamic-page-ZcA8WQCD.js.gz                             6.07kb / gzip: 2.02kb
+public/assets/dynamic-page-CadOSiwY.js.gz                             6.07kb / gzip: 2.02kb
+public/assets/dynamic-page-BtmfMQzN.js.gz                             6.04kb / gzip: 2.02kb
+public/assets/events-F7IMCve8.js.gz                                   2.12kb / gzip: 1.05kb
+public/assets/dynamic-page-CIiBe7G7.js.gz                             6.04kb / gzip: 2.02kb
+public/assets/events-DNglAuN8.js.gz                                   2.15kb / gzip: 1.06kb
+public/assets/eu-vs-bali-lines--JKt6NiE.js.gz                         12.44kb / gzip: 3.35kb
+public/assets/eu-vs-bali-lines-CUuwRWT7.js.gz                         12.41kb / gzip: 3.34kb
+public/assets/experiments-index-Cdq5nW-Q.js.gz                        20.22kb / gzip: 4.32kb
+public/assets/ez-water-deep-dive-D-joz_ne.js.gz                       21.35kb / gzip: 4.10kb
+public/assets/experiments-index-N0pa_8ic.js.gz                        20.19kb / gzip: 4.31kb
+public/assets/ez-water-deep-dive-rbpTGR2G.js.gz                       21.32kb / gzip: 4.09kb
+public/assets/faq-philosophy-BECWWjfO.js.gz                           4.74kb / gzip: 1.97kb
+public/assets/ez-geometry-map-DsuDu1X3.js.gz                          11.27kb / gzip: 3.75kb
+public/assets/faq-philosophy-BHDTpin7.js.gz                           4.76kb / gzip: 1.97kb
+public/assets/ez-geometry-map-BnDT8KBz.js.gz                          11.30kb / gzip: 3.76kb
+public/assets/faq-safety-quality-BZUr9bpD.js.gz                       2.16kb / gzip: 1.07kb
+public/assets/dropdown-menu-B6-8-Ed0.js.gz                            31.14kb / gzip: 8.98kb
+public/assets/faq-product-application-BHQHvrHb.js.gz                  7.24kb / gzip: 2.71kb
+public/assets/faq-product-application-Dwhz4qHX.js.gz                  7.27kb / gzip: 2.72kb
+public/assets/ferrous-iron-sulphate-DnCnTO-9.js.gz                    12.72kb / gzip: 3.33kb
+public/assets/faq-safety-quality-B2garozp.js.gz                       2.13kb / gzip: 1.06kb
+public/assets/founder-message-DJVxqaiy.js.gz                          4.03kb / gzip: 1.58kb
+public/assets/ferrous-iron-sulphate-xTZapW90.js.gz                    12.75kb / gzip: 3.34kb
+public/assets/footer-DEmT1fUy.js.gz                                   3.82kb / gzip: 1.28kb
+public/assets/founder-message-Biki3xO0.js.gz                          4.03kb / gzip: 1.58kb
+public/assets/from-spring-to-glass-Bvgpauah.js.gz                     2.18kb / gzip: 1.08kb
+public/assets/from-spring-to-glass-BgZbxuPc.js.gz                     2.21kb / gzip: 1.08kb
+public/assets/ez-water-overview-TjCHpYPM.js.gz                        20.14kb / gzip: 5.64kb
+public/assets/function-docs-DsT3zVpK.js.gz                            16.03kb / gzip: 4.35kb
+public/assets/ez-water-overview-D1j-5x2A.js.gz                        20.11kb / gzip: 5.63kb
+public/assets/geometric-flow-devices-Brd4DIh1.js.gz                   7.43kb / gzip: 2.54kb
+public/assets/function-docs-Dhcn7qS7.js.gz                            16.03kb / gzip: 4.35kb
+public/assets/geometry-consciousness-Bb3H2RMc.js.gz                   8.65kb / gzip: 2.86kb
+public/assets/global-shipping-packaging-Bd3r270h.js.gz                5.83kb / gzip: 2.06kb
+public/assets/function-docs-D4tXea5-.js.gz                            16.03kb / gzip: 4.35kb
+public/assets/global-shipping-packaging-SZ9sRWh2.js.gz                5.86kb / gzip: 2.07kb
+public/assets/glossary-Cgu2Nqjc.js.gz                                 2.16kb / gzip: 1.07kb
+public/assets/glossary-CkZ7jy7f.js.gz                                 2.19kb / gzip: 1.08kb
+public/assets/gold-icons-preview-CXRl2nkt.js.gz                       3.84kb / gzip: 1.32kb
+public/assets/geometry-consciousness-BlFKzzKU.js.gz                   8.68kb / gzip: 2.86kb
+public/assets/geometric-flow-devices-BsHANjZs.js.gz                   7.40kb / gzip: 2.53kb
+public/assets/gold-loader-preview-DFK10iqq.js.gz                      3.67kb / gzip: 1.08kb
+public/assets/gold-loader-preview-CbcRDLoi.js.gz                      3.67kb / gzip: 1.08kb
+public/assets/home-DFesU7eF.js.gz                                     6.95kb / gzip: 2.45kb
+public/assets/gold-icons-preview-Dit3koBh.js.gz                       3.84kb / gzip: 1.32kb
+public/assets/home-DRqQKhEg.js.gz                                     6.92kb / gzip: 2.45kb
+public/assets/hexagonal-structures-DH8ePvGf.js.gz                     22.06kb / gzip: 5.67kb
+public/assets/hidden-architecture-water-BKO-JYEc.js.gz                29.35kb / gzip: 7.37kb
+public/assets/how-to-choose-dose-DgPLlRgs.js.gz                       2.19kb / gzip: 1.07kb
+public/assets/hexagonal-structures-C40ihK60.js.gz                     22.03kb / gzip: 5.66kb
+public/assets/how-andara-works-0inAFXrp.js.gz                         10.64kb / gzip: 3.13kb
+public/assets/how-to-choose-dose-Dr3ZfLpS.js.gz                       2.16kb / gzip: 1.06kb
+public/assets/home-mw_r7QCB.js.gz                                     13.97kb / gzip: 3.78kb
+public/assets/how-andara-works-BvEEwfp0.js.gz                         10.61kb / gzip: 3.13kb
+public/assets/function-docs-hQ9oQ5H9.js.gz                            16.03kb / gzip: 4.35kb
+public/assets/home-gQVFRuUR.js.gz                                     13.94kb / gzip: 3.77kb
+public/assets/how-to-prepare-water-BLuV08si.js.gz                     16.46kb / gzip: 4.20kb
+public/assets/how-to-prepare-water-CRu_rL9y.js.gz                     16.43kb / gzip: 4.19kb
+public/assets/how-to-use-andara-nRpuQifk.js.gz                        11.18kb / gzip: 3.29kb
+public/assets/hydration-clusters-DA8rURXp.js.gz                       15.11kb / gzip: 4.08kb
+public/assets/hydration-clusters-D__J9w_w.js.gz                       15.08kb / gzip: 4.07kb
+public/assets/hydration-layers-interfaces-CldMXSHK.js.gz              16.00kb / gzip: 4.25kb
+public/assets/how-to-use-andara-Be8vbuZq.js.gz                        11.20kb / gzip: 3.30kb
+public/assets/imprint-DJbbwnmy.js.gz                                  6.87kb / gzip: 2.36kb
+public/assets/index-0DjEUbDR.js.gz                                    3.47kb / gzip: 1.67kb
+public/assets/icons-CsrVzwMY.js.gz                                    19.64kb / gzip: 3.81kb
+public/assets/hydration-layers-interfaces-DCu9kTuC.js.gz              16.33kb / gzip: 4.45kb
+public/assets/icons-DiEr_Peg.js.gz                                    19.64kb / gzip: 3.81kb
+public/assets/index-BEIFUX9P.js.gz                                    3.47kb / gzip: 1.67kb
+public/assets/hidden-architecture-water-BZMczDyd.js.gz                29.32kb / gzip: 7.36kb
+public/assets/imprint-DrLfUPy6.js.gz                                  6.84kb / gzip: 2.35kb
+public/assets/index-CqUluVxK.js.gz                                    5.50kb / gzip: 1.96kb
+public/assets/index-B-Z_Tofj.js.gz                                    6.45kb / gzip: 2.71kb
+public/assets/index-B4oqgHXH.js.gz                                    18.52kb / gzip: 4.31kb
+public/assets/index-JNJfaE3N.js.gz                                    1.04kb / gzip: 0.63kb
+public/assets/index-BGzhM_XO.js.gz                                    6.45kb / gzip: 2.71kb
+public/assets/index-DB_f5vYh.js.gz                                    18.52kb / gzip: 4.31kb
+public/assets/ion-channels-gradients-CUWxnRlG.js.gz                   15.54kb / gzip: 3.96kb
+public/assets/image-registry-CGbt5iL5.js.gz                           33.21kb / gzip: 7.88kb
+public/assets/ion-channels-gradients-Di3y_8Vs.js.gz                   15.51kb / gzip: 3.95kb
+public/assets/index-Dh7I9ZlR.js.gz                                    1.04kb / gzip: 0.63kb
+public/assets/index.dom-DdL1y947.js.gz                                17.89kb / gzip: 6.07kb
+public/assets/ion-transport-CLq563rP.js.gz                            7.98kb / gzip: 2.68kb
+public/assets/ion-transport-BbG5SGqQ.js.gz                            7.95kb / gzip: 2.67kb
+public/assets/ionic-drops-CqRjS5wp.js.gz                              7.13kb / gzip: 2.55kb
+public/assets/ionic-vs-plant-minerals-BN4-tlkS.js.gz                  2.21kb / gzip: 1.09kb
+public/assets/ionic-vs-colloidal-vs-solid-BRbpcVnw.js.gz              15.64kb / gzip: 4.52kb
+public/assets/iron-magnesium-silicates-glCLI-7v.js.gz                 6.88kb / gzip: 2.37kb
+public/assets/ionic-vs-plant-minerals-CusVn96L.js.gz                  2.18kb / gzip: 1.08kb
+public/assets/ionic-drops-0QtMBFpn.js.gz                              7.10kb / gzip: 2.54kb
+public/assets/ionic-vs-colloidal-vs-solid-6puwQ7FI.js.gz              15.61kb / gzip: 4.50kb
+public/assets/join-qQ5Ufb4N.js.gz                                     2.14kb / gzip: 1.04kb
+public/assets/join-DK4idyw9.js.gz                                     2.11kb / gzip: 1.04kb
+public/assets/iron-magnesium-silicates-DJb42MbS.js.gz                 6.85kb / gzip: 2.36kb
+public/assets/lab-measurements-CpuN2UrV.js.gz                         10.85kb / gzip: 3.09kb
+public/assets/layout-BRGuZDA7.js.gz                                   11.15kb / gzip: 4.03kb
+public/assets/lab-measurements-B_9TEgIX.js.gz                         10.83kb / gzip: 3.08kb
+public/assets/layout-v1-amOoD4Of.js.gz                                2.08kb / gzip: 1.01kb
+public/assets/layout-DhseVFdC.js.gz                                   7.53kb / gzip: 3.15kb
+public/assets/layout-v6-hiySExry.js.gz                                2.94kb / gzip: 1.41kb
+public/assets/layout-v1-Cj3bPltV.js.gz                                2.05kb / gzip: 1.00kb
+public/assets/layout-v6-pF5gRdMu.js.gz                                2.96kb / gzip: 1.42kb
+public/assets/liquid-crystal-memory-CEoND7cb.js.gz                    7.26kb / gzip: 2.58kb
+public/assets/light-mineral-field-DWukL1yi.js.gz                      12.77kb / gzip: 3.74kb
+public/assets/light-sound-water-BJbM9Ee_.js.gz                        10.48kb / gzip: 2.99kb
+public/assets/liquid-crystal-biology-overview-C_uFwqf3.js.gz          10.01kb / gzip: 3.04kb
+public/assets/liquid-crystal-bioelectric-bridge-N3y4ul9D.js.gz        9.19kb / gzip: 2.79kb
+public/assets/liquid-crystal-bioelectric-bridge-CXYrbRYe.js.gz        9.16kb / gzip: 2.79kb
+public/assets/light-mineral-field-DZyKWPFH.js.gz                      12.80kb / gzip: 3.74kb
+public/assets/liquid-crystal-resonance-UzJGtJMs.js.gz                 7.93kb / gzip: 2.68kb
+public/assets/liquid-crystal-memory-DhNXn7FX.js.gz                    7.29kb / gzip: 2.59kb
+public/assets/liquid-expansion-DRocpShO.js.gz                         6.97kb / gzip: 2.48kb
+public/assets/liquid-crystal-biology-overview-Cx51CKm2.js.gz          9.98kb / gzip: 3.04kb
+public/assets/liquid-expansion-DgsOWfs4.js.gz                         7.00kb / gzip: 2.49kb
+public/assets/magic-page-BMzU9QUP.js.gz                               9.84kb / gzip: 2.73kb
+public/assets/light-sound-water-C4LYz5Uq.js.gz                        10.50kb / gzip: 2.99kb
+public/assets/magic-page-f3lmmxgB.js.gz                               9.84kb / gzip: 2.73kb
+public/assets/liquid-crystal-resonance-vODxPgfw.js.gz                 7.96kb / gzip: 2.69kb
+public/assets/magnetics-and-water-myths-BOV6fhC3.js.gz                18.26kb / gzip: 4.67kb
+public/assets/mega-menu-CBMGadw0.js.gz                                12.52kb / gzip: 4.12kb
+public/assets/magnetics-and-water-myths-Cf5DTGVC.js.gz                18.23kb / gzip: 4.66kb
+public/assets/mega-menu-BBVr_IqI.js.gz                                12.51kb / gzip: 4.11kb
+public/assets/microscope-C3q2AXR3.js.gz                               1.09kb / gzip: 0.51kb
+public/assets/mineral-cofactors-enzymes-CdfOQia9.js.gz                12.60kb / gzip: 3.96kb
+public/assets/mineral-origin-BICCRE3N.js.gz                           2.20kb / gzip: 1.08kb
+public/assets/mineral-deficiency-modern-world-CsOK24CV.js.gz          14.88kb / gzip: 4.67kb
+public/assets/magnetics-water-nktvFgup.js.gz                          25.09kb / gzip: 7.11kb
+public/assets/microscope-BO7vefnj.js.gz                               1.09kb / gzip: 0.51kb
+public/assets/magnetics-water-DdSsEjw0.js.gz                          25.06kb / gzip: 7.09kb
+public/assets/mineral-deficiency-modern-world-BaxkmFix.js.gz          14.85kb / gzip: 4.65kb
+public/assets/mineral-origin-XegLNJLk.js.gz                           2.17kb / gzip: 1.07kb
+public/assets/mineral-roots-microbiome-BW53xovo.js.gz                 2.17kb / gzip: 1.07kb
+public/assets/mineral-roots-microbiome-B-DeSvBf.js.gz                 2.15kb / gzip: 1.06kb
+public/assets/mineral-cofactors-enzymes-DWuT5GhP.js.gz                12.57kb / gzip: 3.94kb
+public/assets/mineral-science-blueprint-D_xQPWWq.js.gz                8.89kb / gzip: 2.75kb
+public/assets/mineral-science-blueprint-BV9BsjKo.js.gz                8.92kb / gzip: 2.76kb
+public/assets/mineral-sources-Be-RioW3.js.gz                          10.40kb / gzip: 3.26kb
+public/assets/minerals-fermentation-CF0BWUef.js.gz                    11.29kb / gzip: 3.59kb
+public/assets/minerals-in-modern-life-Bsv-L-ja.js.gz                  2.16kb / gzip: 1.08kb
+public/assets/minerals-in-modern-life-DsLPaPZD.js.gz                  2.19kb / gzip: 1.09kb
+public/assets/minerals-biofilms-CU5EClXN.js.gz                        16.14kb / gzip: 4.10kb
+public/assets/mineral-sources-l9IbU_db.js.gz                          10.37kb / gzip: 3.25kb
+public/assets/minerals-microbiome-gut-B29T-gZi.js.gz                  5.90kb / gzip: 2.28kb
+public/assets/minerals-microbiome-overview-CuEv2fqL.js.gz             8.61kb / gzip: 2.80kb
+public/assets/minerals-biofilms-CtRYE0tg.js.gz                        16.11kb / gzip: 4.09kb
+public/assets/minerals-microbiome-gut-DVQJx2FD.js.gz                  5.87kb / gzip: 2.27kb
+public/assets/minerals-fermentation-DVDHQK7B.js.gz                    11.31kb / gzip: 3.60kb
+public/assets/minerals-microbiome-overview-LxwCTkhA.js.gz             8.58kb / gzip: 2.80kb
+public/assets/minerals-microbiome-research-hub-h3fnsXE6.js.gz         13.34kb / gzip: 4.45kb
+public/assets/minerals-microbiome-water-link-DXJqXY69.js.gz           9.85kb / gzip: 3.07kb
+public/assets/minerals-microbiome-water-link-MtLwSXpE.js.gz           9.82kb / gzip: 3.06kb
+public/assets/minerals-microbiome-research-hub-dfH2Nmbg.js.gz         13.31kb / gzip: 4.44kb
+public/assets/minerals-prebiotics-scfa-DKf49cTJ.js.gz                 14.60kb / gzip: 3.90kb
+public/assets/minerals-prebiotics-scfa-D8uRegGB.js.gz                 14.57kb / gzip: 3.89kb
+public/assets/modern-chat-demo-ZHod6DcG.js.gz                         1.28kb / gzip: 0.62kb
+public/assets/modern-chat-demo-k2ouEUx_.js.gz                         1.28kb / gzip: 0.62kb
+public/assets/motion-kitchen-BFpPvFGO.js.gz                           4.83kb / gzip: 1.64kb
+public/assets/minerals-soil-water-body-Bjg-TauA.js.gz                 12.16kb / gzip: 3.59kb
+public/assets/minerals-soil-water-body-Bza2LDDQ.js.gz                 12.13kb / gzip: 3.58kb
+public/assets/motion-lab-BTltePM0.js.gz                               19.00kb / gzip: 5.52kb
+public/assets/motion-kitchen-BgqEYCwi.js.gz                           4.83kb / gzip: 1.64kb
+public/assets/natural-vs-treated-water-AY2cqry1.js.gz                 7.42kb / gzip: 2.41kb
+public/assets/motion-library-preview-Yz6zZiH7.js.gz                   9.72kb / gzip: 3.38kb
+public/assets/motion-library-preview-HUwRSl97.js.gz                   9.72kb / gzip: 3.37kb
+public/assets/newsletter-Bb61S479.js.gz                               2.13kb / gzip: 1.05kb
+public/assets/motion-lab-DZ4L1TPO.js.gz                               19.00kb / gzip: 5.52kb
+public/assets/overview-vvx442Oi.js.gz                                 2.19kb / gzip: 1.08kb
+public/assets/newsletter-KQIDU6wX.js.gz                               2.10kb / gzip: 1.04kb
+public/assets/paintbrush-BvmZQXnA.js.gz                               1.21kb / gzip: 0.57kb
+public/assets/overview-8OK815Ou.js.gz                                 2.16kb / gzip: 1.07kb
+public/assets/page-content-preview-YpeJ94fL.js.gz                     9.57kb / gzip: 3.13kb
+public/assets/page-content-preview-ixtsJwzy.js.gz                     9.57kb / gzip: 3.13kb
+public/assets/ph-orp-ec-C7AB-vVo.js.gz                                18.54kb / gzip: 5.23kb
+public/assets/ph-orp-ec-joy1iFeT.js.gz                                18.51kb / gzip: 5.21kb
+public/assets/natural-vs-treated-water-C_dTunYT.js.gz                 7.39kb / gzip: 2.40kb
+public/assets/price-per-liter-explainer-CbEjy7ZL.js.gz                12.16kb / gzip: 3.50kb
+public/assets/price-per-liter-explainer-BfQzzoWj.js.gz                12.13kb / gzip: 3.48kb
+public/assets/product-C-UiuTA3.js.gz                                  6.95kb / gzip: 2.39kb
+public/assets/product-BCDmxp5V.js.gz                                  6.92kb / gzip: 2.38kb
+public/assets/primordial-DPuo61wh.js.gz                               5.80kb / gzip: 2.29kb
+public/assets/primordial-C9Jv0DBj.js.gz                               5.83kb / gzip: 2.30kb
+public/assets/product-highlight-v2-DKE01xdj.js.gz                     7.01kb / gzip: 2.48kb
+public/assets/paintbrush-CJl51nDS.js.gz                               1.21kb / gzip: 0.57kb
+public/assets/privacy-BFTR-UVe.js.gz                                  9.53kb / gzip: 3.04kb
+public/assets/privacy-C6fw-hL7.js.gz                                  9.56kb / gzip: 3.05kb
+public/assets/progress-CLbHhiSL.js.gz                                 3.18kb / gzip: 1.52kb
+public/assets/progress-tylLYKnj.js.gz                                 3.18kb / gzip: 1.51kb
+public/assets/product-highlight-v2-42R4GzV9.js.gz                     7.04kb / gzip: 2.49kb
+public/assets/proton-gradients-energy-transfer-Dsk_Ez5x.js.gz         13.75kb / gzip: 3.54kb
+public/assets/redox-buffers-C8IYlnrf.js.gz                            6.01kb / gzip: 2.32kb
+public/assets/redox-buffers-DwKrWsOY.js.gz                            5.98kb / gzip: 2.31kb
+public/assets/resources-downloads-Dy5-x99a.js.gz                      2.15kb / gzip: 1.07kb
+public/assets/resources-downloads-COLsw7Ur.js.gz                      2.17kb / gzip: 1.07kb
+public/assets/proton-gradients-energy-transfer-C7YG4Fg6.js.gz         13.78kb / gzip: 3.55kb
+public/assets/science-library-data-CeeRJ4H1.js.gz                     2.86kb / gzip: 1.11kb
+public/assets/science-library-XkAQrvT3.js.gz                          3.89kb / gzip: 1.58kb
+public/assets/science-library-hub-BZqt4bjL.js.gz                      16.74kb / gzip: 3.96kb
+public/assets/science-library-hub-r6TEqdTa.js.gz                      16.77kb / gzip: 3.97kb
+public/assets/scroll-area-DoYffo6V.js.gz                              12.31kb / gzip: 3.91kb
+public/assets/science-library-master-lELRGZFc.js.gz                   7.55kb / gzip: 3.00kb
+public/assets/science-library-D9RKM7uQ.js.gz                          3.86kb / gzip: 1.57kb
+public/assets/sacred-geometry-water-CIakKjXl.js.gz                    13.37kb / gzip: 3.32kb
+public/assets/science-library-master-8mWlvCUU.js.gz                   7.58kb / gzip: 3.01kb
+public/assets/scroll-effect-Bg_OzA0K.js.gz                            10.79kb / gzip: 3.16kb
+public/assets/scroll-effect-CMLtzDWV.js.gz                            10.79kb / gzip: 3.16kb
+public/assets/separator-Daj4rawV.js.gz                                1.03kb / gzip: 0.59kb
+public/assets/separator-Dt9qSDhd.js.gz                                1.03kb / gzip: 0.59kb
+public/assets/sacred-geometry-water-AD8oUXZt.js.gz                    13.40kb / gzip: 3.33kb
+public/assets/shop-DKuqJSvA.js.gz                                     9.49kb / gzip: 2.93kb
+public/assets/shipping-returns-Bu9AfwhO.js.gz                         2.16kb / gzip: 1.06kb
+public/assets/shipping-returns-CV_bdDYO.js.gz                         2.13kb / gzip: 1.05kb
+public/assets/scroll-area-Bx6Kv4Xy.js.gz                              12.31kb / gzip: 3.91kb
+public/assets/select-Blu0CdRU.js.gz                                   23.13kb / gzip: 8.13kb
+public/assets/sitemap-D1IhcQPL.js.gz                                  5.80kb / gzip: 1.77kb
+public/assets/sitemap-BGV2Ks3W.js.gz                                  5.77kb / gzip: 1.76kb
+public/assets/shop-CN0KhOWF.js.gz                                     9.52kb / gzip: 2.93kb
+public/assets/sourcing-sustainability-BzFDlEfn.js.gz                  8.66kb / gzip: 2.86kb
+public/assets/spiritual-electricity-ion-intelligence-BFTsty5k.js.gz   5.92kb / gzip: 2.29kb
+public/assets/select-GLnOam2a.js.gz                                   23.13kb / gzip: 8.13kb
+public/assets/sourcing-sustainability-BUrkDe1p.js.gz                  8.69kb / gzip: 2.87kb
+public/assets/sitemap-B-ew8ZU4.js.gz                                  29.78kb / gzip: 5.97kb
+public/assets/spiritual-electricity-myths-CM4IoNin.js.gz              10.89kb / gzip: 3.23kb
+public/assets/sitemap-BEcilkCv.js.gz                                  29.75kb / gzip: 5.96kb
+public/assets/springs-B2ZJGdcF.js.gz                                  14.21kb / gzip: 3.91kb
+public/assets/springs-CsSvSUb0.js.gz                                  14.19kb / gzip: 3.90kb
+public/assets/spiritual-electricity-ion-intelligence-DuQlvtWh.js.gz   5.89kb / gzip: 2.29kb
+public/assets/spiritual-electricity-myths-DLsJtSqb.js.gz              10.86kb / gzip: 3.23kb
+public/assets/start-here-DHN3s5yx.js.gz                               10.44kb / gzip: 3.23kb
+public/assets/sulfate-activation-range-Ctx_cXYr.js.gz                 10.70kb / gzip: 3.39kb
+public/assets/sulfate-activation-range-DbOYcpG3.js.gz                 10.73kb / gzip: 3.40kb
+public/assets/start-here-BBpwb9p8.js.gz                               10.47kb / gzip: 3.24kb
+public/assets/sulfate-structuring-ez-B2R3iplA.js.gz                   8.45kb / gzip: 2.96kb
+public/assets/sulfate-pathways-water-body-D3i1ic8w.js.gz              8.60kb / gzip: 2.83kb
+public/assets/sulfate-chemistry-CL8MAKWW.js.gz                        15.76kb / gzip: 4.71kb
+public/assets/sulfate-chemistry-DeATgf3Q.js.gz                        15.79kb / gzip: 4.71kb
+public/assets/sulfur-detox-transport-Bpo-V3Ct.js.gz                   8.44kb / gzip: 2.96kb
+public/assets/sulfur-springs-tradition-BUc-r7Up.js.gz                 8.10kb / gzip: 2.80kb
+public/assets/sulfur-detox-transport-DUY2iikb.js.gz                   8.42kb / gzip: 2.95kb
+public/assets/support-resources-downloads-D5wR4YT-.js.gz              5.67kb / gzip: 2.35kb
+public/assets/support-how-to-choose-dose-BTuXbsp8.js.gz               9.40kb / gzip: 3.53kb
+public/assets/sulfur-sulfate-overview-Dg5MU3O_.js.gz                  13.33kb / gzip: 3.59kb
+public/assets/support-contact-options-DDPXMHIE.js.gz                  2.15kb / gzip: 1.06kb
+public/assets/support-contact-options-B_qQkdU6.js.gz                  2.13kb / gzip: 1.05kb
+public/assets/table-CQVMzGh_.js.gz                                    1.56kb / gzip: 0.54kb
+public/assets/sulfur-springs-tradition-0ShLt43y.js.gz                 8.07kb / gzip: 2.79kb
+public/assets/support-shipping-returns-CCkSIYQN.js.gz                 7.54kb / gzip: 2.67kb
+public/assets/table-DZkSgSxT.js.gz                                    1.56kb / gzip: 0.55kb
+public/assets/sulfate-structuring-ez-DtCev5e8.js.gz                   8.48kb / gzip: 2.97kb
+public/assets/support-how-to-choose-dose-BOQThplO.js.gz               9.37kb / gzip: 3.52kb
+public/assets/sulfate-pathways-water-body-CjT7iixn.js.gz              8.63kb / gzip: 2.84kb
+public/assets/terms-CuUmv7DC.js.gz                                    4.98kb / gzip: 1.93kb
+public/assets/support-resources-downloads-BapGBNC9.js.gz              5.64kb / gzip: 2.33kb
+public/assets/terrain-maps-BBpoABr1.js.gz                             2.19kb / gzip: 1.08kb
+public/assets/terrain-maps-Dh-w9J0v.js.gz                             2.16kb / gzip: 1.07kb
+public/assets/terrain-model-overview-CT2NdbDD.js.gz                   9.19kb / gzip: 2.86kb
+public/assets/terms-BtbRBfSf.js.gz                                    4.96kb / gzip: 1.92kb
+public/assets/terrain-principles-everyday-DMitPYLJ.js.gz              8.76kb / gzip: 2.79kb
+public/assets/terrain-principles-everyday-o29zgKR3.js.gz              8.73kb / gzip: 2.78kb
+public/assets/terrain-concepts-C-haVNWJ.js.gz                         13.69kb / gzip: 3.32kb
+public/assets/terrain-model-overview-CnFFIM5Z.js.gz                   9.22kb / gzip: 2.87kb
+public/assets/terrain-vs-symptom-B3axBKqk.js.gz                       6.54kb / gzip: 2.21kb
+public/assets/terrain-sulfur-BKui617Q.js.gz                           9.08kb / gzip: 2.95kb
+public/assets/terrain-concepts-BpkkiRsm.js.gz                         13.66kb / gzip: 3.31kb
+public/assets/terrain-thinking-intro-DSfZ3z3f.js.gz                   2.14kb / gzip: 1.06kb
+public/assets/terrain-sulfur-eC36A_Ft.js.gz                           9.11kb / gzip: 2.96kb
+public/assets/terrain-vs-symptom-thinking-ChmWkvhG.js.gz              9.24kb / gzip: 2.55kb
+public/assets/terrain-vs-symptom-DrbK4XmR.js.gz                       6.51kb / gzip: 2.20kb
+public/assets/sulfur-sulfate-overview-BDvYx48h.js.gz                  13.30kb / gzip: 3.58kb
+public/assets/support-shipping-returns-DHY0kWMc.js.gz                 7.56kb / gzip: 2.68kb
+public/assets/tetrahedral-sulfate-geometry-B1Bk4Teh.js.gz             11.50kb / gzip: 3.61kb
+public/assets/terrain-vs-symptom-thinking-D1RxjhG6.js.gz              9.21kb / gzip: 2.54kb
+public/assets/three-pillars-B8CXSI2R.js.gz                            16.94kb / gzip: 4.82kb
+public/assets/timeline-Cg2uXo2r.js.gz                                 7.78kb / gzip: 2.07kb
+public/assets/tetrahedral-sulfate-geometry-BXoQZRma.js.gz             11.47kb / gzip: 3.60kb
+public/assets/terrain-thinking-intro-CMzCybiU.js.gz                   2.17kb / gzip: 1.07kb
+public/assets/trace-minerals-rare-earths-BYfaEu5e.js.gz               10.15kb / gzip: 3.31kb
+public/assets/torus-preview-_uhVqinE.js.gz                            2.84kb / gzip: 1.19kb
+public/assets/three-pillars-BeXyGV5j.js.gz                            16.91kb / gzip: 4.80kb
+public/assets/torus-preview-BQ9oIven.js.gz                            2.87kb / gzip: 1.19kb
+public/assets/timeline-DuEgfkZo.js.gz                                 7.81kb / gzip: 2.08kb
+public/assets/trace-minerals-rare-earths-BA08xJYX.js.gz               10.12kb / gzip: 3.30kb
+public/assets/triangular-harmonics-BqzqDjE_.js.gz                     8.57kb / gzip: 2.93kb
+public/assets/triangular-harmonics-CEQUrx9m.js.gz                     8.54kb / gzip: 2.92kb
+public/assets/troubleshooting-water-Bnp3GtXS.js.gz                    9.71kb / gzip: 3.65kb
+public/assets/trust-certifications-C4vNpX7q.js.gz                     8.83kb / gzip: 2.68kb
+public/assets/troubleshooting-water-BuK9k6X0.js.gz                    9.74kb / gzip: 3.66kb
+public/assets/trust-faq-safety-BaysO43s.js.gz                         8.92kb / gzip: 2.91kb
+public/assets/trust-glossary-D7D00nPb.js.gz                           8.47kb / gzip: 3.47kb
+public/assets/trust-certifications-CeGMsZEW.js.gz                     8.80kb / gzip: 2.67kb
+public/assets/trust-faq-safety-Cs1DyIpO.js.gz                         8.95kb / gzip: 2.92kb
+public/assets/trust-lab-methods-DqEAZBp8.js.gz                        11.63kb / gzip: 3.40kb
+public/assets/trust-glossary-CY8yXxq2.js.gz                           8.44kb / gzip: 3.46kb
+public/assets/trust-quality-Cym6JBVg.js.gz                            8.47kb / gzip: 2.86kb
+public/assets/trust-quality-4JrSWkF3.js.gz                            8.44kb / gzip: 2.85kb
+public/assets/trust-lab-methods-CtKl6p79.js.gz                        11.61kb / gzip: 3.39kb
+public/assets/turbidity-clarity-BBiSl3Pm.js.gz                        9.79kb / gzip: 3.04kb
+public/assets/trust-mineral-origin-DzbCA0u9.js.gz                     9.82kb / gzip: 3.05kb
+public/assets/turbidity-clarity-6tsEV3cH.js.gz                        9.76kb / gzip: 3.04kb
+public/assets/use-transform-anQBHXTp.js.gz                            7.02kb / gzip: 2.96kb
+public/assets/trust-mineral-origin-C6BZrp1E.js.gz                     9.85kb / gzip: 3.05kb
+public/assets/turbidity-clarity-flocculation-CCJVmAEo.js.gz           13.55kb / gzip: 4.36kb
+public/assets/use-transform-a2VaR1Mx.js.gz                            7.02kb / gzip: 2.96kb
+public/assets/turbidity-clarity-flocculation-BAFAqF_9.js.gz           13.52kb / gzip: 4.35kb
+public/assets/voltage-detox-pathways-BMrq6xuv.js.gz                   6.90kb / gzip: 2.39kb
+public/assets/voltage-detox-pathways-CGq4dGQ2.js.gz                   6.87kb / gzip: 2.38kb
+public/assets/vision-mission-IDamht5s.js.gz                           7.82kb / gzip: 2.71kb
+public/assets/vortex-technologies-DVfgoUQk.js.gz                      13.35kb / gzip: 3.66kb
+public/assets/vortex-spiral-hydrodynamics-CUrR2iI2.js.gz              23.73kb / gzip: 6.48kb
+public/assets/vortex-spiral-hydrodynamics-D_PvYQjU.js.gz              23.75kb / gzip: 6.49kb
+public/assets/vortexing-flow-Bs_KT6Lb.js.gz                           15.90kb / gzip: 4.33kb
+public/assets/water-clarification-lab-BTiD-q-n.js.gz                  10.92kb / gzip: 3.09kb
+public/assets/vortex-technologies-PtpIWCYV.js.gz                      13.37kb / gzip: 3.66kb
+public/assets/water-clarification-lab-B6Qj5-uD.js.gz                  10.89kb / gzip: 3.08kb
+public/assets/vision-mission-CV9YjDhT.js.gz                           7.79kb / gzip: 2.70kb
+public/assets/vortexing-flow-PDTzINmM.js.gz                           15.87kb / gzip: 4.32kb
+public/assets/water-memory-Bf9cCcYJ.js.gz                             14.25kb / gzip: 3.95kb
+public/assets/water-collagen-matrix-Cau7ggB4.js.gz                    20.39kb / gzip: 6.08kb
+public/assets/water-phases-DI11eEjX.js.gz                             12.49kb / gzip: 3.64kb
+public/assets/water-memory-Cjio2XHi.js.gz                             14.22kb / gzip: 3.94kb
+public/assets/water-phases-structure-activation-CDUMcBjw.js.gz        12.59kb / gzip: 3.95kb
+public/assets/water-collagen-matrix-BHvBy_st.js.gz                    20.36kb / gzip: 6.07kb
+public/assets/water-minerals-terrain-DRitoEzX.js.gz                   14.28kb / gzip: 4.29kb
+public/assets/water-phases-D_BrsMNX.js.gz                             12.46kb / gzip: 3.63kb
+public/assets/water-phases-structure-activation-Cf3Cv_Tt.js.gz        12.56kb / gzip: 3.94kb
+public/assets/water-science-D6jVBXYP.js.gz                            28.00kb / gzip: 6.98kb
+public/assets/water-structure-p-a9BTnr.js.gz                          16.17kb / gzip: 4.09kb
+public/assets/water-science-1Ot4z_9p.js.gz                            28.03kb / gzip: 6.99kb
+public/assets/water-structure-C5DH7Zrp.js.gz                          16.15kb / gzip: 4.09kb
+public/assets/what-is-andara-ionic-uERI_4M-.js.gz                     8.54kb / gzip: 2.70kb
+public/assets/water-minerals-terrain-p-LvQYuK.js.gz                   14.31kb / gzip: 4.30kb
+public/assets/why-sulfate-matters-BOcI6Rnw.js.gz                      2.18kb / gzip: 1.08kb
+public/assets/what-is-andara-ionic-CCUkPCzY.js.gz                     8.57kb / gzip: 2.71kb
+public/assets/with-selector-DK9I2NOC.js.gz                            1.26kb / gzip: 0.72kb
+public/index.html.gz                                                  1.69kb / gzip: 0.62kb
+public/assets/with-selector-DASTb4lN.js.gz                            1.26kb / gzip: 0.72kb
+public/assets/why-sulfate-matters-BuYBSruV.js.gz                      2.15kb / gzip: 1.07kb
+public/assets/water-science-master-Bg8SnpmE.js.gz                     14.72kb / gzip: 4.23kb
+public/preview-sulfate.html.gz                                        2.86kb / gzip: 1.16kb
+public/preview-science.html.gz                                        15.97kb / gzip: 4.90kb
+public/assets/water-science-master-CMCjenYX.js.gz                     14.75kb / gzip: 4.23kb
+public/preview-library.html.gz                                        24.85kb / gzip: 7.14kb
+public/assets/ScrollTrigger-Cv03IO65.js.gz                            42.61kb / gzip: 17.69kb
+public/assets/admin-Dduh77J4.js.gz                                    75.16kb / gzip: 19.57kb
+public/assets/admin-zVoStmWo.js.gz                                    75.39kb / gzip: 19.59kb
+public/assets/index-CB87Sc6I.js.gz                                    68.67kb / gzip: 27.02kb
+public/assets/admin-COEd40At.js.gz                                    158.89kb / gzip: 34.84kb
+public/assets/admin-Djkaxj-t.js.gz                                    159.08kb / gzip: 34.89kb
+public/assets/bigmind-chat-modern-DUg9sBPz.js.gz                      186.85kb / gzip: 48.77kb
+public/assets/bigmind-chat-modern-DKPKQPS8.js.gz                      186.85kb / gzip: 48.77kb
+public/assets/index-C8k8VOa8.js.gz                                    256.47kb / gzip: 78.86kb
+public/assets/index-DK_TTgvN.js.gz                                    256.18kb / gzip: 78.77kb
+public/assets/index-BRQHNu54.css.gz                                   580.23kb / gzip: 67.72kb
+public/assets/index-dBMxgdkO.css.gz                                   630.28kb / gzip: 73.19kb
+public/assets/App-U4VC5KTk.js.gz                                      368.98kb / gzip: 108.61kb
+public/assets/App-Bfg2mBA3.js.gz                                      370.52kb / gzip: 108.70kb
+public/assets/PieChart-DH3yAue6.js.gz                                 368.84kb / gzip: 100.39kb
+public/assets/PieChart-e9RMXVSr.js.gz                                 368.84kb / gzip: 100.39kb
+public/assets/ArticleEditorModal-CCKgdZ1-.js.gz                       389.53kb / gzip: 120.85kb
+public/assets/ArticleEditorModal-rB-sBw1s.js.gz                       389.43kb / gzip: 120.83kb
+public/assets/AIAgentsTab-zESfKVRk.js.gz                              629.67kb / gzip: 223.33kb
+public/assets/AIAgentsTab-D7IRhJhF.js.gz                              629.67kb / gzip: 223.32kb
+public/assets/MoleculeBuilder-BT_ohuJT.js.gz                          998.73kb / gzip: 282.72kb
+public/assets/MoleculeBuilder-5Tl4X-Ug.js.gz                          998.73kb / gzip: 282.72kb
+
+
+
+✨ [vite-plugin-compression]:algorithm=brotliCompress - compressed file successfully: 
+public/assets/AdvancedPageLayout_Proposal-hPohrN9B.js.br              2.17kb / brotliCompress: 0.88kb
+public/assets/AIBrainHealthTab-Cz6E27DB.js.br                         10.94kb / brotliCompress: 3.17kb
+public/assets/AIAuditTab-Ckbt_qUO.js.br                               15.74kb / brotliCompress: 3.96kb
+public/assets/AdminHeader-A3gVGa5q.js.br                              21.15kb / brotliCompress: 6.39kb
+public/assets/AIBrainHealthTab-jkd7EwKj.js.br                         11.44kb / brotliCompress: 3.20kb
+public/assets/AdminHeader-BaxWRE-L.js.br                              21.94kb / brotliCompress: 6.47kb
+public/assets/AndaraIconRegistry-8tgbYNby.js.br                       2.57kb / brotliCompress: 0.90kb
+public/assets/AdvancedPageLayout_Proposal-CRbwGIWd.js.br              5.78kb / brotliCompress: 1.74kb
+public/assets/AIAuditTab-KGpI1h2X.js.br                               15.74kb / brotliCompress: 3.97kb
+public/assets/AndaraIconRegistry-BeqUT5kV.js.br                       2.57kb / brotliCompress: 0.90kb
+public/assets/AnalyticsTab-DHQpk8sz.js.br                             5.82kb / brotliCompress: 1.25kb
+public/assets/AnalyticsTab-Bdp6_MVB.js.br                             5.82kb / brotliCompress: 1.25kb
+public/assets/ArticlesTab-Dgdsan24.js.br                              5.32kb / brotliCompress: 1.53kb
+public/assets/ArticlesTab-p04fqW8S.js.br                              5.32kb / brotliCompress: 1.53kb
+public/assets/BundleCTA-DkSDLt-2.js.br                                8.79kb / brotliCompress: 1.63kb
+public/assets/ClustersTab-DMKHoTDG.js.br                              8.28kb / brotliCompress: 2.28kb
+public/assets/CosmicPulse-Bo5IfSja.js.br                              1.16kb / brotliCompress: 0.39kb
+public/assets/BundleCTA-BtySSJoY.js.br                                8.79kb / brotliCompress: 1.63kb
+public/assets/CosmicPulse-Df0Ju24e.js.br                              1.16kb / brotliCompress: 0.39kb
+public/assets/ClustersTab-DwlNLViv.js.br                              7.95kb / brotliCompress: 2.19kb
+public/assets/DesignInterpreterTab-BQo3-qRB.js.br                     5.96kb / brotliCompress: 1.61kb
+public/assets/DashboardTab-BU34mGY4.js.br                             39.93kb / brotliCompress: 9.15kb
+public/assets/DesignSystemTab-fjzZcG81.js.br                          37.76kb / brotliCompress: 8.27kb
+public/assets/DesignInterpreterTab-DigCOQyN.js.br                     5.96kb / brotliCompress: 1.61kb
+public/assets/DashboardTab-DGEHhk4h.js.br                             40.58kb / brotliCompress: 9.27kb
+public/assets/ElasticVelocity-CVMFLABl.js.br                          1.15kb / brotliCompress: 0.52kb
+public/assets/DesignSystemTab-D-0w0Uem.js.br                          37.83kb / brotliCompress: 8.30kb
+public/assets/DocumentsTab-BkMmrDhC.js.br                             12.87kb / brotliCompress: 3.82kb
+public/assets/DilutionTablePage-zoAxEVd6.js.br                        8.02kb / brotliCompress: 2.65kb
+public/assets/ElasticVelocity-uqvpqHvX.js.br                          1.15kb / brotliCompress: 0.52kb
+public/assets/FlipCard3D-DeMj-ir-.js.br                               1.90kb / brotliCompress: 0.74kb
+public/assets/FlipCard3D-Bxts8iai.js.br                               1.90kb / brotliCompress: 0.74kb
+public/assets/DocumentsTab-BGZnLrBD.js.br                             10.81kb / brotliCompress: 3.33kb
+public/assets/DilutionTablePage-D7E45YIV.js.br                        8.00kb / brotliCompress: 2.64kb
+public/assets/FunctionsTab-DHO78au9.js.br                             15.00kb / brotliCompress: 3.96kb
+public/assets/GoldIcon-BzKiKC_V.js.br                                 2.09kb / brotliCompress: 0.62kb
+public/assets/HarmonicsNavigator-BoIm-1AQ.js.br                       5.92kb / brotliCompress: 1.44kb
+public/assets/GoldIcon-BHU48tbU.js.br                                 2.09kb / brotliCompress: 0.62kb
+public/assets/HealthGateTab-C-91m4DQ.js.br                            6.15kb / brotliCompress: 1.80kb
+public/assets/FunctionsTab-ESX9oBSO.js.br                             15.00kb / brotliCompress: 3.96kb
+public/assets/HarmonicsNavigator-DGk0jEtg.js.br                       5.92kb / brotliCompress: 1.44kb
+public/assets/HeroGlass-COvXI_ot.js.br                                7.49kb / brotliCompress: 2.44kb
+public/assets/HexagonalGridDiagram-1-S_Uwbd.js.br                     2.45kb / brotliCompress: 1.09kb
+public/assets/HubNavigationBar-B-tA-1l7.js.br                         3.00kb / brotliCompress: 0.95kb
+public/assets/HealthGateTab-164aHlxg.js.br                            6.15kb / brotliCompress: 1.81kb
+public/assets/InteractiveBackground-CtonwMO-.js.br                    1.97kb / brotliCompress: 0.81kb
+public/assets/ImageRegistryTab-CeuEBLu-.js.br                         5.86kb / brotliCompress: 1.62kb
+public/assets/HeroGlass-BVpX06dO.js.br                                7.49kb / brotliCompress: 2.43kb
+public/assets/ImageRegistryTab-B7JJJr1g.js.br                         5.86kb / brotliCompress: 1.62kb
+public/assets/LiquidAlchemyExpansion-DkjD7sMp.js.br                   4.54kb / brotliCompress: 1.48kb
+public/assets/InteractiveBackground-BYHkozoO.js.br                    1.97kb / brotliCompress: 0.81kb
+public/assets/HexagonalGridDiagram-BLqdiKjY.js.br                     2.45kb / brotliCompress: 1.09kb
+public/assets/LivingGrid-DEVbErwE.js.br                               1.29kb / brotliCompress: 0.62kb
+public/assets/LivingGrid-DyDcVDzh.js.br                               1.29kb / brotliCompress: 0.62kb
+public/assets/HubNavigationBar-DSk3TSTS.js.br                         3.00kb / brotliCompress: 0.95kb
+public/assets/MagnetPlacementDiagram-DpPX4iRE.js.br                   3.68kb / brotliCompress: 1.21kb
+public/assets/MagicPagesTab-DUuL3R7h.js.br                            6.45kb / brotliCompress: 1.93kb
+public/assets/LiquidAlchemyExpansion-Ds5Exuo_.js.br                   4.52kb / brotliCompress: 1.47kb
+public/assets/LinkingTab-BODrg6za.js.br                               11.80kb / brotliCompress: 2.64kb
+public/assets/MagnetPlacementDiagram-D6Chcicr.js.br                   3.68kb / brotliCompress: 1.21kb
+public/assets/LinkingTab-BAWNEA2i.js.br                               11.80kb / brotliCompress: 2.64kb
+public/assets/MagicPagesTab-BFSQLtvm.js.br                            6.45kb / brotliCompress: 1.93kb
+public/assets/MotionLibraryShowcase-C5GF6fY_.js.br                    6.09kb / brotliCompress: 1.82kb
+public/assets/MotionLibraryShowcase-VZlmDW3T.js.br                    6.09kb / brotliCompress: 1.82kb
+public/assets/OrdersTab-C5Kl9bfI.js.br                                23.68kb / brotliCompress: 5.83kb
+public/assets/OrdersTab-CevoYDe2.js.br                                22.29kb / brotliCompress: 5.68kb
+public/assets/PagesTab-CJvppu75.js.br                                 6.23kb / brotliCompress: 1.89kb
+public/assets/PatternStackCard-zTuFD5o0.js.br                         3.74kb / brotliCompress: 1.08kb
+public/assets/PagesTab-CspfRkcb.js.br                                 6.37kb / brotliCompress: 1.93kb
+public/assets/PageEditorModal-B8l7-bVK.js.br                          46.21kb / brotliCompress: 11.82kb
+public/assets/PatternStackCard-Chn8t5bv.js.br                         3.74kb / brotliCompress: 1.08kb
+public/assets/ProductsTab-CSCfTJfJ.js.br                              6.19kb / brotliCompress: 1.73kb
+public/assets/PageEditorModal-ClqOBjxn.js.br                          45.36kb / brotliCompress: 11.74kb
+public/assets/SO4TetrahedronDiagram-4kBVRLpG.js.br                    3.63kb / brotliCompress: 1.13kb
+public/assets/SacredGeoDraw-gu33J-ZD.js.br                            1.38kb / brotliCompress: 0.66kb
+public/assets/SO4TetrahedronDiagram-BGw5ql1j.js.br                    3.63kb / brotliCompress: 1.13kb
+public/assets/SacredGeoDraw-CUa2-TT8.js.br                            1.38kb / brotliCompress: 0.66kb
+public/assets/ProductsTab-C-uv1JUt.js.br                              6.14kb / brotliCompress: 1.70kb
+public/assets/ScienceLibraryTab-RCBk9c5K.js.br                        3.86kb / brotliCompress: 0.95kb
+public/assets/ScrollTrigger-Cv03IO65.js.br                            42.61kb / brotliCompress: 15.97kb
+public/assets/ScienceLibraryTab-Cp5WwsSk.js.br                        3.87kb / brotliCompress: 0.97kb
+public/assets/SeoDashboard-CcUk-Wha.js.br                             23.08kb / brotliCompress: 5.69kb
+public/assets/SettingsTab-86rGs8an.js.br                              31.00kb / brotliCompress: 7.05kb
+public/assets/SeoCopilotOverlay-C05oUFxY.js.br                        12.04kb / brotliCompress: 3.21kb
+public/assets/SeoCopilotOverlay-BXccyphd.js.br                        12.03kb / brotliCompress: 3.22kb
+public/assets/StackedCard-C5ST3Ria.js.br                              3.21kb / brotliCompress: 1.16kb
+public/assets/SmartImage-BU1Z0iRD.js.br                               1.76kb / brotliCompress: 0.77kb
+public/assets/StackedCard-PkbcHLWJ.js.br                              3.21kb / brotliCompress: 1.15kb
+public/assets/SettingsTab-jKrgrdaz.js.br                              31.00kb / brotliCompress: 7.05kb
+public/assets/SeoDashboard-Ckh1yjB0.js.br                             22.45kb / brotliCompress: 5.47kb
+public/assets/SmartImage-mcz1g98U.js.br                               1.76kb / brotliCompress: 0.78kb
+public/assets/StandardPageLayout-DTraWy66.js.br                       5.50kb / brotliCompress: 2.10kb
+public/assets/TriangleMapSVG-BIqHmhyd.js.br                           3.46kb / brotliCompress: 1.22kb
+public/assets/StandardPageLayout-OZATKsD0.js.br                       5.50kb / brotliCompress: 2.08kb
+public/assets/TemplatesTab-Ce1qvE8V.js.br                             3.94kb / brotliCompress: 1.35kb
+public/assets/about-andara-Ct1KlO6Q.js.br                             7.32kb / brotliCompress: 2.39kb
+public/assets/accordion-BeECh-U7.js.br                                8.58kb / brotliCompress: 2.60kb
+public/assets/WorkflowsTab-B2pyAvWd.js.br                             18.17kb / brotliCompress: 4.69kb
+public/assets/TriangleMapSVG-Fyvn3zHq.js.br                           3.46kb / brotliCompress: 1.22kb
+public/assets/WorkflowsTab-DYDKMN1b.js.br                             18.17kb / brotliCompress: 4.70kb
+public/assets/accordion-BmeCzhDI.js.br                                8.58kb / brotliCompress: 2.60kb
+public/assets/admin-BlCJMLu9.js.br                                    12.54kb / brotliCompress: 3.95kb
+public/assets/about-andara-C8BHqgh_.js.br                             7.29kb / brotliCompress: 2.39kb
+public/assets/admin-D5H0RVjt.js.br                                    12.54kb / brotliCompress: 3.95kb
+public/assets/admin-BEHUn5zE.css.br                                   1.29kb / brotliCompress: 0.48kb
+public/assets/andara-dilution-calculator-CfiqzqKs.js.br               7.01kb / brotliCompress: 2.43kb
+public/assets/TemplatesTab-Cmkhg0EL.js.br                             3.94kb / brotliCompress: 1.35kb
+public/assets/andara-css-showcase-B3Ppfsyh.js.br                      11.36kb / brotliCompress: 2.62kb
+public/assets/andara-dilution-calculator-DuECetR2.js.br               7.04kb / brotliCompress: 2.44kb
+public/assets/andara-ionic-1l-HrH2ysff.js.br                          15.82kb / brotliCompress: 3.92kb
+public/assets/andara-ionic-100ml-1RXeob1F.js.br                       27.37kb / brotliCompress: 5.53kb
+public/assets/andara-ionic-100ml-bundles-3EZ4RBAA.js.br               12.39kb / brotliCompress: 2.39kb
+public/assets/andara-css-showcase-ocr0kNqQ.js.br                      11.33kb / brotliCompress: 2.60kb
+public/assets/andara-ionic-1l-B7AViWjQ.js.br                          15.79kb / brotliCompress: 3.90kb
+public/assets/andara-ionic-dilution-table-B6W-P5_N.js.br              7.51kb / brotliCompress: 2.01kb
+public/assets/andara-ionic-dilution-table-CodyMXYo.js.br              7.54kb / brotliCompress: 2.00kb
+public/assets/andara-ionic-1l-bundles-DMtd-FzF.js.br                  19.32kb / brotliCompress: 3.91kb
+public/assets/andara-page-renderer-BzuAgn2S.js.br                     8.93kb / brotliCompress: 2.73kb
+public/assets/andara-ionic-1l-bundles-C3u8H3Te.js.br                  18.96kb / brotliCompress: 3.73kb
+public/assets/andara-page-renderer-CGVYkSWk.js.br                     8.93kb / brotliCompress: 2.72kb
+public/assets/andara-story-d-LxB-7Y.js.br                             8.70kb / brotliCompress: 2.49kb
+public/assets/animations-bfslW5A7.js.br                               1.30kb / brotliCompress: 0.46kb
+public/assets/andara-ionic-100ml-qR6qD-Hl.js.br                       27.34kb / brotliCompress: 5.53kb
+public/assets/andara-ionic-100ml-bundles-hASM0_t_.js.br               12.42kb / brotliCompress: 2.40kb
+public/assets/applications-CLvGExtw.js.br                             8.96kb / brotliCompress: 2.81kb
+public/assets/applications-Q1MKbVwZ.js.br                             8.93kb / brotliCompress: 2.81kb
+public/assets/andara-story-D0B2EtZm.js.br                             8.73kb / brotliCompress: 2.50kb
+public/assets/applications-cleaning-surfaces-BlzahtiW.js.br           10.34kb / brotliCompress: 3.00kb
+public/assets/applications-cooking-tea-coffee-DYRrmQET.js.br          9.69kb / brotliCompress: 2.61kb
+public/assets/applications-drinking-water-home-CbSVWvlB.js.br         9.36kb / brotliCompress: 2.51kb
+public/assets/animations-DPrMtOlB.js.br                               1.30kb / brotliCompress: 0.45kb
+public/assets/applications-cooking-tea-coffee-CyE0bbg2.js.br          9.66kb / brotliCompress: 2.60kb
+public/assets/applications-detox-protocol-support-DqusWMd_.js.br      15.33kb / brotliCompress: 3.62kb
+public/assets/applications-drinking-water-home-lR8lY3mA.js.br         9.33kb / brotliCompress: 2.49kb
+public/assets/applications-plant-watering-CZ5b0RKH.js.br              9.53kb / brotliCompress: 2.56kb
+public/assets/applications-cleaning-surfaces-CekBMkFd.js.br           10.32kb / brotliCompress: 3.01kb
+public/assets/applications-shower-bath-SUlUqhpl.js.br                 8.25kb / brotliCompress: 2.37kb
+public/assets/applications-soil-garden-Cut6Gma-.js.br                 8.91kb / brotliCompress: 2.44kb
+public/assets/applications-detox-protocol-support-kekZe-40.js.br      15.36kb / brotliCompress: 3.64kb
+public/assets/applications-steam-sauna-CRzrSYYB.js.br                 10.72kb / brotliCompress: 2.96kb
+public/assets/applications-plant-watering-Pnn7-vh_.js.br              9.56kb / brotliCompress: 2.57kb
+public/assets/applications-steam-sauna-Bpz45TyW.js.br                 10.69kb / brotliCompress: 2.94kb
+public/assets/applications-shower-bath-D_yiXbjO.js.br                 8.22kb / brotliCompress: 2.36kb
+public/assets/applications-travel-mobile-D2D7BWws.js.br               9.72kb / brotliCompress: 2.71kb
+public/assets/applications-travel-portable-water-DP9Q4Ooe.js.br       8.04kb / brotliCompress: 2.39kb
+public/assets/applications-soil-garden-L5u9HpAP.js.br                 8.94kb / brotliCompress: 2.46kb
+public/assets/applications-travel-mobile-BeVYE0Wp.js.br               9.69kb / brotliCompress: 2.71kb
+public/assets/applications-travel-portable-water-CWWguRrw.js.br       8.01kb / brotliCompress: 2.40kb
+public/assets/article-D5evrzj7.js.br                                  6.56kb / brotliCompress: 1.97kb
+public/assets/article-8U870RLh.js.br                                  6.54kb / brotliCompress: 1.96kb
+public/assets/audit-highlight-DmXgt5d6.js.br                          1.26kb / brotliCompress: 0.57kb
+public/assets/applications-water-devices-CiRJ17-9.js.br               10.67kb / brotliCompress: 2.81kb
+public/assets/b2b-reseller-Dz-l-01q.js.br                             6.10kb / brotliCompress: 1.78kb
+public/assets/b2b-reseller-DJO8u7QJ.js.br                             6.07kb / brotliCompress: 1.75kb
+public/assets/article-BdwNeSxn.js.br                                  6.56kb / brotliCompress: 1.97kb
+public/assets/article-BQ-jubtN.js.br                                  6.54kb / brotliCompress: 1.96kb
+public/assets/applications-water-devices-BYJuGHg8.js.br               10.65kb / brotliCompress: 2.79kb
+public/assets/bioelectric-terrain-model-CK5sI2St.js.br                12.50kb / brotliCompress: 3.18kb
+public/assets/bioelectric-water-DUR6veA8.js.br                        14.93kb / brotliCompress: 3.15kb
+public/assets/bioelectric-terrain-model-CWV6P71i.js.br                12.47kb / brotliCompress: 3.16kb
+public/assets/bioelectric-water-gjG-BnT4.js.br                        14.90kb / brotliCompress: 3.15kb
+public/assets/bioelectricity-BhJEXxuK.js.br                           12.15kb / brotliCompress: 3.15kb
+public/assets/bioelectricity-DAQLhSD1.js.br                           12.12kb / brotliCompress: 3.13kb
+public/assets/bioelectricity-9fAXJipS.js.br                           34.67kb / brotliCompress: 6.75kb
+public/assets/blog-B6P5kf_I.js.br                                     2.14kb / brotliCompress: 0.93kb
+public/assets/bioelectricity-invisible-voltage-CajZolOd.js.br         31.20kb / brotliCompress: 5.69kb
+public/assets/brain-health-BAhcqgaP.js.br                             3.40kb / brotliCompress: 1.38kb
+public/assets/blog-CW7jvyN8.js.br                                     2.12kb / brotliCompress: 0.92kb
+public/assets/bioelectricity-invisible-voltage-CcjElM9a.js.br         31.17kb / brotliCompress: 5.69kb
+public/assets/building-andara-library-BqgzMEtJ.js.br                  5.55kb / brotliCompress: 1.98kb
+public/assets/audit-highlight-Br7_pOC7.js.br                          1.26kb / brotliCompress: 0.57kb
+public/assets/brain-health-BFMh8k81.js.br                             3.42kb / brotliCompress: 1.40kb
+public/assets/building-andara-library-CQAfAfGQ.js.br                  5.52kb / brotliCompress: 1.99kb
+public/assets/bioelectricity-CpUG1zQ9.js.br                           34.64kb / brotliCompress: 6.75kb
+public/assets/charge-coherence-DpQkQYKy.js.br                         7.53kb / brotliCompress: 2.20kb
+public/assets/cell-voltage-DTdoRx9S.js.br                             16.97kb / brotliCompress: 4.42kb
+public/assets/cell-voltage-DmZroEAj.js.br                             16.94kb / brotliCompress: 4.39kb
+public/assets/checkout-D6lCGz-p.js.br                                 22.75kb / brotliCompress: 7.20kb
+public/assets/charge-coherence-DB_UJHEx.js.br                         7.56kb / brotliCompress: 2.21kb
+public/assets/coming-soon-DIbLFTDb.js.br                              2.51kb / brotliCompress: 0.92kb
+public/assets/community-events-jhxQwIfD.js.br                         8.37kb / brotliCompress: 2.34kb
+public/assets/checkout-C1IPFc1X.js.br                                 22.78kb / brotliCompress: 7.23kb
+public/assets/community-join-BONBPA7L.js.br                           7.21kb / brotliCompress: 2.13kb
+public/assets/community-events-CZO3ZN5q.js.br                         8.40kb / brotliCompress: 2.35kb
+public/assets/coming-soon-BYB448Hm.js.br                              2.54kb / brotliCompress: 0.94kb
+public/assets/community-join-BQLgiYh6.js.br                           7.18kb / brotliCompress: 2.13kb
+public/assets/compare-bundles-Bzr1Imq0.js.br                          6.81kb / brotliCompress: 1.69kb
+public/assets/concept-laboratory-CguO3hk8.js.br                       7.59kb / brotliCompress: 2.65kb
+public/assets/comparison-other-mineral-products-B9wsRLa_.js.br        12.12kb / brotliCompress: 3.15kb
+public/assets/concept-monolith-O92Z4nxp.js.br                         5.78kb / brotliCompress: 1.97kb
+public/assets/conductivity-signals-Dr0W283-.js.br                     16.14kb / brotliCompress: 3.37kb
+public/assets/conductivity-signals-Bk_HiBWr.js.br                     16.11kb / brotliCompress: 3.34kb
+public/assets/create-proxy-DQiES9Jj.js.br                             5.27kb / brotliCompress: 2.17kb
+public/assets/comparison-other-mineral-products-Cg3Eluj0.js.br        12.09kb / brotliCompress: 3.13kb
+public/assets/contact-support-CLbV-UtI.js.br                          6.98kb / brotliCompress: 2.23kb
+public/assets/create-proxy-DpAqqjjE.js.br                             5.27kb / brotliCompress: 2.18kb
+public/assets/consciousness-fields-water-2wl4GYmX.js.br               14.37kb / brotliCompress: 3.80kb
+public/assets/compare-bundles-Dz4T61Oo.js.br                          6.79kb / brotliCompress: 1.68kb
+public/assets/contact-support-D-4JAGhi.js.br                          6.95kb / brotliCompress: 2.23kb
+public/assets/crystal-memory-minerals-TnU_bNh1.js.br                  17.45kb / brotliCompress: 4.04kb
+public/assets/crystalline-matrix-DHZplYFW.js.br                       17.65kb / brotliCompress: 4.25kb
+public/assets/crystalline-matrix-overview-D641irAO.js.br              16.80kb / brotliCompress: 3.59kb
+public/assets/crystal-memory-minerals-CHgr5czl.js.br                  17.47kb / brotliCompress: 4.07kb
+public/assets/demo-advanced-layout-CTLrx09O.js.br                     5.17kb / brotliCompress: 1.69kb
+public/assets/demo-layout-v3-BHeq9G0M.js.br                           3.76kb / brotliCompress: 1.30kb
+public/assets/demo-layout-v3-BLLiuN3d.js.br                           3.73kb / brotliCompress: 1.29kb
+public/assets/crystalline-matrix-overview-DpkklcGq.js.br              16.78kb / brotliCompress: 3.58kb
+public/assets/demo-layout-v4-B-B8d2wt.js.br                           4.68kb / brotliCompress: 1.55kb
+public/assets/consciousness-fields-water-BLB2icAc.js.br               14.34kb / brotliCompress: 3.79kb
+public/assets/demo-layout-v5-DY0eYy5m.js.br                           2.57kb / brotliCompress: 1.00kb
+public/assets/demo-layout-v5-ZMZdqw1R.js.br                           2.54kb / brotliCompress: 0.99kb
+public/assets/crystalline-matrix-CiSjHe6y.js.br                       17.62kb / brotliCompress: 4.24kb
+public/assets/demo-advanced-layout-DfRi7XZX.js.br                     5.15kb / brotliCompress: 1.69kb
+public/assets/demo-layout-v4-BjqEUihm.js.br                           4.65kb / brotliCompress: 1.54kb
+public/assets/demo-layout-v6-Dcbh_bRY.js.br                           9.58kb / brotliCompress: 2.70kb
+public/assets/demo-standard-layout-C_1xIXON.js.br                     6.03kb / brotliCompress: 2.00kb
+public/assets/design-lab-WfPwHWHp.js.br                               7.57kb / brotliCompress: 2.18kb
+public/assets/demo-layout-v6-B-KX9z1w.js.br                           9.58kb / brotliCompress: 2.70kb
+public/assets/design-simulation-BJDeAwzR.js.br                        8.68kb / brotliCompress: 2.15kb
+public/assets/design-simulation-CtpO450J.js.br                        8.68kb / brotliCompress: 2.15kb
+public/assets/demo-standard-layout-BmQ8K1oA.js.br                     6.06kb / brotliCompress: 2.03kb
+public/assets/dna-mineral-codes-BFniZar8.js.br                        13.96kb / brotliCompress: 3.52kb
+public/assets/design-lab-B4tcKTUz.js.br                               7.54kb / brotliCompress: 2.18kb
+public/assets/dna-mineral-codes-7HTgKS7x.js.br                        13.99kb / brotliCompress: 3.52kb
+public/assets/dynamic-page-CIiBe7G7.js.br                             6.04kb / brotliCompress: 1.77kb
+public/assets/dynamic-page-CadOSiwY.js.br                             6.07kb / brotliCompress: 1.78kb
+public/assets/dynamic-page-BtmfMQzN.js.br                             6.04kb / brotliCompress: 1.77kb
+public/assets/events-DNglAuN8.js.br                                   2.15kb / brotliCompress: 0.92kb
+public/assets/dynamic-page-ZcA8WQCD.js.br                             6.07kb / brotliCompress: 1.78kb
+public/assets/eu-vs-bali-lines--JKt6NiE.js.br                         12.44kb / brotliCompress: 2.83kb
+public/assets/eu-vs-bali-lines-CUuwRWT7.js.br                         12.41kb / brotliCompress: 2.81kb
+public/assets/dropdown-menu-B6-8-Ed0.js.br                            31.14kb / brotliCompress: 8.03kb
+public/assets/dropdown-menu-BW-ql5rV.js.br                            31.14kb / brotliCompress: 8.01kb
+public/assets/events-F7IMCve8.js.br                                   2.12kb / brotliCompress: 0.91kb
+public/assets/ez-geometry-map-BnDT8KBz.js.br                          11.30kb / brotliCompress: 3.25kb
+public/assets/experiments-index-N0pa_8ic.js.br                        20.19kb / brotliCompress: 3.64kb
+public/assets/experiments-index-Cdq5nW-Q.js.br                        20.22kb / brotliCompress: 3.67kb
+public/assets/faq-philosophy-BECWWjfO.js.br                           4.74kb / brotliCompress: 1.60kb
+public/assets/ez-geometry-map-DsuDu1X3.js.br                          11.27kb / brotliCompress: 3.25kb
+public/assets/faq-philosophy-BHDTpin7.js.br                           4.76kb / brotliCompress: 1.62kb
+public/assets/ez-water-overview-D1j-5x2A.js.br                        20.11kb / brotliCompress: 4.86kb
+public/assets/faq-product-application-BHQHvrHb.js.br                  7.24kb / brotliCompress: 2.31kb
+public/assets/ez-water-deep-dive-D-joz_ne.js.br                       21.35kb / brotliCompress: 3.48kb
+public/assets/faq-safety-quality-B2garozp.js.br                       2.13kb / brotliCompress: 0.92kb
+public/assets/ez-water-overview-TjCHpYPM.js.br                        20.14kb / brotliCompress: 4.87kb
+public/assets/faq-product-application-Dwhz4qHX.js.br                  7.27kb / brotliCompress: 2.33kb
+public/assets/faq-safety-quality-BZUr9bpD.js.br                       2.16kb / brotliCompress: 0.93kb
+public/assets/footer-DEmT1fUy.js.br                                   3.82kb / brotliCompress: 1.09kb
+public/assets/founder-message-Biki3xO0.js.br                          4.03kb / brotliCompress: 1.39kb
+public/assets/ferrous-iron-sulphate-xTZapW90.js.br                    12.75kb / brotliCompress: 2.84kb
+public/assets/founder-message-DJVxqaiy.js.br                          4.03kb / brotliCompress: 1.39kb
+public/assets/from-spring-to-glass-BgZbxuPc.js.br                     2.21kb / brotliCompress: 0.94kb
+public/assets/from-spring-to-glass-Bvgpauah.js.br                     2.18kb / brotliCompress: 0.93kb
+public/assets/ez-water-deep-dive-rbpTGR2G.js.br                       21.32kb / brotliCompress: 3.48kb
+public/assets/ferrous-iron-sulphate-DnCnTO-9.js.br                    12.72kb / brotliCompress: 2.83kb
+public/assets/function-docs-D4tXea5-.js.br                            16.03kb / brotliCompress: 3.77kb
+public/assets/function-docs-Dhcn7qS7.js.br                            16.03kb / brotliCompress: 3.77kb
+public/assets/function-docs-DsT3zVpK.js.br                            16.03kb / brotliCompress: 3.77kb
+public/assets/function-docs-hQ9oQ5H9.js.br                            16.03kb / brotliCompress: 3.77kb
+public/assets/geometric-flow-devices-Brd4DIh1.js.br                   7.43kb / brotliCompress: 2.18kb
+public/assets/global-shipping-packaging-SZ9sRWh2.js.br                5.86kb / brotliCompress: 1.78kb
+public/assets/geometry-consciousness-BlFKzzKU.js.br                   8.68kb / brotliCompress: 2.42kb
+public/assets/glossary-CkZ7jy7f.js.br                                 2.19kb / brotliCompress: 0.93kb
+public/assets/geometric-flow-devices-BsHANjZs.js.br                   7.40kb / brotliCompress: 2.16kb
+public/assets/global-shipping-packaging-Bd3r270h.js.br                5.83kb / brotliCompress: 1.77kb
+public/assets/glossary-Cgu2Nqjc.js.br                                 2.16kb / brotliCompress: 0.92kb
+public/assets/geometry-consciousness-Bb3H2RMc.js.br                   8.65kb / brotliCompress: 2.40kb
+public/assets/gold-icons-preview-Dit3koBh.js.br                       3.84kb / brotliCompress: 1.15kb
+public/assets/gold-loader-preview-DFK10iqq.js.br                      3.67kb / brotliCompress: 0.93kb
+public/assets/gold-icons-preview-CXRl2nkt.js.br                       3.84kb / brotliCompress: 1.16kb
+public/assets/gold-loader-preview-CbcRDLoi.js.br                      3.67kb / brotliCompress: 0.93kb
+public/assets/home-DRqQKhEg.js.br                                     6.92kb / brotliCompress: 2.11kb
+public/assets/hexagonal-structures-C40ihK60.js.br                     22.03kb / brotliCompress: 4.78kb
+public/assets/hidden-architecture-water-BKO-JYEc.js.br                29.35kb / brotliCompress: 6.44kb
+public/assets/hidden-architecture-water-BZMczDyd.js.br                29.32kb / brotliCompress: 6.42kb
+public/assets/home-DFesU7eF.js.br                                     6.95kb / brotliCompress: 2.13kb
+public/assets/hexagonal-structures-DH8ePvGf.js.br                     22.06kb / brotliCompress: 4.80kb
+public/assets/how-to-choose-dose-DgPLlRgs.js.br                       2.19kb / brotliCompress: 0.93kb
+public/assets/how-andara-works-0inAFXrp.js.br                         10.64kb / brotliCompress: 2.68kb
+public/assets/how-andara-works-BvEEwfp0.js.br                         10.61kb / brotliCompress: 2.67kb
+public/assets/home-mw_r7QCB.js.br                                     13.97kb / brotliCompress: 3.25kb
+public/assets/how-to-use-andara-Be8vbuZq.js.br                        11.20kb / brotliCompress: 2.84kb
+public/assets/how-to-choose-dose-Dr3ZfLpS.js.br                       2.16kb / brotliCompress: 0.92kb
+public/assets/home-gQVFRuUR.js.br                                     13.94kb / brotliCompress: 3.25kb
+public/assets/how-to-prepare-water-BLuV08si.js.br                     16.46kb / brotliCompress: 3.61kb
+public/assets/how-to-prepare-water-CRu_rL9y.js.br                     16.43kb / brotliCompress: 3.59kb
+public/assets/hydration-clusters-DA8rURXp.js.br                       15.11kb / brotliCompress: 3.47kb
+public/assets/how-to-use-andara-nRpuQifk.js.br                        11.18kb / brotliCompress: 2.83kb
+public/assets/hydration-layers-interfaces-CldMXSHK.js.br              16.00kb / brotliCompress: 3.56kb
+public/assets/hydration-clusters-D__J9w_w.js.br                       15.08kb / brotliCompress: 3.47kb
+public/assets/imprint-DJbbwnmy.js.br                                  6.87kb / brotliCompress: 2.00kb
+public/assets/hydration-layers-interfaces-DCu9kTuC.js.br              16.33kb / brotliCompress: 3.72kb
+public/assets/icons-CsrVzwMY.js.br                                    19.64kb / brotliCompress: 3.31kb
+public/assets/index-0DjEUbDR.js.br                                    3.47kb / brotliCompress: 1.51kb
+public/assets/index-B-Z_Tofj.js.br                                    6.45kb / brotliCompress: 2.40kb
+public/assets/index-B4oqgHXH.js.br                                    18.52kb / brotliCompress: 3.75kb
+public/assets/index-BGzhM_XO.js.br                                    6.45kb / brotliCompress: 2.40kb
+public/assets/icons-DiEr_Peg.js.br                                    19.64kb / brotliCompress: 3.33kb
+public/assets/index-BEIFUX9P.js.br                                    3.47kb / brotliCompress: 1.51kb
+public/assets/image-registry-CGbt5iL5.js.br                           33.21kb / brotliCompress: 6.86kb
+public/assets/index-JNJfaE3N.js.br                                    1.04kb / brotliCompress: 0.54kb
+public/assets/imprint-DrLfUPy6.js.br                                  6.84kb / brotliCompress: 1.99kb
+public/assets/index-CqUluVxK.js.br                                    5.50kb / brotliCompress: 1.75kb
+public/assets/index-Dh7I9ZlR.js.br                                    1.04kb / brotliCompress: 0.53kb
+public/assets/index-DB_f5vYh.js.br                                    18.52kb / brotliCompress: 3.75kb
+public/assets/ion-channels-gradients-CUWxnRlG.js.br                   15.54kb / brotliCompress: 3.38kb
+public/assets/index.dom-DdL1y947.js.br                                17.89kb / brotliCompress: 5.44kb
+public/assets/ion-transport-BbG5SGqQ.js.br                            7.95kb / brotliCompress: 2.26kb
+public/assets/ion-transport-CLq563rP.js.br                            7.98kb / brotliCompress: 2.25kb
+public/assets/ionic-drops-0QtMBFpn.js.br                              7.10kb / brotliCompress: 2.21kb
+public/assets/ionic-drops-CqRjS5wp.js.br                              7.13kb / brotliCompress: 2.24kb
+public/assets/ionic-vs-plant-minerals-BN4-tlkS.js.br                  2.21kb / brotliCompress: 0.95kb
+public/assets/ion-channels-gradients-Di3y_8Vs.js.br                   15.51kb / brotliCompress: 3.37kb
+public/assets/ionic-vs-colloidal-vs-solid-BRbpcVnw.js.br              15.64kb / brotliCompress: 3.88kb
+public/assets/ionic-vs-colloidal-vs-solid-6puwQ7FI.js.br              15.61kb / brotliCompress: 3.87kb
+public/assets/iron-magnesium-silicates-glCLI-7v.js.br                 6.88kb / brotliCompress: 2.02kb
+public/assets/join-qQ5Ufb4N.js.br                                     2.14kb / brotliCompress: 0.91kb
+public/assets/ionic-vs-plant-minerals-CusVn96L.js.br                  2.18kb / brotliCompress: 0.93kb
+public/assets/join-DK4idyw9.js.br                                     2.11kb / brotliCompress: 0.90kb
+public/assets/lab-measurements-B_9TEgIX.js.br                         10.83kb / brotliCompress: 2.61kb
+public/assets/lab-measurements-CpuN2UrV.js.br                         10.85kb / brotliCompress: 2.63kb
+public/assets/iron-magnesium-silicates-DJb42MbS.js.br                 6.85kb / brotliCompress: 2.00kb
+public/assets/layout-BRGuZDA7.js.br                                   11.15kb / brotliCompress: 3.39kb
+public/assets/layout-DhseVFdC.js.br                                   7.53kb / brotliCompress: 2.62kb
+public/assets/layout-v6-hiySExry.js.br                                2.94kb / brotliCompress: 1.24kb
+public/assets/layout-v6-pF5gRdMu.js.br                                2.96kb / brotliCompress: 1.25kb
+public/assets/layout-v1-amOoD4Of.js.br                                2.08kb / brotliCompress: 0.87kb
+public/assets/layout-v1-Cj3bPltV.js.br                                2.05kb / brotliCompress: 0.86kb
+public/assets/light-mineral-field-DWukL1yi.js.br                      12.77kb / brotliCompress: 3.16kb
+public/assets/light-sound-water-C4LYz5Uq.js.br                        10.50kb / brotliCompress: 2.55kb
+public/assets/light-sound-water-BJbM9Ee_.js.br                        10.48kb / brotliCompress: 2.57kb
+public/assets/light-mineral-field-DZyKWPFH.js.br                      12.80kb / brotliCompress: 3.17kb
+public/assets/liquid-crystal-biology-overview-Cx51CKm2.js.br          9.98kb / brotliCompress: 2.61kb
+public/assets/liquid-crystal-biology-overview-C_uFwqf3.js.br          10.01kb / brotliCompress: 2.61kb
+public/assets/liquid-crystal-bioelectric-bridge-N3y4ul9D.js.br        9.19kb / brotliCompress: 2.38kb
+public/assets/liquid-crystal-memory-DhNXn7FX.js.br                    7.29kb / brotliCompress: 2.17kb
+public/assets/liquid-crystal-bioelectric-bridge-CXYrbRYe.js.br        9.16kb / brotliCompress: 2.36kb
+public/assets/liquid-crystal-resonance-vODxPgfw.js.br                 7.96kb / brotliCompress: 2.26kb
+public/assets/liquid-crystal-memory-CEoND7cb.js.br                    7.26kb / brotliCompress: 2.15kb
+public/assets/magic-page-f3lmmxgB.js.br                               9.84kb / brotliCompress: 2.43kb
+public/assets/liquid-expansion-DgsOWfs4.js.br                         7.00kb / brotliCompress: 2.14kb
+public/assets/liquid-expansion-DRocpShO.js.br                         6.97kb / brotliCompress: 2.13kb
+public/assets/liquid-crystal-resonance-UzJGtJMs.js.br                 7.93kb / brotliCompress: 2.26kb
+public/assets/magic-page-BMzU9QUP.js.br                               9.84kb / brotliCompress: 2.44kb
+public/assets/magnetics-and-water-myths-BOV6fhC3.js.br                18.26kb / brotliCompress: 4.02kb
+public/assets/magnetics-and-water-myths-Cf5DTGVC.js.br                18.23kb / brotliCompress: 4.01kb
+public/assets/magnetics-water-DdSsEjw0.js.br                          25.06kb / brotliCompress: 6.14kb
+public/assets/mega-menu-CBMGadw0.js.br                                12.52kb / brotliCompress: 3.62kb
+public/assets/mega-menu-BBVr_IqI.js.br                                12.51kb / brotliCompress: 3.61kb
+public/assets/microscope-C3q2AXR3.js.br                               1.09kb / brotliCompress: 0.46kb
+public/assets/mineral-cofactors-enzymes-CdfOQia9.js.br                12.60kb / brotliCompress: 3.34kb
+public/assets/mineral-cofactors-enzymes-DWuT5GhP.js.br                12.57kb / brotliCompress: 3.34kb
+public/assets/mineral-origin-BICCRE3N.js.br                           2.20kb / brotliCompress: 0.92kb
+public/assets/mineral-deficiency-modern-world-CsOK24CV.js.br          14.88kb / brotliCompress: 3.93kb
+public/assets/microscope-BO7vefnj.js.br                               1.09kb / brotliCompress: 0.45kb
+public/assets/magnetics-water-nktvFgup.js.br                          25.09kb / brotliCompress: 6.17kb
+public/assets/mineral-roots-microbiome-BW53xovo.js.br                 2.17kb / brotliCompress: 0.93kb
+public/assets/mineral-deficiency-modern-world-BaxkmFix.js.br          14.85kb / brotliCompress: 3.90kb
+public/assets/mineral-roots-microbiome-B-DeSvBf.js.br                 2.15kb / brotliCompress: 0.91kb
+public/assets/mineral-science-blueprint-BV9BsjKo.js.br                8.92kb / brotliCompress: 2.39kb
+public/assets/mineral-origin-XegLNJLk.js.br                           2.17kb / brotliCompress: 0.91kb
+public/assets/minerals-biofilms-CU5EClXN.js.br                        16.14kb / brotliCompress: 3.49kb
+public/assets/mineral-sources-Be-RioW3.js.br                          10.40kb / brotliCompress: 2.81kb
+public/assets/mineral-science-blueprint-D_xQPWWq.js.br                8.89kb / brotliCompress: 2.38kb
+public/assets/mineral-sources-l9IbU_db.js.br                          10.37kb / brotliCompress: 2.81kb
+public/assets/minerals-in-modern-life-Bsv-L-ja.js.br                  2.16kb / brotliCompress: 0.92kb
+public/assets/minerals-fermentation-DVDHQK7B.js.br                    11.31kb / brotliCompress: 3.05kb
+public/assets/minerals-in-modern-life-DsLPaPZD.js.br                  2.19kb / brotliCompress: 0.93kb
+public/assets/minerals-biofilms-CtRYE0tg.js.br                        16.11kb / brotliCompress: 3.48kb
+public/assets/minerals-fermentation-CF0BWUef.js.br                    11.29kb / brotliCompress: 3.04kb
+public/assets/minerals-microbiome-gut-B29T-gZi.js.br                  5.90kb / brotliCompress: 1.96kb
+public/assets/minerals-microbiome-gut-DVQJx2FD.js.br                  5.87kb / brotliCompress: 1.95kb
+public/assets/minerals-microbiome-overview-CuEv2fqL.js.br             8.61kb / brotliCompress: 2.44kb
+public/assets/minerals-microbiome-research-hub-h3fnsXE6.js.br         13.34kb / brotliCompress: 3.83kb
+public/assets/minerals-microbiome-overview-LxwCTkhA.js.br             8.58kb / brotliCompress: 2.42kb
+public/assets/minerals-microbiome-water-link-DXJqXY69.js.br           9.85kb / brotliCompress: 2.65kb
+public/assets/minerals-prebiotics-scfa-DKf49cTJ.js.br                 14.60kb / brotliCompress: 3.30kb
+public/assets/minerals-microbiome-water-link-MtLwSXpE.js.br           9.82kb / brotliCompress: 2.63kb
+public/assets/minerals-soil-water-body-Bjg-TauA.js.br                 12.16kb / brotliCompress: 3.04kb
+public/assets/minerals-microbiome-research-hub-dfH2Nmbg.js.br         13.31kb / brotliCompress: 3.82kb
+public/assets/modern-chat-demo-k2ouEUx_.js.br                         1.28kb / brotliCompress: 0.52kb
+public/assets/modern-chat-demo-ZHod6DcG.js.br                         1.28kb / brotliCompress: 0.53kb
+public/assets/motion-kitchen-BFpPvFGO.js.br                           4.83kb / brotliCompress: 1.41kb
+public/assets/minerals-prebiotics-scfa-D8uRegGB.js.br                 14.57kb / brotliCompress: 3.29kb
+public/assets/motion-kitchen-BgqEYCwi.js.br                           4.83kb / brotliCompress: 1.40kb
+public/assets/motion-library-preview-HUwRSl97.js.br                   9.72kb / brotliCompress: 2.93kb
+public/assets/motion-lab-BTltePM0.js.br                               19.00kb / brotliCompress: 4.83kb
+public/assets/minerals-soil-water-body-Bza2LDDQ.js.br                 12.13kb / brotliCompress: 3.03kb
+public/assets/motion-lab-DZ4L1TPO.js.br                               19.00kb / brotliCompress: 4.83kb
+public/assets/newsletter-Bb61S479.js.br                               2.13kb / brotliCompress: 0.91kb
+public/assets/natural-vs-treated-water-C_dTunYT.js.br                 7.39kb / brotliCompress: 2.09kb
+public/assets/overview-8OK815Ou.js.br                                 2.16kb / brotliCompress: 0.92kb
+public/assets/motion-library-preview-Yz6zZiH7.js.br                   9.72kb / brotliCompress: 2.94kb
+public/assets/overview-vvx442Oi.js.br                                 2.19kb / brotliCompress: 0.93kb
+public/assets/newsletter-KQIDU6wX.js.br                               2.10kb / brotliCompress: 0.90kb
+public/assets/natural-vs-treated-water-AY2cqry1.js.br                 7.42kb / brotliCompress: 2.10kb
+public/assets/paintbrush-BvmZQXnA.js.br                               1.21kb / brotliCompress: 0.51kb
+public/assets/paintbrush-CJl51nDS.js.br                               1.21kb / brotliCompress: 0.51kb
+public/assets/page-content-preview-YpeJ94fL.js.br                     9.57kb / brotliCompress: 2.67kb
+public/assets/ph-orp-ec-C7AB-vVo.js.br                                18.54kb / brotliCompress: 4.52kb
+public/assets/primordial-C9Jv0DBj.js.br                               5.83kb / brotliCompress: 1.98kb
+public/assets/price-per-liter-explainer-CbEjy7ZL.js.br                12.16kb / brotliCompress: 2.95kb
+public/assets/page-content-preview-ixtsJwzy.js.br                     9.57kb / brotliCompress: 2.67kb
+public/assets/ph-orp-ec-joy1iFeT.js.br                                18.51kb / brotliCompress: 4.50kb
+public/assets/primordial-DPuo61wh.js.br                               5.80kb / brotliCompress: 1.96kb
+public/assets/price-per-liter-explainer-BfQzzoWj.js.br                12.13kb / brotliCompress: 2.94kb
+public/assets/product-C-UiuTA3.js.br                                  6.95kb / brotliCompress: 2.15kb
+public/assets/product-BCDmxp5V.js.br                                  6.92kb / brotliCompress: 2.14kb
+public/assets/progress-tylLYKnj.js.br                                 3.18kb / brotliCompress: 1.36kb
+public/assets/product-highlight-v2-DKE01xdj.js.br                     7.01kb / brotliCompress: 2.13kb
+public/assets/privacy-C6fw-hL7.js.br                                  9.56kb / brotliCompress: 2.62kb
+public/assets/product-highlight-v2-42R4GzV9.js.br                     7.04kb / brotliCompress: 2.14kb
+public/assets/redox-buffers-C8IYlnrf.js.br                            6.01kb / brotliCompress: 1.97kb
+public/assets/resources-downloads-COLsw7Ur.js.br                      2.17kb / brotliCompress: 0.93kb
+public/assets/privacy-BFTR-UVe.js.br                                  9.53kb / brotliCompress: 2.60kb
+public/assets/redox-buffers-DwKrWsOY.js.br                            5.98kb / brotliCompress: 1.95kb
+public/assets/proton-gradients-energy-transfer-C7YG4Fg6.js.br         13.78kb / brotliCompress: 3.00kb
+public/assets/progress-CLbHhiSL.js.br                                 3.18kb / brotliCompress: 1.36kb
+public/assets/science-library-D9RKM7uQ.js.br                          3.86kb / brotliCompress: 1.36kb
+public/assets/resources-downloads-Dy5-x99a.js.br                      2.15kb / brotliCompress: 0.92kb
+public/assets/proton-gradients-energy-transfer-Dsk_Ez5x.js.br         13.75kb / brotliCompress: 3.00kb
+public/assets/science-library-XkAQrvT3.js.br                          3.89kb / brotliCompress: 1.37kb
+public/assets/science-library-data-CeeRJ4H1.js.br                     2.86kb / brotliCompress: 0.90kb
+public/assets/sacred-geometry-water-AD8oUXZt.js.br                    13.40kb / brotliCompress: 2.83kb
+public/assets/sacred-geometry-water-CIakKjXl.js.br                    13.37kb / brotliCompress: 2.83kb
+public/assets/science-library-master-8mWlvCUU.js.br                   7.58kb / brotliCompress: 2.65kb
+public/assets/science-library-hub-r6TEqdTa.js.br                      16.77kb / brotliCompress: 3.41kb
+public/assets/scroll-area-DoYffo6V.js.br                              12.31kb / brotliCompress: 3.49kb
+public/assets/separator-Dt9qSDhd.js.br                                1.03kb / brotliCompress: 0.52kb
+public/assets/separator-Daj4rawV.js.br                                1.03kb / brotliCompress: 0.53kb
+public/assets/scroll-effect-CMLtzDWV.js.br                            10.79kb / brotliCompress: 2.73kb
+public/assets/select-Blu0CdRU.js.br                                   23.13kb / brotliCompress: 7.31kb
+public/assets/science-library-hub-BZqt4bjL.js.br                      16.74kb / brotliCompress: 3.40kb
+public/assets/science-library-master-lELRGZFc.js.br                   7.55kb / brotliCompress: 2.63kb
+public/assets/scroll-area-Bx6Kv4Xy.js.br                              12.31kb / brotliCompress: 3.48kb
+public/assets/shop-DKuqJSvA.js.br                                     9.49kb / brotliCompress: 2.50kb
+public/assets/select-GLnOam2a.js.br                                   23.13kb / brotliCompress: 7.32kb
+public/assets/shipping-returns-CV_bdDYO.js.br                         2.13kb / brotliCompress: 0.91kb
+public/assets/shipping-returns-Bu9AfwhO.js.br                         2.16kb / brotliCompress: 0.92kb
+public/assets/scroll-effect-Bg_OzA0K.js.br                            10.79kb / brotliCompress: 2.74kb
+public/assets/sitemap-D1IhcQPL.js.br                                  5.80kb / brotliCompress: 1.56kb
+public/assets/sitemap-BGV2Ks3W.js.br                                  5.77kb / brotliCompress: 1.54kb
+public/assets/sourcing-sustainability-BUrkDe1p.js.br                  8.69kb / brotliCompress: 2.47kb
+public/assets/sitemap-B-ew8ZU4.js.br                                  29.78kb / brotliCompress: 5.26kb
+public/assets/spiritual-electricity-ion-intelligence-BFTsty5k.js.br   5.92kb / brotliCompress: 1.91kb
+public/assets/shop-CN0KhOWF.js.br                                     9.52kb / brotliCompress: 2.51kb
+public/assets/sourcing-sustainability-BzFDlEfn.js.br                  8.66kb / brotliCompress: 2.46kb
+public/assets/spiritual-electricity-ion-intelligence-DuQlvtWh.js.br   5.89kb / brotliCompress: 1.89kb
+public/assets/spiritual-electricity-myths-CM4IoNin.js.br              10.89kb / brotliCompress: 2.76kb
+public/assets/sitemap-BEcilkCv.js.br                                  29.75kb / brotliCompress: 5.24kb
+public/assets/springs-CsSvSUb0.js.br                                  14.19kb / brotliCompress: 3.31kb
+public/assets/sulfate-chemistry-CL8MAKWW.js.br                        15.76kb / brotliCompress: 4.00kb
+public/assets/spiritual-electricity-myths-DLsJtSqb.js.br              10.86kb / brotliCompress: 2.73kb
+public/assets/springs-B2ZJGdcF.js.br                                  14.21kb / brotliCompress: 3.32kb
+public/assets/start-here-BBpwb9p8.js.br                               10.47kb / brotliCompress: 2.81kb
+public/assets/sulfate-activation-range-DbOYcpG3.js.br                 10.73kb / brotliCompress: 2.95kb
+public/assets/sulfate-structuring-ez-DtCev5e8.js.br                   8.48kb / brotliCompress: 2.46kb
+public/assets/sulfate-chemistry-DeATgf3Q.js.br                        15.79kb / brotliCompress: 4.02kb
+public/assets/sulfur-detox-transport-Bpo-V3Ct.js.br                   8.44kb / brotliCompress: 2.44kb
+public/assets/start-here-DHN3s5yx.js.br                               10.44kb / brotliCompress: 2.81kb
+public/assets/sulfate-activation-range-Ctx_cXYr.js.br                 10.70kb / brotliCompress: 2.94kb
+public/assets/sulfate-pathways-water-body-CjT7iixn.js.br              8.63kb / brotliCompress: 2.44kb
+public/assets/sulfur-springs-tradition-BUc-r7Up.js.br                 8.10kb / brotliCompress: 2.35kb
+public/assets/sulfate-pathways-water-body-D3i1ic8w.js.br              8.60kb / brotliCompress: 2.43kb
+public/assets/sulfate-structuring-ez-B2R3iplA.js.br                   8.45kb / brotliCompress: 2.45kb
+public/assets/support-contact-options-DDPXMHIE.js.br                  2.15kb / brotliCompress: 0.92kb
+public/assets/sulfur-detox-transport-DUY2iikb.js.br                   8.42kb / brotliCompress: 2.42kb
+public/assets/support-contact-options-B_qQkdU6.js.br                  2.13kb / brotliCompress: 0.91kb
+public/assets/sulfur-springs-tradition-0ShLt43y.js.br                 8.07kb / brotliCompress: 2.34kb
+public/assets/support-resources-downloads-D5wR4YT-.js.br              5.67kb / brotliCompress: 2.00kb
+public/assets/sulfur-sulfate-overview-Dg5MU3O_.js.br                  13.33kb / brotliCompress: 3.04kb
+public/assets/support-how-to-choose-dose-BTuXbsp8.js.br               9.40kb / brotliCompress: 3.08kb
+public/assets/support-how-to-choose-dose-BOQThplO.js.br               9.37kb / brotliCompress: 3.08kb
+public/assets/support-resources-downloads-BapGBNC9.js.br              5.64kb / brotliCompress: 1.98kb
+public/assets/table-CQVMzGh_.js.br                                    1.56kb / brotliCompress: 0.46kb
+public/assets/support-shipping-returns-CCkSIYQN.js.br                 7.54kb / brotliCompress: 2.22kb
+public/assets/support-shipping-returns-DHY0kWMc.js.br                 7.56kb / brotliCompress: 2.23kb
+public/assets/table-DZkSgSxT.js.br                                    1.56kb / brotliCompress: 0.46kb
+public/assets/terrain-maps-BBpoABr1.js.br                             2.19kb / brotliCompress: 0.94kb
+public/assets/terms-CuUmv7DC.js.br                                    4.98kb / brotliCompress: 1.52kb
+public/assets/terms-BtbRBfSf.js.br                                    4.96kb / brotliCompress: 1.51kb
+public/assets/terrain-concepts-C-haVNWJ.js.br                         13.69kb / brotliCompress: 2.84kb
+public/assets/sulfur-sulfate-overview-BDvYx48h.js.br                  13.30kb / brotliCompress: 3.03kb
+public/assets/terrain-maps-Dh-w9J0v.js.br                             2.16kb / brotliCompress: 0.93kb
+public/assets/terrain-model-overview-CT2NdbDD.js.br                   9.19kb / brotliCompress: 2.40kb
+public/assets/terrain-concepts-BpkkiRsm.js.br                         13.66kb / brotliCompress: 2.83kb
+public/assets/terrain-model-overview-CnFFIM5Z.js.br                   9.22kb / brotliCompress: 2.42kb
+public/assets/terrain-principles-everyday-DMitPYLJ.js.br              8.76kb / brotliCompress: 2.32kb
+public/assets/terrain-thinking-intro-CMzCybiU.js.br                   2.17kb / brotliCompress: 0.92kb
+public/assets/terrain-sulfur-BKui617Q.js.br                           9.08kb / brotliCompress: 2.52kb
+public/assets/terrain-principles-everyday-o29zgKR3.js.br              8.73kb / brotliCompress: 2.32kb
+public/assets/terrain-vs-symptom-B3axBKqk.js.br                       6.54kb / brotliCompress: 1.92kb
+public/assets/terrain-vs-symptom-DrbK4XmR.js.br                       6.51kb / brotliCompress: 1.92kb
+public/assets/terrain-vs-symptom-thinking-ChmWkvhG.js.br              9.24kb / brotliCompress: 2.19kb
+public/assets/terrain-vs-symptom-thinking-D1RxjhG6.js.br              9.21kb / brotliCompress: 2.18kb
+public/assets/terrain-thinking-intro-DSfZ3z3f.js.br                   2.14kb / brotliCompress: 0.90kb
+public/assets/tetrahedral-sulfate-geometry-BXoQZRma.js.br             11.47kb / brotliCompress: 3.12kb
+public/assets/torus-preview-BQ9oIven.js.br                            2.87kb / brotliCompress: 1.07kb
+public/assets/tetrahedral-sulfate-geometry-B1Bk4Teh.js.br             11.50kb / brotliCompress: 3.14kb
+public/assets/timeline-Cg2uXo2r.js.br                                 7.78kb / brotliCompress: 1.71kb
+public/assets/torus-preview-_uhVqinE.js.br                            2.84kb / brotliCompress: 1.06kb
+public/assets/timeline-DuEgfkZo.js.br                                 7.81kb / brotliCompress: 1.72kb
+public/assets/three-pillars-B8CXSI2R.js.br                            16.94kb / brotliCompress: 4.15kb
+public/assets/trace-minerals-rare-earths-BA08xJYX.js.br               10.12kb / brotliCompress: 2.80kb
+public/assets/three-pillars-BeXyGV5j.js.br                            16.91kb / brotliCompress: 4.14kb
+public/assets/trace-minerals-rare-earths-BYfaEu5e.js.br               10.15kb / brotliCompress: 2.82kb
+public/assets/troubleshooting-water-BuK9k6X0.js.br                    9.74kb / brotliCompress: 3.23kb
+public/assets/triangular-harmonics-BqzqDjE_.js.br                     8.57kb / brotliCompress: 2.50kb
+public/assets/troubleshooting-water-Bnp3GtXS.js.br                    9.71kb / brotliCompress: 3.23kb
+public/assets/triangular-harmonics-CEQUrx9m.js.br                     8.54kb / brotliCompress: 2.49kb
+public/assets/trust-certifications-C4vNpX7q.js.br                     8.83kb / brotliCompress: 2.24kb
+public/assets/trust-faq-safety-Cs1DyIpO.js.br                         8.95kb / brotliCompress: 2.51kb
+public/assets/trust-certifications-CeGMsZEW.js.br                     8.80kb / brotliCompress: 2.23kb
+public/assets/trust-glossary-CY8yXxq2.js.br                           8.44kb / brotliCompress: 2.85kb
+public/assets/trust-faq-safety-BaysO43s.js.br                         8.92kb / brotliCompress: 2.50kb
+public/assets/trust-lab-methods-DqEAZBp8.js.br                        11.63kb / brotliCompress: 2.91kb
+public/assets/trust-quality-4JrSWkF3.js.br                            8.44kb / brotliCompress: 2.39kb
+public/assets/trust-mineral-origin-DzbCA0u9.js.br                     9.82kb / brotliCompress: 2.57kb
+public/assets/trust-lab-methods-CtKl6p79.js.br                        11.61kb / brotliCompress: 2.91kb
+public/assets/trust-glossary-D7D00nPb.js.br                           8.47kb / brotliCompress: 2.86kb
+public/assets/trust-mineral-origin-C6BZrp1E.js.br                     9.85kb / brotliCompress: 2.58kb
+public/assets/trust-quality-Cym6JBVg.js.br                            8.47kb / brotliCompress: 2.39kb
+public/assets/use-transform-anQBHXTp.js.br                            7.02kb / brotliCompress: 2.74kb
+public/assets/use-transform-a2VaR1Mx.js.br                            7.02kb / brotliCompress: 2.74kb
+public/assets/turbidity-clarity-flocculation-CCJVmAEo.js.br           13.55kb / brotliCompress: 3.77kb
+public/assets/turbidity-clarity-flocculation-BAFAqF_9.js.br           13.52kb / brotliCompress: 3.74kb
+public/assets/turbidity-clarity-BBiSl3Pm.js.br                        9.79kb / brotliCompress: 2.62kb
+public/assets/vision-mission-IDamht5s.js.br                           7.82kb / brotliCompress: 2.25kb
+public/assets/voltage-detox-pathways-BMrq6xuv.js.br                   6.90kb / brotliCompress: 2.08kb
+public/assets/voltage-detox-pathways-CGq4dGQ2.js.br                   6.87kb / brotliCompress: 2.05kb
+public/assets/vision-mission-CV9YjDhT.js.br                           7.79kb / brotliCompress: 2.25kb
+public/assets/vortex-technologies-PtpIWCYV.js.br                      13.37kb / brotliCompress: 3.13kb
+public/assets/vortex-technologies-DVfgoUQk.js.br                      13.35kb / brotliCompress: 3.12kb
+public/assets/vortex-spiral-hydrodynamics-CUrR2iI2.js.br              23.73kb / brotliCompress: 5.58kb
+public/assets/vortex-spiral-hydrodynamics-D_PvYQjU.js.br              23.75kb / brotliCompress: 5.61kb
+public/assets/water-clarification-lab-BTiD-q-n.js.br                  10.92kb / brotliCompress: 2.60kb
+public/assets/vortexing-flow-Bs_KT6Lb.js.br                           15.90kb / brotliCompress: 3.75kb
+public/assets/water-collagen-matrix-Cau7ggB4.js.br                    20.39kb / brotliCompress: 5.22kb
+public/assets/water-memory-Bf9cCcYJ.js.br                             14.25kb / brotliCompress: 3.37kb
+public/assets/turbidity-clarity-6tsEV3cH.js.br                        9.76kb / brotliCompress: 2.61kb
+public/assets/vortexing-flow-PDTzINmM.js.br                           15.87kb / brotliCompress: 3.73kb
+public/assets/water-clarification-lab-B6Qj5-uD.js.br                  10.89kb / brotliCompress: 2.58kb
+public/assets/water-minerals-terrain-p-LvQYuK.js.br                   14.31kb / brotliCompress: 3.65kb
+public/assets/water-phases-structure-activation-CDUMcBjw.js.br        12.59kb / brotliCompress: 3.45kb
+public/assets/water-collagen-matrix-BHvBy_st.js.br                    20.36kb / brotliCompress: 5.22kb
+public/assets/water-phases-DI11eEjX.js.br                             12.49kb / brotliCompress: 3.10kb
+public/assets/water-phases-D_BrsMNX.js.br                             12.46kb / brotliCompress: 3.09kb
+public/assets/water-science-master-CMCjenYX.js.br                     14.75kb / brotliCompress: 3.67kb
+public/assets/why-sulfate-matters-BOcI6Rnw.js.br                      2.18kb / brotliCompress: 0.93kb
+public/assets/water-memory-Cjio2XHi.js.br                             14.22kb / brotliCompress: 3.36kb
+public/assets/water-structure-p-a9BTnr.js.br                          16.17kb / brotliCompress: 3.50kb
+public/assets/water-minerals-terrain-DRitoEzX.js.br                   14.28kb / brotliCompress: 3.64kb
+public/assets/with-selector-DASTb4lN.js.br                            1.26kb / brotliCompress: 0.63kb
+public/assets/water-science-1Ot4z_9p.js.br                            28.03kb / brotliCompress: 5.90kb
+public/assets/water-structure-C5DH7Zrp.js.br                          16.15kb / brotliCompress: 3.50kb
+public/assets/water-phases-structure-activation-Cf3Cv_Tt.js.br        12.56kb / brotliCompress: 3.44kb
+public/assets/with-selector-DK9I2NOC.js.br                            1.26kb / brotliCompress: 0.67kb
+public/assets/what-is-andara-ionic-CCUkPCzY.js.br                     8.57kb / brotliCompress: 2.38kb
+public/assets/water-science-D6jVBXYP.js.br                            28.00kb / brotliCompress: 5.89kb
+public/assets/why-sulfate-matters-BuYBSruV.js.br                      2.15kb / brotliCompress: 0.92kb
+public/assets/what-is-andara-ionic-uERI_4M-.js.br                     8.54kb / brotliCompress: 2.36kb
+public/index.html.br                                                  1.69kb / brotliCompress: 0.42kb
+public/preview-sulfate.html.br                                        2.86kb / brotliCompress: 0.86kb
+public/assets/water-science-master-Bg8SnpmE.js.br                     14.72kb / brotliCompress: 3.65kb
+public/assets/terrain-sulfur-eC36A_Ft.js.br                           9.11kb / brotliCompress: 2.54kb
+public/preview-science.html.br                                        15.97kb / brotliCompress: 3.94kb
+public/preview-library.html.br                                        24.85kb / brotliCompress: 5.82kb
+public/assets/admin-COEd40At.js.br                                    158.89kb / brotliCompress: 28.66kb
+public/assets/admin-zVoStmWo.js.br                                    75.39kb / brotliCompress: 16.79kb
+public/assets/admin-Dduh77J4.js.br                                    75.16kb / brotliCompress: 16.75kb
+public/assets/admin-Djkaxj-t.js.br                                    159.08kb / brotliCompress: 28.77kb
+public/assets/index-CB87Sc6I.js.br                                    68.67kb / brotliCompress: 24.31kb
+public/assets/bigmind-chat-modern-DUg9sBPz.js.br                      186.85kb / brotliCompress: 42.61kb
+public/assets/bigmind-chat-modern-DKPKQPS8.js.br                      186.85kb / brotliCompress: 42.70kb
+public/assets/index-C8k8VOa8.js.br                                    256.47kb / brotliCompress: 68.07kb
+public/assets/index-BRQHNu54.css.br                                   580.23kb / brotliCompress: 48.55kb
+public/assets/index-DK_TTgvN.js.br                                    256.18kb / brotliCompress: 68.07kb
+public/assets/App-U4VC5KTk.js.br                                      368.98kb / brotliCompress: 86.81kb
+public/assets/App-Bfg2mBA3.js.br                                      370.52kb / brotliCompress: 86.92kb
+public/assets/PieChart-DH3yAue6.js.br                                 368.84kb / brotliCompress: 82.67kb
+public/assets/PieChart-e9RMXVSr.js.br                                 368.84kb / brotliCompress: 82.79kb
+public/assets/ArticleEditorModal-rB-sBw1s.js.br                       389.43kb / brotliCompress: 103.07kb
+public/assets/ArticleEditorModal-CCKgdZ1-.js.br                       389.53kb / brotliCompress: 103.11kb
+public/assets/index-dBMxgdkO.css.br                                   630.28kb / brotliCompress: 52.26kb
+public/assets/AIAgentsTab-zESfKVRk.js.br                              629.67kb / brotliCompress: 177.24kb
+public/assets/AIAgentsTab-D7IRhJhF.js.br                              629.67kb / brotliCompress: 177.18kb
+public/assets/MoleculeBuilder-BT_ohuJT.js.br                          998.73kb / brotliCompress: 231.86kb
+public/assets/MoleculeBuilder-5Tl4X-Ug.js.br                          998.73kb / brotliCompress: 231.93kb
+
+
+✗ Build failed in 23.25s
+error during build:
+[vite:load-fallback] Could not load /Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/client/src/components/layouts/StandardPageLayout (imported by client/src/pages/demos/bioelectric-concept.tsx): ENOENT: no such file or directory, open '/Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/client/src/components/layouts/StandardPageLayout'
+    at async open (node:internal/fs/promises:642:25)
+    at async Object.readFile (node:internal/fs/promises:1279:14)
+    at async Object.handler (file:///Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/node_modules/vite/dist/node/chunks/config.js:33504:21)
+    at async PluginDriver.hookFirstAndGetPlugin (file:///Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/node_modules/rollup/dist/es/shared/node-entry.js:22308:28)
+    at async file:///Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/node_modules/rollup/dist/es/shared/node-entry.js:21308:33
+    at async Queue.work (file:///Users/atti/Documents/localhost-AI-CMS/andara-ionic-cms/node_modules/rollup/dist/es/shared/node-entry.js:22536:32)

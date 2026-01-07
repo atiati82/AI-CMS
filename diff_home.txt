@@ -1,0 +1,548 @@
+0a1,14
+> 
+> import React, { useRef } from 'react';
+> import { GlassCard } from "@/components/ui/glass-card";
+> import { Button } from "@/components/ui/button";
+> import {
+>   ArrowRight, Mountain, Zap, Activity, Hexagon, ShoppingCart,
+>   Droplets, Stars, CloudFog, Eye, Plus, Minus, CheckCircle2,
+>   FlaskConical, Sprout, Bath, GlassWater, Leaf, Layers, Palette
+> } from "lucide-react";
+> import gsap from 'gsap';
+> import { ScrollTrigger } from 'gsap/all';
+> import { useGSAP } from '@gsap/react';
+> import MegaMenu from "@/components/mega-menu";
+> import { SmartImage } from "@/components/ui/SmartImage";
+2,5c16,17
+< import { ArrowRight, Check, Droplet, Star } from "lucide-react";
+< import { motion } from "framer-motion";
+< import Layout from "@/components/layout";
+< import { motionPresets } from "@/lib/motionPresets";
+---
+> import { FlocculationSequence } from "@/components/visuals/FlocculationSequence"; // Visual filtration mechanic
+> import Footer from "@/components/footer";
+7,8c19
+< import productBottle from "@assets/generated_images/amber_glass_dropper_bottle_for_andara_ionic_product.png";
+< import waterBg from "@assets/generated_images/abstract_water_structure_background.png";
+---
+> gsap.registerPlugin(ScrollTrigger);
+11,16c22,24
+<   return (
+<     <Layout>
+<       {/* Hero Section - Template v0.8 */}
+<       <section className="relative overflow-hidden border-b border-white/5 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+<         {/* Hero Gradient Overlay (cosmic multi-color glow) */}
+<         <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_0%_0%,#4b0082_0,#020617_50%),radial-gradient(circle_at_100%_100%,#22c55e_0,transparent_45%),radial-gradient(circle_at_50%_120%,#38bdf8_0,transparent_55%)]" />
+---
+>   const containerRef = useRef<HTMLDivElement>(null);
+>   const heroRef = useRef<HTMLDivElement>(null);
+>   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+18,25c26,27
+<         {/* Background Image */}
+<         <div className="absolute inset-0 z-0">
+<           <img
+<             src={waterBg}
+<             alt=""
+<             className="w-full h-full object-cover opacity-10"
+<           />
+<         </div>
+---
+>   useGSAP(() => {
+>     if (!containerRef.current) return;
+27,42c29,44
+<         {/* Hero Content Container */}
+<         <div className="relative mx-auto flex max-w-6xl flex-col gap-12 px-6 py-20 lg:flex-row lg:items-center lg:py-28">
+<           {/* Text Content */}
+<           <motion.div
+<             className="flex-1 space-y-8 text-center lg:text-left"
+<             initial="hidden"
+<             animate="visible"
+<             variants={motionPresets["scroll-fade-up-stagger"]}
+<           >
+<             {/* Top Badge */}
+<             <motion.span
+<               className="inline rounded-full border border-indigo-400/40 bg-indigo-900/20 px-3 py-1 text-xs uppercase tracking-[0.25em] text-indigo-200"
+<               variants={motionPresets["scroll-fade-up"]}
+<             >
+<               Primordial Mineral Science
+<             </motion.span>
+---
+>     // 1. Hero Exit Animation (V6 Style)
+>     if (heroRef.current) {
+>       gsap.to(heroRef.current, {
+>         scrollTrigger: {
+>           trigger: containerRef.current,
+>           start: "top top",
+>           end: "top top+=500", // Fast exit
+>           scrub: 1
+>         },
+>         opacity: 0,
+>         scale: 3, // Fly through effect
+>         filter: "blur(20px)",
+>         pointerEvents: "none",
+>         ease: "power2.in"
+>       });
+>     }
+44,51c46,65
+<             {/* H1 - Main Hero Title */}
+<             <motion.h1
+<               className="text-balance text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
+<               variants={motionPresets["scroll-fade-up"]}
+<             >
+<               Structure Your <br />
+<               <span className="text-indigo-300">Living Water</span>
+<             </motion.h1>
+---
+>     // 2. Section Animations (Fade Up & Scale)
+>     sectionsRef.current.forEach((section, i) => {
+>       if (!section) return;
+>       gsap.fromTo(section,
+>         { opacity: 0, y: 100, scale: 0.95 },
+>         {
+>           opacity: 1,
+>           y: 0,
+>           scale: 1,
+>           duration: 1,
+>           scrollTrigger: {
+>             trigger: section,
+>             start: "top bottom-=100", // Start when top of section is 100px from bottom of viewport
+>             end: "top center",
+>             scrub: 1,
+>             toggleActions: "play none none reverse"
+>           }
+>         }
+>       );
+>     });
+53,59c67
+<             {/* Lead Paragraph */}
+<             <motion.p
+<               className="text-balance text-lg leading-relaxed text-slate-200 sm:text-xl max-w-lg mx-auto lg:mx-0"
+<               variants={motionPresets["scroll-fade-up"]}
+<             >
+<               A concentrated ionic sulfate mineral solution designed to restore the natural crystalline phase of water for optimal cellular hydration.
+<             </motion.p>
+---
+>   }, { scope: containerRef });
+61,77c69,73
+<             {/* CTA Buttons */}
+<             <motion.div
+<               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+<               variants={motionPresets["scroll-fade-up"]}
+<             >
+<               <Link href="/shop/andara-ionic-100ml">
+<                 <button className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-300">
+<                   Discover Andara Ionic
+<                 </button>
+<               </Link>
+<               <Link href="/science">
+<                 <button className="text-sm font-medium text-slate-200 underline-offset-4 hover:text-emerald-200 hover:underline flex items-center gap-2">
+<                   Explore Science <ArrowRight className="w-4 h-4" />
+<                 </button>
+<               </Link>
+<             </motion.div>
+<           </motion.div>
+---
+>   const addToRefs = (el: HTMLDivElement | null) => {
+>     if (el && !sectionsRef.current.includes(el)) {
+>       sectionsRef.current.push(el);
+>     }
+>   };
+79,96c75,76
+<           {/* Product Image */}
+<           <motion.div
+<             className="flex-1 flex justify-center lg:justify-end"
+<             initial={{ opacity: 0, scale: 0.95 }}
+<             animate={{ opacity: 1, scale: 1 }}
+<             transition={{ duration: 1, ease: "easeOut" }}
+<           >
+<             <div className="relative w-[280px] sm:w-[350px] lg:w-[450px] aspect-square">
+<               <div className="absolute inset-0 bg-emerald-400/10 rounded-full blur-[100px]" />
+<               <img
+<                 src={productBottle}
+<                 alt="Andara Ionic Bottle"
+<                 className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+<               />
+<             </div>
+<           </motion.div>
+<         </div>
+<       </section>
+---
+>   return (
+>     <div ref={containerRef} className="relative bg-black min-h-screen selection:bg-emerald-500/30">
+98,140c78,81
+<       {/* Value Props Section - Template v0.8 */}
+<       <section className="border-b border-slate-800 bg-slate-950/90 py-20">
+<         <div className="mx-auto max-w-6xl space-y-10 px-6">
+<           <motion.div
+<             className="grid grid-cols-1 sm:grid-cols-3 gap-8"
+<             initial="hidden"
+<             whileInView="visible"
+<             viewport={{ once: true, margin: "-50px" }}
+<             variants={motionPresets["scroll-fade-up-stagger"]}
+<           >
+<             {[
+<               {
+<                 icon: Droplet,
+<                 title: "Ionic Bioavailability",
+<                 desc: "Dissolved minerals in their ionic state for immediate cellular absorption."
+<               },
+<               {
+<                 icon: Star,
+<                 title: "Crystalline Structure",
+<                 desc: "Promotes the alignment of water molecules into a coherent, liquid crystal phase."
+<               },
+<               {
+<                 icon: Check,
+<                 title: "Impurity Flocculation",
+<                 desc: "Naturally binds to and precipitates contaminants out of solution."
+<               }
+<             ].map((feature, i) => (
+<               <motion.div
+<                 key={i}
+<                 className="group rounded-2xl border border-slate-700/70 bg-slate-900/60 p-5 shadow-sm shadow-black/40 transition hover:border-emerald-300/60"
+<                 variants={motionPresets["scroll-fade-up"]}
+<               >
+<                 {/* Icon Container */}
+<                 <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-800">
+<                   <feature.icon className="w-5 h-5 text-emerald-400" />
+<                 </div>
+<                 <h3 className="text-sm font-semibold text-slate-50 mb-2">{feature.title}</h3>
+<                 <p className="text-xs leading-relaxed text-slate-300">{feature.desc}</p>
+<               </motion.div>
+<             ))}
+<           </motion.div>
+<         </div>
+<       </section>
+---
+>       {/* GLOBAL FIXED ELEMENTS */}
+>       <div className="fixed top-0 left-0 right-0 z-[60]">
+>         <MegaMenu />
+>       </div>
+142,158c83,92
+<       {/* Science Teaser Section - Template v0.8 */}
+<       <section className="border-b border-slate-800 bg-slate-950/95 py-20">
+<         <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 lg:flex-row lg:items-start">
+<           {/* Image Card */}
+<           <motion.div
+<             className="relative flex max-w-sm flex-col items-center gap-6 rounded-3xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-black/60 backdrop-blur-xl"
+<             initial={{ opacity: 0, x: -40 }}
+<             whileInView={{ opacity: 1, x: 0 }}
+<             viewport={{ once: true, margin: "-50px" }}
+<             transition={{ duration: 0.6 }}
+<           >
+<             <img src={waterBg} className="w-full h-48 object-cover rounded-xl opacity-50" />
+<             <div className="text-center">
+<               <div className="text-4xl font-bold text-indigo-300 mb-2">EZ</div>
+<               <div className="text-sm font-medium uppercase tracking-[0.25em] text-slate-400">Exclusion Zone Water</div>
+<             </div>
+<           </motion.div>
+---
+>       {/* HIGH-FIDELITY BACKGROUND (The V6 "Atmosphere") */}
+>       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+>         <SmartImage
+>           registryId="glass-origin" // Fallback/Base
+>           className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen"
+>         />
+>         {/* Star Beam Overlay if available, else CSS Gradient */}
+>         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+>         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-black to-black" />
+>       </div>
+160,171c94,107
+<           {/* Text Content */}
+<           <motion.div
+<             className="flex-1 space-y-6"
+<             initial={{ opacity: 0, x: 40 }}
+<             whileInView={{ opacity: 1, x: 0 }}
+<             viewport={{ once: true, margin: "-50px" }}
+<             transition={{ duration: 0.6, delay: 0.2 }}
+<           >
+<             {/* H2 - Section Title */}
+<             <h2 className="text-3xl font-semibold tracking-tight text-slate-50">
+<               Beyond Simple <span className="text-emerald-300">Hydration</span>
+<             </h2>
+---
+>       {/* 1. HERO HEADER (Fixed & Animated - V6 Style) */}
+>       <div ref={heroRef} className="relative h-screen flex items-center justify-center z-10 px-4">
+>         <GlassCard className="text-center py-16 px-8 md:px-20 bg-black/40 backdrop-blur-md border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)] flex flex-col items-center max-w-5xl w-full">
+>           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-emerald-400 text-xs tracking-widest uppercase mb-8 shadow-[0_0_20px_rgba(52,211,153,0.1)] animate-pulse">
+>             <Stars className="w-3 h-3" />
+>             The Portable Ritual
+>           </div>
+>           <h1 className="text-6xl md:text-9xl font-display text-white tracking-tighter mb-6 drop-shadow-2xl">
+>             Andara <span className="text-transparent bg-clip-text bg-gradient-to-br from-emerald-200 to-cyan-500">Ionic</span>
+>           </h1>
+>           <p className="text-xl md:text-3xl text-slate-300 font-light leading-relaxed max-w-3xl tracking-wide">
+>             Journey from the primordial source to the bottle in your hand.
+>             <br /><span className="text-emerald-400/80 text-lg">Structure. Clarify. Activate.</span>
+>           </p>
+173,178c109,113
+<             {/* Lead Paragraph */}
+<             <p className="text-balance text-lg leading-relaxed text-slate-200">
+<               Water is not just a solvent; it is a medium for information and energy.
+<               Our Science Library explores the cutting-edge research into structured water,
+<               bioelectricity, and the role of primordial minerals in biology.
+<             </p>
+---
+>           <div className="mt-12 animate-bounce opacity-50">
+>             <ArrowRight className="w-6 h-6 text-white rotate-90" />
+>           </div>
+>         </GlassCard>
+>       </div>
+180,195c115,116
+<             {/* Bullet List */}
+<             <ul className="space-y-3">
+<               {["The Fourth Phase of Water", "Sulfate Chemistry", "Bioelectric Potentials"].map((item, i) => (
+<                 <motion.li
+<                   key={item}
+<                   className="flex gap-2"
+<                   initial={{ opacity: 0, x: 20 }}
+<                   whileInView={{ opacity: 1, x: 0 }}
+<                   viewport={{ once: true }}
+<                   transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+<                 >
+<                   <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400" />
+<                   <span className="text-base leading-relaxed text-slate-200">{item}</span>
+<                 </motion.li>
+<               ))}
+<             </ul>
+---
+>       {/* CONTENT CONTAINER */}
+>       <div className="relative z-20 space-y-24 pb-32 pt-20">
+197,205c118,120
+<             <Link href="/science">
+<               <motion.button
+<                 className="text-sm font-medium text-slate-200 underline-offset-4 hover:text-emerald-200 hover:underline"
+<                 whileHover={{ x: 4 }}
+<               >
+<                 Enter the Science Library →
+<               </motion.button>
+<             </Link>
+<           </motion.div>
+---
+>         {/* BACKGROUND CONNECTORS (The "Glueline") */}
+>         <div className="absolute inset-x-0 top-0 bottom-0 flex justify-center pointer-events-none z-0">
+>           <div className="w-px bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent h-full" />
+207,208c122,339
+<       </section>
+<     </Layout>
+---
+> 
+>         {/* VISUAL FILLER: Floating Orbs/Boxes in the Voids */}
+>         <div className="absolute top-[20%] right-[10%] w-64 h-64 bg-emerald-500/5 rounded-full blur-[100px] animate-pulse pointer-events-none" />
+>         <div className="absolute top-[45%] left-[5%] w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+>         <div className="absolute top-[70%] right-[15%] w-48 h-48 bg-purple-500/5 rounded-full blur-[80px] pointer-events-none" />
+> 
+> 
+>         {/* 2. FILTRATION & MECHANISM ("How It Filters") */}
+>         <section ref={addToRefs} className="container mx-auto px-4 relative z-10">
+>           <GlassCard className="p-8 md:p-16 bg-black/60 backdrop-blur-xl border-white/5 shadow-2xl overflow-hidden relative">
+>             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+> 
+>             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+>               <div className="space-y-8">
+>                 <h2 className="text-4xl md:text-6xl font-display text-white">Clarification <br /><span className="text-emerald-400">Dynamics</span></h2>
+>                 <p className="text-lg text-slate-300 font-light leading-relaxed">
+>                   Before structure, there must be purity. Andara naturally clears water through <strong>Flocculation</strong>—ionic minerals bind to suspended toxins, clumping them together to settle.
+>                 </p>
+> 
+>                 <div className="space-y-6 pt-4">
+>                   {[
+>                     { step: "01", title: "Ionic Capture", desc: "Positively charged sulfates bind to toxins.", icon: Activity },
+>                     { step: "02", title: "Agglomeration", desc: "Particles clump into heavy 'flocs'.", icon: CloudFog },
+>                     { step: "03", title: "Sedimentation", desc: "Gravity clears the water column.", icon: Eye }
+>                   ].map((item, i) => (
+>                     <div key={i} className="flex gap-4 items-start group">
+>                       <div className="mt-1 w-8 h-8 rounded-full border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs font-mono bg-emerald-500/5 group-hover:bg-emerald-500/20 transition-all">
+>                         {item.step}
+>                       </div>
+>                       <div>
+>                         <h3 className="text-white font-medium mb-1 flex items-center gap-2">{item.title}</h3>
+>                         <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+>                       </div>
+>                     </div>
+>                   ))}
+>                 </div>
+>               </div>
+> 
+>               {/* Flocculation Visual */}
+>               <div className="relative h-[500px] w-full bg-slate-900/50 rounded-2xl overflow-hidden border border-white/10 shadow-inner">
+>                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-transparent pointer-events-none" />
+>                 <FlocculationSequence />
+>               </div>
+>             </div>
+> 
+>             {/* TARGETED CONTAMINANTS GRID */}
+>             <div className="mt-16 pt-8 border-t border-white/5">
+>               <h3 className="text-xl text-white font-medium mb-6 text-center">Flocculation Targets</h3>
+>               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+>                 {[
+>                   { label: "Suspended Solids", sub: "Sediment, Rust, Micro-plastics" },
+>                   { label: "Dissolved Organics", sub: "Tannins, Algae, Odors" },
+>                   { label: "Heavy Metals", sub: "Via Co-precipitation" },
+>                   { label: "Turbidity", sub: "Cloudiness & Haze" }
+>                 ].map((t, i) => (
+>                   <div key={i} className="p-4 bg-slate-900/40 rounded-xl border border-white/5 text-center hover:bg-white/5 transition-colors">
+>                     <div className="text-emerald-400 font-medium mb-1">{t.label}</div>
+>                     <div className="text-xs text-slate-500">{t.sub}</div>
+>                   </div>
+>                 ))}
+>               </div>
+>             </div>
+>           </GlassCard>
+>         </section>
+> 
+>         {/* 3. PRECISION DOSING (Dilution Table) */}
+>         <section ref={addToRefs} className="container mx-auto px-4 relative z-10">
+>           <div className="text-center mb-12">
+>             <span className="text-blue-400 font-mono text-xs tracking-widest uppercase mb-4 block">Application Protocols</span>
+>             <h2 className="text-5xl font-display text-white mb-6">Precision Dosing</h2>
+>             <p className="text-slate-400 font-light max-w-2xl mx-auto">
+>               Match the ionic concentration to your volume.
+>             </p>
+>           </div>
+> 
+>           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+>             {[
+>               { name: "Morning Glass", vol: "250ml", dose: "3-5 Drops", icon: GlassWater, color: "blue" },
+>               { name: "Water Bottle", vol: "1 Liter", dose: "1ml (Full Dropper)", icon: Droplets, color: "cyan" },
+>               { name: "Bath / Spa", vol: "150L+", dose: "50-100ml", icon: Bath, color: "purple" },
+>               { name: "Plants", vol: "Per Liter", dose: "0.5 - 1ml", icon: Sprout, color: "green" },
+>             ].map((card, i) => (
+>               <GlassCard key={i} className={`p-8 bg-slate-900/40 border-white/5 hover:border-${card.color}-500/30 hover:bg-slate-900/60 transition-all group flex flex-col items-center text-center`}>
+>                 <div className={`w-16 h-16 rounded-2xl bg-${card.color}-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
+>                   <card.icon className={`w-8 h-8 text-${card.color}-400`} />
+>                 </div>
+>                 <h3 className="text-xl text-white font-medium mb-1">{card.name}</h3>
+>                 <p className="text-xs text-slate-500 uppercase tracking-widest mb-6">{card.vol}</p>
+>                 <div className="py-4 border-t border-b border-white/5 w-full">
+>                   <span className="block text-2xl font-display text-white">{card.dose}</span>
+>                 </div>
+>               </GlassCard>
+>             ))}
+>           </div>
+>         </section>
+> 
+> 
+>         {/* 4. HYDRATION ECONOMICS & SHOP (The Dual Cards) */}
+>         <section ref={addToRefs} className="container mx-auto px-4 relative z-10">
+>           <GlassCard className="bg-black/40 backdrop-blur-md border-white/5 p-8 md:p-12">
+>             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 items-center">
+> 
+>               {/* Product 100ml */}
+>               <div className="relative group text-center">
+>                 <div className="absolute inset-0 bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none group-hover:bg-emerald-500/10 transition-all duration-700" />
+>                 <SmartImage registryId="product-100ml-nature" className="h-64 mx-auto object-contain drop-shadow-2xl mb-8 group-hover:scale-105 transition-transform duration-500" />
+>                 <h3 className="text-3xl font-display text-white mb-2">The Ritual</h3>
+>                 <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">100ml Concentrate</p>
+>                 <p className="text-slate-400 text-sm mb-6">Original formula. Perfect for daily carry.</p>
+>                 <div className="flex items-center justify-center gap-4 mb-6">
+>                   <span className="text-3xl font-light text-white">€19.90</span>
+>                   <span className="text-xs text-emerald-400 bg-emerald-900/30 px-2 py-1 rounded">€0.20 / Liter</span>
+>                 </div>
+>                 <Link href="/shop/andara-ionic-100ml">
+>                   <Button className="w-full bg-white hover:bg-emerald-50 text-black h-12 uppercase tracking-wide">Buy 100ml</Button>
+>                 </Link>
+>               </div>
+> 
+>               {/* Product 1L */}
+>               <div className="relative group text-center border-t md:border-t-0 md:border-l border-white/5 pt-12 md:pt-0 md:pl-12">
+>                 <div className="absolute inset-0 bg-blue-500/5 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-500/10 transition-all duration-700" />
+>                 <SmartImage registryId="product-1l-refill" className="h-64 mx-auto object-contain drop-shadow-2xl mb-8 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+>                 <h3 className="text-3xl font-display text-white mb-2">The Source</h3>
+>                 <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">1 Liter Bulk Refill</p>
+>                 <p className="text-slate-400 text-sm mb-6">Best value for families and total home conversion.</p>
+>                 <div className="flex items-center justify-center gap-4 mb-6">
+>                   <span className="text-3xl font-light text-white">€129.00</span>
+>                   <span className="text-xs text-blue-400 bg-blue-900/30 px-2 py-1 rounded">€0.13 / Liter</span>
+>                 </div>
+>                 <Link href="/shop/andara-ionic-1l">
+>                   <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white h-12 uppercase tracking-wide shadow-lg shadow-blue-900/20">Buy 1 Liter</Button>
+>                 </Link>
+>               </div>
+> 
+>             </div>
+>           </GlassCard>
+>         </section>
+> 
+>         {/* 5. SCIENCE PILLARS (The Portals) */}
+>         <section ref={addToRefs} className="container mx-auto px-4 relative z-10">
+>           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[600px] md:h-[400px]">
+>             {[
+>               { title: "Structure", img: "glass-structure", color: "cyan" },
+>               { title: "Chemistry", img: "glass-chemistry", color: "emerald" },
+>               { title: "Voltage", img: "glass-activation", color: "amber" },
+>               { title: "Geometry", img: "glass-geometry", color: "indigo" }
+>             ].map((pillar, i) => (
+>               <Link key={i} href="/science">
+>                 <a className="group relative h-full rounded-2xl overflow-hidden border border-white/10 hover:border-white/30 transition-all">
+>                   <SmartImage registryId={pillar.img} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-110 transition-all duration-[1.5s]" />
+>                   <div className={`absolute inset-0 bg-${pillar.color}-500/10 mix-blend-overlay`} />
+>                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+>                   <div className="absolute bottom-0 inset-x-0 p-6">
+>                     <h3 className="text-2xl font-display text-white group-hover:translate-x-2 transition-transform duration-300">{pillar.title}</h3>
+>                     <div className={`h-1 w-12 bg-${pillar.color}-500 mt-2 rounded-full`} />
+>                   </div>
+>                 </a>
+>               </Link>
+>             ))}
+>           </div>
+>         </section>
+> 
+>         {/* 6. TRUST & FAQ */}
+>         <section ref={addToRefs} className="container mx-auto px-4 relative z-10">
+>           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+>             <div>
+>               <h2 className="text-3xl font-display text-white mb-6">Trust & Transparency</h2>
+>               <div className="space-y-6">
+>                 <div className="flex gap-4">
+>                   <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+>                     <CheckCircle2 className="w-6 h-6" />
+>                   </div>
+>                   <div>
+>                     <h3 className="text-white font-medium mb-1">Lab Certified</h3>
+>                     <p className="text-slate-400 text-sm">Every batch undergoes rigoros analysis for heavy metals and mineral composition.</p>
+>                   </div>
+>                 </div>
+>                 <div className="flex gap-4">
+>                   <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
+>                     <Mountain className="w-6 h-6" />
+>                   </div>
+>                   <div>
+>                     <h3 className="text-white font-medium mb-1">Primordial Source</h3>
+>                     <p className="text-slate-400 text-sm">Harvested from protected volcanic vents, free from modern surface pollution.</p>
+>                   </div>
+>                 </div>
+>               </div>
+>             </div>
+> 
+>             <div>
+>               <div className="space-y-4">
+>                 <details className="group bg-slate-900/50 border border-white/5 rounded-lg open:bg-slate-900 open:border-emerald-500/30 transition-all">
+>                   <summary className="flex items-center justify-between p-4 cursor-pointer text-white font-medium">
+>                     Is this a supplement or water treatment?
+>                     <Plus className="w-4 h-4 text-slate-500 group-open:rotate-45 transition-transform" />
+>                   </summary>
+>                   <div className="px-4 pb-4 text-slate-400 text-sm leading-relaxed">
+>                     It is both. It clarifies water (treatment) and adds essential sulfate minerals (supplement). We call it "Water Architecture".
+>                   </div>
+>                 </details>
+>                 <details className="group bg-slate-900/50 border border-white/5 rounded-lg open:bg-slate-900 open:border-emerald-500/30 transition-all">
+>                   <summary className="flex items-center justify-between p-4 cursor-pointer text-white font-medium">
+>                     Can I use it with tap water?
+>                     <Plus className="w-4 h-4 text-slate-500 group-open:rotate-45 transition-transform" />
+>                   </summary>
+>                   <div className="px-4 pb-4 text-slate-400 text-sm leading-relaxed">
+>                     Yes. It is specifically designed to structure and clarify tap water. For city water, we recommend letting it sit for 5-10 minutes to allow chlorine to dissipate and flocculation to occur.
+>                   </div>
+>                 </details>
+>               </div>
+>             </div>
+>           </div>
+>         </section>
+> 
+>       </div>
+> 
+>       <Footer />
+>     </div>
+210a342
+> 

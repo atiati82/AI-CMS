@@ -128,63 +128,154 @@ export const CLUSTERS: Cluster[] = [
 ];
 
 export const ARTICLES: ScienceArticle[] = [
+  // ===== WATER SCIENCE (c1) =====
   {
-    id: "a1",
-    title: "The Fourth Phase of Water: Beyond Liquid, Solid, and Gas",
-    slug: "fourth-phase-water",
-    summary: "Discover the exclusion zone (EZ) – a state of water that drives cellular energy and biological function.",
-    content: "Water is not just H2O. Recent research has uncovered a fourth phase of water, known as Exclusion Zone (EZ) water. This phase occurs at hydrophilic interfaces, such as cell membranes...",
+    id: "w1",
+    title: "Water Science Master",
+    slug: "water-science",
+    summary: "The comprehensive guide to water physics, structured water, and biological hydration.",
+    content: "",
     clusterId: "c1",
-    tags: ["EZ water", "structured water", "Gerald Pollack", "hydration"],
+    tags: ["water science", "overview", "structured water"],
     priority: 10,
-    publishedAt: "2023-10-15",
+    publishedAt: "2024-12-01",
     relatedProductIds: ["p1", "p2"]
   },
   {
-    id: "a2",
-    title: "Sulfate: The Neglected Mineral",
-    slug: "sulfate-neglected-mineral",
-    summary: "Why ionic sulfate is crucial for the structure of biological water and detoxification.",
-    content: "Sulfate deficiency is widespread but rarely discussed. Sulfates are essential for maintaining the gel-like structure of water inside our cells, which protects proteins and DNA...",
-    clusterId: "c2",
-    tags: ["sulfate", "minerals", "detox", "biology"],
+    id: "w2",
+    title: "The Fourth Phase of Water",
+    slug: "fourth-phase-water",
+    summary: "Discover the exclusion zone (EZ) – a state of water that drives cellular energy.",
+    content: "",
+    clusterId: "c1",
+    tags: ["EZ water", "fourth phase", "Gerald Pollack"],
     priority: 9,
-    publishedAt: "2023-11-02",
+    publishedAt: "2024-11-15",
     relatedProductIds: ["p1"]
   },
   {
-    id: "a3",
-    title: "Bioelectricity and Cellular Voltage",
-    slug: "bioelectricity-cellular-voltage",
-    summary: "How structured water acts as a battery for your cells.",
-    content: "Life is electric. Every cell functions as a battery, with a voltage potential across its membrane. Structured water, with its separation of charge, provides the medium for this battery...",
-    clusterId: "c3",
-    tags: ["bioelectric", "voltage", "energy", "mitochondria"],
+    id: "w3",
+    title: "Water Structure & Physics",
+    slug: "water",
+    summary: "Deep exploration of water's molecular architecture and unique properties.",
+    content: "",
+    clusterId: "c1",
+    tags: ["water", "structure", "physics"],
     priority: 8,
-    publishedAt: "2023-12-10",
+    publishedAt: "2024-11-10",
     relatedProductIds: ["p1"]
   },
   {
-    id: "a4",
+    id: "w4",
     title: "Flocculation: Nature's Purification",
     slug: "flocculation-purification",
     summary: "How ionic minerals naturally clear water of impurities through coagulation.",
-    content: "Flocculation is a process where colloids come out of suspension in the form of floc or flake. In water treatment, ionic minerals bind to suspended particles...",
+    content: "",
     clusterId: "c1",
     tags: ["purification", "flocculation", "clean water"],
     priority: 7,
     publishedAt: "2024-01-05",
     relatedProductIds: ["p1", "p2"]
   },
+
+  // ===== MINERAL SCIENCE (c2) =====
   {
-    id: "a5",
+    id: "m1",
+    title: "Mineral Sources",
+    slug: "mineral-sources",
+    summary: "Where minerals come from and why primordial volcanic origin matters.",
+    content: "",
+    clusterId: "c2",
+    tags: ["minerals", "sources", "volcanic"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1", "p2"]
+  },
+  {
+    id: "m2",
+    title: "Sulfate: The Neglected Mineral",
+    slug: "sulfate-neglected-mineral",
+    summary: "Why ionic sulfate is crucial for biological water structure and detoxification.",
+    content: "",
+    clusterId: "c2",
+    tags: ["sulfate", "minerals", "detox"],
+    priority: 9,
+    publishedAt: "2023-11-02",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "m3",
+    title: "DNA & Mineral Codes",
+    slug: "minerals/dna-mineral-codes",
+    summary: "The mineral requirements for DNA function, repair, and genetic expression.",
+    content: "",
+    clusterId: "c2",
+    tags: ["DNA", "minerals", "genetics"],
+    priority: 8,
+    publishedAt: "2024-11-20",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== BIOELECTRIC HEALTH (c3) =====
+  {
+    id: "b1",
+    title: "Bioelectricity Overview",
+    slug: "bioelectricity",
+    summary: "The master guide to water's role in cellular electricity and voltage.",
+    content: "",
+    clusterId: "c3",
+    tags: ["bioelectric", "overview", "cellular"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "b2",
+    title: "Bioelectricity and Cellular Voltage",
+    slug: "bioelectricity-cellular-voltage",
+    summary: "How structured water acts as a battery for your cells.",
+    content: "",
+    clusterId: "c3",
+    tags: ["bioelectric", "voltage", "energy"],
+    priority: 9,
+    publishedAt: "2023-12-10",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "b3",
+    title: "The Invisible Voltage",
+    slug: "bioelectricity/bioelectricity-invisible-voltage",
+    summary: "Understanding the electrical nature of living systems and how minerals power it.",
+    content: "",
+    clusterId: "c3",
+    tags: ["voltage", "invisible", "life force"],
+    priority: 8,
+    publishedAt: "2024-11-25",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== CRYSTALLINE MATRIX (c4) =====
+  {
+    id: "x1",
+    title: "The Crystalline Matrix",
+    slug: "crystalline-matrix",
+    summary: "Introduction to the crystalline organization of living systems and water.",
+    content: "",
+    clusterId: "c4",
+    tags: ["crystalline", "matrix", "structure"],
+    priority: 10,
+    publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "x2",
     title: "The Geometric Language of Water",
     slug: "geometric-language-water",
     summary: "How water molecules align in hexagonal sheets to store information.",
-    content: "When water freezes, it forms hexagonal crystals. But even in liquid state, structured water forms transient hexagonal sheets...",
+    content: "",
     clusterId: "c4",
     tags: ["geometry", "hexagonal", "information"],
-    priority: 6,
+    priority: 8,
     publishedAt: "2024-02-20",
     relatedProductIds: ["p1"]
   }

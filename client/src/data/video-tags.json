@@ -1,0 +1,35 @@
+{
+    "andara_ionic_drop__water__ionic__dna": {
+        "tags": [
+            "water",
+            "ionic",
+            "dna",
+            "quantum",
+            "liquid crystal"
+        ],
+        "description": "Andara Ionic drop showing structured liquid crystal formation.",
+        "mood": "Ethereal"
+    },
+    "black_mica_genesis_volcanic_origin": {
+        "tags": [
+            "mica",
+            "volcanic",
+            "origin",
+            "mineral",
+            "genesis"
+        ],
+        "description": "Formation of Black Mica from deep earth volcanic sources.",
+        "mood": "Primordial"
+    },
+    "water_frop_electric_structure": {
+        "tags": [
+            "electric",
+            "water",
+            "structure",
+            "charge",
+            "voltage"
+        ],
+        "description": "Visualization of electric charge structure in water.",
+        "mood": "Energetic"
+    }
+}

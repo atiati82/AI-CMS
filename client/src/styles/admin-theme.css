@@ -1,0 +1,219 @@
+/* =====================================================
+   ADMIN THEME ISOLATION
+   Separated to prevent global variable pollution and build regressions.
+   ===================================================== */
+
+@layer components {
+    .admin-theme {
+        /* Sidebar - Glass / Dark */
+        --admin-sidebar: hsl(240 10% 4%);
+        /* Almost black */
+        --admin-sidebar-foreground: hsl(240 5% 65%);
+        /* Muted grey */
+        --admin-sidebar-muted: hsl(240 5% 45%);
+        --admin-sidebar-hover: hsl(240 5% 10%);
+
+        /* Translucent Borders (CORRECTED: 10% Opacity White) */
+        --admin-sidebar-border: hsla(0, 0%, 100%, 0.1);
+
+        --admin-sidebar-active: hsl(190 100% 50%);
+        /* Cyan 400 */
+
+        /* Header - Transparent/Glass */
+        --admin-header: hsl(240 10% 4%);
+        --admin-header-foreground: hsl(0 0% 100%);
+        --admin-header-hover: hsl(240 5% 10%);
+        --admin-header-border: hsla(0, 0%, 100%, 0.1);
+
+        /* Search */
+        --admin-search: hsl(240 5% 10%);
+        --admin-search-border: hsla(0, 0%, 100%, 0.1);
+
+        /* Content Area - Deep Dark */
+        --admin-content: hsl(240 10% 3.9%);
+        /* Zinc 950 */
+        --admin-content-foreground: hsl(0 0% 98%);
+
+        /* Cards - Glass */
+        --admin-card: hsl(240 6% 10%);
+        --admin-card-foreground: hsl(0 0% 98%);
+        --admin-card-border: hsla(0, 0%, 100%, 0.1);
+
+        /* Future Accents */
+        --admin-purple: hsl(270 100% 60%);
+        /* Electric Purple */
+        --admin-purple-light: hsl(270 100% 75%);
+        --admin-purple-dark: hsl(270 100% 40%);
+
+        --admin-accent: #06b6d4;
+        /* Cyan 500 */
+        --admin-accent-hover: #0891b2;
+        /* Cyan 600 */
+
+        /* Stats Colors */
+        --admin-success: hsl(150 100% 50%);
+        /* Neo Green */
+        --admin-warning: hsl(40 100% 60%);
+        /* Neo Orange */
+        --admin-info: hsl(190 100% 50%);
+        /* Neo Cyan */
+        --admin-danger: hsl(350 100% 60%);
+        /* Neo Red */
+        /* Neo Red */
+    }
+
+    /* Admin Light Mode Mappings (Default) */
+    .admin-theme {
+        --background: hsl(0 0% 100%);
+        --foreground: hsl(240 10% 3.9%);
+        --card: hsl(0 0% 100%);
+        --card-foreground: hsl(240 10% 3.9%);
+        --popover: hsl(0 0% 100%);
+        --popover-foreground: hsl(240 10% 3.9%);
+        --primary: hsl(262.1 83.3% 57.8%);
+        --primary-foreground: hsl(210 20% 98%);
+        --secondary: hsl(240 4.8% 95.9%);
+        --secondary-foreground: hsl(240 5.9% 10%);
+        --muted: hsl(240 4.8% 95.9%);
+        --muted-foreground: hsl(240 3.8% 46.1%);
+        --accent: hsl(240 4.8% 95.9%);
+        --accent-foreground: hsl(240 5.9% 10%);
+        --destructive: hsl(0 84.2% 60.2%);
+        --destructive-foreground: hsl(0 0% 98%);
+        --border: hsl(240 5.9% 90%);
+        --input: hsl(240 5.9% 90%);
+        --ring: hsl(262.1 83.3% 57.8%);
+        --radius: 0.5rem;
+    }
+
+    /* Admin Dark Mode Overrides */
+    .admin-theme.dark {
+        --background: hsl(240 10% 3.9%);
+        --foreground: hsl(0 0% 100%);
+        --card: hsl(240 10% 4%);
+        --card-foreground: hsl(0 0% 100%);
+        --popover: hsl(240 10% 4%);
+        --popover-foreground: hsl(0 0% 100%);
+        --primary: hsl(267 83% 60%);
+        --secondary: hsl(240 10% 10%);
+        --muted: hsl(240 10% 10%);
+        --muted-foreground: hsl(215 20% 65%);
+        --border: hsl(240 10% 10%);
+        --input: hsl(240 10% 10%);
+        --ring: hsl(267 83% 60%);
+    }
+
+    /* Admin Dark Mode Specific Utility Enforcement */
+    .admin-theme.dark .bg-card {
+        background: var(--admin-card);
+    }
+
+    .admin-theme.dark .border {
+        border-color: var(--admin-card-border);
+    }
+
+    /* Fallback Utility Classes */
+    .bg-admin-sidebar {
+        background-color: var(--admin-sidebar);
+    }
+
+    .text-admin-sidebar-foreground {
+        color: var(--admin-sidebar-foreground);
+    }
+
+    .bg-admin-header {
+        background-color: var(--admin-header);
+    }
+
+    .text-admin-header-foreground {
+        color: var(--admin-header-foreground);
+    }
+
+    .border-admin-header-border {
+        border-color: var(--admin-header-border);
+    }
+
+    .bg-admin-content {
+        background-color: var(--admin-content);
+    }
+
+    .text-admin-content-foreground {
+        color: var(--admin-content-foreground);
+    }
+
+    .bg-admin-card {
+        background-color: var(--admin-card);
+    }
+
+    .text-admin-card-foreground {
+        color: var(--admin-card-foreground);
+    }
+
+    .border-admin-card-border {
+        border-color: var(--admin-card-border);
+    }
+
+    /* Ensure admin wrapper inherits theme tokens instead of ad-hoc Tailwind colors */
+    .admin-theme {
+        background-color: var(--background);
+        color: var(--foreground);
+    }
+
+    .admin-theme.dark {
+        background-color: var(--admin-content);
+        color: var(--admin-content-foreground);
+    }
+
+    /* Semantic color utilities mapped to admin/Andara tokens */
+    .text-admin-success { color: var(--admin-success); }
+    .text-admin-warning { color: var(--admin-warning); }
+    .text-admin-danger { color: var(--admin-danger); }
+    .text-admin-info { color: var(--admin-info); }
+
+    .bg-admin-success-soft { background-color: color-mix(in srgb, var(--admin-success) 18%, transparent); }
+    .bg-admin-warning-soft { background-color: color-mix(in srgb, var(--admin-warning) 18%, transparent); }
+    .bg-admin-danger-soft { background-color: color-mix(in srgb, var(--admin-danger) 18%, transparent); }
+    .bg-admin-info-soft { background-color: color-mix(in srgb, var(--admin-info) 18%, transparent); }
+
+    /* Gradient tokens aligned to Andara color worlds */
+    .admin-gradient-primary {
+        background-image: linear-gradient(135deg, var(--andara-accent-indigo), var(--andara-accent-cyan));
+        color: #fff;
+    }
+
+    .admin-gradient-gold {
+        background-image: var(--andara-gradient-gold);
+        color: #0b1020;
+    }
+
+    .admin-gradient-emerald {
+        background-image: linear-gradient(135deg, var(--andara-accent-emerald), color-mix(in srgb, var(--andara-accent-emerald) 72%, #0b1020));
+        color: #0b1020;
+    }
+
+    .admin-gradient-cyan {
+        background-image: linear-gradient(135deg, var(--andara-accent-cyan), color-mix(in srgb, var(--andara-accent-cyan) 70%, #0b1020));
+        color: #0b1020;
+    }
+
+    /* Icon chip accents */
+    .admin-chip-indigo {
+        background-color: color-mix(in srgb, var(--andara-accent-indigo) 16%, transparent);
+        color: var(--andara-accent-indigo);
+    }
+
+    .admin-chip-cyan {
+        background-color: color-mix(in srgb, var(--andara-accent-cyan) 16%, transparent);
+        color: var(--andara-accent-cyan);
+    }
+
+    .admin-chip-gold {
+        background-color: color-mix(in srgb, var(--andara-accent-gold) 18%, transparent);
+        color: #8b6b1f;
+    }
+
+    .admin-chip-emerald {
+        background-color: color-mix(in srgb, var(--andara-accent-emerald) 16%, transparent);
+        color: var(--andara-accent-emerald);
+    }
+}

@@ -19,6 +19,7 @@ import BioelectricityPage from "@/pages/bioelectricity";
 import WaterSciencePage from "@/pages/water-science";
 import WaterScienceMaster from "@/pages/water-science-master";
 import MineralSourcesPage from "@/pages/mineral-sources";
+import MineralScienceBlueprintPage from "@/pages/mineral-science-blueprint";
 import AdminPage from "@/pages/admin";
 import SitemapPage from "@/pages/sitemap";
 import DynamicPage from "@/pages/dynamic-page";
@@ -42,6 +43,8 @@ function Router() {
       <Route path="/science/crystalline-matrix" component={CrystallineMatrixPage} />
       <Route path="/science/bioelectricity" component={BioelectricityPage} />
       <Route path="/science/water-science" component={WaterScienceMaster} />
+      <Route path="/science/water-science-master" component={WaterScienceMaster} />
+      <Route path="/science/mineral-science-blueprint" component={MineralScienceBlueprintPage} />
       <Route path="/science/mineral-sources" component={MineralSourcesPage} />
       <Route path="/science/water" component={WaterSciencePage} />
       <Route path="/science/minerals/dna-mineral-codes" component={DnaMineralCodesPage} />

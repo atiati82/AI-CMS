@@ -89,8 +89,8 @@ export default function WaterScienceMaster() {
                             </span>
                             <span
                                 className={`w-2 h-2 rounded-full transition-all duration-300 ${activeSection === id
-                                        ? "bg-[#1aa7ff] scale-125 shadow-[0_0_8px_rgba(26,167,255,0.5)]"
-                                        : "bg-white/20 group-hover:bg-white/40"
+                                    ? "bg-[#1aa7ff] scale-125 shadow-[0_0_8px_rgba(26,167,255,0.5)]"
+                                    : "bg-white/20 group-hover:bg-white/40"
                                     }`}
                             />
                         </button>
@@ -207,7 +207,7 @@ export default function WaterScienceMaster() {
                 {/* SECTION 2: THE FOUR PHASES */}
                 {/* ============================================ */}
                 <section id="phases" className="py-24 relative">
-                    <div className="container px-4">
+                    <div className="container px-4 max-w-5xl mx-auto">
                         <motion.header
                             className="text-center max-w-3xl mx-auto mb-16"
                             initial={{ opacity: 0, y: 30 }}
@@ -295,7 +295,7 @@ export default function WaterScienceMaster() {
                 {/* SECTION 3: STRUCTURE */}
                 {/* ============================================ */}
                 <section id="structure" className="py-24 bg-[#05060b]/50 border-y border-white/5">
-                    <div className="container px-4">
+                    <div className="container px-4 max-w-5xl mx-auto">
                         <motion.header
                             className="text-center max-w-3xl mx-auto mb-16"
                             initial={{ opacity: 0, y: 30 }}
@@ -382,7 +382,7 @@ export default function WaterScienceMaster() {
                 {/* SECTION 4: ACTIVATION */}
                 {/* ============================================ */}
                 <section id="activation" className="py-24">
-                    <div className="container px-4">
+                    <div className="container px-4 max-w-5xl mx-auto">
                         <motion.header
                             className="text-center max-w-3xl mx-auto mb-16"
                             initial={{ opacity: 0, y: 30 }}
@@ -462,7 +462,7 @@ export default function WaterScienceMaster() {
                 {/* SECTION 5: MEASURING */}
                 {/* ============================================ */}
                 <section id="measuring" className="py-24 bg-[#05060b]/50 border-y border-white/5">
-                    <div className="container px-4">
+                    <div className="container px-4 max-w-5xl mx-auto">
                         <motion.header
                             className="text-center max-w-3xl mx-auto mb-16"
                             initial={{ opacity: 0, y: 30 }}
@@ -572,7 +572,7 @@ export default function WaterScienceMaster() {
                 {/* SECTION 7: IN PRACTICE */}
                 {/* ============================================ */}
                 <section id="practice" className="py-24 bg-[#05060b]/50 border-y border-white/5">
-                    <div className="container px-4">
+                    <div className="container px-4 max-w-5xl mx-auto">
                         <motion.header
                             className="text-center max-w-3xl mx-auto mb-16"
                             initial={{ opacity: 0, y: 30 }}
