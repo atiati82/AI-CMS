@@ -176,7 +176,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "w2",
     title: "The Fourth Phase of Water",
-    slug: "fourth-phase-water",
+    slug: "ez-water-overview",
     summary: "Exploring the exclusion zone (EZ) – a state of water that drives cellular energy.",
     content: "",
     clusterId: "c1",
@@ -199,8 +199,8 @@ export const ARTICLES: ScienceArticle[] = [
   },
   {
     id: "w4",
-    title: "Flocculation: nature's Purification",
-    slug: "flocculation-purification",
+    title: "Flocculation: Nature's Purification",
+    slug: "water-clarification-lab",
     summary: "How ionic minerals naturally clear water through natural coagulation.",
     content: "",
     clusterId: "c1",
@@ -212,7 +212,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "w5",
     title: "Turbidity, Clarity & Flocculation",
-    slug: "turbidity-clarity-flocculation",
+    slug: "water-clarification-lab",
     summary: "The mechanics of water clarification and mineral binding.",
     content: "",
     clusterId: "c1",
@@ -224,7 +224,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "w6",
     title: "pH, ORP & EC Explained",
-    slug: "ph-orp-ec",
+    slug: "water-science-master",
     summary: "Mastering the metrics of water quality and bioelectric potential.",
     content: "",
     clusterId: "c1",
@@ -274,7 +274,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "m3",
     title: "Sulfate: The Neglected Mineral",
-    slug: "sulfate-neglected-mineral",
+    slug: "sulfate-chemistry",
     summary: "Why ionic sulfate is the key to biological water structuring.",
     content: "",
     clusterId: "c2",
@@ -298,7 +298,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "m5",
     title: "Ionic vs Colloidal vs Solid",
-    slug: "minerals/ionic-vs-colloidal-vs-solid",
+    slug: "mineral-sources",
     summary: "Understanding state of matter in mineral absorption.",
     content: "",
     clusterId: "c2",
@@ -324,7 +324,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "b2",
     title: "Bioelectricity and Cellular Voltage",
-    slug: "bioelectricity-cellular-voltage",
+    slug: "cell-voltage",
     summary: "How structured water acts as a battery for your cells.",
     content: "",
     clusterId: "c3",
@@ -348,7 +348,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "b4",
     title: "Proton Gradients",
-    slug: "bioelectricity/proton-gradients",
+    slug: "bioelectric-terrain-model",
     summary: "The flow of charge across membranes driven by water structure.",
     content: "",
     clusterId: "c3",
@@ -374,7 +374,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "x2",
     title: "The Geometric Language of Water",
-    slug: "geometric-language-water",
+    slug: "hexagonal-water-structures",
     summary: "How water molecules align in hexagonal sheets to store information.",
     content: "",
     clusterId: "c4",
@@ -412,7 +412,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "s2",
     title: "Sulfate Pathways",
-    slug: "sulfate-pathways",
+    slug: "sulfate-pathways-water-body",
     summary: "Detailed review of detox pathways and sulfur transport.",
     content: "",
     clusterId: "c5",
@@ -426,7 +426,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "mb1",
     title: "Microbiome & Minerals",
-    slug: "minerals-microbiome-overview",
+    slug: "minerals-microbiome-water-link",
     summary: "The intersection of soil-based microbes and primordial mineral salts.",
     content: "",
     clusterId: "c6",
@@ -440,7 +440,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "lc1",
     title: "Liquid Crystal Biology",
-    slug: "liquid-crystal-biology-overview",
+    slug: "crystalline-matrix-overview",
     summary: "Understanding living tissue as a semi-crystalline antenna.",
     content: "",
     clusterId: "c7",
@@ -454,7 +454,7 @@ export const ARTICLES: ScienceArticle[] = [
   {
     id: "co1",
     title: "Consciousness & Fields",
-    slug: "consciousness-fields-water",
+    slug: "sacred-geometry-water",
     summary: "Exploring water's role as the interface between energy and frequency.",
     content: "",
     clusterId: "c8",

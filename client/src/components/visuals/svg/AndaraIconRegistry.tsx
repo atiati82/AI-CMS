@@ -303,7 +303,7 @@ export function AndaraDynamicIcon({
                 <path d="M50 20 L55 45 L80 50 L55 55 L50 80 L45 55 L20 50 L45 45 Z" stroke="url(#andaraGold)" strokeWidth="2" fill="none" />
                 <circle cx="50" cy="50" r="3" fill="url(#andaraGold)" />
             </g>
-        )
+        ),
         // === SACRED GEOMETRY (NEW) ===
         sacredDna: (
             <g>

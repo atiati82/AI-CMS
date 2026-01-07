@@ -5,8 +5,9 @@ import Layout from "@/components/layout";
 import {
     Droplets, Snowflake, Cloud, Hexagon, Zap, Sun, Magnet,
     Activity, Eye, Layers, FlaskConical, ArrowRight, ArrowDown,
-    Gauge, Sparkles
+    Gauge, Sparkles, Calculator
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // Section IDs for navigation
 const SECTIONS = [

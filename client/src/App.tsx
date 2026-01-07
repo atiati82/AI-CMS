@@ -36,6 +36,18 @@ import IconDemoPage from "@/pages/demos/icons";
 import DnaMineralCodesPage from "@/pages/dna-mineral-codes";
 import BioelectricityInvisibleVoltagePage from "@/pages/bioelectricity-invisible-voltage";
 import HexagonalWaterStructuresPage from "@/pages/hexagonal-water-structures";
+import EzWaterOverviewPage from "@/pages/ez-water-overview";
+import WaterClarificationLabPage from "@/pages/water-clarification-lab";
+import StructuredWaterBasicsPage from "@/pages/science/structured-water-basics";
+import SulfateChemistryPage from "@/pages/sulfate-chemistry";
+import CellVoltagePage from "@/pages/cell-voltage";
+import BioelectricTerrainModelPage from "@/pages/bioelectric-terrain-model";
+import TetrahedralSulfateGeometryPage from "@/pages/tetrahedral-sulfate-geometry";
+import SulfurSulfateOverviewPage from "@/pages/sulfur-sulfate-overview";
+import SulfatePathwaysWaterBodyPage from "@/pages/sulfate-pathways-water-body";
+import MineralsMicrobiomeWaterLinkPage from "@/pages/minerals-microbiome-water-link";
+import CrystallineMatrixOverviewPage from "@/pages/crystalline-matrix-overview";
+import SacredGeometryWaterPage from "@/pages/sacred-geometry-water";
 
 function Router() {
   return (
@@ -54,7 +66,21 @@ function Router() {
       <Route path="/science/water" component={WaterSciencePage} />
       <Route path="/science/minerals/dna-mineral-codes" component={DnaMineralCodesPage} />
       <Route path="/hexagonal-water-structures" component={HexagonalWaterStructuresPage} />
+      <Route path="/science/hexagonal-water-structures" component={HexagonalWaterStructuresPage} />
       <Route path="/science/bioelectricity/bioelectricity-invisible-voltage" component={BioelectricityInvisibleVoltagePage} />
+      {/* NEW SCIENCE ROUTES */}
+      <Route path="/science/ez-water-overview" component={EzWaterOverviewPage} />
+      <Route path="/science/water-clarification-lab" component={WaterClarificationLabPage} />
+      <Route path="/science/structured-water-basics" component={StructuredWaterBasicsPage} />
+      <Route path="/science/sulfate-chemistry" component={SulfateChemistryPage} />
+      <Route path="/science/cell-voltage" component={CellVoltagePage} />
+      <Route path="/science/bioelectric-terrain-model" component={BioelectricTerrainModelPage} />
+      <Route path="/science/tetrahedral-sulfate-geometry" component={TetrahedralSulfateGeometryPage} />
+      <Route path="/science/sulfur-sulfate-overview" component={SulfurSulfateOverviewPage} />
+      <Route path="/science/sulfate-pathways-water-body" component={SulfatePathwaysWaterBodyPage} />
+      <Route path="/science/minerals-microbiome-water-link" component={MineralsMicrobiomeWaterLinkPage} />
+      <Route path="/science/crystalline-matrix-overview" component={CrystallineMatrixOverviewPage} />
+      <Route path="/science/sacred-geometry-water" component={SacredGeometryWaterPage} />
       <Route path="/science/:slug" component={ArticlePage} />
       <Route path="/science/:cluster/:slug" component={ArticlePage} />
       <Route path="/admin" component={AdminPage} />
