@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /
+
+# Prevent all search engine indexing until launch
+# To enable indexing, replace with:
+# User-agent: *
+# Allow: /
+# Sitemap: https://yourdomain.com/sitemap.xml
