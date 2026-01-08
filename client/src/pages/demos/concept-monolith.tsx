@@ -1,12 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import StandardPageLayout from "@/components/StandardPageLayout";
 import { ArrowDown, Droplet, Layers, Hexagon, Component, ArrowRight } from "lucide-react";
 import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
+
+// Use useLayoutEffect on client, useEffect on server
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export default function ConceptMonolith() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -14,44 +16,47 @@ export default function ConceptMonolith() {
     const bottleRef = useRef<HTMLImageElement>(null);
     const sectionsRef = useRef<HTMLDivElement>(null);
 
-    useGSAP(() => {
-        // 1. Hero Text Parallax (Slow down)
-        gsap.to(heroTextRef.current, {
-            yPercent: 50,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top top",
-                end: "20% top",
-                scrub: true
-            }
-        });
+    useIsomorphicLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            // 1. Hero Text Parallax (Slow down)
+            gsap.to(heroTextRef.current, {
+                yPercent: 50,
+                opacity: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top top",
+                    end: "20% top",
+                    scrub: true
+                }
+            });
 
-        // 2. The Bottle Journey - Animation Only (CSS Fixed)
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".monolith-scroll-container",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1,
-            }
-        });
+            // 2. The Bottle Journey - Animation Only (CSS Fixed)
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".monolith-scroll-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1,
+                }
+            });
 
-        // NOTE: We rely on CSS 'fixed' positioning for the bottle wrapper, 
-        // effectively "pinning" it without GSAP's pin-spacer which causes the layout gap.
+            // NOTE: We rely on CSS 'fixed' positioning for the bottle wrapper, 
+            // effectively "pinning" it without GSAP's pin-spacer which causes the layout gap.
 
-        // Bottle Animations aligned with scroll sections
-        // Section 1 (Source): Deep and dark. Bottle is small, mysterious.
-        // Section 2 (Structure): Brightens. Bottle scales up.
-        // Section 3 (Ritual): Moves to side? Or stays center and content flows around.
+            // Bottle Animations aligned with scroll sections
+            // Section 1 (Source): Deep and dark. Bottle is small, mysterious.
+            // Section 2 (Structure): Brightens. Bottle scales up.
+            // Section 3 (Ritual): Moves to side? Or stays center and content flows around.
 
-        // Initial State (set in CSS): Filter blur, opacity 0, y 100
-        tl.to(bottleRef.current, { y: 0, opacity: 1, filter: "blur(0px)", scale: 1, duration: 2, ease: "power2.out" }) // Reveal
-            .to(bottleRef.current, { scale: 1.2, duration: 4, ease: "none" }, "+=2") // Slow grow during Source
-            .to(bottleRef.current, { filter: "brightness(1.2) drop-shadow(0 0 30px rgba(56, 255, 209, 0.3))", duration: 2 }, "+=0") // Energetic charge during Structure
+            // Initial State (set in CSS): Filter blur, opacity 0, y 100
+            tl.to(bottleRef.current, { y: 0, opacity: 1, filter: "blur(0px)", scale: 1, duration: 2, ease: "power2.out" }) // Reveal
+                .to(bottleRef.current, { scale: 1.2, duration: 4, ease: "none" }, "+=2") // Slow grow during Source
+                .to(bottleRef.current, { filter: "brightness(1.2) drop-shadow(0 0 30px rgba(56, 255, 209, 0.3))", duration: 2 }, "+=0") // Energetic charge during Structure
+        }, containerRef);
 
-    }, { scope: containerRef });
+        return () => ctx.revert();
+    }, []);
 
     return (
         <StandardPageLayout

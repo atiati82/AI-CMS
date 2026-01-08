@@ -515,6 +515,8 @@ export interface ParsedEnhancement {
   reason?: string;
   confidence: number;
   data?: any; // For complex objects
+  enhancementType?: EnhancementType; // Alias for type, backward compat
+  suggestedValue?: string; // Alias for content, backward compat
 }
 
 export interface ExtractedEnhancements {

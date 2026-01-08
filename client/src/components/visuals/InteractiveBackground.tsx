@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 interface InteractiveBackgroundProps {
     className?: string;
     variant?: 'particles' | 'gradient' | 'mesh';
+    registryId?: string; // Optional, for future image-based backgrounds
 }
 
 /**

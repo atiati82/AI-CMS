@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 interface GlassCardProps {
     children: React.ReactNode;
     className?: string;
-    variant?: 'default' | 'frosted' | 'dark';
+    variant?: 'default' | 'frosted' | 'dark' | 'gold' | 'light';
     glow?: 'none' | 'subtle' | 'strong';
 }
 
@@ -18,10 +18,12 @@ export function GlassCard({
     variant = 'default',
     glow = 'subtle'
 }: GlassCardProps) {
-    const variants = {
+    const variants: Record<string, string> = {
         default: 'bg-white/5 border-white/10',
         frosted: 'bg-white/10 border-white/20 backdrop-blur-xl',
-        dark: 'bg-black/30 border-white/5'
+        dark: 'bg-black/30 border-white/5',
+        gold: 'bg-amber-500/10 border-amber-500/30',
+        light: 'bg-white/20 border-white/30 backdrop-blur-xl'
     };
 
     const glows = {

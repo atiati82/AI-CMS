@@ -14,6 +14,12 @@ interface SmartImageProps extends Omit<HTMLMotionProps<"img">, 'src' | 'alt' | '
     registryId?: ImageRegistryKey | string;
 
     /**
+     * Alternative to registryId - searches registry by keyword.
+     * Useful for semantic image lookup.
+     */
+    keyword?: string;
+
+    /**
      * Optional override for the alt text. 
      * Defaults to the SEO-optimized alt text in the registry.
      */

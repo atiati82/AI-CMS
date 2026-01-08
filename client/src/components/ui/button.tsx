@@ -27,6 +27,7 @@ const buttonVariants = cva(
         ghost: "border border-transparent",
         link: "text-primary underline-offset-4 hover:underline",
         "andara-glass": "bg-white/5 border border-white/10 text-white hover:bg-white/10 backdrop-blur-md shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)]",
+        "andara-outline": "border border-amber-500/50 text-amber-400 hover:bg-amber-500/10 backdrop-blur-sm",
       },
       size: {
         // @replit changed sizes
