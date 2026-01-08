@@ -1,0 +1,297 @@
+***************
+*** 18,25
+-         {/* Background Image */}
+-         <div className="absolute inset-0 z-0">
+-           <img
+-             src={waterBg}
+-             alt=""
+-             className="w-full h-full object-cover opacity-10"
+-           />
+-         </div>
+--- 26,27 -----
++   useGSAP(() => {
++     if (!containerRef.current) return;
+***************
+*** 27,42
+-         {/* Hero Content Container */}
+-         <div className="relative mx-auto flex max-w-6xl flex-col gap-12 px-6 py-20 lg:flex-row lg:items-center lg:py-28">
+-           {/* Text Content */}
+-           <motion.div
+-             className="flex-1 space-y-8 text-center lg:text-left"
+-             initial="hidden"
+-             animate="visible"
+-             variants={motionPresets["scroll-fade-up-stagger"]}
+-           >
+-             {/* Top Badge */}
+-             <motion.span
+-               className="inline rounded-full border border-indigo-400/40 bg-indigo-900/20 px-3 py-1 text-xs uppercase tracking-[0.25em] text-indigo-200"
+-               variants={motionPresets["scroll-fade-up"]}
+-             >
+-               Primordial Mineral Science
+-             </motion.span>
+--- 29,44 -----
++     // 1. Hero Exit Animation (V6 Style)
++     if (heroRef.current) {
++       gsap.to(heroRef.current, {
++         scrollTrigger: {
++           trigger: containerRef.current,
++           start: "top top",
++           end: "top top+=500", // Fast exit
++           scrub: 1
++         },
++         opacity: 0,
++         scale: 3, // Fly through effect
++         filter: "blur(20px)",
++         pointerEvents: "none",
++         ease: "power2.in"
++       });
++     }
+***************
+*** 44,51
+-             {/* H1 - Main Hero Title */}
+-             <motion.h1
+-               className="text-balance text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl"
+-               variants={motionPresets["scroll-fade-up"]}
+-             >
+-               Structure Your <br />
+-               <span className="text-indigo-300">Living Water</span>
+-             </motion.h1>
+--- 46,65 -----
++     // 2. Section Animations (Fade Up & Scale)
++     sectionsRef.current.forEach((section, i) => {
++       if (!section) return;
++       gsap.fromTo(section,
++         { opacity: 0, y: 100, scale: 0.95 },
++         {
++           opacity: 1,
++           y: 0,
++           scale: 1,
++           duration: 1,
++           scrollTrigger: {
++             trigger: section,
++             start: "top bottom-=100", // Start when top of section is 100px from bottom of viewport
++             end: "top center",
++             scrub: 1,
++             toggleActions: "play none none reverse"
++           }
++         }
++       );
++     });
+***************
+*** 53,59
+-             {/* Lead Paragraph */}
+-             <motion.p
+-               className="text-balance text-lg leading-relaxed text-slate-200 sm:text-xl max-w-lg mx-auto lg:mx-0"
+-               variants={motionPresets["scroll-fade-up"]}
+-             >
+-               A concentrated ionic sulfate mineral solution designed to restore the natural crystalline phase of water for optimal cellular hydration.
+-             </motion.p>
+--- 67 -----
++   }, { scope: containerRef });
+***************
+*** 61,77
+-             {/* CTA Buttons */}
+-             <motion.div
+-               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+-               variants={motionPresets["scroll-fade-up"]}
+-             >
+-               <Link href="/shop/andara-ionic-100ml">
+-                 <button className="rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-300">
+-                   Discover Andara Ionic
+-                 </button>
+-               </Link>
+-               <Link href="/science">
+-                 <button className="text-sm font-medium text-slate-200 underline-offset-4 hover:text-emerald-200 hover:underline flex items-center gap-2">
+-                   Explore Science <ArrowRight className="w-4 h-4" />
+-                 </button>
+-               </Link>
+-             </motion.div>
+-           </motion.div>
+--- 69,73 -----
++   const addToRefs = (el: HTMLDivElement | null) => {
++     if (el && !sectionsRef.current.includes(el)) {
++       sectionsRef.current.push(el);
++     }
++   };
+***************
+*** 79,96
+-           {/* Product Image */}
+-           <motion.div
+-             className="flex-1 flex justify-center lg:justify-end"
+-             initial={{ opacity: 0, scale: 0.95 }}
+-             animate={{ opacity: 1, scale: 1 }}
+-             transition={{ duration: 1, ease: "easeOut" }}
+-           >
+-             <div className="relative w-[280px] sm:w-[350px] lg:w-[450px] aspect-square">
+-               <div className="absolute inset-0 bg-emerald-400/10 rounded-full blur-[100px]" />
+-               <img
+-                 src={productBottle}
+-                 alt="Andara Ionic Bottle"
+-                 className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+-               />
+-             </div>
+-           </motion.div>
+-         </div>
+-       </section>
+--- 75,76 -----
++   return (
++     <div ref={containerRef} className="relative bg-black min-h-screen selection:bg-emerald-500/30">
+***************
+*** 98,140
+-       {/* Value Props Section - Template v0.8 */}
+-       <section className="border-b border-slate-800 bg-slate-950/90 py-20">
+-         <div className="mx-auto max-w-6xl space-y-10 px-6">
+-           <motion.div
+-             className="grid grid-cols-1 sm:grid-cols-3 gap-8"
+-             initial="hidden"
+-             whileInView="visible"
+-             viewport={{ once: true, margin: "-50px" }}
+-             variants={motionPresets["scroll-fade-up-stagger"]}
+-           >
+-             {[
+-               {
+-                 icon: Droplet,
+-                 title: "Ionic Bioavailability",
+-                 desc: "Dissolved minerals in their ionic state for immediate cellular absorption."
+-               },
+-               {
+-                 icon: Star,
+-                 title: "Crystalline Structure",
+-                 desc: "Promotes the alignment of water molecules into a coherent, liquid crystal phase."
+-               },
+-               {
+-                 icon: Check,
+-                 title: "Impurity Flocculation",
+-                 desc: "Naturally binds to and precipitates contaminants out of solution."
+-               }
+-             ].map((feature, i) => (
+-               <motion.div
+-                 key={i}
+-                 className="group rounded-2xl border border-slate-700/70 bg-slate-900/60 p-5 shadow-sm shadow-black/40 transition hover:border-emerald-300/60"
+-                 variants={motionPresets["scroll-fade-up"]}
+-               >
+-                 {/* Icon Container */}
+-                 <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-800">
+-                   <feature.icon className="w-5 h-5 text-emerald-400" />
+-                 </div>
+-                 <h3 className="text-sm font-semibold text-slate-50 mb-2">{feature.title}</h3>
+-                 <p className="text-xs leading-relaxed text-slate-300">{feature.desc}</p>
+-               </motion.div>
+-             ))}
+-           </motion.div>
+-         </div>
+-       </section>
+--- 78,81 -----
++       {/* GLOBAL FIXED ELEMENTS */}
++       <div className="fixed top-0 left-0 right-0 z-[60]">
++         <MegaMenu />
++       </div>
+***************
+*** 142,158
+-       {/* Science Teaser Section - Template v0.8 */}
+-       <section className="border-b border-slate-800 bg-slate-950/95 py-20">
+-         <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 lg:flex-row lg:items-start">
+-           {/* Image Card */}
+-           <motion.div
+-             className="relative flex max-w-sm flex-col items-center gap-6 rounded-3xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-black/60 backdrop-blur-xl"
+-             initial={{ opacity: 0, x: -40 }}
+-             whileInView={{ opacity: 1, x: 0 }}
+-             viewport={{ once: true, margin: "-50px" }}
+-             transition={{ duration: 0.6 }}
+-           >
+-             <img src={waterBg} className="w-full h-48 object-cover rounded-xl opacity-50" />
+-             <div className="text-center">
+-               <div className="text-4xl font-bold text-indigo-300 mb-2">EZ</div>
+-               <div className="text-sm font-medium uppercase tracking-[0.25em] text-slate-400">Exclusion Zone Water</div>
+-             </div>
+-           </motion.div>
+--- 83,92 -----
++       {/* HIGH-FIDELITY BACKGROUND (The V6 "Atmosphere") */}
++       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
++         <SmartImage
++           registryId="glass-origin" // Fallback/Base
++           className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen"
++         />
++         {/* Star Beam Overlay if available, else CSS Gradient */}
++         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
++         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-black to-black" />
++       </div>
+***************
+*** 160,171
+-           {/* Text Content */}
+-           <motion.div
+-             className="flex-1 space-y-6"
+-             initial={{ opacity: 0, x: 40 }}
+-             whileInView={{ opacity: 1, x: 0 }}
+-             viewport={{ once: true, margin: "-50px" }}
+-             transition={{ duration: 0.6, delay: 0.2 }}
+-           >
+-             {/* H2 - Section Title */}
+-             <h2 className="text-3xl font-semibold tracking-tight text-slate-50">
+-               Beyond Simple <span className="text-emerald-300">Hydration</span>
+-             </h2>
+--- 94,107 -----
++       {/* 1. HERO HEADER (Fixed & Animated - V6 Style) */}
++       <div ref={heroRef} className="relative h-screen flex items-center justify-center z-10 px-4">
++         <GlassCard className="text-center py-16 px-8 md:px-20 bg-black/40 backdrop-blur-md border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)] flex flex-col items-center max-w-5xl w-full">
++           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 text-emerald-400 text-xs tracking-widest uppercase mb-8 shadow-[0_0_20px_rgba(52,211,153,0.1)] animate-pulse">
++             <Stars className="w-3 h-3" />
++             The Portable Ritual
++           </div>
++           <h1 className="text-6xl md:text-9xl font-display text-white tracking-tighter mb-6 drop-shadow-2xl">
++             Andara <span className="text-transparent bg-clip-text bg-gradient-to-br from-emerald-200 to-cyan-500">Ionic</span>
++           </h1>
++           <p className="text-xl md:text-3xl text-slate-300 font-light leading-relaxed max-w-3xl tracking-wide">
++             Journey from the primordial source to the bottle in your hand.
++             <br /><span className="text-emerald-400/80 text-lg">Structure. Clarify. Activate.</span>
++           </p>
+***************
+*** 173,178
+-             {/* Lead Paragraph */}
+-             <p className="text-balance text-lg leading-relaxed text-slate-200">
+-               Water is not just a solvent; it is a medium for information and energy.
+-               Our Science Library explores the cutting-edge research into structured water,
+-               bioelectricity, and the role of primordial minerals in biology.
+-             </p>
+--- 109,113 -----
++           <div className="mt-12 animate-bounce opacity-50">
++             <ArrowRight className="w-6 h-6 text-white rotate-90" />
++           </div>
++         </GlassCard>
++       </div>
+***************
+*** 180,195
+-             {/* Bullet List */}
+-             <ul className="space-y-3">
+-               {["The Fourth Phase of Water", "Sulfate Chemistry", "Bioelectric Potentials"].map((item, i) => (
+-                 <motion.li
+-                   key={item}
+-                   className="flex gap-2"
+-                   initial={{ opacity: 0, x: 20 }}
+-                   whileInView={{ opacity: 1, x: 0 }}
+-                   viewport={{ once: true }}
+-                   transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+-                 >
+-                   <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-400" />
+-                   <span className="text-base leading-relaxed text-slate-200">{item}</span>
+-                 </motion.li>
+-               ))}
+-             </ul>
+--- 115,116 -----
++       {/* CONTENT CONTAINER */}
++       <div className="relative z-20 space-y-24 pb-32 pt-20">
+***************
+*** 197,205
+-             <Link href="/science">
+-               <motion.button
+-                 className="text-sm font-medium text-slate-200 underline-offset-4 hover:text-emerald-200 hover:underline"
+-                 whileHover={{ x: 4 }}
+-               >
+-                 Enter the Science Library →
+-               </motion.button>
+-             </Link>
+-           </motion.div>
+--- 118,120 -----
++         {/* BACKGROUND CONNECTORS (The "Glueline") */}
++         <div className="absolute inset-x-0 top-0 bottom-0 flex justify-center pointer-events-none z-0">
++           <div className="w-px bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent h-full" />
