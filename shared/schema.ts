@@ -1104,32 +1104,46 @@ export const selectBigmindSuggestionSchema = createSelectSchema(bigmindSuggestio
 export type InsertBigmindSuggestion = z.infer<typeof insertBigmindSuggestionSchema>;
 export type BigmindSuggestion = typeof bigmindSuggestions.$inferSelect;
 
-// --- ORDERS TABLE (for Stripe e-commerce) ---
+// --- ORDERS TABLE (for E-commerce with Stripe & Cash on Delivery) ---
 export const ORDER_STATUS = ['pending', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] as const;
+export const PAYMENT_METHODS = ['stripe', 'cod', 'bank_transfer'] as const;
+export const SHIPPING_REGIONS = ['germany', 'eu', 'europe', 'worldwide'] as const;
 
 export const orders = pgTable("orders", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   orderNumber: text("order_number").notNull().unique(),
+  
+  // Payment fields
+  paymentMethod: text("payment_method").notNull().default('cod'), // 'stripe' | 'cod' | 'bank_transfer'
   stripeCheckoutSessionId: text("stripe_checkout_session_id"),
   stripePaymentIntentId: text("stripe_payment_intent_id"),
   stripeCustomerId: text("stripe_customer_id"),
+  
+  // Customer info
   customerEmail: text("customer_email").notNull(),
   customerName: text("customer_name"),
   customerPhone: text("customer_phone"),
+  
+  // Order items
   items: jsonb("items").$type<Array<{
-    priceId: string;
+    priceId?: string;
     productId: string;
     productName: string;
     quantity: number;
     unitAmount: number;
     currency: string;
   }>>().notNull().default([]),
+  
+  // Pricing (stored in cents)
   subtotal: integer("subtotal").notNull().default(0),
   tax: integer("tax").default(0),
   shipping: integer("shipping").default(0),
+  codFee: integer("cod_fee").default(0), // Cash on Delivery handling fee
   total: integer("total").notNull().default(0),
-  currency: text("currency").notNull().default('usd'),
-  status: text("status").notNull().default('pending'),
+  currency: text("currency").notNull().default('eur'),
+  
+  // Shipping
+  shippingRegion: text("shipping_region").default('germany'), // 'germany' | 'eu' | 'europe' | 'worldwide'
   shippingAddress: jsonb("shipping_address").$type<{
     name?: string;
     line1?: string;
@@ -1141,8 +1155,13 @@ export const orders = pgTable("orders", {
   }>(),
   trackingNumber: text("tracking_number"),
   trackingUrl: text("tracking_url"),
+  
+  // Order management
+  status: text("status").notNull().default('pending'),
   notes: text("notes"),
   metadata: jsonb("metadata").$type<Record<string, any>>().default({}),
+  
+  // Timestamps
   paidAt: timestamp("paid_at"),
   shippedAt: timestamp("shipped_at"),
   deliveredAt: timestamp("delivered_at"),

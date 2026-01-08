@@ -157,3 +157,6 @@ export const andaraTheme = {
 } as const;
 
 export type AndaraTheme = typeof andaraTheme;
+
+// Mode type for theme toggles
+export type AndaraMode = 'dark' | 'light' | 'system';
