@@ -1,4 +1,16 @@
 import 'dotenv/config';
+
+// Top-level error handlers for production debugging
+process.on('uncaughtException', (err) => {
+  console.error('[CRITICAL] Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[CRITICAL] Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+console.log('[STARTUP] Initializing Andara CMS...');
 import { validateEnvironment } from './middleware/envValidator';
 import { apiLimiter } from './middleware/rateLimiter';
 import express, { type Request, Response, NextFunction } from "express";
@@ -15,7 +27,16 @@ import { getStripeSync } from "./services/stripeClient";
 import { WebhookHandlers } from "./services/webhookHandlers";
 
 // Validate environment variables before starting server
-validateEnvironment();
+try {
+  console.log('[STARTUP] Validating environment...');
+  validateEnvironment();
+  console.log('[STARTUP] Environment validation passed');
+} catch (error) {
+  console.error('[STARTUP] Environment validation failed:', error);
+  // On Railway, we might want to continue if it's just a warning, 
+  // but validateEnvironment throws on required missing vars.
+  throw error;
+}
 
 const app = express();
 const httpServer = createServer(app);
@@ -205,7 +226,8 @@ app.use((req, res, next) => {
   // ═══════════════════════════════════════════════════════════════════════════
   const PORT = Number(process.env.PORT) || 3000;
 
+  console.log(`[STARTUP] Attempting to listen on port ${PORT}...`);
   httpServer.listen(PORT, "0.0.0.0", () => {
-    log(`✓ Andara CMS running on http://localhost:${PORT}`);
+    console.log(`✓ Andara CMS running on http://0.0.0.0:${PORT} (mapped to your live URL)`);
   });
 })();
