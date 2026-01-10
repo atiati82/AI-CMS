@@ -1,5 +1,6 @@
+
 import React from "react";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, type Easing, type Variants } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 
@@ -133,9 +134,9 @@ export default function BioelectricityInvisibleVoltagePage() {
             - Two-column hero: text left (~60%), visual right (~40%).
             - Mobile: stack with text first, image second.
           - Motion:
-            - Apply `ambient-bioelectric-field` to background: faint moving field lines, very subtle.
-            - Text elements use `scroll-fade-up-stagger`.
-            - Hero image uses `crystalline-shimmer-slow` + soft breathing scale (1.0 → 1.03).
+            - Apply `ambient - bioelectric - field` to background: faint moving field lines, very subtle.
+            - Text elements use `scroll - fade - up - stagger`.
+            - Hero image uses `crystalline - shimmer - slow` + soft breathing scale (1.0 → 1.03).
           - Visual:
             - Colors: deep indigo background, turquoise field lines, soft gold node accents.
             - No medical equipment – purely field, geometry, and living body silhouette.
@@ -225,8 +226,8 @@ export default function BioelectricityInvisibleVoltagePage() {
             - Two-column text explaining circuit + map.
             - Diagram below as a centered figure.
           - Motion:
-            - Columns: `scroll-fade-up-stagger`.
-            - Diagram: `scroll-fade-up` with soft glow around it.
+            - Columns: `scroll - fade - up - stagger`.
+            - Diagram: `scroll - fade - up` with soft glow around it.
           - Visual:
             - Use simple vector-like icons and arrows to keep the concept clear.
           */}
@@ -314,8 +315,8 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - 3 horizontal cards, then a simple graph figure.
           - Motion:
-            - Cards: `scroll-fade-up-stagger`.
-            - Graph: `scroll-fade-up` with small dot moving along curve on scroll (optional).
+            - Cards: `scroll - fade - up - stagger`.
+            - Graph: `scroll - fade - up` with small dot moving along curve on scroll (optional).
           - Visual:
             - Use clean line art / vector icons: battery, turbine, landscape.
           */}
@@ -403,8 +404,8 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - Two explanatory columns + one central wiring infographic.
           - Motion:
-            - `scroll-fade-up-stagger` for text.
-            - Infographic uses `ambient-crystalline-shimmer` with subtle line pulses following the arrows.
+            - `scroll - fade - up - stagger` for text.
+            - Infographic uses `ambient - crystalline - shimmer` with subtle line pulses following the arrows.
           - Visual:
             - Show water layers, ions as nodes, and arrows for current – keep it simple, not cluttered.
           */}
@@ -475,8 +476,8 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - Two comparison cards + one highlight box.
           - Motion:
-            - `scroll-fade-up-stagger` on the two cards.
-            - Highlight box uses `scroll-fade-up` + subtle glow border.
+            - `scroll - fade - up - stagger` on the two cards.
+            - Highlight box uses `scroll - fade - up` + subtle glow border.
           - Visual:
             - Icons: beaker/chemical vs field/gradient to show two perspectives.
           */}
@@ -555,7 +556,7 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - 3 cards showing different application zones.
           - Motion:
-            - `scroll-fade-up-stagger`.
+            - `scroll - fade - up - stagger`.
           - Visual:
             - Illustrations: water glass, house/temple, person in practice/meditation pose.
           */}
@@ -657,8 +658,8 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - 4-step horizontal timeline (vertical on mobile).
           - Motion:
-            - `scroll-fade-up-stagger`.
-            - Apply `timeline-glow-progress`: as the user scrolls, a soft light travels along the line from step 1 → 4.
+            - `scroll - fade - up - stagger`.
+            - Apply `timeline - glow - progress`: as the user scrolls, a soft light travels along the line from step 1 → 4.
           - Visual:
             - Use waveforms and field lines to feel “noisy vs coherent”.
           */}
@@ -728,7 +729,7 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - 2 explanatory cards + one CTA highlight box.
           - Motion:
-            - `scroll-fade-up-stagger`.
+            - `scroll - fade - up - stagger`.
           - Visual:
             - Small product silhouette to hint connection, but keep focus on terrain logic, not sales.
           */}
@@ -800,7 +801,7 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - Simple vertical FAQ accordion or stacked cards.
           - Motion:
-            - `scroll-fade-up-stagger`.
+            - `scroll - fade - up - stagger`.
           - Visual:
             - Use calm layout, lots of whitespace, emphasize clarity and safety.
           */}
@@ -891,8 +892,8 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - 4 pillar cards + one highlight box explaining the neural linking.
           - Motion:
-            - `scroll-fade-up-stagger`.
-            - Subtle `ambient-cosmic-field` background behind entire footer.
+            - `scroll - fade - up - stagger`.
+            - Subtle `ambient - cosmic - field` background behind entire footer.
           */}
 
           {/* =========================
@@ -940,7 +941,7 @@ export default function BioelectricityInvisibleVoltagePage() {
           - Layout:
             - Centered, wide CTA band.
           - Motion:
-            - `scroll-fade-up` + very soft `ambient-bioelectric-field` behind headline.
+            - `scroll - fade - up` + very soft `ambient - bioelectric - field` behind headline.
           */}
 
         </main>

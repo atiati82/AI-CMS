@@ -211,7 +211,7 @@ export function AIChatPanel({
                 data-testid={`message-${idx}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                     <Brain className="w-4 h-4 text-primary" />
                   </div>
                 )}
@@ -245,7 +245,7 @@ export function AIChatPanel({
                   )}
                 </div>
                 {msg.role === 'user' && (
-                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
                     <MessageSquare className="w-4 h-4" />
                   </div>
                 )}
@@ -311,7 +311,7 @@ export function AIChatPanel({
             type="button"
             variant="ghost"
             size="icon"
-            className="h-10 w-10 flex-shrink-0"
+            className="h-10 w-10 shrink-0"
             onClick={() => chat.fileInputRef.current?.click()}
             disabled={chat.isUploading}
             data-testid="button-attach-file"
@@ -333,7 +333,7 @@ export function AIChatPanel({
           <Button
             type="button"
             size="icon"
-            className="h-10 w-10 flex-shrink-0"
+            className="h-10 w-10 shrink-0"
             onClick={() => chat.sendMessage()}
             disabled={(!chat.inputValue.trim() && !chat.attachedFile) || chat.isLoading}
             data-testid="button-send-chat"

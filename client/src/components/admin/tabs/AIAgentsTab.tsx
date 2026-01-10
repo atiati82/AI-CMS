@@ -370,7 +370,7 @@ export default function AIAgentsTab() {
                             </div>
 
                             <div className="flex items-start gap-4">
-                                <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 group-hover:scale-105 transition-all">
+                                <div className="p-3 rounded-lg bg-linear-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 group-hover:scale-105 transition-all">
                                     <Cpu className="w-6 h-6 text-purple-400" />
                                 </div>
                                 <div>

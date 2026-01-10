@@ -38,7 +38,7 @@ export function LoginForm({ onLogin }: { onLogin: () => void }) {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+        <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 to-slate-800">
             <div className="bg-card p-8 rounded-xl border shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-display font-bold mb-2 text-center" data-testid="text-login-title">
                     Andara Ionic CMS

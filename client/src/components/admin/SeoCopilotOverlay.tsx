@@ -213,7 +213,7 @@ export default function SeoCopilotOverlay({ pageId, isAdminMode = true }: SeoCop
                 transition={{ delay: 0.5, type: 'spring' }}
                 onClick={() => setIsOpen(true)}
                 className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full 
-          bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/30 
+          bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/30 
           hover:shadow-violet-500/50 hover:scale-105 transition-all ${isOpen ? 'hidden' : ''}`}
                 data-testid="seo-copilot-trigger"
             >
@@ -241,7 +241,7 @@ export default function SeoCopilotOverlay({ pageId, isAdminMode = true }: SeoCop
                         {/* Header */}
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-slate-800/50">
                             <div className="flex items-center gap-2">
-                                <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500/20 to-indigo-500/20">
+                                <div className="p-2 rounded-lg bg-linear-to-br from-violet-500/20 to-indigo-500/20">
                                     <Sparkles className="w-5 h-5 text-violet-400" />
                                 </div>
                                 <div>

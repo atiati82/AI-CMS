@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
-import { SmartVideoEmbed } from "@/components/SmartVideoEmbed";
+import { SmartVideoEmbed, VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function MicrobiomeMineralsPage() {
     const containerRef = useRef(null);

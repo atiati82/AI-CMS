@@ -617,7 +617,7 @@ export function BigMindChatModern({
         <div className="flex h-full max-h-[calc(100vh-120px)] bg-zinc-950 text-zinc-100 overflow-hidden font-sans relative">
             {/* Sidebar */}
             <div
-                className={`flex-shrink-0 bg-zinc-900 border-r border-zinc-800 transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
+                className={`shrink-0 bg-zinc-900 border-r border-zinc-800 transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
                     }`}
             >
                 <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
@@ -664,7 +664,7 @@ export function BigMindChatModern({
                         >
                             {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
                         </button>
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                             <Bot className="w-6 h-6 text-white" />
                         </div>
                         <div>
@@ -738,7 +738,7 @@ export function BigMindChatModern({
                     {messages.length === 0 && (
                         <div className="flex flex-col items-center justify-center h-full">
                             {/* Logo */}
-                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20">
+                            <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20">
                                 <Bot className="w-8 h-8 text-white" />
                             </div>
 
@@ -761,7 +761,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-emerald-500/10 border border-zinc-700/50 hover:border-emerald-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
                                         <Brain className="w-4 h-4 text-emerald-400" />
                                     </div>
                                     <div>
@@ -778,7 +778,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-blue-500/10 border border-zinc-700/50 hover:border-blue-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center shrink-0">
                                         <Sparkles className="w-4 h-4 text-blue-400" />
                                     </div>
                                     <div>
@@ -795,7 +795,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-amber-500/10 border border-zinc-700/50 hover:border-amber-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center shrink-0">
                                         <MessageSquare className="w-4 h-4 text-amber-400" />
                                     </div>
                                     <div>
@@ -812,7 +812,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-purple-500/10 border border-zinc-700/50 hover:border-purple-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center shrink-0">
                                         <History className="w-4 h-4 text-purple-400" />
                                     </div>
                                     <div>
@@ -829,7 +829,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-cyan-500/10 border border-zinc-700/50 hover:border-cyan-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center shrink-0">
                                         <FileText className="w-4 h-4 text-cyan-400" />
                                     </div>
                                     <div>
@@ -846,7 +846,7 @@ export function BigMindChatModern({
                                     }}
                                     className="flex items-start gap-3 p-4 bg-zinc-800/50 hover:bg-pink-500/10 border border-zinc-700/50 hover:border-pink-500/30 rounded-xl text-left transition-all group"
                                 >
-                                    <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center shrink-0">
                                         <Wand2 className="w-4 h-4 text-pink-400" />
                                     </div>
                                     <div>
@@ -863,7 +863,7 @@ export function BigMindChatModern({
                             className={`flex gap-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                         >
                             {msg.role === 'assistant' && (
-                                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0 mt-1">
+                                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0 mt-1">
                                     <Bot className="w-4 h-4 text-indigo-400" />
                                 </div>
                             )}
@@ -943,7 +943,7 @@ export function BigMindChatModern({
                             </div>
 
                             {msg.role === 'user' && (
-                                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0 mt-1">
+                                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0 mt-1">
                                     <User className="w-4 h-4 text-zinc-400" />
                                 </div>
                             )}
@@ -951,7 +951,7 @@ export function BigMindChatModern({
                     ))}
                     {isLoading && (
                         <div className="flex gap-4 justify-start">
-                            <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0 mt-1">
+                            <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center shrink-0 mt-1">
                                 <Bot className="w-4 h-4 text-indigo-400" />
                             </div>
                             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-sm px-5 py-4">
@@ -1043,7 +1043,7 @@ export function BigMindChatModern({
                                     else newSet.add(enhancement.id);
                                     setSelectedEnhancements(newSet);
                                 }}>
-                                    <div className={`mt-1 w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${selectedEnhancements.has(enhancement.id) ? 'bg-amber-500 border-amber-500' : 'border-zinc-600'
+                                    <div className={`mt-1 w-4 h-4 rounded border flex items-center justify-center shrink-0 ${selectedEnhancements.has(enhancement.id) ? 'bg-amber-500 border-amber-500' : 'border-zinc-600'
                                         }`}>
                                         {selectedEnhancements.has(enhancement.id) && <Check className="w-3 h-3 text-zinc-900" />}
                                     </div>
@@ -1085,7 +1085,7 @@ export function BigMindChatModern({
                 <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-zinc-900 border border-zinc-700 rounded-xl w-full max-w-2xl shadow-2xl max-h-[85vh] flex flex-col">
                         {/* Header */}
-                        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-700 flex-shrink-0">
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-700 shrink-0">
                             <div className="flex items-center gap-2">
                                 <Sparkles className="w-5 h-5 text-purple-400" />
                                 <h3 className="font-semibold text-zinc-100">Create Magic Page</h3>
@@ -1096,7 +1096,7 @@ export function BigMindChatModern({
                         </div>
 
                         {/* Tab Navigation */}
-                        <div className="flex border-b border-zinc-700 px-5 flex-shrink-0">
+                        <div className="flex border-b border-zinc-700 px-5 shrink-0">
                             {['Core', 'SEO', 'Visual', 'Content'].map((tab, i) => (
                                 <button
                                     key={tab}
@@ -1223,7 +1223,7 @@ export function BigMindChatModern({
                                         <div className="space-y-2">
                                             {magicPagePopup.data.contentOutline?.map((section: string, i: number) => (
                                                 <div key={i} className="flex items-start gap-2">
-                                                    <span className="w-5 h-5 rounded-full bg-zinc-800 text-zinc-400 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                                                    <span className="w-5 h-5 rounded-full bg-zinc-800 text-zinc-400 text-xs flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
                                                     <span className="text-sm text-zinc-300">{section}</span>
                                                 </div>
                                             ))}
@@ -1237,7 +1237,7 @@ export function BigMindChatModern({
                         </div>
 
                         {/* Footer with Generate Button */}
-                        <div className="px-5 py-4 border-t border-zinc-700 flex gap-3 flex-shrink-0">
+                        <div className="px-5 py-4 border-t border-zinc-700 flex gap-3 shrink-0">
                             <button
                                 onClick={() => { setMagicPagePopup({ open: false, data: null, loading: false }); setMagicTabIndex(0); }}
                                 className="flex-1 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg font-medium transition-colors"
@@ -1293,7 +1293,7 @@ export function BigMindChatModern({
                 <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-zinc-900 border border-zinc-700 rounded-xl w-full max-w-2xl shadow-2xl max-h-[85vh] flex flex-col">
                         {/* Header */}
-                        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-700 flex-shrink-0">
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-700 shrink-0">
                             <div className="flex items-center gap-2">
                                 <FileText className="w-5 h-5 text-blue-400" />
                                 <h3 className="font-semibold text-zinc-100">Edit Page Draft</h3>
@@ -1311,7 +1311,7 @@ export function BigMindChatModern({
                         ) : pageEditPopup.pageData && (
                             <>
                                 {/* Tab Navigation */}
-                                <div className="flex border-b border-zinc-700 px-5 flex-shrink-0 overflow-x-auto">
+                                <div className="flex border-b border-zinc-700 px-5 shrink-0 overflow-x-auto">
                                     {['Core', 'SEO', 'Visual', 'Motion', 'Content', 'Preview'].map((tab, i) => (
                                         <button
                                             key={tab}
@@ -1976,7 +1976,7 @@ export function BigMindChatModern({
                                                                 variant: failed === validImages.length ? "destructive" : "default"
                                                             });
                                                         }}
-                                                        className="flex-1 px-3 py-2 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded flex items-center justify-center gap-1"
+                                                        className="flex-1 px-3 py-2 text-xs font-medium bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded flex items-center justify-center gap-1"
                                                     >
                                                         <Sparkles className="w-3 h-3" />
                                                         Generate All Images
@@ -2028,7 +2028,7 @@ export function BigMindChatModern({
                                                                 description: "Video generation has been queued. Check back later for the result.",
                                                             });
                                                         }}
-                                                        className="flex-1 px-3 py-2 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded flex items-center justify-center gap-1"
+                                                        className="flex-1 px-3 py-2 text-xs font-medium bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded flex items-center justify-center gap-1"
                                                     >
                                                         <Sparkles className="w-3 h-3" />
                                                         Generate Video AI
@@ -2058,7 +2058,7 @@ export function BigMindChatModern({
                                                         <span className="text-[9px] text-zinc-500 mt-1 block">hover.lift</span>
                                                     </div>
                                                     <div className="text-center">
-                                                        <div className="w-10 h-10 mx-auto bg-gradient-to-r from-cyan-500/30 to-purple-500/30 rounded animate-spin" style={{ animationDuration: '3s' }} />
+                                                        <div className="w-10 h-10 mx-auto bg-linear-to-r from-cyan-500/30 to-purple-500/30 rounded animate-spin" style={{ animationDuration: '3s' }} />
                                                         <span className="text-[9px] text-zinc-500 mt-1 block">ambient</span>
                                                     </div>
                                                 </div>
@@ -2374,7 +2374,7 @@ Create engaging, scientific content following Andara Ionic's premium design lang
                                                                         });
                                                                     }
                                                                 }}
-                                                                className="mt-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-lg font-medium flex items-center gap-2 mx-auto"
+                                                                className="mt-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-lg font-medium flex items-center gap-2 mx-auto"
                                                             >
                                                                 <Sparkles className="w-4 h-4" />
                                                                 Generate Content with AI
@@ -2389,7 +2389,7 @@ Create engaging, scientific content following Andara Ionic's premium design lang
                                 </div>
 
                                 {/* Footer */}
-                                <div className="px-5 py-4 border-t border-zinc-700 flex gap-3 flex-shrink-0">
+                                <div className="px-5 py-4 border-t border-zinc-700 flex gap-3 shrink-0">
                                     <button
                                         onClick={() => { setPageEditPopup({ open: false, pageId: '', pageData: null, suggestions: {}, loading: false }); setEditTabIndex(0); }}
                                         className="flex-1 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg font-medium transition-colors"

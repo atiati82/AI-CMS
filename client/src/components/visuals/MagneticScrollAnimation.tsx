@@ -14,7 +14,7 @@ export function MagneticScrollAnimation() {
                     {Array.from({ length: 12 }).map((_, i) => (
                         <motion.div
                             key={i}
-                            className="w-1 h-32 bg-gradient-to-b from-transparent via-purple-500/30 to-transparent"
+                            className="w-1 h-32 bg-linear-to-b from-transparent via-purple-500/30 to-transparent"
                             animate={{
                                 y: [-20, 20, -20],
                                 opacity: [0.1, 0.4, 0.1]

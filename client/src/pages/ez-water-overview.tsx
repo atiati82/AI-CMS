@@ -12,7 +12,7 @@ import {
     CircleCheck,
     Mountain
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Easing, type Variants } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { SmartVideoEmbed, VideoBackground } from "@/components/SmartVideoEmbed";

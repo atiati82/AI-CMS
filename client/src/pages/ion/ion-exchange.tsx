@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Easing, type Variants } from 'framer-motion';
 // SEO handled by IONLayout
 import { IONLayout } from '@/templates/gpt/IONLayout';
 import { SmartVideoEmbed, VideoBackground } from '@/components/SmartVideoEmbed';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { Link } from 'wouter';
-import { ArrowRight, RotateCcw, Filter, Layers, Droplets, Mountain, Leaf, Zap, RefreshCw } from 'lucide-react';
+import { ArrowRight, RotateCcw, Filter, Layers, Droplets, Mountain, Leaf, Zap, RefreshCw, type LucideIcon } from 'lucide-react';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 
@@ -34,7 +34,7 @@ function ExchangeStep({
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay }}
+            transition={{ delay, ease: 'easeOut' as Easing }}
         >
             <motion.div
                 className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-purple-500/30 border border-cyan-500/40 flex items-center justify-center shrink-0"
@@ -61,7 +61,7 @@ function NatureExampleCard({
     color,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     description: string;
     color: string;

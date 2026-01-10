@@ -26,7 +26,7 @@ export function StatCard({
 
     return (
         <div className="relative overflow-hidden bg-card border border-border/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group">
-            <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gradient-to-br opacity-10 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(135deg, var(--admin-accent), var(--admin-accent-hover))` }} />
+            <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-linear-to-br opacity-10 group-hover:opacity-20 transition-opacity" style={{ background: `linear-gradient(135deg, var(--admin-accent), var(--admin-accent-hover))` }} />
 
             <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -50,7 +50,7 @@ export function StatCard({
                         </div>
                     )}
                 </div>
-                <div className={cn("p-3 rounded-xl bg-gradient-to-br shadow-lg", gradient)}>
+                <div className={cn("p-3 rounded-xl bg-linear-to-br shadow-lg", gradient)}>
                     <Icon className="w-6 h-6 text-white" />
                 </div>
             </div>

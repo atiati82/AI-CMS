@@ -8,7 +8,12 @@
     "node_modules",
     "build",
     "dist",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "client/src/_archive",
+    "client/src/backups",
+    "client/src/pages/_archive",
+    "client/src/pages/demos",
+    "client/src/components/_archive"
   ],
   "compilerOptions": {
     "incremental": true,

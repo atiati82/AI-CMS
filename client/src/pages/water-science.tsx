@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type Easing } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 import { VideoBackground } from "@/components/SmartVideoEmbed";

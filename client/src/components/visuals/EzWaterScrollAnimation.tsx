@@ -5,7 +5,7 @@ export function EzWaterScrollAnimation() {
     return (
         <div className="h-96 flex items-center justify-center bg-blue-900/10 rounded-3xl border border-blue-500/20 my-12 overflow-hidden relative">
             <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"
+                className="absolute inset-0 bg-linear-to-b from-blue-500/5 to-transparent"
                 animate={{ opacity: [0.1, 0.3, 0.1] }}
                 transition={{ duration: 4, repeat: Infinity }}
             />

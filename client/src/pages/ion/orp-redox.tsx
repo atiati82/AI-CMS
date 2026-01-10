@@ -25,7 +25,8 @@ import {
     ThermometerSun,
     CircleDot,
     Info,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
@@ -186,7 +187,7 @@ function WaterORPCard({
     color,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     orp: string;
     description: string;

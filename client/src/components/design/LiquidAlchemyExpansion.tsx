@@ -119,10 +119,10 @@ export function LiquidBentoGrid({ items, className }: LiquidBentoGridProps) {
                     {item.header && (
                         <div className="w-full h-40 md:h-48 overflow-hidden relative">
                             {item.header}
-                            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900/80 to-transparent" />
+                            <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-slate-900/80 to-transparent" />
                         </div>
                     )}
-                    <div className="p-6 flex flex-col flex-grow">
+                    <div className="p-6 flex flex-col grow">
                         <div className="flex items-center gap-3 mb-3">
                             {item.icon && (
                                 <div className="p-2 rounded-lg bg-white/5 text-emerald-400 ring-1 ring-white/10">
@@ -134,7 +134,7 @@ export function LiquidBentoGrid({ items, className }: LiquidBentoGridProps) {
                             </h3>
                         </div>
                         {item.description && (
-                            <p className="text-sm text-slate-400 leading-relaxed mb-4 flex-grow">
+                            <p className="text-sm text-slate-400 leading-relaxed mb-4 grow">
                                 {item.description}
                             </p>
                         )}

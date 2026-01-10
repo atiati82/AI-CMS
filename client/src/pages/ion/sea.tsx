@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { motion, type Easing } from 'framer-motion';
+import { motion, type Easing, type Variants } from 'framer-motion';
 import { IONLayout } from '@/templates/gpt/IONLayout';
 import { SmartImage } from '@/components/ui/SmartImage';
-import { SmartVideoEmbed } from '@/components/SmartVideoEmbed';
+import { SmartVideoEmbed, VideoBackground } from '@/components/SmartVideoEmbed';
 import { Link } from 'wouter';
 import {
     ArrowRight,
@@ -25,7 +25,8 @@ import {
     ThermometerSun,
     Shield,
     Sparkles,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
@@ -134,7 +135,7 @@ function SeaFeatureCard({
     color,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     description: string;
     color: string;
@@ -169,7 +170,7 @@ function ResetEffectCard({
     effect,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     effect: string;
     delay?: number;
 }) {

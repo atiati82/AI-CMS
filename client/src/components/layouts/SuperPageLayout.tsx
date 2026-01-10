@@ -150,7 +150,7 @@ export default function SuperPageLayout({ config }: SuperPageLayoutProps) {
             </Helmet>
 
             {/* HEADER */}
-            <div className="fixed top-0 left-0 right-0 z-[60]">
+            <div className="fixed top-0 left-0 right-0 z-60">
                 <MegaMenu />
             </div>
 
@@ -161,7 +161,7 @@ export default function SuperPageLayout({ config }: SuperPageLayoutProps) {
                     alt="Cosmic Background"
                     className="absolute inset-0 w-full h-full object-cover opacity-80"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+                <div className="absolute inset-0 bg-linear-to-b from-black/40 via-transparent to-black/80" />
             </div>
 
             {/* 1. TUNNEL SEQUENCE (Height determines scroll duration) */}
@@ -195,7 +195,7 @@ export default function SuperPageLayout({ config }: SuperPageLayoutProps) {
                                 className="absolute inset-0 flex items-center justify-center opacity-0"
                             >
                                 <div className="relative w-[85vw] h-[60vh] md:w-[900px] md:h-[650px] flex items-center justify-center transform-gpu perspective-1000">
-                                    <div className="absolute inset-0 rounded-[2rem] shadow-[0_0_150px_rgba(52,211,153,0.05)] overflow-hidden ring-1 ring-white/10">
+                                    <div className="absolute inset-0 rounded-4xl shadow-[0_0_150px_rgba(52,211,153,0.05)] overflow-hidden ring-1 ring-white/10">
                                         <div className="w-full h-full relative overflow-hidden bg-black">
                                             {portal.registryId && (
                                                 <SmartImage
@@ -206,7 +206,7 @@ export default function SuperPageLayout({ config }: SuperPageLayoutProps) {
                                             )}
                                             {portal.renderContent && portal.renderContent()}
                                             <div className={cn("absolute inset-0 mix-blend-overlay", colors.glow)} />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
                                         </div>
                                     </div>
                                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-auto">
@@ -276,7 +276,7 @@ export default function SuperPageLayout({ config }: SuperPageLayoutProps) {
                     {/* SPACING: mt-24, p-10/12, gap-8, mb-6/8, pt-8 */}
                     <div className="mt-24">
                         <GlassCard className="w-full bg-black/60 backdrop-blur-3xl border-white/5 overflow-hidden grid grid-cols-1 md:grid-cols-2 shadow-[0_0_150px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
-                            <div className="relative p-10 flex items-center justify-center bg-gradient-to-br from-slate-950 to-black border-r border-white/5">
+                            <div className="relative p-10 flex items-center justify-center bg-linear-to-br from-slate-950 to-black border-r border-white/5">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent" />
                                 <SmartImage
                                     registryId={product.registryId}

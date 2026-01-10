@@ -1,18 +1,19 @@
-import React, { useState } from "react";
 import {
   LayoutDashboard, FileText, Package, Beaker, FolderTree, FileUp,
   Target, Wand2, Link, Code2, Settings, Brain, ChevronLeft, ChevronRight,
   ShoppingCart, GraduationCap, Truck, Mail, MessageSquare, Calendar, Kanban,
-  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers, Activity, Film
+  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers, Activity, Film,
+  type LucideIcon
 } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 type NavItem = {
   id: string;
   label: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   badge?: number;
 };
 
@@ -108,12 +109,12 @@ function SidebarContent({
                     className={cn(
                       "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                       isActive
-                        ? "bg-gradient-to-r from-transparent to-cyan-500/10 text-cyan-400 border-r-2 border-cyan-500 shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)]"
+                        ? "bg-linear-to-r from-transparent to-cyan-500/10 text-cyan-400 border-r-2 border-cyan-500 shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)]"
                         : "text-muted-foreground hover:bg-white/5 hover:text-white"
                     )}
                     data-testid={`sidebar-${item.id}`}
                   >
-                    <Icon className={cn("w-5 h-5 shrink-0", isCollapsed ? "mx-auto" : "")} />
+                    <Icon className={cn("w-5 h-5 shrink-0", isCollapsed ? "mx-auto" : "") as string} />
                     {!isCollapsed && (
                       <>
                         <span className="flex-1 text-left">{item.label}</span>
@@ -165,7 +166,7 @@ export function AdminSidebar({
         >
           <div className="flex items-center justify-between h-16 px-4 border-b border-slate-700">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-linear-to-br from-purple-500 to-purple-700 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">A</span>
               </div>
               <span className="font-display font-bold text-white text-lg">
@@ -201,7 +202,7 @@ export function AdminSidebar({
         {/* Logo Section */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-admin-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-900/50 to-purple-900/50 border border-white/10 flex items-center justify-center shadow-lg shadow-cyan-500/10">
+            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-cyan-900/50 to-purple-900/50 border border-white/10 flex items-center justify-center shadow-lg shadow-cyan-500/10">
               <span className="text-cyan-400 font-bold text-sm drop-shadow-md">A</span>
             </div>
             {!isCollapsed && (

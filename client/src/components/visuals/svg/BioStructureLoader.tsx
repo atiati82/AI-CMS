@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export function BioStructureLoader() {
     return (
         <div className="relative w-full h-[600px] flex items-center justify-center bg-slate-950 border border-white/5 rounded-2xl mb-12 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-900/10 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-cyan-900/10 to-transparent" />
 
             {/* Core Seed */}
             <motion.div

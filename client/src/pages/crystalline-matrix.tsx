@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Easing, type Variants } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowLeft, ArrowRight, Hexagon, Sparkles, Droplet, Leaf, Heart, Zap, Grid3X3, Atom } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,19 +16,12 @@ const easeOut = [0.23, 0.82, 0.35, 1] as const;
 const fadeUp: Variants = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 as const },
-  transition: { duration: 0.6, ease: easeOut },
 };
 
 const staggerContainer: Variants = {
-  initial: "hidden" as const,
-  whileInView: "visible" as const,
-  viewport: { once: true, amount: 0.25 as const },
-  variants: {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.08 },
-    },
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
   },
 };
 
@@ -116,7 +109,7 @@ export default function CrystallineMatrixPage() {
           <VideoBackground keywords={["crystal", "lattice", "geometry", "indigo", "structure"]} overlayOpacity={0.4} />
 
           <div className="container mx-auto px-4 max-w-5xl relative z-10">
-            <motion.div {...fadeUp}>
+            <motion.div variants={fadeUp} initial="initial" whileInView="whileInView" viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.6, ease: easeOut }}>
               <Link
                 href="/science"
                 className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-emerald-400 mb-8 transition-colors"
@@ -204,7 +197,14 @@ export default function CrystallineMatrixPage() {
 
         <section className="bg-slate-950 py-20 border-t border-slate-800/50">
           <div className="container mx-auto px-4 max-w-5xl">
-            <motion.div {...fadeUp} className="text-center mb-16">
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+              className="text-center mb-16"
+            >
               <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4 tracking-tight">
                 What Is a Crystalline Matrix?
               </h2>
@@ -214,7 +214,10 @@ export default function CrystallineMatrixPage() {
             </motion.div>
 
             <motion.div
-              {...staggerContainer}
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.25 }}
               className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16"
             >
               {crystalFacets.map((facet, i) => (
@@ -235,7 +238,11 @@ export default function CrystallineMatrixPage() {
             </motion.div>
 
             <motion.div
-              {...fadeUp}
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
               className="bg-gradient-to-br from-slate-900/80 to-slate-800/50 border border-slate-700/50 rounded-3xl p-8 md:p-10"
             >
               <h3 className="text-xl font-semibold text-white mb-6 text-center">
@@ -266,7 +273,13 @@ export default function CrystallineMatrixPage() {
 
         <section className="bg-gradient-to-b from-slate-950 to-slate-900 py-20">
           <div className="container mx-auto px-4 max-w-4xl">
-            <motion.div {...fadeUp}>
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+            >
               <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-6 tracking-tight text-center">
                 The Hidden Problem
               </h2>
@@ -275,7 +288,14 @@ export default function CrystallineMatrixPage() {
               </p>
             </motion.div>
 
-            <motion.div {...fadeUp} className="space-y-4">
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+              className="space-y-4"
+            >
               {[
                 { problem: "High-pressure, dead-angle plumbing", effect: "Disrupts water's natural micro-crystalline hydrogen-bond networks" },
                 { problem: "Chemical treatments", effect: "Chlorine, residues, and pollutants break structural coherence" },
@@ -296,7 +316,11 @@ export default function CrystallineMatrixPage() {
             </motion.div>
 
             <motion.div
-              {...fadeUp}
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
               className="mt-12 bg-slate-900/80 border border-amber-500/20 rounded-2xl p-6 text-center"
             >
               <p className="text-slate-300">
@@ -310,7 +334,14 @@ export default function CrystallineMatrixPage() {
 
         <section className="bg-slate-900 py-20 border-y border-slate-800/50">
           <div className="container mx-auto px-4 max-w-5xl">
-            <motion.div {...fadeUp} className="text-center mb-16">
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+              className="text-center mb-16"
+            >
               <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4 tracking-tight">
                 The Andara Perspective
               </h2>
@@ -320,7 +351,14 @@ export default function CrystallineMatrixPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <motion.div {...fadeUp} className="space-y-6">
+              <motion.div
+                variants={fadeUp}
+                initial="initial"
+                whileInView="whileInView"
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, ease: easeOut }}
+                className="space-y-6"
+              >
                 <h3 className="text-xl font-semibold text-white mb-4">When Structure Is Present</h3>
                 {[
                   "Water organizes into hexagonal, tetrahedral clusters",
@@ -337,7 +375,14 @@ export default function CrystallineMatrixPage() {
                 ))}
               </motion.div>
 
-              <motion.div {...fadeUp} className="space-y-6">
+              <motion.div
+                variants={fadeUp}
+                initial="initial"
+                whileInView="whileInView"
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, ease: easeOut }}
+                className="space-y-6"
+              >
                 <h3 className="text-xl font-semibold text-white mb-4">The System Becomes</h3>
                 {[
                   { label: "Conductive", desc: "More efficient at electron flow" },
@@ -394,7 +439,13 @@ export default function CrystallineMatrixPage() {
               </h2>
             </motion.div>
 
-            <motion.div {...fadeUp}>
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+            >
               <Accordion type="single" collapsible className="space-y-4">
                 {faqs.map((faq, i) => (
                   <AccordionItem
@@ -417,7 +468,13 @@ export default function CrystallineMatrixPage() {
 
         <section className="bg-gradient-to-b from-slate-950 to-slate-900 py-20">
           <div className="container mx-auto px-4 max-w-4xl">
-            <motion.div {...fadeUp}>
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+            >
               <div className="bg-gradient-to-br from-indigo-900/40 via-slate-900 to-emerald-900/30 border border-indigo-500/20 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
                 <div className="absolute inset-0 opacity-20">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl" />
@@ -450,7 +507,13 @@ export default function CrystallineMatrixPage() {
 
         <section className="bg-slate-950 py-16 border-t border-slate-800/50">
           <div className="container mx-auto px-4 max-w-5xl">
-            <motion.div {...fadeUp}>
+            <motion.div
+              variants={fadeUp}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: easeOut }}
+            >
               <h2 className="text-2xl md:text-3xl font-display font-medium text-white mb-4">
                 Continue Exploring the Science
               </h2>
@@ -460,7 +523,10 @@ export default function CrystallineMatrixPage() {
             </motion.div>
 
             <motion.div
-              {...staggerContainer}
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.25 }}
               className="grid grid-cols-1 md:grid-cols-3 gap-4"
             >
               {relatedPages.map((related, i) => (

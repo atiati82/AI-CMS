@@ -27,7 +27,8 @@ import {
     TrendingUp,
     XCircle,
     CheckCircle,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
@@ -138,7 +139,7 @@ function CleansingActionCard({
 }: {
     number: number;
     title: string;
-    icon: React.ElementType;
+    icon: LucideIcon;
     description: string;
     bullets: string[];
     color: string;

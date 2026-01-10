@@ -40,7 +40,7 @@ export default function Footer() {
             <div className="absolute inset-0 z-0 opacity-20 mix-blend-soft-light pointer-events-none select-none">
                 <img src="/images/textures/source_volcanic_texture.png" alt="" className="w-full h-full object-cover grayscale opacity-50" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/95 to-transparent z-10" />
+            <div className="absolute inset-0 bg-linear-to-t from-[#020617] via-[#020617]/95 to-transparent z-10" />
 
             <div className="container mx-auto px-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 relative z-20">
                 <div className="col-span-2 md:col-span-2 text-center md:text-left mb-4 md:mb-0">

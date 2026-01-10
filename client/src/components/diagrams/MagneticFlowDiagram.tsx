@@ -16,7 +16,7 @@ export function MagneticFlowDiagram() {
                 ))}
             </div>
             <motion.div
-                className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-2xl z-10 flex items-center justify-center text-white"
+                className="w-16 h-16 bg-linear-to-br from-purple-500 to-indigo-600 rounded-xl shadow-2xl z-10 flex items-center justify-center text-white"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
             >

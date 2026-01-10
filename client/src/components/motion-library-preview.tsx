@@ -238,7 +238,7 @@ function MotionPreviewBox({ archetype, isPlaying, onSelect, isSelected }: Motion
       onClick={() => onSelect?.(archetype.key)}
       data-testid={`motion-preview-${archetype.key}`}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${archetype.color} opacity-50`} />
+      <div className={`absolute inset-0 bg-linear-to-br ${archetype.color} opacity-50`} />
 
       <CardHeader className="relative pb-2">
         <div className="flex items-center gap-2">
@@ -251,7 +251,7 @@ function MotionPreviewBox({ archetype, isPlaying, onSelect, isSelected }: Motion
       <CardContent className="relative pb-4">
         <div className="flex justify-center py-4">
           <motion.div
-            className={`w-16 h-16 rounded-lg bg-gradient-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center`}
+            className={`w-16 h-16 rounded-lg bg-linear-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center`}
             {...(isPlaying ? archetype.animation : {})}
             data-testid={`motion-box-${archetype.key}`}
           >
@@ -277,16 +277,16 @@ interface LayeredParallaxDemoProps {
 
 function LayeredParallaxDemo({ isPlaying }: LayeredParallaxDemoProps) {
   return (
-    <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800" data-testid="layered-parallax-demo">
+    <div className="relative w-full h-32 rounded-lg overflow-hidden bg-linear-to-b from-slate-900 to-slate-800" data-testid="layered-parallax-demo">
       <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent"
+        className="absolute inset-0 bg-linear-to-b from-purple-900/20 to-transparent"
         {...(isPlaying ? {
           animate: { y: [-2, 2, -2] },
           transition: { duration: 8, repeat: Infinity, ease: "easeInOut" }
         } : {})}
       />
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-indigo-600/30 to-transparent"
+        className="absolute bottom-0 left-0 right-0 h-16 bg-linear-to-t from-indigo-600/30 to-transparent"
         {...(isPlaying ? {
           animate: { y: [-4, 4, -4] },
           transition: { duration: 5, repeat: Infinity, ease: "easeInOut" }
@@ -421,7 +421,7 @@ export function SingleMotionPreview({ archetypeKey, size = 'md', className = '' 
 
   return (
     <motion.div
-      className={`${sizeClasses[size]} ${className} rounded-xl bg-gradient-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center shadow-lg`}
+      className={`${sizeClasses[size]} ${className} rounded-xl bg-linear-to-br ${archetype.color} border ${archetype.borderColor} flex items-center justify-center shadow-lg`}
       {...archetype.animation}
       data-testid={`single-motion-preview-${archetypeKey}`}
     >

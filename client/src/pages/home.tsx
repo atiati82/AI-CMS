@@ -261,7 +261,7 @@ export default function Home() {
                                     <span className="text-4xl font-light text-white">€19.90</span>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-emerald-400 text-[10px] font-bold uppercase tracking-widest bg-emerald-900/20 px-3 py-1.5 rounded text-emerald-200/80">
+                                    <div className="text-[10px] font-bold uppercase tracking-widest bg-emerald-900/20 px-3 py-1.5 rounded text-emerald-200/80">
                                         In Stock
                                     </div>
                                 </div>

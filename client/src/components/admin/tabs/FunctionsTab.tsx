@@ -369,7 +369,7 @@ export default function FunctionsTab() {
                                 return (
                                     <div key={section.id} className="space-y-3">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <div className={`p-1.5 rounded-md bg-gradient-to-br ${section.color}`}>
+                                            <div className={`p-1.5 rounded-md bg-linear-to-br ${section.color}`}>
                                                 <Icon className="w-4 h-4 text-white" />
                                             </div>
                                             <h3 className="font-semibold text-sm">{section.title}</h3>

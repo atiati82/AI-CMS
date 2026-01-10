@@ -25,7 +25,8 @@ import {
     AlertTriangle,
     CheckCircle,
     Layers,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 
@@ -174,7 +175,7 @@ function CECComparisonCard({
     delay = 0
 }: {
     title: string;
-    icon: React.ElementType;
+    icon: LucideIcon;
     items: string[];
     positive: boolean;
     delay?: number;

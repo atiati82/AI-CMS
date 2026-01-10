@@ -107,7 +107,7 @@ export default function DesignTokensTab() {
     return (
         <div className="flex h-[calc(100vh-140px)] gap-6">
             {/* Sidebar - Cluster Selection */}
-            <div className="w-64 flex-shrink-0 border-r pr-6 space-y-6">
+            <div className="w-64 shrink-0 border-r pr-6 space-y-6">
                 <div>
                     <h3 className="text-lg font-semibold mb-2">Clusters</h3>
                     <p className="text-xs text-muted-foreground mb-4">Select a content cluster to customize its visual theme.</p>

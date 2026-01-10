@@ -268,7 +268,7 @@ export default function WaterPhasesCompletePage() {
                 <div className="absolute inset-0 bg-[url('/hex-grid-bg.svg')] opacity-[0.03] bg-repeat pointer-events-none" />
                 <div className="container px-4 max-w-5xl mx-auto relative">
                     <FadeIn>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-900/20 border border-amber-500/20 text-sm text-amber-400 font-bold uppercase tracking-wider mb-6 mx-auto block w-fit">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-900/20 border border-amber-500/20 text-sm text-amber-400 font-bold uppercase tracking-wider mb-6 mx-auto w-fit">
                             <Sparkles className="w-4 h-4" /> The Fourth Phase
                         </div>
                         <h2 className="text-3xl font-light text-white mb-4 text-center">

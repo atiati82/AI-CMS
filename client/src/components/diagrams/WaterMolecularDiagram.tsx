@@ -42,7 +42,7 @@ export function WaterMolecularDiagram() {
     };
 
     return (
-        <div className="w-full overflow-hidden bg-gradient-to-br from-[#020617] to-[#0f172a] rounded-2xl border border-[rgba(26,167,255,0.2)] p-6 shadow-[0_0_30px_rgba(26,167,255,0.1)]">
+        <div className="w-full overflow-hidden bg-linear-to-br from-[#020617] to-[#0f172a] rounded-2xl border border-[rgba(26,167,255,0.2)] p-6 shadow-[0_0_30px_rgba(26,167,255,0.1)]">
             <svg
                 viewBox="0 0 800 300"
                 className="w-full h-auto"

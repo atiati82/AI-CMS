@@ -65,7 +65,7 @@ function NavItem({
                 className={cn(
                     "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative cursor-pointer",
                     isActive
-                        ? "bg-gradient-to-r from-transparent to-cyan-500/10 text-cyan-400 border-r-2 border-cyan-500 shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)]"
+                        ? "bg-linear-to-r from-transparent to-cyan-500/10 text-cyan-400 border-r-2 border-cyan-500 shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)]"
                         : "text-muted-foreground hover:bg-white/5 hover:text-white"
                 )}
                 title={isCollapsed ? feature.navigation.label : undefined}

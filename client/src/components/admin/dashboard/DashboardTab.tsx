@@ -27,7 +27,7 @@ export default function DashboardTab({ stats, onCreatePage }: DashboardTabProps)
     return (
         <div className="space-y-8">
             {/* Welcome Banner */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-2xl p-8 text-white shadow-xl">
+            <div className="relative overflow-hidden bg-linear-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-2xl p-8 text-white shadow-xl">
                 <div className="absolute inset-0 bg-grid-white/10" />
                 <div className="relative z-10">
                     <h1 className="text-2xl font-bold mb-2">Welcome to Andara Ionic CMS</h1>
@@ -100,7 +100,7 @@ export default function DashboardTab({ stats, onCreatePage }: DashboardTabProps)
                             variant="outline"
                             size="sm"
                             onClick={onCreatePage}
-                            className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 hover:border-blue-500/50 hover:bg-blue-500/20"
+                            className="bg-linear-to-r from-blue-500/10 to-blue-600/10 border-blue-500/30 hover:border-blue-500/50 hover:bg-blue-500/20"
                             data-testid="button-add-page"
                         >
                             <Plus className="w-4 h-4 mr-2" /> New Page
@@ -108,7 +108,7 @@ export default function DashboardTab({ stats, onCreatePage }: DashboardTabProps)
                         <Button
                             variant="outline"
                             size="sm"
-                            className="bg-gradient-to-r from-cyan-500/10 to-cyan-600/10 border-cyan-500/30 hover:border-cyan-500/50 hover:bg-cyan-500/20"
+                            className="bg-linear-to-r from-cyan-500/10 to-cyan-600/10 border-cyan-500/30 hover:border-cyan-500/50 hover:bg-cyan-500/20"
                             data-testid="button-add-article"
                         >
                             <Plus className="w-4 h-4 mr-2" /> New Article

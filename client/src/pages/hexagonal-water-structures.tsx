@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants, type Easing } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowLeft, ArrowRight, Hexagon, Droplet, Zap, Triangle, Search, Layers, Snowflake } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,23 +16,16 @@ const easeOut = [0.23, 0.82, 0.35, 1] as const;
 const fadeUp: Variants = {
     initial: { opacity: 0, y: 24 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.25 as const },
-    transition: { duration: 0.6, ease: easeOut },
 };
 
 const staggerContainer: Variants = {
-    initial: "hidden" as const,
-    whileInView: "visible" as const,
-    viewport: { once: true, amount: 0.25 as const },
-    variants: {
-        hidden: {},
-        visible: {
-            transition: { staggerChildren: 0.08 },
-        },
+    hidden: {},
+    visible: {
+        transition: { staggerChildren: 0.08 },
     },
 };
 
-const staggerItem = {
+const staggerItem: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: {
         opacity: 1,
@@ -79,7 +72,13 @@ export default function HexagonalWaterStructuresPage() {
                     </div>
 
                     <div className="container mx-auto px-4 max-w-6xl relative z-10">
-                        <motion.div {...fadeUp}>
+                        <motion.div
+                            variants={fadeUp}
+                            initial="initial"
+                            whileInView="whileInView"
+                            viewport={{ once: true, amount: 0.25 }}
+                            transition={{ duration: 0.6, ease: easeOut }}
+                        >
                             <Link
                                 href="/science/crystalline-matrix"
                                 className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-cyan-400 mb-8 transition-colors"

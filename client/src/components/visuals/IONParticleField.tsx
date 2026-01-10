@@ -30,7 +30,7 @@ export function IONParticleField({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const particlesRef = useRef<Particle[]>([]);
     const mouseRef = useRef<{ x: number; y: number; active: boolean }>({ x: 0, y: 0, active: false });
-    const animationFrameRef = useRef<number>();
+    const animationFrameRef = useRef<number>(0);
 
     // Initialize particles
     const initParticles = useMemo(() => {

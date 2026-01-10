@@ -18,7 +18,8 @@ import {
     TrendingUp,
     Sparkles,
     RefreshCw,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 
 // Comparison Table Row
@@ -72,7 +73,7 @@ function CategoryCard({
     color
 }: {
     title: string;
-    icon: React.ElementType;
+    icon: LucideIcon;
     items: string[];
     color: string;
 }) {

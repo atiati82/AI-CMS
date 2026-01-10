@@ -20,7 +20,8 @@ import {
     Scale,
     Activity,
     Target,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 
 // Signal Wave Animation
@@ -163,7 +164,7 @@ function NatureExampleCard({
 }: {
     title: string;
     description: string;
-    icon: React.ElementType;
+    icon: LucideIcon;
     delay?: number;
 }) {
     return (

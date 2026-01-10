@@ -25,7 +25,8 @@ import {
     Activity,
     ThermometerSun,
     TrendingUp,
-    HelpCircle
+    HelpCircle,
+    type LucideIcon
 } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
@@ -160,7 +161,7 @@ function EffectCard({
     color,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     items: string[];
     color: string;
@@ -204,7 +205,7 @@ function EnvironmentCard({
     positive,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     items: string[];
     positive: boolean;

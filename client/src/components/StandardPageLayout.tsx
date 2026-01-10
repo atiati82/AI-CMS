@@ -5,7 +5,7 @@ import { FadeIn, StaggerContainer } from "@/components/animations";
 import { HeroGlass } from "@/components/visuals/HeroGlass";
 import { ScrollProgress } from "@/components/plugins/ScrollProgress";
 import { motion } from "framer-motion";
-import { ArrowRight, Link as LinkIcon, Download, BookOpen } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, Download, BookOpen, type LucideIcon } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { getImageForRoute } from "@/data/image-registry";
 import SeoCopilotOverlay from "@/components/admin/SeoCopilotOverlay";
@@ -35,8 +35,8 @@ export type StandardPageProps = {
     heroImage?: string; // Optional abstract background
     registryId?: string; // Smart Registry ID (Preferred)
     heroVariant?: string; // Color theme for hero
-    heroIcon?: React.ElementType; // Icon COMPONENT to display in hero (passed to BadgeIcon)
-    badges?: Array<{ text: string; icon?: React.ElementType }>; // e.g. [{ text: "Science", icon: Component }]
+    heroIcon?: LucideIcon; // Icon COMPONENT to display in hero (passed to BadgeIcon)
+    badges?: Array<{ text: string; icon?: LucideIcon }>; // e.g. [{ text: "Science", icon: Component }]
     backgroundElement?: React.ReactNode; // Custom background component for Hero
 
     // SEO
@@ -316,7 +316,7 @@ export default function StandardPageLayout({
                                 <div className="text-xl md:text-2xl text-slate-200 font-light leading-relaxed">
                                     {intro}
                                 </div>
-                                <div className="h-px w-24 bg-gradient-to-r from-transparent to-transparent mx-auto mt-10" style={{ backgroundImage: `linear-gradient(to right, transparent, ${clusterColor}80, transparent)` }} />
+                                <div className="h-px w-24 bg-linear-to-r from-transparent to-transparent mx-auto mt-10" style={{ backgroundImage: `linear-gradient(to right, transparent, ${clusterColor}80, transparent)` }} />
                             </div>
                         </FadeIn>
                     </SectionWrapper>

@@ -56,7 +56,7 @@ export function MotionLibraryShowcase() {
                         </div>
                     </CardHeader>
                     <CardContent className="h-[300px] relative flex items-center justify-center overflow-hidden" data-tree={activeTheme}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-background/80 to-background/20 z-10 pointer-events-none" />
+                        <div className="absolute inset-0 bg-linear-to-br from-background/80 to-background/20 z-10 pointer-events-none" />
                         <CosmicPulse />
                         <div className="z-20 text-center relative">
                             <h3 className="text-2xl font-bold tracking-tighter mb-2">Pulsing Energy</h3>

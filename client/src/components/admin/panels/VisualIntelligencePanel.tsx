@@ -32,7 +32,7 @@ export function VisualIntelligencePanel({ pageTitle, pageContent, onApply }: Vis
         return (
             <div className="flex flex-col items-center justify-center py-12 space-y-4">
                 <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-purple-500 to-cyan-500 rounded-full blur-xl opacity-30 animate-pulse" />
+                    <div className="absolute inset-0 bg-linear-to-tr from-purple-500 to-cyan-500 rounded-full blur-xl opacity-30 animate-pulse" />
                     <Loader2 className="w-8 h-8 animate-spin text-white relative z-10" />
                 </div>
                 <p className="text-sm text-muted-foreground animate-pulse">Consulting Visual Intelligence...</p>

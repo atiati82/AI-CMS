@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, type Easing, type Variants } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 import { SmartVideoEmbed } from "@/components/SmartVideoEmbed";

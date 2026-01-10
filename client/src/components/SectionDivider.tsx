@@ -68,7 +68,7 @@ export function SectionDivider({
                 className={`relative w-full ${className}`}
                 style={{ height }}
             >
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900" />
+                <div className="absolute inset-0 bg-linear-to-r from-slate-900 via-slate-800 to-slate-900" />
             </div>
         );
     }
@@ -99,12 +99,12 @@ export function SectionDivider({
 
             {/* Top Gradient Fade */}
             {topGradient && (
-                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-slate-950 to-transparent" />
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-slate-950 to-transparent" />
             )}
 
             {/* Bottom Gradient Fade */}
             {bottomGradient && (
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-slate-950 to-transparent" />
             )}
 
             {/* Optional color overlay from asset */}

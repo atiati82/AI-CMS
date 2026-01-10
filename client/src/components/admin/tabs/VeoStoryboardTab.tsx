@@ -180,7 +180,7 @@ function SceneCard({ scene }: { scene: SceneProps }) {
   return (
     <Card className="p-6 bg-card/50 backdrop-blur border-border/50 hover:border-primary/50 transition-all group overflow-hidden relative">
       {/* Background gradient for depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 bg-linear-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
       <div className="relative z-10 flex flex-col md:flex-row gap-6">
         {/* Visual Reference Side */}
@@ -293,7 +293,7 @@ export default function VeoStoryboardTab() {
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-slate-900 to-slate-900/50 p-6 rounded-2xl border border-white/10">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-linear-to-r from-slate-900 to-slate-900/50 p-6 rounded-2xl border border-white/10">
         <div>
           <h1 className="text-3xl font-display font-bold text-white mb-2 flex items-center gap-3">
             <Film className="w-8 h-8 text-primary" />

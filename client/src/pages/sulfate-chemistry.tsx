@@ -19,9 +19,11 @@ import {
     Waves,
     Filter,
     Layers,
-    Atom
+    Atom,
+    type LucideIcon
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, type Variants, type Easing } from "framer-motion";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function SulfateChemistryPage() {
     return (

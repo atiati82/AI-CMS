@@ -77,7 +77,7 @@ export function ProductBox({
             <div className={`inline-flex items-center gap-3 p-3 rounded-xl bg-[#f6d56a]/10 border border-[#f6d56a]/20 hover:border-[#f6d56a]/40 transition-all ${className}`}>
                 <Link href={`/shop/${product.slug}`}>
                     <div className="flex items-center gap-3 cursor-pointer">
-                        <div className="w-10 h-10 rounded-lg bg-[#f6d56a]/15 flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-[#f6d56a]/15 flex items-center justify-center shrink-0">
                             <Droplets className="w-5 h-5 text-[#f6d56a]" />
                         </div>
                         <div>
@@ -103,7 +103,7 @@ export function ProductBox({
     if (variant === "featured") {
         return (
             <motion.div
-                className={`p-8 rounded-3xl border border-[#f6d56a]/20 bg-gradient-to-r from-[#f6d56a]/10 via-[#f6d56a]/5 to-transparent ${className}`}
+                className={`p-8 rounded-3xl border border-[#f6d56a]/20 bg-linear-to-r from-[#f6d56a]/10 via-[#f6d56a]/5 to-transparent ${className}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -111,7 +111,7 @@ export function ProductBox({
                 <div className="flex flex-col md:flex-row items-center gap-8">
                     {/* Product visual */}
                     <Link href={`/shop/${product.slug}`}>
-                        <div className="w-32 h-44 rounded-2xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center relative flex-shrink-0 cursor-pointer hover:border-[#f6d56a]/30 transition-all">
+                        <div className="w-32 h-44 rounded-2xl bg-linear-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center relative shrink-0 cursor-pointer hover:border-[#f6d56a]/30 transition-all">
                             <div className="absolute inset-0 rounded-2xl bg-[#1aa7ff]/10 blur-xl" />
                             <div className="relative text-center">
                                 <Droplets className="w-12 h-12 text-[#1aa7ff] mx-auto mb-2" />
@@ -190,7 +190,7 @@ export function ProductBox({
                                         <button
                                             onClick={handleAddToCart}
                                             disabled={isAdding}
-                                            className="px-6 py-3 bg-gradient-to-r from-[#f6d56a] to-[#e8b923] text-black font-bold rounded-lg hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50"
+                                            className="px-6 py-3 bg-linear-to-r from-[#f6d56a] to-[#e8b923] text-black font-bold rounded-lg hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50"
                                         >
                                             {isAdding ? (
                                                 <>
@@ -231,7 +231,7 @@ export function ProductBox({
         >
             <Link href={`/shop/${product.slug}`}>
                 <div className="flex items-start gap-4 mb-4 cursor-pointer">
-                    <div className="w-14 h-20 rounded-xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-14 h-20 rounded-xl bg-linear-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center shrink-0">
                         <Droplets className="w-6 h-6 text-[#1aa7ff]" />
                     </div>
                     <div>
@@ -313,7 +313,7 @@ interface PricingCardProps {
 export function PricingCard({ name, subtitle, volume, price, perLiter, savings, bullets, featured, ctaText, onAddToCart }: PricingCardProps) {
     return (
         <motion.div
-            className={`p-6 rounded-2xl border ${featured ? "border-[#f6d56a]/40 bg-gradient-to-b from-[#f6d56a]/10 to-transparent" : "border-white/10 bg-[#0b1020]/50"}`}
+            className={`p-6 rounded-2xl border ${featured ? "border-[#f6d56a]/40 bg-linear-to-b from-[#f6d56a]/10 to-transparent" : "border-white/10 bg-[#0b1020]/50"}`}
             whileHover={{ y: -4 }}
         >
             {featured && (
@@ -335,7 +335,7 @@ export function PricingCard({ name, subtitle, volume, price, perLiter, savings, 
             <ul className="space-y-2 mb-6">
                 {bullets.map((bullet, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-white/60">
-                        <Check className="w-4 h-4 text-[#38ffd1] mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-[#38ffd1] mt-0.5 shrink-0" />
                         {bullet}
                     </li>
                 ))}
@@ -344,7 +344,7 @@ export function PricingCard({ name, subtitle, volume, price, perLiter, savings, 
             <button
                 onClick={onAddToCart}
                 className={`w-full px-4 py-3 font-bold rounded-lg transition-all ${featured
-                    ? "bg-gradient-to-r from-[#f6d56a] to-[#e8b923] text-black hover:opacity-90"
+                    ? "bg-linear-to-r from-[#f6d56a] to-[#e8b923] text-black hover:opacity-90"
                     : "bg-white/10 text-white hover:bg-white/20"
                     }`}
             >

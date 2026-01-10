@@ -510,7 +510,7 @@
 
 /* Hero section styling for content pages */
 .article-hero {
-  @apply bg-gradient-to-b from-primary/5 via-background to-background py-16 px-4;
+  @apply bg-linear-to-b from-primary/5 via-background to-background py-16 px-4;
 }
 
 .article-hero h1 {

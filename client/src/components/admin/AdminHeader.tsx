@@ -228,7 +228,7 @@ export function AdminHeader({
                 className="relative h-10 w-10 rounded-full p-0 hover:bg-admin-header-hover ml-2 ring-2 ring-purple-500/20"
                 data-testid="button-user-menu"
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-sm">
+                <div className="w-9 h-9 rounded-full bg-linear-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-sm">
                   <span className="text-white font-bold text-sm">A</span>
                 </div>
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-background rounded-full"></div>

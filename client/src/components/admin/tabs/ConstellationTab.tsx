@@ -270,7 +270,7 @@ export default function ConstellationTab() {
             {/* UI Overlay */}
             <div className="absolute top-4 left-4 z-10 pointer-events-none">
                 <Card className="p-4 bg-black/60 backdrop-blur border-white/10 text-white pointer-events-auto w-64">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">The Constellation</h2>
+                    <h2 className="text-xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">The Constellation</h2>
                     <p className="text-xs text-secondary-foreground mb-4">Interactive Knowledge Graph</p>
 
                     <div className="space-y-2 text-sm">

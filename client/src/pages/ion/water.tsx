@@ -12,7 +12,7 @@ import { IONLayout } from '@/templates/gpt/IONLayout';
 import { SmartVideoEmbed, VideoBackground } from '@/components/SmartVideoEmbed';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { Link } from 'wouter';
-import { ArrowRight, Droplets, Zap, RotateCcw, Scale, Waves, Activity } from 'lucide-react';
+import { ArrowRight, Droplets, Zap, RotateCcw, Scale, Waves, Activity, type LucideIcon } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
 
@@ -29,7 +29,7 @@ function BehaviorCard({
   title: string;
   description: string;
   href?: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   delay?: number;
 }) {
   const content = (

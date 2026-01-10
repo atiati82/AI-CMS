@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import { IONLayout } from '@/templates/gpt/IONLayout';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { Link } from 'wouter';
-import { ArrowRight, Zap, Droplets, Wind, Mountain, Activity, Sparkles, Atom } from 'lucide-react';
+import { ArrowRight, Zap, Droplets, Wind, Mountain, Activity, Sparkles, Atom, type LucideIcon } from 'lucide-react';
 import { IONParticleField } from '@/components/visuals/IONParticleField';
 import { IONFieldLines } from '@/components/visuals/IONFieldLines';
 import { VideoBackground } from '@/components/SmartVideoEmbed';
@@ -49,7 +49,7 @@ function IonPathCard({
     description,
     delay = 0
 }: {
-    icon: React.ElementType;
+    icon: LucideIcon;
     title: string;
     href: string;
     description: string;

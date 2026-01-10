@@ -202,7 +202,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
 
           {/* Menu panel */}
           <motion.div
-            className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-t-3xl shadow-2xl"
+            className="fixed inset-x-0 bottom-0 bg-linear-to-b from-slate-900 to-slate-950 rounded-t-3xl shadow-2xl"
             style={{
               top: '72px',
               zIndex: 99999,
@@ -248,7 +248,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
                       className="flex items-center gap-3 py-4 text-lg font-medium text-white active:text-emerald-400 transition-all active:scale-[0.98] touch-manipulation"
                       data-testid={`mobile-nav-${section.key}`}
                     >
-                      <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/10">
+                      <span className="w-10 h-10 rounded-xl bg-linear-to-br from-slate-800 to-slate-900 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-500/10">
                         {sectionIcons[section.key]}
                       </span>
                       {section.label}
@@ -323,7 +323,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
                   <Link
                     href="/shop"
                     onClick={() => onClose()}
-                    className="flex items-center justify-center gap-2 w-full py-4 text-base font-semibold bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-950 rounded-2xl active:from-emerald-400 active:to-emerald-300 transition-colors shadow-lg shadow-emerald-500/25 mb-3 touch-manipulation"
+                    className="flex items-center justify-center gap-2 w-full py-4 text-base font-semibold bg-linear-to-r from-emerald-500 to-emerald-400 text-slate-950 rounded-2xl active:from-emerald-400 active:to-emerald-300 transition-colors shadow-lg shadow-emerald-500/25 mb-3 touch-manipulation"
                     data-testid="mobile-nav-shop-button"
                   >
                     <ShoppingBag className="w-5 h-5" />

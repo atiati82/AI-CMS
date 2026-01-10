@@ -88,9 +88,9 @@ export function TuningFrequencyLoader({ className, size = 120 }: TuningFrequency
                 animate={{ rotate: -360 }}
                 transition={{ duration: 60, ease: "linear", repeat: Infinity }}
             >
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-gradient-to-b from-white/20 to-transparent" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-gradient-to-t from-white/20 to-transparent" />
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-1 bg-gradient-to-r from-white/20 to-transparent" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-linear-to-b from-white/20 to-transparent" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-2 bg-linear-to-t from-white/20 to-transparent" />
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-1 bg-linear-to-r from-white/20 to-transparent" />
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-1 bg-gradient-to-l from-white/20 to-transparent" />
             </motion.div>
         </div>

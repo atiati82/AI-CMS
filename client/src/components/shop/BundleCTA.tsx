@@ -17,7 +17,7 @@ export function BundleCTA({ variant = 'compact', className = '' }: BundleCTAProp
     if (variant === 'compact') {
         return (
             <motion.div
-                className={`rounded-2xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-emerald-500/10 p-4 ${className}`}
+                className={`rounded-2xl border border-amber-500/20 bg-linear-to-r from-amber-500/10 to-emerald-500/10 p-4 ${className}`}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -32,7 +32,7 @@ export function BundleCTA({ variant = 'compact', className = '' }: BundleCTAProp
                         </div>
                     </div>
                     <Link href="/shop">
-                        <Button className="rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold hover:opacity-90">
+                        <Button className="rounded-xl bg-linear-to-r from-amber-500 to-amber-600 text-black font-semibold hover:opacity-90">
                             View Bundles
                             <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
@@ -44,7 +44,7 @@ export function BundleCTA({ variant = 'compact', className = '' }: BundleCTAProp
 
     return (
         <motion.section
-            className={`rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 via-transparent to-emerald-500/10 p-8 ${className}`}
+            className={`rounded-3xl border border-amber-500/20 bg-linear-to-br from-amber-500/10 via-transparent to-emerald-500/10 p-8 ${className}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -58,7 +58,7 @@ export function BundleCTA({ variant = 'compact', className = '' }: BundleCTAProp
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-4">
                     <Link href="/shop/4oz-classic">
-                        <Button className="rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-6 text-black font-semibold hover:opacity-90 shadow-lg shadow-amber-500/20">
+                        <Button className="rounded-xl bg-linear-to-r from-amber-500 to-amber-600 px-6 py-6 text-black font-semibold hover:opacity-90 shadow-lg shadow-amber-500/20">
                             Shop 4oz Classic
                             <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>

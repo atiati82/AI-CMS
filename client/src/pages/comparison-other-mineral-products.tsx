@@ -6,7 +6,7 @@ import { PRODUCTS } from "@/lib/data";
 import { Minus, Plus, ShoppingBag, CheckCircle2, Star, Zap, Droplets, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/contexts/cart-context";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, type Easing, type Variants } from "framer-motion";
 import { fadeUp, stagger, ambient } from "@/lib/motion";
 import { CosmicPulse } from "@/components/motion/CosmicPulse";
 

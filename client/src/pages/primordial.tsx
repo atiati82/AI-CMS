@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 20 },
@@ -18,20 +18,20 @@ export default function PrimordialPage() {
     const metaDescription = document.querySelector('meta[name="description"]');
     const ogTitle = document.querySelector('meta[property="og:title"]');
     const ogDescription = document.querySelector('meta[property="og:description"]');
-    
+
     const originalMeta = {
       description: metaDescription?.getAttribute('content') ?? null,
       ogTitle: ogTitle?.getAttribute('content') ?? null,
       ogDescription: ogDescription?.getAttribute('content') ?? null,
     };
-    
+
     document.title = "Andara Ionic – Primordial Ionic Sulfate Minerals | Andara Ionic";
-    
+
     const pageDescription = 'Volcanic mineral intelligence transformed into a precise ionic sulfate complex that clarifies and structures water at micro-doses.';
     if (metaDescription) metaDescription.setAttribute('content', pageDescription);
     if (ogTitle) ogTitle.setAttribute('content', 'Andara Ionic – Primordial Ionic Sulfate Minerals');
     if (ogDescription) ogDescription.setAttribute('content', pageDescription);
-    
+
     return () => {
       document.title = originalTitle;
       if (metaDescription && originalMeta.description !== null) {
@@ -59,27 +59,27 @@ export default function PrimordialPage() {
         className="andara-hero andara-hero--product"
         aria-label="Andara Ionic Primordial Ionic Sulfate Minerals overview"
       >
-        <motion.div 
+        <motion.div
           className="andara-hero__inner"
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
         >
           <header className="andara-hero__content">
-            <motion.p 
+            <motion.p
               className="andara-hero__label"
               variants={fadeUpVariant}
             >
               Core Product · Primordial Ionic Sulfate Minerals
             </motion.p>
-            <motion.h1 
+            <motion.h1
               className="andara-hero__headline"
               variants={fadeUpVariant}
               data-testid="hero-headline"
             >
               Andara Ionic – Primordial Ionic Sulfate Minerals
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="andara-hero__subline"
               variants={fadeUpVariant}
             >
@@ -90,8 +90,8 @@ export default function PrimordialPage() {
               <strong> biology, classical water treatment, and lab studies</strong> – turning ordinary water into a
               <strong> clearer, more coherent medium</strong>, without saturating it with salt or heavy additives.
             </motion.p>
-            
-            <motion.ul 
+
+            <motion.ul
               className="andara-hero__bullets"
               variants={staggerContainer}
             >
@@ -105,8 +105,8 @@ export default function PrimordialPage() {
                 <strong>Micro-dose, macro-effect:</strong> typical use in the <strong>17–30 mg/L sulfate band</strong> – small amounts, big shift in clarity and charge behaviour.
               </motion.li>
             </motion.ul>
-            
-            <motion.div 
+
+            <motion.div
               className="andara-hero__cta-group"
               variants={fadeUpVariant}
             >
@@ -118,8 +118,8 @@ export default function PrimordialPage() {
                 See how it works in water
               </a>
             </motion.div>
-            
-            <motion.p 
+
+            <motion.p
               className="andara-hero__support-text"
               variants={fadeUpVariant}
             >
@@ -143,7 +143,7 @@ export default function PrimordialPage() {
         aria-label="What Andara Ionic is"
       >
         <div className="andara-section__inner">
-          <motion.header 
+          <motion.header
             className="andara-section__header"
             initial="hidden"
             whileInView="visible"
@@ -163,7 +163,7 @@ export default function PrimordialPage() {
             </p>
           </motion.header>
 
-          <motion.div 
+          <motion.div
             className="andara-grid andara-grid--03 andara-section__items"
             initial="hidden"
             whileInView="visible"
@@ -210,7 +210,7 @@ export default function PrimordialPage() {
         aria-label="From volcano to glass journey"
       >
         <div className="andara-section__inner">
-          <motion.header 
+          <motion.header
             className="andara-section__header"
             initial="hidden"
             whileInView="visible"
@@ -230,7 +230,7 @@ export default function PrimordialPage() {
             </p>
           </motion.header>
 
-          <motion.div 
+          <motion.div
             className="andara-grid andara-grid--steps andara-section__items"
             initial="hidden"
             whileInView="visible"
@@ -287,7 +287,7 @@ export default function PrimordialPage() {
         aria-label="How Andara Ionic works in water"
       >
         <div className="andara-section__inner">
-          <motion.header 
+          <motion.header
             className="andara-section__header"
             initial="hidden"
             whileInView="visible"
@@ -306,7 +306,7 @@ export default function PrimordialPage() {
             </p>
           </motion.header>
 
-          <motion.div 
+          <motion.div
             className="andara-grid andara-grid--02 andara-section__content"
             initial="hidden"
             whileInView="visible"
@@ -373,7 +373,7 @@ export default function PrimordialPage() {
         aria-label="Why sulfate and rare elements matter"
       >
         <div className="andara-section__inner">
-          <motion.header 
+          <motion.header
             className="andara-section__header"
             initial="hidden"
             whileInView="visible"
@@ -392,7 +392,7 @@ export default function PrimordialPage() {
             </p>
           </motion.header>
 
-          <motion.div 
+          <motion.div
             className="andara-grid andara-grid--03 andara-section__items"
             initial="hidden"
             whileInView="visible"
@@ -437,7 +437,7 @@ export default function PrimordialPage() {
         aria-label="Use scenarios for Andara Ionic"
       >
         <div className="andara-section__inner">
-          <motion.header 
+          <motion.header
             className="andara-section__header"
             initial="hidden"
             whileInView="visible"
@@ -456,7 +456,7 @@ export default function PrimordialPage() {
             </p>
           </motion.header>
 
-          <motion.div 
+          <motion.div
             className="andara-grid andara-grid--04 andara-section__items"
             initial="hidden"
             whileInView="visible"

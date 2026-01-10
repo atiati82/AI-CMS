@@ -6,7 +6,7 @@ export function IonicScaleDiagram() {
         <div className="p-8 bg-slate-900/50 rounded-2xl border border-white/10 my-8">
             <h4 className="text-white font-bold mb-6 text-center">The Scale of Matter</h4>
             <div className="relative h-20 bg-slate-800 rounded-full flex items-center px-4">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-emerald-500/20 to-amber-500/20 rounded-full" />
+                <div className="absolute inset-0 bg-linear-to-r from-blue-500/20 via-emerald-500/20 to-amber-500/20 rounded-full" />
                 <div className="flex justify-between w-full relative z-10">
                     {['Ionic', 'Colloidal', 'Particulate'].map((label, i) => (
                         <div key={label} className="text-center">

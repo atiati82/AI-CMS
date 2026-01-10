@@ -118,7 +118,7 @@ export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkfl
                     {/* Progress Bar */}
                     <div className="h-1 bg-white/5 w-full">
                         <motion.div
-                            className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                            className="h-full bg-linear-to-r from-cyan-500 to-blue-600 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                             transition={{ type: "spring", stiffness: 50, damping: 20 }}
@@ -128,7 +128,7 @@ export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkfl
                     <ScrollArea className="flex-1 p-6">
                         <div className="relative space-y-6 pl-4">
                             {/* Vertical connector line */}
-                            <div className="absolute left-[27px] top-4 bottom-4 w-px bg-gradient-to-b from-white/10 via-white/5 to-transparent -z-10" />
+                            <div className="absolute left-[27px] top-4 bottom-4 w-px bg-linear-to-b from-white/10 via-white/5 to-transparent -z-10" />
 
                             <AnimatePresence mode='popLayout'>
                                 {steps.map((step, idx) => (

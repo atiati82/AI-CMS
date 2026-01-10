@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, type Easing, type Variants } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 import { Droplets, Gem, Hexagon, BookOpen, Layers, Shield, ArrowRight, Sparkles, Brain, Microscope } from "lucide-react";

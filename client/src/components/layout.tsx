@@ -36,7 +36,7 @@ function ScienceFooterSnippet() {
 
   return (
     <section className="relative bg-slate-950/80 border-t border-white/5 py-10 sm:py-12 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/30 to-slate-950/60 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent via-slate-900/30 to-slate-950/60 pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -121,7 +121,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <MegaMenu />
 
       {/* Main Content */}
-      <main className="flex-grow pt-16">
+      <main className="grow pt-16">
         {children}
       </main>
 

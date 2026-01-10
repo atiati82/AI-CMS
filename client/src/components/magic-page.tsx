@@ -122,7 +122,7 @@ function TextContent({ content }: { content: string }) {
             <ul key={i} className="space-y-3 text-slate-300">
               {items.map((item, j) => (
                 <li key={j} className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
                   <span>{renderMarkdown(item.slice(2))}</span>
                 </li>
               ))}
@@ -154,7 +154,7 @@ function TextContent({ content }: { content: string }) {
 
 function HeroSectionComponent({ hero, title }: { hero: HeroSection; title: string }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 py-24 md:py-32">
+    <section className="relative overflow-hidden bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 py-24 md:py-32">
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl" />
@@ -268,7 +268,7 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
                 whileHover={{ y: -4 }}
                 className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 hover:border-cyan-500/30 transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-cyan-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
                   <Sparkles className="w-5 h-5 text-cyan-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">{item.label}</h3>
@@ -319,11 +319,11 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
     return (
       <motion.section
         {...fadeUp}
-        className="py-16 md:py-20 bg-gradient-to-b from-slate-950 to-slate-900"
+        className="py-16 md:py-20 bg-linear-to-b from-slate-950 to-slate-900"
         data-testid={`section-${section.id}`}
       >
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="bg-gradient-to-br from-indigo-900/40 via-slate-900 to-emerald-900/30 border border-indigo-500/20 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
+          <div className="bg-linear-to-br from-indigo-900/40 via-slate-900 to-emerald-900/30 border border-indigo-500/20 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/30 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/30 rounded-full blur-3xl" />
@@ -403,7 +403,7 @@ function RelatedPagesSection({ relatedPages, currentSlug }: { relatedPages: Rela
                   <h3 className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
                     {related.title}
                   </h3>
-                  <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors flex-shrink-0 mt-1" />
+                  <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors shrink-0 mt-1" />
                 </div>
                 <p className="text-sm text-slate-400 leading-relaxed">
                   {related.reason}

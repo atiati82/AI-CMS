@@ -30,7 +30,7 @@ export function AdminSection({
     default: "border-border bg-card",
     muted: "border-muted bg-muted/30",
     accent: "border-primary/20 bg-primary/5",
-    ai: "border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-cyan-500/5",
+    ai: "border-purple-500/20 bg-linear-to-br from-purple-500/5 to-cyan-500/5",
   };
 
   return (
