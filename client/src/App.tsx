@@ -389,7 +389,7 @@ function App() {
       <DesignSettingsProvider>
         <TooltipProvider>
           <CartProvider>
-            <div>App Rendered (Debug)</div>
+
             <Toaster />
             <CartDrawer />
             <MetaInjector />
