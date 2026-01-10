@@ -7,16 +7,16 @@ export type DesignSettings = {
   'design.accentColor'?: string;
   'design.backgroundColor'?: string;
   'design.backgroundMode'?: 'light' | 'dark' | 'auto';
-  
+
   // Typography
   'design.headingScale'?: number;
   'design.bodyFontSize'?: number;
   'design.lineHeight'?: number;
-  
+
   // Motion
   'design.enableAnimations'?: boolean;
   'design.animationSpeed'?: 'slow' | 'normal' | 'fast';
-  
+
   // Layout
   'design.maxContainerWidth'?: number;
   'design.sectionSpacing'?: number;
@@ -41,11 +41,13 @@ const defaultSettings: DesignSettings = {
 type DesignSettingsContextType = {
   settings: DesignSettings;
   isLoading: boolean;
+  isLiteMode: boolean;
 };
 
 const DesignSettingsContext = createContext<DesignSettingsContextType>({
   settings: defaultSettings,
   isLoading: true,
+  isLiteMode: false,
 });
 
 export function useDesignSettings() {
@@ -55,7 +57,7 @@ export function useDesignSettings() {
 function hexToHsl(hex: string): string {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) return '215 40% 20%';
-  
+
   let r = parseInt(result[1], 16) / 255;
   let g = parseInt(result[2], 16) / 255;
   let b = parseInt(result[3], 16) / 255;
@@ -79,7 +81,7 @@ function hexToHsl(hex: string): string {
 
 function applySettingsToDocument(settings: DesignSettings) {
   const root = document.documentElement;
-  
+
   // Apply theme colors
   if (settings['design.primaryColor']) {
     root.style.setProperty('--primary', hexToHsl(settings['design.primaryColor']));
@@ -87,7 +89,7 @@ function applySettingsToDocument(settings: DesignSettings) {
   if (settings['design.accentColor']) {
     root.style.setProperty('--accent', hexToHsl(settings['design.accentColor']));
   }
-  
+
   // Apply typography
   if (settings['design.headingScale']) {
     root.style.setProperty('--heading-scale', String(settings['design.headingScale']));
@@ -98,7 +100,7 @@ function applySettingsToDocument(settings: DesignSettings) {
   if (settings['design.lineHeight']) {
     root.style.setProperty('--line-height', String(settings['design.lineHeight']));
   }
-  
+
   // Apply layout
   if (settings['design.maxContainerWidth']) {
     root.style.setProperty('--max-container-width', `${settings['design.maxContainerWidth']}px`);
@@ -109,7 +111,7 @@ function applySettingsToDocument(settings: DesignSettings) {
   if (settings['design.gridGap']) {
     root.style.setProperty('--grid-gap', `${settings['design.gridGap']}px`);
   }
-  
+
   // Apply motion
   if (settings['design.enableAnimations'] === false) {
     root.style.setProperty('--animation-duration', '0s');
@@ -121,7 +123,7 @@ function applySettingsToDocument(settings: DesignSettings) {
     };
     root.style.setProperty('--animation-duration', speeds[settings['design.animationSpeed'] || 'normal']);
   }
-  
+
   // Apply background mode
   if (settings['design.backgroundMode'] === 'dark') {
     document.body.classList.add('dark');
@@ -146,8 +148,10 @@ export function DesignSettingsProvider({ children }: { children: ReactNode }) {
     }
   }, [data]);
 
+  const isLiteMode = settings['design.enableAnimations'] === false;
+
   return (
-    <DesignSettingsContext.Provider value={{ settings, isLoading }}>
+    <DesignSettingsContext.Provider value={{ settings, isLoading, isLiteMode }}>
       {children}
     </DesignSettingsContext.Provider>
   );

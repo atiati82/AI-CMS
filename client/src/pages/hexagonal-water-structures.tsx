@@ -13,14 +13,14 @@ import { HexagonalGridDiagram } from "@/components/diagrams";
 
 const easeOut = [0.23, 0.82, 0.35, 1] as const;
 
-const fadeUp = {
+const fadeUp: Variants = {
     initial: { opacity: 0, y: 24 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, amount: 0.25 as const },
     transition: { duration: 0.6, ease: easeOut },
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
     initial: "hidden" as const,
     whileInView: "visible" as const,
     viewport: { once: true, amount: 0.25 as const },
@@ -93,7 +93,7 @@ export default function HexagonalWaterStructuresPage() {
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, ease: "easeOut" }}
+                                transition={{ duration: 0.7, ease: "easeOut" as Easing }}
                                 className="text-center lg:text-left"
                             >
                                 <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">

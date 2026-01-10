@@ -12,12 +12,19 @@ import {
     Sparkles
 } from "lucide-react";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function LiquidCrystalBiologyPage() {
     return (
         <StandardPageLayout
             title={<>Liquid Crystal <span className="text-cyan-400">Biology</span></>}
             subtitle={<>The Body as a Soft Crystal.<br /><span className="text-cyan-400/80">Living tissues are not solid or liquid. They are liquid crystals.</span></>}
-            
+            backgroundElement={
+                <VideoBackground
+                    videoId="liquid-crystal-biology-bg"
+                    keywords={["liquid", "crystal", "biology"]}
+                />
+            }
             heroVariant="cyan"
             heroIcon={Sparkles}
             badges={[{ text: "Biophysics & Structure", icon: Sparkles }]}

@@ -26,6 +26,7 @@ import {
 import StandardPageLayout from '@/components/StandardPageLayout';
 import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
+import { VideoBackground, SmartVideoEmbed } from '@/components/SmartVideoEmbed';
 
 export default function AndaraIonic1lPurePage() {
     return (
@@ -33,6 +34,7 @@ export default function AndaraIonic1lPurePage() {
             title="Andara Ionic Pure – 1 Liter"
             subtitle="Primordial Ionic Sulfate Mineral Concentrate"
             heroVariant="amber"
+            backgroundElement={<VideoBackground keywords={["product", "ionic", "gold", "activation"]} overlayOpacity={0.4} />}
             seoTitle="Andara Ionic Pure 1 L – Primordial Ionic Sulfate Minerals for Water Conditioning"
             seoDescription="Andara Ionic Pure 1 L is a primordial ionic sulfate mineral concentrate to clarify, condition and structure your drinking water. Designed for whole-house use, families and practitioners."
         >
@@ -256,13 +258,18 @@ export default function AndaraIonic1lPurePage() {
                                     <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center shrink-0">
                                         <span className="text-2xl font-bold text-amber-500">1</span>
                                     </div>
-                                    <div>
+                                    <div className="flex-1">
                                         <h3 className="text-xl font-medium text-amber-400 mb-3">Clarification Phase</h3>
-                                        <ul className="space-y-2 text-slate-400 text-sm">
-                                            <li>• Suspended particles and certain dissolved contaminants flocculate and settle</li>
-                                            <li>• The water becomes visibly clearer over time</li>
-                                            <li>• This phase is linked to the sulfate and mineral charge acting in the water</li>
-                                        </ul>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <ul className="space-y-2 text-slate-400 text-sm">
+                                                <li>• Suspended particles and certain dissolved contaminants flocculate and settle</li>
+                                                <li>• The water becomes visibly clearer over time</li>
+                                                <li>• This phase is linked to the sulfate and mineral charge acting in the water</li>
+                                            </ul>
+                                            <div className="rounded-lg overflow-hidden border border-white/10 aspect-video">
+                                                <SmartVideoEmbed keywords={["drop", "clarify", "settle", "flocculation"]} className="w-full h-full object-cover" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </Card>

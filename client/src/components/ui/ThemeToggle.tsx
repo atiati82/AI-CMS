@@ -19,7 +19,7 @@ export function ThemeToggle() {
         setMode(detectInitialMode());
     }, []);
 
-    const handleModeChange = (newMode: AndaraMode) => {
+    const handleModeChange = (newMode: "light" | "dark") => {
         setAndaraMode(newMode);
         setMode(newMode);
     };

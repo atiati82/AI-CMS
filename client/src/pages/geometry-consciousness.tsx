@@ -5,6 +5,7 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function GeometryConsciousnessPage() {
   useScrollTop();
@@ -13,6 +14,7 @@ export default function GeometryConsciousnessPage() {
     <StandardPageLayout
       title="Geometry, Fields & Consciousness"
       subtitle="Pattern, Relation & Form"
+      backgroundElement={<VideoBackground keywords={["geometry", "sacred", "patterns", "mandala", "purple", "consciousness"]} overlayOpacity={0.35} />}
       vibeKeywords={['Pattern', 'Field', 'Awareness']}
       seoTitle="Geometry, Fields & Consciousness Maps"
       seoDescription="Explore how geometry, fields and consciousness may be connected through patterns, symmetry and subtle organization. An educational map of inner perception."

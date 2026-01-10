@@ -25,6 +25,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { VideoBackground } from '@/components/SmartVideoEmbed';
 
 // Animated Water Molecules
 function AnimatedMolecules() {
@@ -290,6 +291,7 @@ export default function StructuredWaterBasicsPage() {
             subtitle="Understanding regions of coherence in liquid water"
             heroVariant="cyan"
             heroIcon={Waves}
+            backgroundElement={<VideoBackground keywords={["water", "hexagonal", "geometry", "structure", "ordered"]} overlayOpacity={0.4} />}
             seoTitle="Structured Water Basics – How Order Emerges in Liquid Water | Andara Science"
             seoDescription="Learn how structured water forms through minerals, charge, flow and geometry. Understand the science of water ordering at interfaces without hype or magic."
         >

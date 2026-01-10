@@ -137,6 +137,71 @@ export const navigationConfig: NavSection[] = [
         ]
     },
     {
+        key: 'ion',
+        label: 'ION Science',
+        path: '/ion',
+        icon: 'proton',
+        featured: [
+            {
+                title: 'What Are Ions?',
+                subtitle: 'The Foundation of Charged Chemistry',
+                path: '/ion',
+                imageGradient: 'from-cyan-500/20 to-blue-900/40',
+                texture: '/images/textures/water_texture.png'
+            },
+            {
+                title: 'Bioelectricity',
+                subtitle: 'How Ions Power Life',
+                path: '/ion/bioelectric',
+                imageGradient: 'from-purple-500/20 to-violet-900/40',
+                texture: '/images/textures/bioelectric_texture.png'
+            },
+            {
+                title: 'Ionic Sulfates',
+                subtitle: 'Nature\'s Balancing Mineral',
+                path: '/ion/ionic-sulfates',
+                imageGradient: 'from-amber-500/20 to-orange-900/40',
+                texture: '/images/textures/mineral_texture.png'
+            }
+        ],
+        categories: [
+            {
+                title: 'Foundations',
+                items: [
+                    { label: 'Ion Fundamentals', path: '/ion', icon: 'proton' },
+                    { label: 'Ion Exchange', path: '/ion/ion-exchange', icon: 'energy' },
+                    { label: 'Conductivity & TDS', path: '/ion/conductivity-ec-tds', icon: 'science' },
+                    { label: 'ORP & Redox', path: '/ion/orp-redox', icon: 'bioelectric' }
+                ]
+            },
+            {
+                title: 'Water Domain',
+                items: [
+                    { label: 'Ions in Water', path: '/ion/water', icon: 'waterPhases' },
+                    { label: 'Sea Ions', path: '/ion/sea', icon: 'ezWater' },
+                    { label: 'Waves & Cleaning', path: '/ion/waves-cleaning', icon: 'vortex' },
+                    { label: 'Lightning & Atmosphere', path: '/ion/lightning-atmosphere', icon: 'energy' }
+                ]
+            },
+            {
+                title: 'Earth Domain',
+                items: [
+                    { label: 'Soil Ions', path: '/ion/soil', icon: 'terrain' },
+                    { label: 'Volcanic Minerals', path: '/ion/volcanic-minerals', icon: 'minerals' }
+                ]
+            },
+            {
+                title: 'Biology & Product',
+                items: [
+                    { label: 'Bioelectricity', path: '/ion/bioelectric', icon: 'bioelectric' },
+                    { label: 'Electrolytes vs Ionic Minerals', path: '/ion/electrolytes-vs-ionic-minerals', icon: 'proton' },
+                    { label: 'Ionic Sulfates', path: '/ion/ionic-sulfates', icon: 'sulfate' },
+                    { label: 'Microdose Logic', path: '/ion/microdose-logic', icon: 'crystalline' }
+                ]
+            }
+        ]
+    },
+    {
         key: 'applications',
         label: 'Applications',
         path: '/how-to-use-andara',

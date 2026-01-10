@@ -15,7 +15,7 @@ import {
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { SmartVideoEmbed } from "@/components/SmartVideoEmbed";
+import { SmartVideoEmbed, VideoBackground } from "@/components/SmartVideoEmbed";
 
 // --- VISUAL COMPONENTS ---
 
@@ -41,7 +41,7 @@ const CrowdVsDancersVisual = () => {
                                 duration: 2 + Math.random(),
                                 repeat: Infinity,
                                 repeatType: "reverse",
-                                ease: "easeInOut"
+                                ease: "easeInOut" as Easing
                             }}
                         />
                     ))}
@@ -71,7 +71,7 @@ const CrowdVsDancersVisual = () => {
                                     duration: 3,
                                     repeat: Infinity,
                                     delay: i * 0.1,
-                                    ease: "easeInOut"
+                                    ease: "easeInOut" as Easing
                                 }}
                             />
                         ))}
@@ -146,6 +146,7 @@ export default function EZWaterPage() {
             seoDescription="Discover EZ Water (Exclusion Zone), the hidden fourth phase of water. A structured, gel-like layer formed by light and surfaces that acts like a natural battery."
             heroVariant="cyan"
             heroIcon={Droplets}
+            backgroundElement={<VideoBackground keywords={["ez water", "structure", "hexagonal", "blue", "pure"]} overlayOpacity={0.3} />}
             badges={[{ text: "Advanced Water Physics" }]}
             extraHead={<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />}
         >
@@ -227,7 +228,7 @@ export default function EZWaterPage() {
                             <h3 className="text-xl font-bold text-white mb-6 text-center">Result: A Water Battery</h3>
                             <div className="w-full rounded-xl overflow-hidden shadow-2xl border border-cyan-500/20">
                                 <SmartVideoEmbed
-                                    keywords={['electric', 'voltage', 'structure']}
+                                    keywords={['ez water', 'fourth phase', 'hexagonal', 'exclusion zone']}
                                     className="w-full aspect-video"
                                     caption="Visualizing the charge separation of EZ water layers."
                                 />

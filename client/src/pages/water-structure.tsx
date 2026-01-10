@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "wouter";
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import {
     Droplets,
     Layers,
@@ -22,6 +23,7 @@ export default function StructuredWaterBasicsPage() {
         <StandardPageLayout
             title={<>Structured <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-400">Water Basics</span></>}
             subtitle={<>Interfaces. Hydration Layers. Coherence.<br />What "Structure" Really Means.</>}
+            backgroundElement={<VideoBackground keywords={["water", "structure", "interface", "molecular", "purple"]} overlayOpacity={0.3} />}
             heroVariant="cyan"
             heroIcon={Droplets}
             badges={[{ text: "Science Pillar", icon: Droplets }]}

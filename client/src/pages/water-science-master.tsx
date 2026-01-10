@@ -8,6 +8,7 @@ import {
     Gauge, Sparkles, Calculator
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // Section IDs for navigation
 const SECTIONS = [
@@ -29,7 +30,7 @@ const SECTIONS = [
  * Educational content about water behavior and organization.
  */
 export default function WaterScienceMaster() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useReducedMotion();
     const [activeSection, setActiveSection] = useState("hero");
 
@@ -102,12 +103,11 @@ export default function WaterScienceMaster() {
                 {/* SECTION 1: HERO */}
                 {/* ============================================ */}
                 <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
-                    {/* Background */}
-                    <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#061525] to-[#020617]" />
-                        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-[#1aa7ff]/8 blur-[150px]" />
-                        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full bg-[#38ffd1]/5 blur-[120px]" />
-                    </div>
+                    {/* High-Fidelity Video Background */}
+                    <VideoBackground
+                        keywords={["water", "vortex", "activation", "blue"]}
+                        overlayOpacity={0.6}
+                    />
 
                     <div className="container relative z-10 px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         {/* Left: Text */}

@@ -6,21 +6,21 @@ import { v4 as uuidv4 } from "uuid";
 
 // Page: 1 L Bundles – Family & Pro Use
 const pageData = {
-    id: uuidv4(),
-    key: "shop_1l_bundles",
-    title: "1 L Bundles – Family & Pro Use",
-    path: "/shop/andara-1l-bundles",
-    pageType: "page",
-    template: "product_bundles",
-    clusterKey: "product-shop",
-    parentKey: "shop_overview",
-    priority: 2,
-    summary: "Discover Andara Ionic 1 L bundles for families, retreats and professionals. Compare liter pricing, savings and use scenarios.",
-    seoTitle: "Andara Ionic 1 L Bundles – Family, Retreat & Professional Use",
-    seoDescription: "Discover Andara Ionic 1 L bundles for families, retreats and professionals. Compare liter pricing, savings and use scenarios – and learn how to build your own Andara water station at home or in your practice.",
-    seoFocus: "andara ionic 1 liter, andara bundles, sulfate mineral water concentrate, family water station, professional water conditioning",
-    status: "published",
-    content: `
+  id: uuidv4(),
+  key: "shop_1l_bundles",
+  title: "1 L Bundles – Family & Pro Use",
+  path: "/shop/andara-1l-bundles",
+  pageType: "page",
+  template: "product_bundles",
+  clusterKey: "product-shop",
+  parentKey: "shop_overview",
+  priority: 2,
+  summary: "Discover Andara Ionic 1 L bundles for families, retreats and professionals. Compare liter pricing, savings and use scenarios.",
+  seoTitle: "Andara Ionic 1 L Bundles – Family, Retreat & Professional Use",
+  seoDescription: "Discover Andara Ionic 1 L bundles for families, retreats and professionals. Compare liter pricing, savings and use scenarios – and learn how to build your own Andara water station at home or in your practice.",
+  seoFocus: "andara ionic 1 liter, andara bundles, sulfate mineral water concentrate, family water station, professional water conditioning",
+  status: "published",
+  content: `
 <article class="andara-page">
   <!-- HERO SECTION -->
   <section class="hero-section">
@@ -229,67 +229,67 @@ const pageData = {
   </section>
 </article>
   `,
-    visualConfig: {
-        heroImage: "/images/textures/shop_light_texture.webp",
-        heroIconName: "Package",
-        motionPreset: "staggered-grid",
-        vibeKeywords: ["mineral", "professional", "family", "bulk", "value"],
-        designerNotes: "Clean product-focused layout with bundle comparison cards. Professional aesthetic for B2B audience.",
-        emotionalTone: "practical and trustworthy"
-    },
-    metadata: {
-        focusKeywords: [
-            "andara ionic 1 liter",
-            "andara bundles",
-            "sulfate mineral water concentrate",
-            "family water station",
-            "professional water conditioning"
-        ],
-        bundleTypes: ["home-core", "family-studio", "retreat-pro"],
-        targetAudience: ["families", "retreats", "practitioners", "studios"]
-    }
+  visualConfig: {
+    heroImage: "/images/textures/shop_light_texture.webp",
+    heroIconName: "Package",
+    motionPreset: "staggered-grid",
+    vibeKeywords: ["mineral", "professional", "family", "bulk", "value"],
+    designerNotes: "Clean product-focused layout with bundle comparison cards. Professional aesthetic for B2B audience.",
+    emotionalTone: ["practical", "trustworthy"]
+  },
+  metadata: {
+    focusKeywords: [
+      "andara ionic 1 liter",
+      "andara bundles",
+      "sulfate mineral water concentrate",
+      "family water station",
+      "professional water conditioning"
+    ],
+    bundleTypes: ["home-core", "family-studio", "retreat-pro"],
+    targetAudience: ["families", "retreats", "practitioners", "studios"]
+  }
 };
 
 async function insertPage() {
-    console.log("Inserting page:", pageData.title);
-    console.log("Path:", pageData.path);
+  console.log("Inserting page:", pageData.title);
+  console.log("Path:", pageData.path);
 
-    try {
-        // Check if page already exists
-        const existing = await db.select().from(pages).where(
-            eq(pages.path, pageData.path)
-        );
+  try {
+    // Check if page already exists
+    const existing = await db.select().from(pages).where(
+      eq(pages.path, pageData.path)
+    );
 
-        if (existing.length > 0) {
-            console.log("Page already exists, updating...");
-            await db.update(pages)
-                .set({
-                    ...pageData,
-                    updatedAt: new Date()
-                })
-                .where(eq(pages.path, pageData.path));
-            console.log("✅ Page updated successfully!");
-        } else {
-            await db.insert(pages).values({
-                ...pageData,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            });
-            console.log("✅ Page inserted successfully!");
-        }
-
-        // Verify
-        const result = await db.select({ title: pages.title, path: pages.path, contentLength: pages.content })
-            .from(pages)
-            .where(eq(pages.path, pageData.path));
-
-        console.log("Verification:", result[0]?.title, "- Content length:", result[0]?.contentLength?.length || 0, "chars");
-
-    } catch (error) {
-        console.error("Error inserting page:", error);
-    } finally {
-        process.exit(0);
+    if (existing.length > 0) {
+      console.log("Page already exists, updating...");
+      await db.update(pages)
+        .set({
+          ...pageData,
+          updatedAt: new Date()
+        })
+        .where(eq(pages.path, pageData.path));
+      console.log("✅ Page updated successfully!");
+    } else {
+      await db.insert(pages).values({
+        ...pageData,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      console.log("✅ Page inserted successfully!");
     }
+
+    // Verify
+    const result = await db.select({ title: pages.title, path: pages.path, contentLength: pages.content })
+      .from(pages)
+      .where(eq(pages.path, pageData.path));
+
+    console.log("Verification:", result[0]?.title, "- Content length:", result[0]?.contentLength?.length || 0, "chars");
+
+  } catch (error) {
+    console.error("Error inserting page:", error);
+  } finally {
+    process.exit(0);
+  }
 }
 
 insertPage();

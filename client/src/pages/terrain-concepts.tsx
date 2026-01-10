@@ -12,12 +12,19 @@ import {
     Sprout
 } from "lucide-react";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function TerrainConceptsPage() {
     return (
         <StandardPageLayout
             title={<>Terrain <span className="text-cyan-400">Concepts</span></>}
             subtitle={<>The Ecosystem is Everything.<br />Pasteur vs Béchamp.</>}
-            
+            backgroundElement={
+                <VideoBackground
+                    videoId="terrain-overview-bg"
+                    keywords={["terrain", "landscape", "nature", "overview"]}
+                />
+            }
             heroVariant="emerald"
             heroIcon={Sprout}
             badges={[{ text: "The Environment Model", icon: Mountain }]}

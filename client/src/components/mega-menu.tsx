@@ -29,6 +29,8 @@ type NavigationData = {
 const sectionIcons: Record<string, React.ReactNode> = {
   shop: <ShoppingBag className="w-4 h-4" />,
   science: <Microscope className="w-4 h-4" />,
+  ion: <Zap className="w-4 h-4" />,
+  experience: <Atom className="w-4 h-4" />,
   about: <Users className="w-4 h-4" />,
   trust: <Shield className="w-4 h-4" />,
   blog: <Newspaper className="w-4 h-4" />,
@@ -37,7 +39,7 @@ const sectionIcons: Record<string, React.ReactNode> = {
 function getItemIcon(key: string, label: string): React.ReactNode {
   const lowerKey = key.toLowerCase();
   const lowerLabel = label.toLowerCase();
-  
+
   if (lowerKey.includes('100') || lowerLabel.includes('drops')) return <Droplets className="w-4 h-4" />;
   if (lowerKey.includes('bundle') || lowerLabel.includes('bundle') || lowerLabel.includes('pack')) return <Package className="w-4 h-4" />;
   if (lowerKey.includes('calculator') || lowerLabel.includes('calculator')) return <Calculator className="w-4 h-4" />;
@@ -58,7 +60,7 @@ function categorizeItems(items: NavItem[], sectionKey: string): { category: stri
     items.forEach(item => {
       const lowerLabel = item.label.toLowerCase();
       const lowerKey = item.key.toLowerCase();
-      
+
       if (lowerLabel.includes('bundle') || lowerLabel.includes('pack')) {
         bundles.push(item);
       } else if (lowerLabel.includes('calculator') || lowerLabel.includes('tool')) {
@@ -75,10 +77,10 @@ function categorizeItems(items: NavItem[], sectionKey: string): { category: stri
     if (bundles.length > 0) result.push({ category: 'Bundles', items: bundles });
     if (tools.length > 0) result.push({ category: 'Tools', items: tools });
     if (other.length > 0) result.push({ category: 'More', items: other });
-    
+
     return result.length > 0 ? result : [{ category: '', items }];
   }
-  
+
   return [{ category: '', items }];
 }
 
@@ -142,13 +144,13 @@ function DesktopDropdown({ section, isActive }: { section: NavSection; isActive:
             {categorizedItems.map((group, groupIdx) => (
               <div key={group.category || 'default'}>
                 {groupIdx > 0 && <div className="andara-menu-divider" />}
-                
+
                 {group.category && (
                   <div className="andara-menu-section-header">
                     {group.category}
                   </div>
                 )}
-                
+
                 {group.items.map((item) => {
                   const icon = getItemIcon(item.key, item.label);
                   return (
@@ -187,7 +189,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
       {isOpen && (
         <>
           {/* Backdrop with blur */}
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm"
             style={{ top: '64px', zIndex: 99998 }}
             initial={{ opacity: 0 }}
@@ -197,11 +199,11 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
             onClick={onClose}
             data-testid="mobile-menu-backdrop"
           />
-          
+
           {/* Menu panel */}
-          <motion.div 
+          <motion.div
             className="fixed inset-x-0 bottom-0 bg-gradient-to-b from-slate-900 to-slate-950 rounded-t-3xl shadow-2xl"
-            style={{ 
+            style={{
               top: '72px',
               zIndex: 99999,
               WebkitOverflowScrolling: 'touch',
@@ -218,7 +220,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
           >
             {/* Drag indicator */}
             <div className="flex justify-center pt-3 pb-2">
-              <motion.div 
+              <motion.div
                 className="w-12 h-1 bg-slate-700 rounded-full"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -228,15 +230,15 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
 
             <div className="px-6 pb-6 space-y-1">
               {sections.map((section, idx) => (
-                <motion.div 
-                  key={section.key} 
+                <motion.div
+                  key={section.key}
                   className="border-b border-slate-800/50 last:border-b-0"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    duration: timing.normal, 
+                  transition={{
+                    duration: timing.normal,
                     delay: staggerDelay(idx),
-                    ease: easing.smooth 
+                    ease: easing.smooth
                   }}
                 >
                   <div className="flex items-center justify-between">
@@ -273,7 +275,7 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
                   </div>
                   <AnimatePresence>
                     {expandedSection === section.key && section.children.length > 0 && (
-                      <motion.div 
+                      <motion.div
                         className="pl-2 space-y-1 pb-4 border-l-2 border-emerald-500/20"
                         style={{ marginLeft: '52px' }}
                         initial={{ opacity: 0, height: 0 }}
@@ -286,9 +288,9 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
                             key={item.key}
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ 
-                              duration: timing.fast, 
-                              delay: staggerDelay(itemIdx, 0.03) 
+                            transition={{
+                              duration: timing.fast,
+                              delay: staggerDelay(itemIdx, 0.03)
                             }}
                           >
                             <Link
@@ -306,15 +308,15 @@ function MobileMenu({ sections, isOpen, onClose }: { sections: NavSection[]; isO
                   </AnimatePresence>
                 </motion.div>
               ))}
-              
-              <motion.div 
+
+              <motion.div
                 className="pt-6 mt-4 border-t border-slate-800/50"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ 
-                  duration: timing.normal, 
+                transition={{
+                  duration: timing.normal,
                   delay: staggerDelay(sections.length) + 0.1,
-                  ease: easing.smooth 
+                  ease: easing.smooth
                 }}
               >
                 <motion.div whileTap={{ scale: 0.98 }}>

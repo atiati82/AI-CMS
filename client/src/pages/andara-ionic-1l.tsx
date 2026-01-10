@@ -3,6 +3,7 @@ import { motion, useScroll, useReducedMotion } from "framer-motion";
 import { Link } from "wouter";
 // import Layout from "@/components/layout";
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed"; // Added this import
 import {
     ShoppingCart, Check, Droplets, Zap, Hexagon,
     ArrowRight, ChevronDown, Package, Sparkles,
@@ -44,7 +45,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function AndaraIonic1L() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { addItem } = useCart();
     const product = PRODUCTS.find(p => p.id === "p2");
 
@@ -112,7 +113,14 @@ export default function AndaraIonic1L() {
             subtitle="Bulk Ionic Trace Minerals Concentrate for Consistent Water Conditioning"
             seoTitle="Andara Ionic 1L | Bulk Minerals for Professional Use"
             seoDescription="The 1 Liter Andara Ionic format is designed for cafés, spas, and high-volume homes. Standardize your water conditioning with our most economical daily concentrate."
-            heroVariant="gold"
+            heroVariant="cyan"
+            backgroundElement={
+                <VideoBackground
+                    videoId="premium-liquid-gold"
+                    keywords={["bulk", "minerals", "ionic", "gold", "water"]}
+                    overlayOpacity={0.6}
+                />
+            }
             heroContent={
                 <div className="max-w-2xl mt-6">
                     <p className="text-lg text-white/80 leading-relaxed mb-8">

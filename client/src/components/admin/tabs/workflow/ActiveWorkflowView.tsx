@@ -8,21 +8,38 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import type { WorkflowExecution, WorkflowStepStatus } from '@shared/schema';
+import type { WorkflowExecution } from '@shared/schema';
+
+// Extended type with computed/joined fields
+interface ExtendedWorkflowExecution extends WorkflowExecution {
+    steps?: Array<{
+        id?: string;
+        name: string;
+        status: string;
+        agent?: string;
+        result?: any;
+        error?: string;
+        startedAt?: Date;
+    }>;
+    currentStep?: number;
+    createdAt?: Date;
+}
 
 interface ActiveWorkflowViewProps {
-    workflow: WorkflowExecution;
+    workflow: ExtendedWorkflowExecution;
     onPause: (id: string) => void;
     onResume: (id: string) => void;
 }
 
+type StepStatus = 'pending' | 'running' | 'completed' | 'failed' | 'skipped';
+
 export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkflowViewProps) {
-    // Calculate stats
+    // Calculate stats - use fallbacks for optional fields
     const steps = workflow.steps || [];
-    const currentStepIdx = workflow.currentStep;
+    const currentStepIdx = workflow.currentStep ?? workflow.currentStepIndex;
     const progress = steps.length > 0 ? (Math.max(0, currentStepIdx) / steps.length) * 100 : 0;
 
-    const getStepStatusColor = (status: WorkflowStepStatus) => {
+    const getStepStatusColor = (status: StepStatus) => {
         switch (status) {
             case 'completed': return 'text-green-400 border-green-500/30 bg-green-500/10';
             case 'running': return 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10 shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]';
@@ -60,7 +77,7 @@ export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkfl
                         </span>
                         <span className="flex items-center gap-1.5">
                             <Clock className="w-3 h-3" />
-                            Started: {new Date(workflow.createdAt).toLocaleTimeString()}
+                            Started: {new Date(workflow.createdAt ?? workflow.startedAt).toLocaleTimeString()}
                         </span>
                     </div>
                 </div>
@@ -137,7 +154,7 @@ export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkfl
                                         {/* Step Card */}
                                         <div className={cn(
                                             "flex-1 p-4 rounded-lg border backdrop-blur-sm transition-all duration-300",
-                                            getStepStatusColor(step.status)
+                                            getStepStatusColor(step.status as StepStatus)
                                         )}>
                                             <div className="flex justify-between items-start mb-2">
                                                 <span className="font-semibold text-sm tracking-tight">{step.name}</span>
@@ -195,7 +212,7 @@ export function ActiveWorkflowView({ workflow, onPause, onResume }: ActiveWorkfl
                         <div className="space-y-2">
                             <div className="text-gray-500">
                                 <span className="text-gray-700 select-none mr-2">
-                                    {new Date(workflow.createdAt).toLocaleTimeString()}
+                                    {new Date(workflow.createdAt ?? workflow.startedAt).toLocaleTimeString()}
                                 </span>
                                 Sequence initialized.
                             </div>

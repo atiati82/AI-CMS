@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { Zap, ZapOff } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useDesignSettings } from "@/lib/design-settings";
+import { useState } from "react";
 
 type LegalLink = {
     key: string;
@@ -16,13 +17,22 @@ type NavigationData = {
 };
 
 export default function Footer() {
-    const { isLiteMode, updateSettings } = useDesignSettings();
+    const { isLiteMode } = useDesignSettings();
+    const [localLiteMode, setLocalLiteMode] = useState(isLiteMode);
     const { data: navigation } = useQuery<NavigationData>({
         queryKey: ["/api/navigation"],
         staleTime: 1000 * 60 * 5,
     });
 
     const legalLinks = navigation?.legal || [];
+
+    const handleToggleLiteMode = () => {
+        const newMode = !localLiteMode;
+        setLocalLiteMode(newMode);
+        localStorage.setItem('design.liteMode', String(newMode));
+        // Trigger a page reload to apply the setting
+        window.location.reload();
+    };
 
     return (
         <footer className="andara-glass-footer py-10 sm:py-12 relative overflow-hidden">
@@ -46,6 +56,7 @@ export default function Footer() {
                         <li><Link href="/" className="hover:text-white transition-colors" data-testid="footer-link-home">Home</Link></li>
                         <li><Link href="/shop" className="hover:text-white transition-colors" data-testid="footer-link-shop">Shop</Link></li>
                         <li><Link href="/science" className="hover:text-white transition-colors" data-testid="footer-link-science">Science Library</Link></li>
+                        <li><Link href="/ion" className="hover:text-white transition-colors" data-testid="footer-link-ion">ION Science</Link></li>
                         <li><Link href="/about" className="hover:text-white transition-colors" data-testid="footer-link-about">About</Link></li>
                         <li><Link href="/sitemap" className="hover:text-white transition-colors" data-testid="footer-link-sitemap">Sitemap</Link></li>
                         <li><Link href="/admin" className="hover:text-white transition-colors" data-testid="footer-link-admin">Admin</Link></li>
@@ -78,14 +89,15 @@ export default function Footer() {
                 </div>
 
                 <button
-                    onClick={() => updateSettings({ 'design.liteMode': !isLiteMode })}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ${isLiteMode ? 'bg-emerald-900/40 border-emerald-500/50 text-emerald-300' : 'bg-transparent border-white/10 text-white/40 hover:text-white hover:border-white/30'}`}
-                    title={isLiteMode ? "Enable full animations" : "Enable lite mode for better performance"}
+                    onClick={handleToggleLiteMode}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ${localLiteMode ? 'bg-emerald-900/40 border-emerald-500/50 text-emerald-300' : 'bg-transparent border-white/10 text-white/40 hover:text-white hover:border-white/30'}`}
+                    title={localLiteMode ? "Enable full animations" : "Enable lite mode for better performance"}
                 >
-                    {isLiteMode ? <ZapOff className="w-3 h-3" /> : <Zap className="w-3 h-3" />}
-                    <span className="font-medium">{isLiteMode ? "Lite Mode: ON" : "Lite Mode: OFF"}</span>
+                    {localLiteMode ? <ZapOff className="w-3 h-3" /> : <Zap className="w-3 h-3" />}
+                    <span className="font-medium">{localLiteMode ? "Lite Mode: ON" : "Lite Mode: OFF"}</span>
                 </button>
             </div>
         </footer>
     );
 }
+

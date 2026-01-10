@@ -3,7 +3,7 @@ import {
   LayoutDashboard, FileText, Package, Beaker, FolderTree, FileUp,
   Target, Wand2, Link, Code2, Settings, Brain, ChevronLeft, ChevronRight,
   ShoppingCart, GraduationCap, Truck, Mail, MessageSquare, Calendar, Kanban,
-  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers, Activity
+  Palette, Menu, X, BarChart3, Cpu, Sparkles, Layers, Activity, Film
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -37,6 +37,7 @@ const navSections: NavSection[] = [
     items: [
       { id: "clusters", label: "Clusters", icon: FolderTree },
       { id: 'documents', label: 'Knowledge Base', icon: FileText },
+      { id: "video-ingestion", label: "Video Ingestion", icon: Film },
       { id: "functions", label: "Functions", icon: Code2 },
       { id: "templates", label: "Templates", icon: Code2 },
     ],
@@ -112,7 +113,7 @@ function SidebarContent({
                     )}
                     data-testid={`sidebar-${item.id}`}
                   >
-                    <Icon className={cn("w-5 h-5 shrink-0", isCollapsed && "mx-auto")} />
+                    <Icon className={cn("w-5 h-5 shrink-0", isCollapsed ? "mx-auto" : "")} />
                     {!isCollapsed && (
                       <>
                         <span className="flex-1 text-left">{item.label}</span>

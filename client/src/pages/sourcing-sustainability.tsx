@@ -14,7 +14,7 @@ import {
 import { useScroll, motion, useTransform } from "framer-motion";
 
 export default function SourcingSustainabilityPage() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef });
     const yHero = useTransform(scrollYProgress, [0, 0.2], [0, 50]);
 

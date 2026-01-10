@@ -68,7 +68,7 @@ export default function ProductPage() {
               <motion.div
                 className="relative z-10"
                 {...ambient.float}
-                transition={{ duration: 6, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+                transition={{ duration: 6, ease: "easeInOut" as Easing, repeat: Infinity, repeatType: "reverse" }}
               >
                 <img
                   src={productBottle}

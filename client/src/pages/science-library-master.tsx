@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 import { Droplets, Gem, Hexagon, BookOpen, Layers, Shield, ArrowRight, Sparkles, Brain, Microscope } from "lucide-react";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // Custom components
 import { ScienceLibraryHeroIllustration } from "@/components/science-library/ScienceLibraryHeroIllustration";
@@ -28,7 +29,7 @@ const SECTIONS = [
  * "High-end future lab meets sacred nature" — calm, precise, visionary.
  */
 export default function ScienceLibraryMaster() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useReducedMotion();
     const [activeSection, setActiveSection] = useState("hero");
 
@@ -126,6 +127,7 @@ export default function ScienceLibraryMaster() {
                 >
                     {/* Ambient Background */}
                     <div className="absolute inset-0 z-0">
+                        <VideoBackground keywords={["science", "library", "abstract", "particles", "blue", "network"]} overlayOpacity={0.3} />
                         <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#070a12] to-[#020617]" />
                         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#1aa7ff]/5 blur-[120px]" />
                         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#f6d56a]/5 blur-[120px]" />
@@ -161,7 +163,7 @@ export default function ScienceLibraryMaster() {
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
+                            transition={{ duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" as Easing }}
                             style={{ y: prefersReducedMotion ? 0 : heroTextY }}
                         >
                             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#63b4ff]/10 border border-[#63b4ff]/20 text-[#63b4ff] mb-6">

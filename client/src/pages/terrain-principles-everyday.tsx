@@ -1,6 +1,7 @@
 
 import React from 'react';
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -12,6 +13,7 @@ export default function TerrainPrinciplesEverydayPage() {
     <StandardPageLayout
       title="Terrain Principles in Everyday Life"
       subtitle="Simple Ways to Support Your Inner Landscape"
+      backgroundElement={<VideoBackground keywords={["terrain", "daily", "ritual"]} overlayOpacity={0.3} />}
       vibeKeywords={['Daily Practice', 'Rhythm', 'Minerals']}
       seoTitle="Terrain Principles in Everyday Life – Simple Ways to Support Your Inner Landscape"
       seoDescription="Learn practical terrain principles you can apply in daily life: water quality, mineral signals, rhythm, light, and emotional climate. An educational guide to supporting your inner landscape."

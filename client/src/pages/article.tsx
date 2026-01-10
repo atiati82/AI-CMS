@@ -33,16 +33,16 @@ function decodeHtmlEntities(text: string): string {
 
 function formatContent(content: string): string {
   if (!content) return '';
-  
+
   let processedContent = content;
   if (content.includes('&lt;') || content.includes('&gt;')) {
     processedContent = decodeHtmlEntities(content);
   }
-  
+
   if (processedContent.trim().startsWith('<') && (
-    processedContent.includes('<p>') || 
-    processedContent.includes('<h1>') || 
-    processedContent.includes('<h2>') || 
+    processedContent.includes('<p>') ||
+    processedContent.includes('<h1>') ||
+    processedContent.includes('<h2>') ||
     processedContent.includes('<div>') ||
     processedContent.includes('<section>') ||
     processedContent.includes('<main>') ||
@@ -52,7 +52,7 @@ function formatContent(content: string): string {
   )) {
     return processedContent;
   }
-  
+
   return processedContent
     .split('\n\n')
     .map(para => `<p>${para}</p>`)
@@ -62,14 +62,14 @@ function formatContent(content: string): string {
 export default function ArticlePage() {
   const [matchSingle, paramsSingle] = useRoute("/science/:slug");
   const [matchCluster, paramsCluster] = useRoute("/science/:cluster/:slug");
-  
+
   // Build the full path based on which route matched
-  const fullPath = matchCluster && paramsCluster 
+  const fullPath = matchCluster && paramsCluster
     ? `/science/${paramsCluster.cluster}/${paramsCluster.slug}`
-    : matchSingle && paramsSingle 
-    ? `/science/${paramsSingle.slug}`
-    : null;
-  
+    : matchSingle && paramsSingle
+      ? `/science/${paramsSingle.slug}`
+      : null;
+
   const { data: dbPage, isLoading } = useQuery<PageData>({
     queryKey: ["/api/pages/by-path", fullPath],
     queryFn: async () => {
@@ -84,7 +84,7 @@ export default function ArticlePage() {
     enabled: !!fullPath,
     retry: false,
   });
-  
+
   if (isLoading) {
     return (
       <Layout>
@@ -94,33 +94,35 @@ export default function ArticlePage() {
       </Layout>
     );
   }
-  
+
   if (dbPage && dbPage.metadata?.contentJson) {
     return <MagicPage page={dbPage} />;
   }
-  
+
   // Handle pages with HTML content in the content field
   if (dbPage && dbPage.content) {
     const processedHtml = formatContent(dbPage.content);
-    const isFullAndaraPage = processedHtml.includes('andara-page') || 
-                              processedHtml.includes('andara-container') ||
-                              processedHtml.includes('<style>');
-    
+    const isFullAndaraPage = processedHtml.includes('andara-page') ||
+      processedHtml.includes('andara-container') ||
+      processedHtml.includes('<style>');
+
     if (isFullAndaraPage) {
       return (
-        <div 
-          className="andara-page-wrapper"
-          dangerouslySetInnerHTML={{ __html: processedHtml }}
-          data-testid="page-html-content"
-        />
+        <Layout>
+          <div
+            className="andara-page-wrapper"
+            dangerouslySetInnerHTML={{ __html: processedHtml }}
+            data-testid="page-html-content"
+          />
+        </Layout>
       );
     }
-    
+
     return (
       <Layout>
         <div className="andara-page">
           <article className="andara-section">
-            <div 
+            <div
               className="andara-content-wrapper"
               dangerouslySetInnerHTML={{ __html: processedHtml }}
               data-testid="page-html-content"
@@ -130,16 +132,16 @@ export default function ArticlePage() {
       </Layout>
     );
   }
-  
+
   // Handle pages with HTML content in the aiStartupHtml field
   if (dbPage && dbPage.aiStartupHtml) {
     // Check if content is JSX/React code that needs integration (not renderable as HTML)
-    const isJsxContent = dbPage.aiStartupHtml.includes('motion.') || 
-                          dbPage.aiStartupHtml.includes('variants={') ||
-                          dbPage.aiStartupHtml.includes('React.FC') ||
-                          dbPage.aiStartupHtml.includes('export const') ||
-                          dbPage.aiStartupHtml.includes('import {');
-    
+    const isJsxContent = dbPage.aiStartupHtml.includes('motion.') ||
+      dbPage.aiStartupHtml.includes('variants={') ||
+      dbPage.aiStartupHtml.includes('React.FC') ||
+      dbPage.aiStartupHtml.includes('export const') ||
+      dbPage.aiStartupHtml.includes('import {');
+
     if (isJsxContent) {
       return (
         <Layout>
@@ -162,27 +164,29 @@ export default function ArticlePage() {
         </Layout>
       );
     }
-    
+
     const processedHtml = formatContent(dbPage.aiStartupHtml);
-    const isFullAndaraPage = processedHtml.includes('andara-page') || 
-                              processedHtml.includes('andara-container') ||
-                              processedHtml.includes('<style>');
-    
+    const isFullAndaraPage = processedHtml.includes('andara-page') ||
+      processedHtml.includes('andara-container') ||
+      processedHtml.includes('<style>');
+
     if (isFullAndaraPage) {
       return (
-        <div 
-          className="andara-page-wrapper"
-          dangerouslySetInnerHTML={{ __html: processedHtml }}
-          data-testid="page-html-content"
-        />
+        <Layout>
+          <div
+            className="andara-page-wrapper"
+            dangerouslySetInnerHTML={{ __html: processedHtml }}
+            data-testid="page-html-content"
+          />
+        </Layout>
       );
     }
-    
+
     return (
       <Layout>
         <div className="andara-page">
           <article className="andara-section">
-            <div 
+            <div
               className="andara-content-wrapper"
               dangerouslySetInnerHTML={{ __html: processedHtml }}
               data-testid="page-html-content"
@@ -192,7 +196,7 @@ export default function ArticlePage() {
       </Layout>
     );
   }
-  
+
   const slug = paramsCluster?.slug || paramsSingle?.slug;
   const article = ARTICLES.find(a => a.slug === slug);
 
@@ -216,68 +220,68 @@ export default function ArticlePage() {
       <div className="andara-page">
         <article className="min-h-screen pb-24">
           <div className="bg-slate-900/50 border-b border-slate-800">
-          <div className="container mx-auto px-4 py-16 max-w-4xl">
-            <Link 
-              href="/science"
-              className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-8 transition-colors" 
-              data-testid="link-back-to-library"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Library
-            </Link>
-            
-            {cluster && (
-              <div className="flex items-center gap-2 mb-6">
-                <cluster.icon className="w-5 h-5 text-accent" />
-                <span className="text-sm font-bold tracking-widest uppercase text-accent">
-                  {cluster.name}
-                </span>
-              </div>
-            )}
-
-            <h1 className="text-4xl md:text-5xl font-display font-medium text-primary mb-6 leading-tight" data-testid="text-article-title">
-              {article.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {new Date(article.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-              </div>
-              <div className="flex items-center gap-2">
-                <Tag className="w-4 h-4" />
-                {article.tags.join(", ")}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 py-12 max-w-3xl">
-          <div className="text-xl font-medium text-primary/80 mb-10 leading-relaxed border-l-4 border-accent pl-6" data-testid="text-article-summary">
-            {article.summary}
-          </div>
-          
-          <div className="prose prose-slate prose-lg max-w-none">
-            {article.content.split('\n\n').map((paragraph, idx) => (
-              <p key={idx}>{paragraph}</p>
-            ))}
-            <p>
-              (This is a mockup article. In the full implementation, this section would render rich Markdown content including images, scientific references, and diagrams.)
-            </p>
-          </div>
-
-          <div className="mt-16 p-8 bg-primary/5 rounded-2xl border border-primary/10 flex flex-col sm:flex-row items-center gap-8">
-            <div className="flex-1">
-              <h3 className="text-xl font-display font-medium text-primary mb-2">Experience Structured Water</h3>
-              <p className="text-muted-foreground mb-4">
-                See how Andara Ionic minerals can transform your daily hydration.
-              </p>
-              <Link href="/shop/andara-ionic-100ml">
-                <Button data-testid="button-view-product">View Product</Button>
+            <div className="container mx-auto px-4 py-16 max-w-4xl">
+              <Link
+                href="/science"
+                className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-8 transition-colors"
+                data-testid="link-back-to-library"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Library
               </Link>
+
+              {cluster && (
+                <div className="flex items-center gap-2 mb-6">
+                  <cluster.icon className="w-5 h-5 text-accent" />
+                  <span className="text-sm font-bold tracking-widest uppercase text-accent">
+                    {cluster.name}
+                  </span>
+                </div>
+              )}
+
+              <h1 className="text-4xl md:text-5xl font-display font-medium text-primary mb-6 leading-tight" data-testid="text-article-title">
+                {article.title}
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {new Date(article.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Tag className="w-4 h-4" />
+                  {article.tags.join(", ")}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+
+          <div className="container mx-auto px-4 py-12 max-w-3xl">
+            <div className="text-xl font-medium text-primary/80 mb-10 leading-relaxed border-l-4 border-accent pl-6" data-testid="text-article-summary">
+              {article.summary}
+            </div>
+
+            <div className="prose prose-slate prose-lg max-w-none">
+              {article.content.split('\n\n').map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+              <p>
+                (This is a mockup article. In the full implementation, this section would render rich Markdown content including images, scientific references, and diagrams.)
+              </p>
+            </div>
+
+            <div className="mt-16 p-8 bg-primary/5 rounded-2xl border border-primary/10 flex flex-col sm:flex-row items-center gap-8">
+              <div className="flex-1">
+                <h3 className="text-xl font-display font-medium text-primary mb-2">Experience Structured Water</h3>
+                <p className="text-muted-foreground mb-4">
+                  See how Andara Ionic minerals can transform your daily hydration.
+                </p>
+                <Link href="/shop/andara-ionic-100ml">
+                  <Button data-testid="button-view-product">View Product</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
         </article>
       </div>
     </Layout>

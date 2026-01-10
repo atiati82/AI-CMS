@@ -3,7 +3,7 @@
  * Automatically selects the best matching video from the registry based on keywords
  */
 import React, { useMemo } from 'react';
-import { findMatchingVideos, getRandomVideo } from '@/lib/video-matcher';
+import { findMatchingVideos, getRandomVideo, getVideoAsset } from '@/lib/video-matcher';
 import { cn } from '@/lib/utils';
 
 interface SmartVideoEmbedProps {
@@ -19,6 +19,8 @@ interface SmartVideoEmbedProps {
     loop?: boolean;
     /** Whether to show video controls */
     controls?: boolean;
+    /** Whether to be muted (defaults to true if autoPlay is true) */
+    muted?: boolean;
     /** Video aspect ratio class */
     aspectRatio?: 'video' | 'square' | 'portrait';
     /** Optional caption/overlay text */
@@ -32,6 +34,7 @@ export const SmartVideoEmbed: React.FC<SmartVideoEmbedProps> = ({
     autoPlay = true,
     loop = true,
     controls = false,
+    muted,
     aspectRatio = 'video',
     caption
 }) => {
@@ -65,7 +68,7 @@ export const SmartVideoEmbed: React.FC<SmartVideoEmbedProps> = ({
                 src={videoUrl}
                 autoPlay={autoPlay}
                 loop={loop}
-                muted={autoPlay} // Must be muted for autoplay
+                muted={muted !== undefined ? muted : autoPlay} // Use explicit muted or default to autoPlay status
                 controls={controls}
                 playsInline
                 className="w-full h-full object-cover"
@@ -97,6 +100,7 @@ export const SmartVideoEmbed: React.FC<SmartVideoEmbedProps> = ({
  */
 interface VideoBackgroundProps {
     keywords: string[];
+    videoId?: string;
     fallback?: string;
     className?: string;
     overlayOpacity?: number;
@@ -104,14 +108,19 @@ interface VideoBackgroundProps {
 
 export const VideoBackground: React.FC<VideoBackgroundProps> = ({
     keywords,
+    videoId,
     fallback,
     className,
     overlayOpacity = 0.5
 }) => {
     const matchedVideo = useMemo(() => {
+        if (videoId) {
+            const asset = getVideoAsset(videoId);
+            if (asset) return asset;
+        }
         const matches = findMatchingVideos(keywords, 1);
         return matches.length > 0 ? matches[0] : getRandomVideo();
-    }, [keywords]);
+    }, [keywords, videoId]);
 
     const videoUrl = matchedVideo?.url || fallback;
 

@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { BackgroundLayer } from "@/components/visuals/BackgroundLayer";
 import { Button } from "@/components/ui/button";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import {
     Map,
     Layers,
@@ -28,17 +29,20 @@ export default function BioelectricMapsPage() {
             badges={[{ text: "Universal Patterns", icon: Map }]}
             seoTitle="Bioelectric Maps: Water, Body & Soil — One Terrain Pattern Across Scales"
             seoDescription="Explore Andara’s bioelectric maps across scales: how water, the body, and soil share a common terrain pattern of ions, interfaces, gradients, and conductivity."
+            backgroundElement={
+                <VideoBackground keywords={["water", "ez water", "ordered water", "flow"]} overlayOpacity={0.3} />
+            }
         >
             {/* DEFINITION: CONTEXT LAYERS */}
-            <section className="py-24 bg-[#05060b] border-t border-white/5 relative z-10 overflow-hidden">
-                <BackgroundLayer  opacity={20} />
+            <section className="py-24 bg-[#05060b]/90 border-t border-white/5 relative z-10 overflow-hidden">
+                <VideoBackground keywords={["cells", "biology", "microscopic", "ordered water"]} overlayOpacity={0.2} />
                 <div className="container px-4 max-w-6xl mx-auto relative z-10">
                     <h2 className="text-3xl font-display text-white mb-16 text-center">The 4 Universal Map Layers</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         {/* Layer 1 */}
                         <div className="group relative bg-[#0b1020]/80 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)] overflow-hidden">
-                            <BackgroundLayer  opacity={60} />
+                            <BackgroundLayer opacity={60} />
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute top-4 right-4 text-white/5 text-6xl font-display font-bold group-hover:text-cyan-500/10 transition-colors">1</div>
 
@@ -58,7 +62,7 @@ export default function BioelectricMapsPage() {
 
                         {/* Layer 2 */}
                         <div className="group relative bg-[#0b1020]/80 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-yellow-500/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(234,179,8,0.1)] overflow-hidden">
-                            <BackgroundLayer  opacity={60} />
+                            <BackgroundLayer opacity={60} />
                             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute top-4 right-4 text-white/5 text-6xl font-display font-bold group-hover:text-yellow-500/10 transition-colors">2</div>
 
@@ -78,7 +82,7 @@ export default function BioelectricMapsPage() {
 
                         {/* Layer 3 */}
                         <div className="group relative bg-[#0b1020]/80 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] overflow-hidden">
-                            <BackgroundLayer  opacity={60} />
+                            <BackgroundLayer opacity={60} />
                             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute top-4 right-4 text-white/5 text-6xl font-display font-bold group-hover:text-blue-500/10 transition-colors">3</div>
 
@@ -98,7 +102,7 @@ export default function BioelectricMapsPage() {
 
                         {/* Layer 4 */}
                         <div className="group relative bg-[#0b1020]/80 backdrop-blur-md p-8 rounded-2xl border border-white/5 hover:border-red-500/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(239,68,68,0.1)] overflow-hidden">
-                            <BackgroundLayer  opacity={60} />
+                            <BackgroundLayer opacity={60} />
                             <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute top-4 right-4 text-white/5 text-6xl font-display font-bold group-hover:text-red-500/10 transition-colors">4</div>
 
@@ -126,7 +130,7 @@ export default function BioelectricMapsPage() {
                     {/* Map A: Water */}
                     <Link href="/science/water-science-master" className="group block mb-12">
                         <div className="relative p-10 rounded-3xl bg-[#0b1020] border border-white/5 transition-all duration-500 overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_50px_rgba(59,130,246,0.1)]">
-                            <BackgroundLayer  opacity={60} />
+                            <BackgroundLayer opacity={60} />
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center border-b border-white/5 pb-8 mb-8">
@@ -166,7 +170,7 @@ export default function BioelectricMapsPage() {
                     {/* Map B: Body */}
                     <Link href="/science/bioelectricity-invisible-voltage" className="group block mb-12">
                         <div className="relative p-10 rounded-3xl bg-[#0b1020] border border-white/5 transition-all duration-500 overflow-hidden hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.1)]">
-                            <BackgroundLayer  opacity={70} />
+                            <BackgroundLayer opacity={70} />
                             <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center border-b border-white/5 pb-8 mb-8">
@@ -206,7 +210,7 @@ export default function BioelectricMapsPage() {
                     {/* Map C: Soil */}
                     <Link href="/mineral-science-blueprint" className="group block">
                         <div className="relative p-10 rounded-3xl bg-[#0b1020] border border-white/5 transition-all duration-500 overflow-hidden hover:border-green-500/40 hover:shadow-[0_0_50px_rgba(34,197,94,0.1)]">
-                            <BackgroundLayer  opacity={70} />
+                            <BackgroundLayer opacity={70} />
                             <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center border-b border-white/5 pb-8 mb-8">
@@ -248,7 +252,7 @@ export default function BioelectricMapsPage() {
 
             {/* COHERENCE PRACTICE */}
             <section className="py-24 bg-[#05060b] relative z-10">
-                <BackgroundLayer  opacity={30} />
+                <BackgroundLayer opacity={30} />
                 <div className="container px-4 max-w-5xl mx-auto text-center relative z-10">
                     <h2 className="text-3xl font-display text-white mb-6">How to Use the Map</h2>
                     <p className="text-white/60 text-lg mb-16 max-w-2xl mx-auto leading-relaxed">

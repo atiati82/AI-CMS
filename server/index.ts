@@ -199,18 +199,13 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 3000 if not specified.
-  // this serves both the API and the client.
-  const port = parseInt(process.env.PORT || "3000", 10);
-  /* 
-  if (port === 3000) {
-     // Override removed to allow port 3000 as requested
-     // port = 5001;
-  } 
-  */
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PORT 3000 - HARDWIRED, DO NOT CHANGE
+  // This is the ONLY port for both API and client. Do not use 5000, 5001, 5173, etc.
+  // ═══════════════════════════════════════════════════════════════════════════
+  const PORT = 3000;
 
-  httpServer.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
+  httpServer.listen(PORT, "0.0.0.0", () => {
+    log(`✓ Andara CMS running on http://localhost:${PORT}`);
   });
 })();

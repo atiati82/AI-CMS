@@ -15,6 +15,7 @@ import {
     CheckCircle2,
     SplitSquareHorizontal
 } from "lucide-react";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function PhasesOfWaterPage() {
     // Background Phase Visuals
@@ -43,7 +44,7 @@ export default function PhasesOfWaterPage() {
             heroVariant="cyan"
             heroIcon={Snowflake}
             badges={[{ text: "State Dynamics", icon: Snowflake }]}
-            backgroundElement={heroBackground}
+            backgroundElement={<VideoBackground keywords={["water", "ice", "vapor", "phases", "blue", "clean"]} overlayOpacity={0.3} />}
             seoTitle="Phases of Water: Solid, Liquid, Vapor & Structured Water Concepts"
             seoDescription="Learn the phases of water: ice, liquid, vapor, and structured/interface water concepts. Understand how temperature, pressure, interfaces, ions, and coherence shape water behavior."
         >

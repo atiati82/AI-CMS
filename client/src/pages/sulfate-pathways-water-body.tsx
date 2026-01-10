@@ -13,12 +13,19 @@ import {
     ArrowRight
 } from "lucide-react";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function SulfatePathwaysPage() {
     return (
         <StandardPageLayout
             title={<>Sulfate <span className="text-emerald-400">Pathways</span></>}
             subtitle={<>Sulfur, Sulfate & the Terrain Model.<br /><span className="text-emerald-400/80">The hidden architects of structure.</span></>}
-            
+            backgroundElement={
+                <VideoBackground
+                    videoId="sulfate-structuring-bg"
+                    keywords={["sulfate", "pathways", "detox", "structure"]}
+                />
+            }
             heroVariant="emerald"
             heroIcon={FlaskConical}
             badges={[{ text: "Chemistry & Terrain", icon: FlaskConical }]}

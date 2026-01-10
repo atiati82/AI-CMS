@@ -7,4 +7,5 @@ export interface LoaderResult {
 
 export interface ILoader {
     load(source: string): Promise<LoaderResult>;
+    parse(buffer: Buffer): Promise<string>;
 }

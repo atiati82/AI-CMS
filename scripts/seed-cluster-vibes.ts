@@ -489,18 +489,7 @@ async function run() {
         },
 
 
-        // 40) brand_story
-        brand_story: {
-            color: '#6366f1',
-            visualVibe: {
-                vibeKeywords: ['brand journey', 'narrative', 'indigo flow'],
-                emotionalTone: ['inspiring', 'connected'],
-                animationIdeas: ['horizontal timelines', 'scroll-based reveals'],
-                designerNotes: 'Theme: Brand Story. Use horizontal timelines and GSAP ScrollTrigger for photo reveals.'
-            }
-        },
-
-        // 41) trust_lab
+        // 40) trust_lab
         trust_lab: {
             color: '#0ea5e9',
             visualVibe: {
@@ -511,7 +500,7 @@ async function run() {
             }
         },
 
-        // 42) community
+        // 41) community
         community: {
             color: '#ec4899',
             visualVibe: {
@@ -522,28 +511,7 @@ async function run() {
             }
         },
 
-        // 43) shop (alias for products)
-        shop: {
-            color: '#4b0082',
-            visualVibe: {
-                vibeKeywords: ['premium', 'clean', 'conversion-focused'],
-                emotionalTone: ['certainty', 'professionalism'],
-                animationIdeas: ['conversionCard'],
-                designerNotes: 'Theme: Products. Alias for shop.'
-            }
-        },
-
-        // 44) trust (alias for support)
-        trust: {
-            color: '#10b981',
-            visualVibe: {
-                vibeKeywords: ['calm', 'safe', 'reassuring green'],
-                emotionalTone: ['reassurance', 'clarity'],
-                animationIdeas: ['calmFade'],
-                designerNotes: 'Theme: Support. Alias for trust/quality.'
-            }
-        },
-        // 43) shop (alias for products)
+        // 42) shop (alias for products)
         shop: {
             color: '#4b0082',
             visualVibe: {
@@ -555,7 +523,7 @@ async function run() {
             clusterType: 'alias'
         },
 
-        // 44) trust (alias for support)
+        // 43) trust (alias for support)
         trust: {
             color: '#10b981',
             visualVibe: {
@@ -567,7 +535,7 @@ async function run() {
             clusterType: 'alias'
         },
 
-        // 39) Rollup clusters (navigation-only)
+        // 44) Rollup clusters (navigation-only)
         '__rollup__': {
             color: '#0b1020',
             visualVibe: {

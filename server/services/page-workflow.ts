@@ -2,8 +2,8 @@
 import { storage } from "../storage";
 import { chat } from "./andara-chat";
 import { WorkflowStep, WorkflowExecution } from "@shared/schema";
-import { generatePageTool } from "../tools/generate-page";
-import { visualEnhancerTool } from "../tools/visual-enhancer";
+import { generatePageTool } from "./tools/generate-page";
+import { visualEnhancerTool } from "./tools/visual-enhancer";
 
 /**
  * Service to handle real execution of "Generate Full Page" workflow steps

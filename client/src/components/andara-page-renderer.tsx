@@ -124,12 +124,16 @@ export default function AndaraPageRenderer({
       const items = grid.querySelectorAll('.andara-grid__item');
       items.forEach((item, i) => {
         const el = item as HTMLElement;
+        // Only animate if not already animated
+        if (el.dataset.animated === 'true') return;
+
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         setTimeout(() => {
           el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
           el.style.opacity = '1';
           el.style.transform = 'translateY(0)';
+          el.dataset.animated = 'true';
         }, 100 + (gridIndex * 200) + (i * 80));
       });
     });
@@ -137,24 +141,32 @@ export default function AndaraPageRenderer({
     const faqItems = container.querySelectorAll('.andara-faq__item');
     faqItems.forEach((item, i) => {
       const el = item as HTMLElement;
+      // Only animate if not already animated
+      if (el.dataset.animated === 'true') return;
+
       el.style.opacity = '0';
       el.style.transform = 'translateY(15px)';
       setTimeout(() => {
         el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
+        el.dataset.animated = 'true';
       }, 200 + (i * 100));
     });
 
     const bullets = container.querySelectorAll('.andara-hero__bullets li');
     bullets.forEach((bullet, i) => {
       const el = bullet as HTMLElement;
+      // Only animate if not already animated
+      if (el.dataset.animated === 'true') return;
+
       el.style.opacity = '0';
       el.style.transform = 'translateX(-10px)';
       setTimeout(() => {
         el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
         el.style.opacity = '1';
         el.style.transform = 'translateX(0)';
+        el.dataset.animated = 'true';
       }, 400 + (i * 100));
     });
 

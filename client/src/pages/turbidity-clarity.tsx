@@ -14,15 +14,22 @@ import {
     HelpCircle
 } from "lucide-react";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function TurbidityClarityPage() {
     return (
         <StandardPageLayout
             title={<>Turbidity <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-cyan-400">& Clarity</span></>}
             subtitle={<>From cloudy to clear.<br />Understanding particle behavior and visual context.</>}
+            backgroundElement={
+                <VideoBackground
+                    videoId="flocculation-bg"
+                    keywords={["turbidity", "clarity", "particles", "water"]}
+                />
+            }
             heroVariant="cyan"
             heroIcon={Cloud}
             badges={[{ text: "Visual Context", icon: Cloud }]}
-            
             seoTitle="Turbidity & Clarity in Water: What 'Cloudy' Really Means"
             seoDescription="Learn turbidity and clarity as water context markers. Understand why water becomes cloudy (particles, colloids), and how clarity differs from purity."
         >

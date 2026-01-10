@@ -14,6 +14,8 @@ import {
     Beaker
 } from "lucide-react";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function HowToUseAndaraPage() {
 
     // --- JSON-LD ---
@@ -45,7 +47,12 @@ export default function HowToUseAndaraPage() {
         <StandardPageLayout
             title={<>How to <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-400">Use</span> Andara</>}
             subtitle={<>Simple Preparation Protocol.<br />Consistency is the Key.</>}
-            
+            backgroundElement={
+                <VideoBackground
+                    videoId="andara-flow-abstract"
+                    keywords={["how-to", "protocol", "water", "andara"]}
+                />
+            }
             heroVariant="emerald"
             heroIcon={ClipboardList}
             badges={[{ text: "Usage Protocol", icon: Beaker }]}
@@ -145,7 +152,7 @@ export default function HowToUseAndaraPage() {
 
             {/* DETAILED WALKTHROUGH */}
             <section className="py-24 bg-[#05060b] relative border-t border-white/5">
-                <BackgroundLayer  opacity={20} />
+                <BackgroundLayer opacity={20} />
                 <div className="container px-4 max-w-4xl mx-auto relative z-10">
                     <h2 className="text-2xl font-display text-white mb-12 text-center">Protocol in Detail</h2>
 

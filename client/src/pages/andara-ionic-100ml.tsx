@@ -7,6 +7,7 @@ import {
     ArrowRight, ChevronDown, Package, Sparkles, BookOpen,
     Beaker, Gauge, Waves, Mountain, Atom, Calculator, FileText
 } from "lucide-react";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // Section IDs for navigation
 const SECTIONS = [
@@ -54,7 +55,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
  * Water treatment framing, not health claims.
  */
 export default function AndaraIonic100ml() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useReducedMotion();
     const [activeSection, setActiveSection] = useState("hero");
 
@@ -115,8 +116,8 @@ export default function AndaraIonic100ml() {
                             </span>
                             <span
                                 className={`w-2 h-2 rounded-full transition-all duration-300 ${activeSection === id
-                                        ? "bg-[#f6d56a] scale-125 shadow-[0_0_8px_rgba(246,213,106,0.5)]"
-                                        : "bg-white/20 group-hover:bg-white/40"
+                                    ? "bg-[#f6d56a] scale-125 shadow-[0_0_8px_rgba(246,213,106,0.5)]"
+                                    : "bg-white/20 group-hover:bg-white/40"
                                     }`}
                             />
                         </button>
@@ -128,11 +129,11 @@ export default function AndaraIonic100ml() {
                 {/* ============================================ */}
                 <section id="hero" className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
                     {/* Background */}
-                    <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a1628] to-[#020617]" />
-                        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[#1aa7ff]/5 blur-[150px]" />
-                        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#f6d56a]/5 blur-[120px]" />
-                    </div>
+                    <VideoBackground
+                        videoId="premium-liquid-gold"
+                        keywords={["gold", "liquid", "premium", "ionic", "minerals"]}
+                        overlayOpacity={0.6}
+                    />
 
                     <div className="container relative z-10 px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         {/* Left: Content */}

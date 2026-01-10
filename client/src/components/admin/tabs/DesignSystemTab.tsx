@@ -198,7 +198,7 @@ export default function DesignSystemTab({ pages }: DesignSystemTabProps) {
         <div className="space-y-6" data-testid="design-system-tab">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">Liquid Alchemy Design System</h2>
+                    <h2 className="text-2xl font-bold bg-linear-to-r from-emerald-400 to-cyan-500 bg-clip-text text-transparent">Liquid Alchemy Design System</h2>
                     <p className="text-sm text-muted-foreground">Version 2.0 • The foundation of Andara's digital presence</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -248,7 +248,7 @@ export default function DesignSystemTab({ pages }: DesignSystemTabProps) {
             {/* --- LAYOUTS TAB --- */}
             {designSubTab === 'layouts' && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-6 rounded-xl border border-border bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm">
+                    <div className="p-6 rounded-xl border border-border bg-linear-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm">
                         <h3 className="text-xl font-bold mb-2">Experimental Layout Archive</h3>
                         <p className="text-muted-foreground mb-6">
                             A comprehensive index of all geometry simulations, scroll-physics experiments, and layout prototypes.
@@ -260,7 +260,7 @@ export default function DesignSystemTab({ pages }: DesignSystemTabProps) {
                                     <div className="group relative aspect-square p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-emerald-500/50 cursor-pointer flex flex-col items-center justify-center gap-3 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/20">
                                         <span className="text-4xl group-hover:scale-110 transition-transform duration-300">{link.icon}</span>
                                         <span className="text-sm font-medium text-slate-300 group-hover:text-emerald-400">{link.label}</span>
-                                        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <div className="absolute inset-0 rounded-xl bg-linear-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </div>
                                 </Link>
                             ))}
@@ -480,13 +480,13 @@ export default function DesignSystemTab({ pages }: DesignSystemTabProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-4">
                             <h3 className="font-bold">Liquid Alchemy Gradients</h3>
-                            <div className="h-32 rounded-xl bg-gradient-to-r from-emerald-900 via-emerald-600 to-emerald-400 flex items-end p-4">
+                            <div className="h-32 rounded-xl bg-linear-to-r from-emerald-900 via-emerald-600 to-emerald-400 flex items-end p-4">
                                 <span className="text-white font-mono text-xs shadow-black drop-shadow-md">Emerald (Healing/Life)</span>
                             </div>
-                            <div className="h-32 rounded-xl bg-gradient-to-r from-amber-900 via-amber-600 to-amber-400 flex items-end p-4">
+                            <div className="h-32 rounded-xl bg-linear-to-r from-amber-900 via-amber-600 to-amber-400 flex items-end p-4">
                                 <span className="text-white font-mono text-xs shadow-black drop-shadow-md">Gold (Conductivity/Wealth)</span>
                             </div>
-                            <div className="h-32 rounded-xl bg-gradient-to-r from-slate-900 via-slate-800 to-black border border-white/10 flex items-end p-4">
+                            <div className="h-32 rounded-xl bg-linear-to-r from-slate-900 via-slate-800 to-black border border-white/10 flex items-end p-4">
                                 <span className="text-white font-mono text-xs">Void (Depth/Mystery)</span>
                             </div>
                         </div>
@@ -752,7 +752,7 @@ export default function DesignSystemTab({ pages }: DesignSystemTabProps) {
             {/* --- LIBRARY TAB --- */}
             {designSubTab === 'library' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-6 rounded-xl border border-border bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm">
+                    <div className="p-6 rounded-xl border border-border bg-linear-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm">
                         <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
                             <Library className="w-5 h-5 text-emerald-400" />
                             Layout & Animation Library

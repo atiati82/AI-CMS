@@ -6,6 +6,7 @@ import {
     Waves, Leaf, Mountain, Sparkles, Gem, Droplets, Zap,
     FlaskConical, ArrowRight, Star, Hexagon, Layers
 } from "lucide-react";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // Section IDs for navigation
 const SECTIONS = [
@@ -43,7 +44,7 @@ function StarRating({ rating, color }: { rating: number; color: string }) {
  * Educational content with visual infographic elements.
  */
 export default function MineralSourcesPage() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useReducedMotion();
     const [activeSection, setActiveSection] = useState("intro");
 
@@ -104,8 +105,8 @@ export default function MineralSourcesPage() {
                             </span>
                             <span
                                 className={`w-2 h-2 rounded-full transition-all duration-300 ${activeSection === id
-                                        ? "bg-[#f6d56a] scale-125 shadow-[0_0_8px_rgba(246,213,106,0.5)]"
-                                        : "bg-white/20 group-hover:bg-white/40"
+                                    ? "bg-[#f6d56a] scale-125 shadow-[0_0_8px_rgba(246,213,106,0.5)]"
+                                    : "bg-white/20 group-hover:bg-white/40"
                                     }`}
                             />
                         </button>
@@ -118,7 +119,12 @@ export default function MineralSourcesPage() {
                 <section id="intro" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
                     {/* Background */}
                     <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a0f1a] to-[#020617]" />
+                        <VideoBackground
+                            videoId="mineral-cofactors-bg"
+                            keywords={["minerals", "sources", "nature"]}
+                            overlayOpacity={0.7}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617]" />
                         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-[#f6d56a]/5 blur-[150px]" />
                         <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-[#1aa7ff]/5 blur-[120px]" />
                     </div>

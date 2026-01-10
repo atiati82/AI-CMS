@@ -54,14 +54,14 @@ export function CartDrawer() {
           <>
             <div className="flex-1 overflow-y-auto py-4 space-y-4">
               {items.map((item, idx) => (
-                <div 
-                  key={`${item.productId}-${item.bundleIndex}`} 
+                <div
+                  key={`${item.productId}-${item.bundleIndex}`}
                   className="flex gap-4 p-4 bg-muted/30 rounded-xl"
                   data-testid={`cart-item-${idx}`}
                 >
                   <div className="w-20 h-20 bg-background rounded-lg flex items-center justify-center flex-shrink-0 border border-border/50">
-                    <img 
-                      src={productBottle} 
+                    <img
+                      src={productBottle}
                       alt={item.product.name}
                       className="w-16 h-16 object-contain"
                     />
@@ -75,7 +75,7 @@ export function CartDrawer() {
                     </p>
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-2 border border-border rounded-full px-2 py-1">
-                        <button 
+                        <button
                           onClick={() => updateQuantity(item.productId, item.bundleIndex, item.quantity - 1)}
                           className="p-1 hover:text-accent transition-colors"
                           data-testid={`cart-decrease-${idx}`}
@@ -85,7 +85,7 @@ export function CartDrawer() {
                         <span className="text-sm font-medium w-6 text-center" data-testid={`cart-quantity-${idx}`}>
                           {item.quantity}
                         </span>
-                        <button 
+                        <button
                           onClick={() => updateQuantity(item.productId, item.bundleIndex, item.quantity + 1)}
                           className="p-1 hover:text-accent transition-colors"
                           data-testid={`cart-increase-${idx}`}
@@ -97,7 +97,7 @@ export function CartDrawer() {
                         <span className="font-bold" data-testid={`cart-item-price-${idx}`}>
                           ${(getItemPrice(item) * item.quantity).toFixed(2)}
                         </span>
-                        <button 
+                        <button
                           onClick={() => removeItem(item.productId, item.bundleIndex)}
                           className="p-1 text-muted-foreground hover:text-destructive transition-colors"
                           data-testid={`cart-remove-${idx}`}
@@ -114,15 +114,21 @@ export function CartDrawer() {
             <div className="border-t border-border pt-4 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-bold text-lg" data-testid="cart-subtotal">${totalPrice.toFixed(2)}</span>
+                <span className="font-bold text-lg" data-testid="cart-subtotal">€{totalPrice.toFixed(2)}</span>
               </div>
               <p className="text-xs text-muted-foreground text-center">
                 Shipping calculated at checkout
               </p>
-              <Button className="w-full h-11 sm:h-12 text-sm sm:text-base gap-2" data-testid="cart-checkout-button">
-                Proceed to Checkout
-              </Button>
-              <button 
+              <Link href="/checkout">
+                <Button
+                  onClick={closeCart}
+                  className="w-full h-11 sm:h-12 text-sm sm:text-base gap-2"
+                  data-testid="cart-checkout-button"
+                >
+                  Proceed to Checkout
+                </Button>
+              </Link>
+              <button
                 onClick={clearCart}
                 className="w-full text-sm text-muted-foreground hover:text-destructive transition-colors py-2"
                 data-testid="cart-clear-button"
@@ -149,7 +155,7 @@ export function CartIcon() {
     >
       <ShoppingBag className="w-5 h-5" />
       {totalItems > 0 && (
-        <span 
+        <span
           className="absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"
           data-testid="cart-item-count"
         >

@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/all';
 // import { useGSAP } from '@gsap/react'; // Temporarily disabled - package not installed
 import MegaMenu from "@/components/mega-menu";
 import { SmartImage } from "@/components/ui/SmartImage";
+import { VideoBackground, SmartVideoEmbed } from "@/components/SmartVideoEmbed";
 import { Link } from "wouter";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,10 +26,9 @@ export default function Home() {
             icon: Mountain,
             render: () => (
                 <div className="w-full h-full relative overflow-hidden bg-black">
-                    <SmartImage
-                        registryId="glass-origin"
+                    <SmartVideoEmbed
+                        keywords={["volcanic", "origin", "mica", "genesis"]}
                         className="w-full h-full object-cover opacity-90 scale-90"
-                        interaction="parallax"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                 </div>
@@ -40,10 +40,9 @@ export default function Home() {
             icon: Hexagon,
             render: () => (
                 <div className="w-full h-full relative overflow-hidden bg-black">
-                    <SmartImage
-                        registryId="glass-clarity"
+                    <SmartVideoEmbed
+                        keywords={["ionic", "clarity", "hexagonal", "structure"]}
                         className="w-full h-full object-cover opacity-90 scale-75"
-                        interaction="parallax"
                     />
                     <div className="absolute inset-0 bg-cyan-900/10 mix-blend-overlay pointer-events-none" />
                 </div>
@@ -55,10 +54,9 @@ export default function Home() {
             icon: Zap,
             render: () => (
                 <div className="w-full h-full relative overflow-hidden bg-black">
-                    <SmartImage
-                        registryId="glass-activation"
+                    <SmartVideoEmbed
+                        keywords={["electric", "activation", "charge", "bioelectric"]}
                         className="w-full h-full object-cover opacity-90 scale-90"
-                        interaction="parallax"
                     />
                     <div className="absolute inset-0 bg-blue-500/10 mix-blend-color-dodge pointer-events-none" />
                 </div>
@@ -70,10 +68,9 @@ export default function Home() {
             icon: Activity,
             render: () => (
                 <div className="w-full h-full relative overflow-hidden bg-black">
-                    <SmartImage
-                        registryId="glass-resonance"
+                    <SmartVideoEmbed
+                        keywords={["resonance", "dna", "cell", "frequency"]}
                         className="w-full h-full object-cover opacity-90 scale-75"
-                        interaction="parallax"
                     />
                     <div className="absolute inset-0 bg-indigo-500/10 mix-blend-overlay pointer-events-none" />
                 </div>
@@ -109,18 +106,18 @@ export default function Home() {
             }
         });
 
-        // Hero Exit Animation
+        // Hero Exit Animation - fades out IMMEDIATELY on any scroll
         if (heroRef.current) {
             gsap.to(heroRef.current, {
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: "top top",
-                    end: "top top+=300",
-                    scrub: true
+                    start: "top top-=1",
+                    end: "top top+=50",
+                    scrub: 0.2
                 },
                 opacity: 0,
-                y: -100,
-                scale: 0.9,
+                y: -30,
+                scale: 0.98,
                 pointerEvents: "none"
             });
         }
@@ -162,14 +159,7 @@ export default function Home() {
 
             {/* HIGH-FIDELITY BACKGROUND */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                {/* Generated Star Beam Background */}
-                <img
-                    src="/images/visuals/star-beam-bg.png"
-                    alt="Cosmic Background"
-                    className="absolute inset-0 w-full h-full object-cover opacity-80"
-                />
-                {/* Atmosphere Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+                <VideoBackground keywords={["home", "hero", "primordial", "drop"]} overlayOpacity={0.4} />
             </div>
 
             {/* 2. INTRO HERO CARD (Animates Out) */}

@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // Diagram Imports
 import { WaterMolecularDiagram } from "@/components/diagrams/WaterMolecularDiagram";
@@ -12,7 +13,7 @@ import { MineralWaterInteraction } from "@/components/diagrams/MineralWaterInter
 import { WaterScienceAIDemo } from "@/components/demos/WaterScienceAIDemo";
 
 export default function WaterSciencePage() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -41,8 +42,13 @@ export default function WaterSciencePage() {
           style={{ opacity: heroOpacity, scale: heroScale }}
         >
           {/* Ambient Background */}
+          <VideoBackground
+            videoId="water-structure-bg"
+            keywords={["water", "structure", "molecular"]}
+            overlayOpacity={0.7}
+          />
           <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#070a12] to-[#020617]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617]" />
             <div className="absolute top-0 inset-x-0 h-[500px] bg-accent/5 blur-[100px] rounded-full" />
             {/* Floating Particles Background */}
             {Array.from({ length: 20 }).map((_, i) => (
@@ -72,7 +78,7 @@ export default function WaterSciencePage() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut" as Easing }}
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent mb-6">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />

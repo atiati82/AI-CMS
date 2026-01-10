@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useInView } from 'framer-motion';
 import { Brain, Zap, Network, Dna, Sparkles, ArrowRight, Activity, Droplets, Shield, CheckCircle2 } from 'lucide-react';
 import { Link } from 'wouter';
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 // ============================================================================
 // MINERAL INTELLIGENCE - State of the Art Animated Marketing Demo
@@ -105,7 +106,7 @@ const ParticleNetwork = () => {
 
 // Animated Counter Component
 const AnimatedCounter = ({ target, suffix = '', duration = 2 }: { target: number; suffix?: string; duration?: number }) => {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true });
     const [count, setCount] = useState(0);
 
@@ -130,7 +131,7 @@ const AnimatedCounter = ({ target, suffix = '', duration = 2 }: { target: number
 
 // Progress Ring Component
 const ProgressRing = ({ progress, size = 120, strokeWidth = 8, color = '#34d399' }: { progress: number; size?: number; strokeWidth?: number; color?: string }) => {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true });
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
@@ -270,7 +271,7 @@ const ComparisonCard = ({ title, features, type, icon: Icon }: { title: string; 
 
 // Scrolling Text Marquee Band
 const ScrollTextMarquee = ({ text, direction = 'left', speed = 30 }: { text: string[]; direction?: 'left' | 'right'; speed?: number }) => {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
     const x = useTransform(scrollYProgress, [0, 1], direction === 'left' ? [0, -500] : [-500, 0]);
 
@@ -461,8 +462,10 @@ export default function MineralIntelligenceDemo() {
             className="relative min-h-[600vh] bg-[#020617] text-slate-100 font-sans overflow-hidden"
             onMouseMove={handleMouseMove}
         >
-            {/* Particle Network Background */}
-            <ParticleNetwork />
+            <VideoBackground
+                keywords={["neural", "intelligence", "network", "emerald", "intelligence", "water", "flow"]}
+                overlayOpacity={0.6}
+            />
 
             {/* Ambient Gradient Orbs */}
             <div className="fixed inset-0 pointer-events-none z-[1]">

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ export default function TerrainModelOverviewPage() {
     <StandardPageLayout
       title="Terrain Model Overview"
       subtitle="A New Way to See Health & Water"
+      backgroundElement={<VideoBackground keywords={["terrain", "overview", "ecosystem", "landscape", "green"]} overlayOpacity={0.3} />}
       vibeKeywords={['Internal Landscape', 'Bioelectricity', 'Water']}
       seoTitle="Terrain Model Overview – A New Way to See Health, Water and Life"
       seoDescription="Discover the terrain model: a perspective that focuses on internal environment, water, minerals, and bioelectric balance instead of symptom hunting."

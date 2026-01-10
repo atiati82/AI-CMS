@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 
 interface ElasticVelocityProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
 }
 

@@ -36,10 +36,10 @@ export default function SulfateChemistryPage() {
             seoTitle="Sulfate Chemistry: The Architect of Water Structure | Andara Science"
             seoDescription="Discover why sulfate (SO4) is the hidden architect of water quality. Learn about flocculation, charge management (ORP), and the critical 17-30mg/L activation window."
             backgroundElement={
-                <div className="absolute inset-0 overflow-hidden">
-                    <ParticleFlow color="#f59e0b" count={30} direction="up" className="opacity-40" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-amber-900/10 via-transparent to-[#020617]" />
-                </div>
+                <VideoBackground
+                    videoId="sulfate-structuring-bg"
+                    keywords={["sulfate", "geometry", "tetrahedral", "water"]}
+                />
             }
         >
 

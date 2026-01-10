@@ -3,6 +3,7 @@
  * Matches videos from the registry to page content based on keywords and metadata
  */
 import { getAllVideos, getVideoAsset, VideoAsset } from '@/data/video-registry';
+export { getVideoAsset };
 
 /**
  * Find videos matching given keywords

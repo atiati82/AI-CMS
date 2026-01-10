@@ -2,15 +2,11 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import "./styles/andara-ionic-v1.css";
-import { VisualEditorProvider } from "./components/ai/VisualEditorProvider";
-import { InPageVisualEditor } from "./components/ai/InPageVisualEditor";
 
+console.log("[main.tsx] Module evaluation");
 const root = createRoot(document.getElementById("root")!);
 root.render(
-  <VisualEditorProvider>
-    <App />
-    <InPageVisualEditor />
-  </VisualEditorProvider>
+  <App />
 );
 
 // Preserve navigation state during HMR (Hot Module Replacement)

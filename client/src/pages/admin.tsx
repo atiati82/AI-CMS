@@ -13,6 +13,7 @@ const DashboardTab = lazy(() => import('./admin/tabs/DashboardTab'));
 const AIAuditTab = lazy(() => import('./admin/tabs/AIAuditTab'));
 const AIAgentsTab = lazy(() => import('@/components/admin/tabs/AIAgentsTab'));
 const PageEditorModal = lazy(() => import('@/components/admin/modals/PageEditorModal'));
+const VideoIngestionTab = lazy(() => import('@/components/admin/tabs/VideoIngestionTab'));
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7630,6 +7631,12 @@ function AdminPage() {
               <WorkflowsTab />
             </Suspense>
           </ErrorBoundary>
+        )}
+
+        {activeTab === "video-ingestion" && (
+          <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
+            <VideoIngestionTab />
+          </Suspense>
         )}
       </main>
 

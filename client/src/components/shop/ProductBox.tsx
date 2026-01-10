@@ -1,51 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import {
-    ShoppingCart, Check, Droplets, Zap, Hexagon, FlaskConical,
-    ArrowRight, ChevronDown, ExternalLink, Package, Sparkles,
-    Beaker, Gauge, Waves
+    ShoppingCart, Check, Droplets, Plus, Minus,
+    ArrowRight, ChevronDown, Package
 } from "lucide-react";
+import { useCart } from "@/contexts/cart-context";
+import { PRODUCTS, type Product } from "@/lib/data";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductBoxProps {
     variant?: "compact" | "standard" | "featured";
     showPricing?: boolean;
     showCTA?: boolean;
+    showAddToCart?: boolean;
+    productSlug?: string; // Allow specifying which product to display
     className?: string;
 }
 
 /**
  * Reusable ProductBox Component
  * 
- * For embedding Andara Ionic 100ml product info on content pages.
+ * For embedding Andara Ionic product info on content pages with full cart functionality.
  * Three variants: compact (inline), standard (card), featured (full width)
  */
 export function ProductBox({
     variant = "standard",
     showPricing = true,
     showCTA = true,
+    showAddToCart = true,
+    productSlug = "andara-ionic-100ml",
     className = ""
 }: ProductBoxProps) {
+    const { addItem, openCart } = useCart();
+    const { toast } = useToast();
+    const [quantity, setQuantity] = useState(1);
+    const [selectedBundle, setSelectedBundle] = useState<number | null>(null);
+    const [isAdding, setIsAdding] = useState(false);
 
-    // Compact: Small inline mention
+    // Get product from data
+    const product = PRODUCTS.find(p => p.slug === productSlug) || PRODUCTS[0];
+
+    const handleAddToCart = () => {
+        setIsAdding(true);
+
+        // Create a Product compatible with cart context
+        const cartProduct: Product = {
+            ...product,
+            bundles: product.bundles || []
+        };
+
+        addItem(cartProduct, quantity, selectedBundle);
+
+        const itemName = selectedBundle !== null
+            ? `${product.name} - ${product.bundles[selectedBundle].name}`
+            : product.name;
+
+        toast({
+            title: "Added to Cart",
+            description: `${quantity}x ${itemName}`,
+        });
+
+        setTimeout(() => {
+            setIsAdding(false);
+            setQuantity(1);
+        }, 500);
+    };
+
+    const currentPrice = selectedBundle !== null
+        ? product.bundles[selectedBundle].price
+        : product.price;
+
+    // Compact: Small inline mention with quick add
     if (variant === "compact") {
         return (
-            <Link href="/shop/andara-ionic-100ml">
-                <div className={`inline-flex items-center gap-3 p-3 rounded-xl bg-[#f6d56a]/10 border border-[#f6d56a]/20 hover:border-[#f6d56a]/40 transition-all cursor-pointer ${className}`}>
-                    <div className="w-10 h-10 rounded-lg bg-[#f6d56a]/15 flex items-center justify-center flex-shrink-0">
-                        <Droplets className="w-5 h-5 text-[#f6d56a]" />
+            <div className={`inline-flex items-center gap-3 p-3 rounded-xl bg-[#f6d56a]/10 border border-[#f6d56a]/20 hover:border-[#f6d56a]/40 transition-all ${className}`}>
+                <Link href={`/shop/${product.slug}`}>
+                    <div className="flex items-center gap-3 cursor-pointer">
+                        <div className="w-10 h-10 rounded-lg bg-[#f6d56a]/15 flex items-center justify-center flex-shrink-0">
+                            <Droplets className="w-5 h-5 text-[#f6d56a]" />
+                        </div>
+                        <div>
+                            <span className="text-sm font-semibold text-white">{product.name}</span>
+                            {showPricing && <span className="text-xs text-white/50 ml-2">€{product.price.toFixed(2)}</span>}
+                        </div>
                     </div>
-                    <div>
-                        <span className="text-sm font-semibold text-white">Andara Ionic 100 ml</span>
-                        {showPricing && <span className="text-xs text-white/50 ml-2">from €19,90</span>}
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-[#f6d56a] ml-2" />
-                </div>
-            </Link>
+                </Link>
+                {showAddToCart && (
+                    <button
+                        onClick={handleAddToCart}
+                        disabled={isAdding}
+                        className="p-2 rounded-lg bg-[#f6d56a] text-black hover:bg-[#e8b923] transition-all disabled:opacity-50"
+                    >
+                        {isAdding ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
+                    </button>
+                )}
+            </div>
         );
     }
 
-    // Featured: Full-width callout
+    // Featured: Full-width callout with bundle selection
     if (variant === "featured") {
         return (
             <motion.div
@@ -56,49 +110,106 @@ export function ProductBox({
             >
                 <div className="flex flex-col md:flex-row items-center gap-8">
                     {/* Product visual */}
-                    <div className="w-32 h-44 rounded-2xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center relative flex-shrink-0">
-                        <div className="absolute inset-0 rounded-2xl bg-[#1aa7ff]/10 blur-xl" />
-                        <div className="relative text-center">
-                            <Droplets className="w-12 h-12 text-[#1aa7ff] mx-auto mb-2" />
-                            <span className="text-[10px] font-bold text-white/60 tracking-wider uppercase">100 ml</span>
+                    <Link href={`/shop/${product.slug}`}>
+                        <div className="w-32 h-44 rounded-2xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center relative flex-shrink-0 cursor-pointer hover:border-[#f6d56a]/30 transition-all">
+                            <div className="absolute inset-0 rounded-2xl bg-[#1aa7ff]/10 blur-xl" />
+                            <div className="relative text-center">
+                                <Droplets className="w-12 h-12 text-[#1aa7ff] mx-auto mb-2" />
+                                <span className="text-[10px] font-bold text-white/60 tracking-wider uppercase">{product.sizeMl} ml</span>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
 
                     {/* Content */}
                     <div className="flex-1 text-center md:text-left">
                         <h3 className="text-2xl font-display font-semibold text-white mb-3">
-                            Andara Ionic 100 ml
+                            {product.name}
                         </h3>
                         <p className="text-white/60 mb-4 max-w-lg">
-                            Primordial ionic sulfate minerals for crystal-clear, activated water. A few drops turn ordinary water into a clarified, mineral-structured medium.
+                            {product.descriptionShort}
                         </p>
 
                         <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-white/50 mb-6">
-                            <span className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-[#38ffd1]" />
-                                Volcanic mineral origin
-                            </span>
-                            <span className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-[#38ffd1]" />
-                                17–30 mg/L sulfate zone
-                            </span>
-                            <span className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-[#38ffd1]" />
-                                ~1 ml per liter
-                            </span>
+                            {product.highlights.slice(0, 3).map((highlight, i) => (
+                                <span key={i} className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-[#38ffd1]" />
+                                    {highlight}
+                                </span>
+                            ))}
                         </div>
 
-                        {showCTA && (
-                            <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                                <Link href="/shop/andara-ionic-100ml">
-                                    <button className="px-6 py-3 bg-gradient-to-r from-[#f6d56a] to-[#e8b923] text-black font-bold rounded-lg hover:opacity-90 transition-all flex items-center gap-2">
-                                        <ShoppingCart className="w-4 h-4" />
-                                        {showPricing ? "Order from €19,90" : "View Product"}
+                        {/* Bundle Selection */}
+                        {product.bundles.length > 0 && showAddToCart && (
+                            <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
+                                <button
+                                    onClick={() => setSelectedBundle(null)}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${selectedBundle === null
+                                            ? 'bg-[#f6d56a] text-black'
+                                            : 'bg-white/10 text-white hover:bg-white/20'
+                                        }`}
+                                >
+                                    Single (€{product.price.toFixed(2)})
+                                </button>
+                                {product.bundles.map((bundle, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setSelectedBundle(idx)}
+                                        className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${selectedBundle === idx
+                                                ? 'bg-[#f6d56a] text-black'
+                                                : 'bg-white/10 text-white hover:bg-white/20'
+                                            }`}
+                                    >
+                                        {bundle.name} ({bundle.units}x) €{bundle.price.toFixed(2)}
+                                        {bundle.save && <span className="ml-1 text-xs text-[#38ffd1]">{bundle.save}</span>}
                                     </button>
-                                </Link>
-                                <Link href="/how-andara-works">
+                                ))}
+                            </div>
+                        )}
+
+                        {showCTA && (
+                            <div className="flex flex-wrap justify-center md:justify-start gap-4 items-center">
+                                {showAddToCart && (
+                                    <>
+                                        {/* Quantity Selector */}
+                                        <div className="flex items-center gap-2 bg-white/10 rounded-lg p-1">
+                                            <button
+                                                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                                className="p-2 hover:bg-white/10 rounded transition-all"
+                                            >
+                                                <Minus className="w-4 h-4 text-white" />
+                                            </button>
+                                            <span className="w-8 text-center text-white font-medium">{quantity}</span>
+                                            <button
+                                                onClick={() => setQuantity(q => q + 1)}
+                                                className="p-2 hover:bg-white/10 rounded transition-all"
+                                            >
+                                                <Plus className="w-4 h-4 text-white" />
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            onClick={handleAddToCart}
+                                            disabled={isAdding}
+                                            className="px-6 py-3 bg-gradient-to-r from-[#f6d56a] to-[#e8b923] text-black font-bold rounded-lg hover:opacity-90 transition-all flex items-center gap-2 disabled:opacity-50"
+                                        >
+                                            {isAdding ? (
+                                                <>
+                                                    <Check className="w-4 h-4" />
+                                                    Added!
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ShoppingCart className="w-4 h-4" />
+                                                    Add to Cart - €{(currentPrice * quantity).toFixed(2)}
+                                                </>
+                                            )}
+                                        </button>
+                                    </>
+                                )}
+
+                                <Link href={`/shop/${product.slug}`}>
                                     <button className="px-6 py-3 border border-white/20 text-white font-semibold rounded-lg hover:border-white/40 transition-all">
-                                        How It Works
+                                        View Details
                                     </button>
                                 </Link>
                             </div>
@@ -118,39 +229,62 @@ export function ProductBox({
             viewport={{ once: true }}
             whileHover={{ y: -4, borderColor: "rgba(246,213,106,0.3)" }}
         >
-            <div className="flex items-start gap-4 mb-4">
-                <div className="w-14 h-20 rounded-xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center flex-shrink-0">
-                    <Droplets className="w-6 h-6 text-[#1aa7ff]" />
+            <Link href={`/shop/${product.slug}`}>
+                <div className="flex items-start gap-4 mb-4 cursor-pointer">
+                    <div className="w-14 h-20 rounded-xl bg-gradient-to-b from-[#1a2744] to-[#0a1628] border border-white/10 flex items-center justify-center flex-shrink-0">
+                        <Droplets className="w-6 h-6 text-[#1aa7ff]" />
+                    </div>
+                    <div>
+                        <h4 className="text-lg font-display font-semibold text-white mb-1">{product.name}</h4>
+                        <p className="text-sm text-white/50">{product.sizeMl}ml • Ionic sulfate minerals</p>
+                    </div>
                 </div>
-                <div>
-                    <h4 className="text-lg font-display font-semibold text-white mb-1">Andara Ionic 100 ml</h4>
-                    <p className="text-sm text-white/50">Ionic sulfate mineral drops</p>
-                </div>
-            </div>
+            </Link>
 
             <ul className="space-y-2 text-sm text-white/60 mb-4">
-                <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#f6d56a]" />
-                    Volcanic mineral origin
-                </li>
-                <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#f6d56a]" />
-                    Clarifies & structures water
-                </li>
-                <li className="flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-[#f6d56a]" />
-                    Compact travel format
-                </li>
+                {product.highlights.slice(0, 3).map((highlight, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full bg-[#f6d56a]" />
+                        {highlight}
+                    </li>
+                ))}
             </ul>
 
             {showPricing && (
                 <div className="text-lg font-bold text-white mb-4">
-                    €19,90 <span className="text-sm font-normal text-white/40">/ 100 ml</span>
+                    €{product.price.toFixed(2)} <span className="text-sm font-normal text-white/40">/ {product.sizeMl} ml</span>
                 </div>
             )}
 
-            {showCTA && (
-                <Link href="/shop/andara-ionic-100ml">
+            {showCTA && showAddToCart && (
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleAddToCart}
+                        disabled={isAdding}
+                        className="flex-1 px-4 py-3 bg-[#f6d56a]/10 border border-[#f6d56a]/30 text-[#f6d56a] font-semibold rounded-lg hover:bg-[#f6d56a]/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                        {isAdding ? (
+                            <>
+                                <Check className="w-4 h-4" />
+                                Added!
+                            </>
+                        ) : (
+                            <>
+                                <ShoppingCart className="w-4 h-4" />
+                                Add to Cart
+                            </>
+                        )}
+                    </button>
+                    <Link href={`/shop/${product.slug}`}>
+                        <button className="px-4 py-3 border border-white/20 text-white rounded-lg hover:border-white/40 transition-all">
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    </Link>
+                </div>
+            )}
+
+            {showCTA && !showAddToCart && (
+                <Link href={`/shop/${product.slug}`}>
                     <button className="w-full px-4 py-3 bg-[#f6d56a]/10 border border-[#f6d56a]/30 text-[#f6d56a] font-semibold rounded-lg hover:bg-[#f6d56a]/20 transition-all flex items-center justify-center gap-2">
                         View Product <ArrowRight className="w-4 h-4" />
                     </button>
@@ -173,9 +307,10 @@ interface PricingCardProps {
     bullets: string[];
     featured?: boolean;
     ctaText: string;
+    onAddToCart?: () => void;
 }
 
-function PricingCard({ name, subtitle, volume, price, perLiter, savings, bullets, featured, ctaText }: PricingCardProps) {
+export function PricingCard({ name, subtitle, volume, price, perLiter, savings, bullets, featured, ctaText, onAddToCart }: PricingCardProps) {
     return (
         <motion.div
             className={`p-6 rounded-2xl border ${featured ? "border-[#f6d56a]/40 bg-gradient-to-b from-[#f6d56a]/10 to-transparent" : "border-white/10 bg-[#0b1020]/50"}`}
@@ -206,10 +341,13 @@ function PricingCard({ name, subtitle, volume, price, perLiter, savings, bullets
                 ))}
             </ul>
 
-            <button className={`w-full px-4 py-3 font-bold rounded-lg transition-all ${featured
+            <button
+                onClick={onAddToCart}
+                className={`w-full px-4 py-3 font-bold rounded-lg transition-all ${featured
                     ? "bg-gradient-to-r from-[#f6d56a] to-[#e8b923] text-black hover:opacity-90"
                     : "bg-white/10 text-white hover:bg-white/20"
-                }`}>
+                    }`}
+            >
                 {ctaText}
             </button>
         </motion.div>
@@ -219,7 +357,7 @@ function PricingCard({ name, subtitle, volume, price, perLiter, savings, bullets
 /**
  * FAQ Item Component
  */
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+export function FAQItem({ question, answer }: { question: string; answer: string }) {
     const [open, setOpen] = React.useState(false);
 
     return (

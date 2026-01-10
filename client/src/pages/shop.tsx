@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PRODUCTS } from "@/lib/data";
 import { ShoppingBag, ArrowRight, Droplets, Sparkles } from "lucide-react";
 import { FadeIn, StaggerContainer, StaggerItem, ScaleOnHover } from "@/components/animations";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 import productBottle from "@assets/generated_images/amber_glass_dropper_bottle_for_andara_ionic_product.png";
 
@@ -11,7 +12,8 @@ export default function ShopPage() {
   return (
     <Layout>
       <div className="min-h-screen bg-background">
-        <section className="bg-gradient-to-b from-primary/5 via-background to-background py-12 sm:py-16 px-4">
+        <section className="relative overflow-hidden py-16 sm:py-24 px-4 min-h-[400px] flex items-center">
+          <VideoBackground keywords={["minerals", "pure", "drop", "premium", "amber"]} overlayOpacity={0.4} />
           <div className="container mx-auto max-w-6xl">
             <FadeIn className="text-center mb-8 sm:mb-12">
               <div className="inline-flex items-center justify-center w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-accent/10 mb-4 sm:mb-6">
@@ -21,7 +23,7 @@ export default function ShopPage() {
                 Shop Andara Ionic
               </h1>
               <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-                Primordial ionic sulfate minerals to structure and revitalize your water. 
+                Primordial ionic sulfate minerals to structure and revitalize your water.
                 Choose from our concentrated formulas.
               </p>
             </FadeIn>
@@ -30,20 +32,20 @@ export default function ShopPage() {
               {PRODUCTS.map((product) => (
                 <StaggerItem key={product.id}>
                   <ScaleOnHover>
-                    <Link 
+                    <Link
                       href={`/shop/${product.slug}`}
                       className="group block"
                       data-testid={`product-card-${product.slug}`}
                     >
                       <div className="bg-muted/30 border border-border/50 rounded-3xl p-8 hover:border-accent/50 hover:shadow-xl transition-all duration-300">
                         <div className="aspect-square bg-background rounded-2xl flex items-center justify-center mb-6 overflow-hidden border border-border/30">
-                          <img 
-                            src={productBottle} 
+                          <img
+                            src={productBottle}
                             alt={product.name}
                             className="w-3/4 h-3/4 object-contain group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        
+
                         <div className="space-y-4">
                           <div>
                             <span className="text-xs font-semibold text-accent uppercase tracking-wider">
@@ -56,7 +58,7 @@ export default function ShopPage() {
                               {product.descriptionShort}
                             </p>
                           </div>
-                          
+
                           <div className="flex items-center justify-between pt-4 border-t border-border/50">
                             <div>
                               <span className="text-2xl font-display font-bold text-primary" data-testid={`product-price-${product.slug}`}>
@@ -66,9 +68,9 @@ export default function ShopPage() {
                                 / {product.sizeMl}ml
                               </span>
                             </div>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
+                            <Button
+                              variant="outline"
+                              size="sm"
                               className="rounded-full gap-1 group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-colors"
                               data-testid={`view-product-${product.slug}`}
                             >

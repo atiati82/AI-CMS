@@ -1484,5 +1484,159 @@ export const STATIC_SITEMAP = [
     "pageType": "page",
     "template": "default",
     "clusterKey": null
+  },
+  {
+    "id": "static-ion",
+    "key": "ion",
+    "title": "ION Science Hub — Understanding Ionic Chemistry",
+    "path": "/ion",
+    "parentKey": null,
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-water",
+    "key": "ion-water",
+    "title": "Ions in Water — Structure, Movement & Conductivity",
+    "path": "/ion/water",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-conductivity",
+    "key": "ion-conductivity",
+    "title": "Conductivity, EC & TDS — Measuring Ionic Activity",
+    "path": "/ion/conductivity-ec-tds",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-exchange",
+    "key": "ion-exchange",
+    "title": "Ion Exchange — How Ions Swap & Bind",
+    "path": "/ion/ion-exchange",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-orp-redox",
+    "key": "ion-orp-redox",
+    "title": "ORP & Redox Potential — Electron Exchange in Water",
+    "path": "/ion/orp-redox",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-sea",
+    "key": "ion-sea",
+    "title": "Sea Ions — Earth's Largest Natural Ion System",
+    "path": "/ion/sea",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-waves-cleaning",
+    "key": "ion-waves-cleaning",
+    "title": "Waves & Cleaning — Natural Ionic Purification",
+    "path": "/ion/waves-cleaning",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-lightning",
+    "key": "ion-lightning",
+    "title": "Lightning & Atmosphere — Storm Electricity & Ions",
+    "path": "/ion/lightning-atmosphere",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-soil",
+    "key": "ion-soil",
+    "title": "Soil Ions — Earth's Living Ion Bank",
+    "path": "/ion/soil",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-volcanic",
+    "key": "ion-volcanic",
+    "title": "Volcanic Minerals — Fresh Earth Charge",
+    "path": "/ion/volcanic-minerals",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-bioelectric",
+    "key": "ion-bioelectric",
+    "title": "Bioelectricity — How Ions Power Life",
+    "path": "/ion/bioelectric",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-electrolytes",
+    "key": "ion-electrolytes",
+    "title": "Electrolytes vs Ionic Minerals — Complementary Roles",
+    "path": "/ion/electrolytes-vs-ionic-minerals",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-sulfates",
+    "key": "ion-sulfates",
+    "title": "Ionic Sulfates — Nature's Quiet Balancing Mineral",
+    "path": "/ion/ionic-sulfates",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
+  },
+  {
+    "id": "static-ion-microdose",
+    "key": "ion-microdose",
+    "title": "Microdose Logic — Signals Not Saturation",
+    "path": "/ion/microdose-logic",
+    "parentKey": "ion",
+    "status": "published",
+    "pageType": "page",
+    "template": "ion-layout",
+    "clusterKey": "ion"
   }
 ];

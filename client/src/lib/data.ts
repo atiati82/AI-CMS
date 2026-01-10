@@ -89,6 +89,104 @@ export const PRODUCTS: Product[] = [
     images: ["/assets/product-bottle.jpg"],
     tags: ["ionic minerals", "sulfate", "bulk"],
     bundles: []
+  },
+  {
+    id: "p3",
+    name: "Andara Ionic – 2 Liters",
+    slug: "ion-2",
+    sizeMl: 2000,
+    descriptionShort: "Extended bulk supply for families.",
+    descriptionLong: "Double the quantity for consistent water structuring across your entire household.",
+    highlights: ["Family size", "Eco-friendly bulk", "Premium ionization"],
+    price: 650.00,
+    pricePerLiter: 325.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["ionic minerals", "bulk", "family"],
+    bundles: []
+  },
+  {
+    id: "p4",
+    name: "Andara Ionic – 5 Liters",
+    slug: "ion-5",
+    sizeMl: 5000,
+    descriptionShort: "Community-scale water structuring.",
+    descriptionLong: "Ideal for clinics, spas, and conscious communities requiring high-volume mineral support.",
+    highlights: ["Community value", "High volume", "Industrial grade purity"],
+    price: 1500.00,
+    pricePerLiter: 300.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["ionic minerals", "bulk", "community"],
+    bundles: []
+  },
+  {
+    id: "p5",
+    name: "Andara Ionic – 10 Liters",
+    slug: "ion-10",
+    sizeMl: 10000,
+    descriptionShort: "Maximum bulk format for agricultural and large-scale use.",
+    descriptionLong: "Our largest format, designed for regenerative agriculture and large-scale water systems.",
+    highlights: ["Maximum value", "Agricultural scale", "Regenerative catalyst"],
+    price: 2800.00,
+    pricePerLiter: 280.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["ionic minerals", "bulk", "agriculture"],
+    bundles: []
+  },
+  {
+    id: "p6",
+    name: "Andara Refill – 20 Liters",
+    slug: "refill-20",
+    sizeMl: 20000,
+    descriptionShort: "Refill station concentrate.",
+    descriptionLong: "Concentrated refill for dedicated Andara water stations.",
+    highlights: ["Zero-waste refill", "Maximum sustainability", "High-fidelity charge"],
+    price: 5200.00,
+    pricePerLiter: 260.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["refill", "bulk", "sustainability"],
+    bundles: []
+  },
+  {
+    id: "p7",
+    name: "Andara Refill – 50 Liters",
+    slug: "refill-50",
+    sizeMl: 50000,
+    descriptionShort: "Industrial refill format.",
+    descriptionLong: "The ultimate reserve for large ecosystems and industrial-scale water structuring.",
+    highlights: ["Industrial reserve", "Unmatched value", "Ecosystem scale"],
+    price: 12000.00,
+    pricePerLiter: 240.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["refill", "industrial", "ecosystem"],
+    bundles: []
+  },
+  {
+    id: "p8",
+    name: "Andara Travel Set",
+    slug: "travel-set",
+    sizeMl: 30,
+    descriptionShort: "Portable hydration for the explorer.",
+    descriptionLong: "Take the power of Andara with you. Compact, airline-approved, and highly concentrated.",
+    highlights: ["TSA-friendly", "Ultra-concentrated", "Vitality on the go"],
+    price: 29.00,
+    pricePerLiter: 966.67,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["travel", "portable", "ionic"],
+    bundles: []
+  },
+  {
+    id: "p9",
+    name: "Family Bundle Pack",
+    slug: "bundle-family",
+    sizeMl: 300,
+    descriptionShort: "Comprehensive family hydration system.",
+    descriptionLong: "A curated set of 100ml bottles and travel sizes for the whole family.",
+    highlights: ["Multi-bottle convenience", "Complete set", "Family value"],
+    price: 180.00,
+    pricePerLiter: 600.00,
+    images: ["/assets/product-bottle.jpg"],
+    tags: ["bundle", "family", "comprehensive"],
+    bundles: []
   }
 ];
 
@@ -156,6 +254,14 @@ export const CLUSTERS: Cluster[] = [
     description: "Exploring the intersection of water, minerals, and subtle energy.",
     icon: Info,
     color: "#a855f7"
+  },
+  {
+    id: "c9",
+    name: "ION Intelligence",
+    slug: "ion",
+    description: "The foundational science of ionic chemistry, charge, and natural systems.",
+    icon: Zap,
+    color: "#06b6d4"
   }
 ];
 
@@ -461,6 +567,176 @@ export const ARTICLES: ScienceArticle[] = [
     tags: ["consciousness", "energy", "frequency"],
     priority: 10,
     publishedAt: "2024-12-01",
+    relatedProductIds: ["p1"]
+  },
+
+  // ===== ION INTELLIGENCE (c9) =====
+  {
+    id: "ion1",
+    title: "Ion Fundamentals",
+    slug: "ion",
+    summary: "What ions are, how they behave, and why they matter for water and biology.",
+    content: "",
+    clusterId: "c9",
+    tags: ["ions", "fundamentals", "charge"],
+    priority: 10,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion2",
+    title: "Ions in Water",
+    slug: "ion/water",
+    summary: "How ions interact with water molecules to create structure and conductivity.",
+    content: "",
+    clusterId: "c9",
+    tags: ["water", "ions", "structure"],
+    priority: 9,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion3",
+    title: "Conductivity, EC & TDS",
+    slug: "ion/conductivity-ec-tds",
+    summary: "Understanding electrical conductivity and dissolved solids in water.",
+    content: "",
+    clusterId: "c9",
+    tags: ["conductivity", "EC", "TDS"],
+    priority: 8,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion4",
+    title: "Ion Exchange",
+    slug: "ion/ion-exchange",
+    summary: "How ions swap positions between water and surfaces in natural systems.",
+    content: "",
+    clusterId: "c9",
+    tags: ["exchange", "CEC", "binding"],
+    priority: 8,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion5",
+    title: "ORP & Redox Potential",
+    slug: "ion/orp-redox",
+    summary: "The oxidation-reduction potential of water and what it tells us.",
+    content: "",
+    clusterId: "c9",
+    tags: ["ORP", "redox", "antioxidant"],
+    priority: 8,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion6",
+    title: "Sea Ions",
+    slug: "ion/sea",
+    summary: "Earth's largest natural ion system and its buffering intelligence.",
+    content: "",
+    clusterId: "c9",
+    tags: ["ocean", "sea", "marine"],
+    priority: 7,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion7",
+    title: "Waves & Cleaning",
+    slug: "ion/waves-cleaning",
+    summary: "How wave action creates natural water purification through ion movement.",
+    content: "",
+    clusterId: "c9",
+    tags: ["waves", "cleaning", "purification"],
+    priority: 7,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion8",
+    title: "Lightning & Atmosphere",
+    slug: "ion/lightning-atmosphere",
+    summary: "Storm electricity and atmospheric ion generation in nature.",
+    content: "",
+    clusterId: "c9",
+    tags: ["lightning", "atmosphere", "storm"],
+    priority: 7,
+    publishedAt: "2025-01-08",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion9",
+    title: "Soil Ions",
+    slug: "ion/soil",
+    summary: "Earth's living ion bank — soil as a mineral reservoir and exchange system.",
+    content: "",
+    clusterId: "c9",
+    tags: ["soil", "earth", "CEC"],
+    priority: 8,
+    publishedAt: "2025-01-09",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion10",
+    title: "Volcanic Minerals",
+    slug: "ion/volcanic-minerals",
+    summary: "Fresh Earth charge — why volcanic minerals have unique ionic activity.",
+    content: "",
+    clusterId: "c9",
+    tags: ["volcanic", "minerals", "origin"],
+    priority: 8,
+    publishedAt: "2025-01-09",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion11",
+    title: "Bioelectricity",
+    slug: "ion/bioelectric",
+    summary: "How ions power life through nerve signals, muscle movement, and cellular communication.",
+    content: "",
+    clusterId: "c9",
+    tags: ["bioelectric", "nerves", "cells"],
+    priority: 9,
+    publishedAt: "2025-01-09",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion12",
+    title: "Electrolytes vs Ionic Minerals",
+    slug: "ion/electrolytes-vs-ionic-minerals",
+    summary: "Understanding the difference between rapid signaling electrolytes and systemic ionic minerals.",
+    content: "",
+    clusterId: "c9",
+    tags: ["electrolytes", "minerals", "hydration"],
+    priority: 8,
+    publishedAt: "2025-01-09",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion13",
+    title: "Ionic Sulfates",
+    slug: "ion/ionic-sulfates",
+    summary: "Nature's quiet balancing mineral form — how sulfates mediate and stabilize.",
+    content: "",
+    clusterId: "c9",
+    tags: ["sulfate", "minerals", "balance"],
+    priority: 9,
+    publishedAt: "2025-01-09",
+    relatedProductIds: ["p1"]
+  },
+  {
+    id: "ion14",
+    title: "Microdose Logic",
+    slug: "ion/microdose-logic",
+    summary: "Why small mineral amounts can have big system-wide effects through catalysis.",
+    content: "",
+    clusterId: "c9",
+    tags: ["microdose", "catalysis", "signals"],
+    priority: 8,
+    publishedAt: "2025-01-09",
     relatedProductIds: ["p1"]
   }
 ];

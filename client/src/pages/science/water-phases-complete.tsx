@@ -20,6 +20,7 @@ import StandardPageLayout from '@/components/StandardPageLayout';
 import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
 import { motion } from 'framer-motion';
+import { VideoBackground } from '@/components/SmartVideoEmbed';
 
 export default function WaterPhasesCompletePage() {
     return (
@@ -28,6 +29,7 @@ export default function WaterPhasesCompletePage() {
             subtitle="Understanding the operating system of life through water's states"
             heroVariant="cyan"
             heroIcon={Waves}
+            backgroundElement={<VideoBackground keywords={["water", "ice", "phases", "ordered water", "phases"]} overlayOpacity={0.35} />}
             seoTitle="Water Phases – Solid, Liquid, Gas & the Fourth Phase | Andara Science"
             seoDescription="Explore water's phases beyond the basics: solid ice, liquid water, gaseous steam, and the mysterious Fourth Phase (EZ water) that forms at interfaces and powers life."
         >

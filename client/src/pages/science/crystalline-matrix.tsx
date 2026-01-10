@@ -20,6 +20,7 @@ import {
     FlaskConical
 } from 'lucide-react';
 import StandardPageLayout from '@/components/StandardPageLayout';
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations';
@@ -115,6 +116,7 @@ export default function CrystallineMatrixPage() {
         <StandardPageLayout
             title={<>The Crystalline Matrix – <span className="text-cyan-400">Structure from Chaos</span></>}
             subtitle="How minerals transform random water molecules into coherent crystalline geometry"
+            backgroundElement={<VideoBackground keywords={["crystalline", "structure", "matrix", "geometry", "purple", "hexagonal"]} overlayOpacity={0.3} />}
             heroVariant="purple"
             heroIcon={Hexagon}
             seoTitle="Crystalline Matrix – How Minerals Structure Water | Andara Science"

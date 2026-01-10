@@ -41,7 +41,8 @@ export type VibeKeyword =
     | 'bold'
     | 'bioelectric'
     | 'water'
-    | 'mineral';
+    | 'mineral'
+    | 'complex';
 
 export type UseCase =
     | 'landing-page'

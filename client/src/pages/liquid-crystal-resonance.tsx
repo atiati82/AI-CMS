@@ -5,6 +5,7 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function LiquidCrystalResonancePage() {
   useScrollTop();
@@ -13,6 +14,12 @@ export default function LiquidCrystalResonancePage() {
     <StandardPageLayout
       title="Resonance & Coherence"
       subtitle="The Language of Liquid Crystal Life"
+      backgroundElement={
+        <VideoBackground
+          videoId="liquid-crystal-biology-bg"
+          keywords={["liquid", "crystal", "resonance", "coherence"]}
+        />
+      }
       vibeKeywords={['Structured', 'Soft Matter', 'Oscillation']}
       seoTitle="Resonance & Coherence – The Language of Liquid Crystal Life"
       seoDescription="Discover how liquid crystalline structures in water and soft tissues can support resonance, coherence and field-based communication. Explains liquid crystals in clear language."

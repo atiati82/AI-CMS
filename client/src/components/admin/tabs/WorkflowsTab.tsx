@@ -22,7 +22,14 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ActiveWorkflowView } from './workflow/ActiveWorkflowView';
-import type { WorkflowExecution, WorkflowTemplate, WorkflowStepStatus } from '@shared/schema';
+import type { WorkflowExecution, WorkflowTemplate } from '@shared/schema';
+
+// Extended type for workflows with computed/joined fields from the API
+interface ExtendedWorkflowExecution extends WorkflowExecution {
+    steps?: Array<{ id?: string; name: string; status: string; }>;
+    currentStep?: number;
+    createdAt?: Date;
+}
 
 // AVAILABLE AGENTS MOCK (Ideally fetched from API)
 const AVAILABLE_AGENTS = [
@@ -48,7 +55,7 @@ export default function WorkflowsTab() {
     const [templateDesc, setTemplateDesc] = useState('');
 
     // Fetch Workflows
-    const { data: workflowsData, isLoading } = useQuery<{ ok: boolean; workflows: WorkflowExecution[] }>({
+    const { data: workflowsData, isLoading } = useQuery<{ ok: boolean; workflows: ExtendedWorkflowExecution[] }>({
         queryKey: ['/api/ai/workflows'],
         queryFn: async () => {
             const res = await apiRequest('GET', '/api/ai/workflows');
@@ -227,10 +234,10 @@ export default function WorkflowsTab() {
 
                                             <div className="space-y-1">
                                                 <div className="flex justify-between text-xs text-muted-foreground">
-                                                    <span>Step {wf.currentStep + 1} of {wf.steps?.length || '?'}</span>
-                                                    <span>{new Date(wf.createdAt).toLocaleTimeString()}</span>
+                                                    <span>Step {(wf.currentStep ?? wf.currentStepIndex) + 1} of {wf.steps?.length || '?'}</span>
+                                                    <span>{new Date(wf.createdAt ?? wf.startedAt).toLocaleTimeString()}</span>
                                                 </div>
-                                                <Progress value={((wf.currentStep) / (wf.steps?.length || 1)) * 100} className="h-1" />
+                                                <Progress value={((wf.currentStep ?? wf.currentStepIndex) / (wf.steps?.length || 1)) * 100} className="h-1" />
                                             </div>
                                         </div>
                                     ))}

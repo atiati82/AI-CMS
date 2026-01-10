@@ -1,5 +1,6 @@
 import React from "react";
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { FadeIn, StaggerContainer } from "@/components/animations";
 import { Link } from "wouter";
 import {
@@ -19,6 +20,7 @@ export default function TerrainConceptsInnerEcosystemPage() {
         <StandardPageLayout
             title={<>Terrain Concepts: <span className="text-emerald-400">Inner Ecosystem</span></>}
             subtitle={<>Beyond Symptom Thinking.<br /><span className="text-emerald-400/80">Treat the soil, not the plant.</span></>}
+            backgroundElement={<VideoBackground keywords={["sulfur", "terrain", "yellow", "mineral", "detox"]} overlayOpacity={0.3} />}
 
             heroVariant="emerald"
             heroIcon={Globe}

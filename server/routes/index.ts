@@ -19,6 +19,7 @@ import adminDocumentsRouter from './admin/documents';
 import adminSettingsRouter from './admin/settings';
 import adminBigmindRouter from './admin/bigmind';
 import adminChatRouter from './admin/admin-chat';
+import adminVideoIngestionRouter from './admin/video-ingestion';
 
 // Import AI routes
 import aiEnrichmentRouter from './ai/enrichment';
@@ -68,6 +69,7 @@ export async function registerModularRoutes(
     app.use('/api/admin', adminSettingsRouter);
     app.use('/api/admin/bigmind', adminBigmindRouter);
     app.use('/api', adminChatRouter);
+    app.use('/api/admin/video-ingestion', adminVideoIngestionRouter);
 
     // AI routes
     app.use('/api/admin', aiEnrichmentRouter);

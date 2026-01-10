@@ -20,6 +20,11 @@ pool.on('connect', (client) => {
   });
 });
 
+// Robust error handling for the pool
+pool.on('error', (err) => {
+  console.error('[DB] Unexpected error on idle client:', err);
+});
+
 // Drizzle ORM instance
 const drizzleDb = drizzle(pool, { schema });
 

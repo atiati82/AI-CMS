@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { Link } from "wouter";
 import { BackgroundLayer } from "@/components/visuals/BackgroundLayer";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ export default function BioelectricConductivityPage() {
         <StandardPageLayout
             title={<>Bioelectric <span className="text-cyan-400">Conductivity</span></>}
             subtitle={<>How context travels.<br />Understanding the movement of charge through the hydrated medium of life.</>}
+            backgroundElement={<VideoBackground keywords={["conductivity", "ionic", "field", "cyan", "plasma"]} overlayOpacity={0.3} />}
             /* Using bioelectric-ion-field mapped in registry */
             heroVariant="cyan"
             heroIcon={Network}
@@ -31,7 +33,7 @@ export default function BioelectricConductivityPage() {
         >
             {/* DEFINITION SECTION */}
             <section className="py-24 bg-[#05060b] border-t border-white/5 relative z-10 overflow-hidden">
-                <BackgroundLayer  opacity={20} />
+                <BackgroundLayer opacity={20} />
                 <div className="container px-4 max-w-4xl mx-auto text-center relative z-10">
                     <FadeIn>
                         <h2 className="text-3xl font-display text-white mb-8">Conductivity Is Movement Capacity</h2>
@@ -185,7 +187,7 @@ export default function BioelectricConductivityPage() {
 
             {/* CONNECTION TO ANDARA */}
             <section className="py-24 bg-[#020617] border-t border-white/5 relative z-10 overflow-hidden">
-                <BackgroundLayer  opacity={10} />
+                <BackgroundLayer opacity={10} />
                 <div className="container px-4 max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
                     <div className="flex-1">
                         <h2 className="text-4xl font-display text-white mb-6">Structuring the Medium</h2>

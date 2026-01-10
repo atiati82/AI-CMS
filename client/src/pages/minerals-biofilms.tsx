@@ -17,7 +17,7 @@ import {
 import { useScroll } from "framer-motion";
 
 export default function MineralSourcesComparisonPage() {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: containerRef });
 
     // --- JSON-LD Call ---

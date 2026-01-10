@@ -39,7 +39,7 @@ aiVideoPromptHero: "Looped animation of a human outline, viewed from front, with
 designerNotes: "This page should feel like opening the 'wiring diagram' behind life. Show voltage, ion flow, and fields in a non-medical, terrain-focused way. Combine scientific diagrams (graphs, gradients, vector flows) with subtle spiritual-electric aesthetics. Use motion to make invisible fields intuitive, not overwhelming."
 */
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
 };
@@ -61,7 +61,7 @@ const fadeChild = {
 export default function BioelectricityInvisibleVoltagePage() {
   return (
     <Layout>
-      <MotionConfig transition={{ duration: 0.7, ease: "easeOut" }}>
+      <MotionConfig transition={{ duration: 0.7, ease: "easeOut" as Easing }}>
         <main
           id="andara-bioelectricity"
           className="andara-page andara-page--science"

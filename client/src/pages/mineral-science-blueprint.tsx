@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { TerrainsCycleDiagram } from "@/components/visuals/TerrainsCycleDiagram";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function MineralBlueprintPage() {
     return (
@@ -18,7 +19,7 @@ export default function MineralBlueprintPage() {
             subtitle="Decode the Elemental Blueprint Behind Water, Body & Soil."
             heroVariant="purple"
             heroIcon={Network}
-            registryId="mineral-network"
+            backgroundElement={<VideoBackground keywords={["mineral", "lattice", "geometry", "crystalline"]} overlayOpacity={0.4} />}
             badges={[{ text: "Systems Thinking", icon: Network }]}
             seoTitle="Mineral Science – Decode the Elemental Blueprint | Andara"
             seoDescription="Minerals are the blueprint that connects Water, Body, and Soil. Explore the 3 Terrains and the role of ionic sulfates in this system."

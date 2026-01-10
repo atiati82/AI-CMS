@@ -544,7 +544,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllPages(): Promise<Page[]> {
-    return db.select().from(pages).orderBy(asc(pages.priority), asc(pages.title));
+    const start = Date.now();
+    const results = await db.select().from(pages).orderBy(asc(pages.priority), asc(pages.title));
+    const duration = Date.now() - start;
+    if (duration > 1000) {
+      console.warn(`[storage] getAllPages took ${duration}ms`);
+    }
+    return results;
   }
 
   async getPagesByCluster(clusterKey: string): Promise<Page[]> {

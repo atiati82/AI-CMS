@@ -26,6 +26,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { VideoBackground } from '@/components/SmartVideoEmbed';
 
 // Animated ORP Scale Component
 function AnimatedORPScale() {
@@ -330,6 +331,7 @@ export default function ORPRedoxBasicsPage() {
             subtitle="Understanding the electron mood of water"
             heroVariant="amber"
             heroIcon={Zap}
+            backgroundElement={<VideoBackground keywords={["electric", "voltage", "redox", "charge", "amber"]} overlayOpacity={0.4} />}
             seoTitle="ORP & Redox Basics – Oxidation-Reduction in Water | Andara Science"
             seoDescription="Learn about ORP (Oxidation-Reduction Potential) in water systems. Understand how electron exchange shapes water chemistry and relates to pH and conductivity."
         >

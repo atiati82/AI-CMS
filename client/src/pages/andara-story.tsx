@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ChevronRight } from "lucide-react";
+import { VideoBackground, SmartVideoEmbed } from "@/components/SmartVideoEmbed";
 
 export default function AndaraStoryPage() {
   useScrollTop();
@@ -14,6 +15,7 @@ export default function AndaraStoryPage() {
     <StandardPageLayout
       title="The Andara Story"
       subtitle="From Volcanoes to Vitality"
+      backgroundElement={<VideoBackground keywords={["primordial", "geology", "water", "flow"]} overlayOpacity={0.3} />}
       vibeKeywords={['Origins', 'Primordial', 'Evolution']}
       seoTitle="The Andara Story – From Volcanoes to Vitality"
       seoDescription="Follow the Andara Ionic journey from volcanic mineral origins to a modern water clarification and conditioning concept focused on structure, minerals and terrain."
@@ -34,8 +36,10 @@ export default function AndaraStoryPage() {
             </blockquote>
           </div>
           <div className="relative h-64 md:h-80 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex items-center justify-center">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900/20 via-slate-950 to-slate-950" />
-            <p className="relative z-10 text-amber-700/50 font-mono">VOLCANIC_ORIGIN_LAYER</p>
+            <SmartVideoEmbed
+              keywords={["volcanic", "geology", "magma"]}
+              className="w-full h-full object-cover opacity-60"
+            />
           </div>
         </section>
 
@@ -63,8 +67,10 @@ export default function AndaraStoryPage() {
             </ul>
           </div>
           <div className="md:order-1 relative h-64 md:h-80 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex items-center justify-center">
-            <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-emerald-500/30 to-cyan-500/30" />
-            <p className="relative z-10 text-emerald-500/30 font-mono">IONIC_DISPERSION</p>
+            <SmartVideoEmbed
+              keywords={["ions", "charge", "electric", "blue"]}
+              className="w-full h-full object-cover opacity-60"
+            />
           </div>
         </section>
 

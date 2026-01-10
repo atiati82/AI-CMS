@@ -5,6 +5,8 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function SulfateStructuringEZPage() {
   useScrollTop();
 
@@ -12,6 +14,12 @@ export default function SulfateStructuringEZPage() {
     <StandardPageLayout
       title="Sulfate & EZ Interfaces"
       subtitle="Where Minerals Shape Structured Water"
+      backgroundElement={
+        <VideoBackground
+          videoId="sulfate-structuring-bg"
+          keywords={["sulfate", "EZ", "structuring"]}
+        />
+      }
       vibeKeywords={['Interfaces', 'Charge', 'Structure']}
       seoTitle="Sulfate & EZ Interfaces – How Minerals Shape Structured Water Layers"
       seoDescription="Explore how sulfate ions interact with hydrophilic surfaces and Exclusion Zone (EZ) water, shaping charge separation, structure and flow at interfaces – without health claims."

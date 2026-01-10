@@ -22,6 +22,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { VideoBackground } from '@/components/SmartVideoEmbed';
 
 // Animated pH Scale Component
 function AnimatedPHScale() {
@@ -322,6 +323,7 @@ export default function PHWaterSystemsPage() {
             subtitle="Understanding the living signal of how water interacts with minerals, gases and life"
             heroVariant="cyan"
             heroIcon={Beaker}
+            backgroundElement={<VideoBackground keywords={["water", "pure", "blue", "clean", "chemistry"]} overlayOpacity={0.35} />}
             seoTitle="pH in Water Systems – Acids, Bases & Balance | Andara Science"
             seoDescription="Explore pH beyond the simple school concept. Understand how acids, bases and buffers shape water quality, and how pH relates to ORP, conductivity and mineral balance."
         >

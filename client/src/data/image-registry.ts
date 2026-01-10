@@ -1452,6 +1452,212 @@ export const IMAGE_REGISTRY: Record<string, ImageAsset> = {
         description: 'Version 3 high-fidelity product shot of Andara Ionic 100ml.',
         domColors: ['#1aa7ff', '#020617'],
         archetype: 'Product'
+    },
+
+    // --- BATCH 15: ION CLUSTER EDUCATIONAL IMAGES ---
+    'ion-tds-meter-limitations': {
+        id: 'ion-tds-meter-limitations',
+        url: '/images/ion-cluster/tds-meter-limitations.png',
+        alt: 'What TDS Meters Cannot Measure - Comprehensive Visual Guide',
+        tags: ['ion', 'tds', 'meter', 'conductivity', 'measurement', 'water quality', 'education'],
+        description: 'Educational infographic showing all contaminants TDS meters cannot detect: bacteria, pesticides, pharmaceuticals, heavy metals, microplastics, and more.',
+        domColors: ['#f5f5f5', '#c41e3a'],
+        archetype: 'Education',
+        routes: ['/ion/conductivity-ec-tds']
+    },
+    'ion-ec-measurement-schematic': {
+        id: 'ion-ec-measurement-schematic',
+        url: '/images/ion-cluster/ec-measurement-schematic.png',
+        alt: 'Electrical Conductivity Measurement Schematic',
+        tags: ['ion', 'ec', 'conductivity', 'schematic', 'electrode', 'measurement', 'science'],
+        description: 'Technical schematic showing EC measurement setup with parallel electrodes in water, amperage and voltage meters demonstrating ionic conductivity measurement principle.',
+        domColors: ['#00d4ff', '#1a1a2e'],
+        archetype: 'Science',
+        routes: ['/ion/conductivity-ec-tds']
+    },
+    'ion-flow-circuit': {
+        id: 'ion-flow-circuit',
+        url: '/images/ion-cluster/ion-flow-circuit.png',
+        alt: 'Ion Flow Circuit - Cations and Anions in Water',
+        tags: ['ion', 'flow', 'circuit', 'cation', 'anion', 'electrode', 'battery', 'water'],
+        description: 'Educational diagram showing positive and negative ions flowing between electrodes in a water circuit connected to battery and ammeter, demonstrating ionic conductivity.',
+        domColors: ['#4a90d9', '#f5d76e'],
+        archetype: 'Science',
+        routes: ['/ion/water', '/ion', '/ion/ion-exchange']
+    },
+
+    // --- ORP & REDOX EDUCATIONAL IMAGES ---
+    'ion-redox-electron-flow': {
+        id: 'ion-redox-electron-flow',
+        url: '/images/ion-cluster/redox-electron-flow.png',
+        alt: 'Redox Reaction Diagram - Oxidation and Reduction Electron Flow',
+        tags: ['ion', 'redox', 'oxidation', 'reduction', 'electron', 'orp', 'chemistry', 'education'],
+        description: 'Educational diagram showing the fundamental redox reaction: oxidation (loss of electron -e) and reduction (gain of electron +e) between molecules A and B.',
+        domColors: ['#00ff00', '#00ffff', '#ffffff'],
+        archetype: 'Science',
+        routes: ['/ion/orp-redox']
+    },
+    'ion-orp-cell-schematic': {
+        id: 'ion-orp-cell-schematic',
+        url: '/images/ion-cluster/orp-cell-schematic.png',
+        alt: 'ORP Cell Schematic - Reference and Platinum Electrodes',
+        tags: ['ion', 'orp', 'electrode', 'measurement', 'platinum', 'reference', 'electrometer', 'water'],
+        description: 'Technical schematic of an ORP measurement cell showing reference electrode, platinum electrode, electrometer, and dissolved oxygen/ozone molecules in water.',
+        domColors: ['#4a90d9', '#f5a623', '#1a1a2e'],
+        archetype: 'Science',
+        routes: ['/ion/orp-redox']
+    },
+    'ion-ph-orp-sensor': {
+        id: 'ion-ph-orp-sensor',
+        url: '/images/ion-cluster/ph-orp-sensor-diagram.png',
+        alt: 'pH and ORP Sensor Diagram - Component Breakdown',
+        tags: ['ion', 'orp', 'ph', 'sensor', 'titanium', 'circuit', 'measurement', 'equipment'],
+        description: 'Exploded view diagram of a combined pH+ORP sensor showing titanium housing, circuit board, ORP bulb, pH bulb, wet-mate connector, and pellon junction.',
+        domColors: ['#7b4397', '#f5a623', '#333333'],
+        archetype: 'Science',
+        routes: ['/ion/orp-redox']
+    },
+
+    // --- SEA IONS EDUCATIONAL IMAGES ---
+    'ion-marine-aerosols': {
+        id: 'ion-marine-aerosols',
+        url: '/images/ion-cluster/marine-aerosols-diagram.png',
+        alt: 'Marine Aerosols and Sea Salt Cycle Diagram',
+        tags: ['ion', 'sea', 'ocean', 'aerosol', 'chloride', 'sodium', 'sulfate', 'marine', 'wave', 'surf'],
+        description: 'Scientific diagram showing marine aerosol formation from surf-produced and ocean-produced aerosols, chloride deposition, and the Na-core ion matrix in sea spray.',
+        domColors: ['#4a90d9', '#c4a35a', '#5fd9f5'],
+        archetype: 'Science',
+        routes: ['/ion/sea']
+    },
+
+    // --- WAVES & CLEANING EDUCATIONAL IMAGES ---
+    'ion-ocean-oxygen-circulation': {
+        id: 'ion-ocean-oxygen-circulation',
+        url: '/images/ion-cluster/ocean-oxygen-circulation.png',
+        alt: 'Ocean Oxygen Circulation and Vertical Mixing Diagram',
+        tags: ['ion', 'ocean', 'oxygen', 'circulation', 'mixing', 'upwelling', 'advection', 'thermocline', 'waves'],
+        description: 'Scientific diagram showing ocean oxygen distribution, air-to-sea O2 flux, vertical mixing, eddy advection, upwelling, and depth zones from surface to 400m.',
+        domColors: ['#4a90d9', '#e040fb', '#5fd9f5'],
+        archetype: 'Science',
+        routes: ['/ion/waves-cleaning']
+    },
+    'ion-river-rapids-turbulence': {
+        id: 'ion-river-rapids-turbulence',
+        url: '/images/ion-cluster/river-rapids-turbulence.png',
+        alt: 'River Rapids and Turbulence Formation Diagram',
+        tags: ['ion', 'river', 'rapids', 'turbulence', 'erosion', 'flow', 'rock', 'gradient', 'water'],
+        description: 'Educational diagram showing how river rapids form through differential rock erosion, explaining how steeper gradients increase flow speed and create turbulence.',
+        domColors: ['#66ccff', '#f5a623', '#808080'],
+        archetype: 'Science',
+        routes: ['/ion/waves-cleaning']
+    },
+    'ion-ocean-carbon-calcium-cycle': {
+        id: 'ion-ocean-carbon-calcium-cycle',
+        url: '/images/ion-cluster/ocean-carbon-calcium-cycle.png',
+        alt: 'Ocean Carbon and Calcium Carbonate Cycle Diagram',
+        tags: ['ion', 'ocean', 'carbon', 'calcium', 'carbonate', 'CO2', 'atmosphere', 'mineral', 'plankton', 'foraminifera'],
+        description: 'Scientific diagram showing CO2 absorption from atmosphere into ocean, H2CO3-HCO3-CO3 equilibrium, calcium ion interaction, and CaCO3 mineral surface formation on calcifying plankton.',
+        domColors: ['#66ccff', '#f5d742', '#333333'],
+        archetype: 'Science',
+        routes: ['/ion/waves-cleaning', '/ion/sea']
+    },
+    'ion-ocean-acidification-chemistry': {
+        id: 'ion-ocean-acidification-chemistry',
+        url: '/images/ion-cluster/ocean-acidification-chemistry.png',
+        alt: 'Ocean Acidification Chemistry - CO2 and Carbonate Ion Reaction',
+        tags: ['ion', 'ocean', 'acidification', 'CO2', 'carbonate', 'bicarbonate', 'chemistry', 'marine', 'calcification'],
+        description: 'Educational infographic explaining how CO2 + H2O + CO3²⁻ → 2HCO3⁻ reaction affects ocean chemistry, showing the consumption of carbonate ions impedes calcification for marine life.',
+        domColors: ['#cc5d44', '#66ccff', '#333333'],
+        archetype: 'Science',
+        routes: ['/ion/waves-cleaning', '/ion/sea']
+    },
+
+    // --- LIGHTNING & ATMOSPHERE EDUCATIONAL IMAGES ---
+    'ion-aroma-chemistry-rain': {
+        id: 'ion-aroma-chemistry-rain',
+        url: '/images/ion-cluster/aroma-chemistry-rain.png',
+        alt: 'The Aroma of Rain - Petrichor Chemistry Infographic',
+        tags: ['ion', 'rain', 'petrichor', 'aroma', 'geosmin', 'ozone', 'bacteria', 'plants', 'oils', 'atmosphere'],
+        description: 'Comprehensive infographic explaining the chemistry of petrichor (rain smell): plant oils, bacteria compounds (geosmin from actinomycetes), and ozone formation from lightning splitting oxygen molecules.',
+        domColors: ['#3498db', '#ffffff', '#27ae60'],
+        archetype: 'Science',
+        routes: ['/ion/lightning-atmosphere']
+    },
+    'ion-lightning-molecular-formation': {
+        id: 'ion-lightning-molecular-formation',
+        url: '/images/ion-cluster/lightning-molecular-formation.png',
+        alt: 'Lightning Molecular Formation - Atmospheric Ion Creation',
+        tags: ['ion', 'lightning', 'atmosphere', 'nitrogen', 'oxygen', 'ozone', 'NO', 'hydrogen', 'discharge', 'molecules'],
+        description: 'Scientific diagram showing how electric discharges from lightning break apart nitrogen, oxygen, and water vapor in the atmosphere, forming new molecules including NO, ozone, and hydrogen oxides.',
+        domColors: ['#000000', '#ff8c00', '#00ff00'],
+        archetype: 'Science',
+        routes: ['/ion/lightning-atmosphere']
+    },
+    'ion-thundercloud-charge-distribution': {
+        id: 'ion-thundercloud-charge-distribution',
+        url: '/images/ion-cluster/thundercloud-charge-distribution.png',
+        alt: 'Thundercloud Charge Distribution and Lightning Types',
+        tags: ['ion', 'lightning', 'thundercloud', 'charge', 'positive', 'negative', 'cloud-to-ground', 'cloud-to-cloud', 'storm', 'temperature'],
+        description: 'Detailed diagram of charge distribution in thunderclouds showing positive charges at top (-40°C), negative centre (-15°C), and small positive centre at bottom (-5°C), with different lightning types: within cloud, cloud to ground, cloud to cloud, and cloud to air.',
+        domColors: ['#87ceeb', '#ff0000', '#4169e1'],
+        archetype: 'Science',
+        routes: ['/ion/lightning-atmosphere']
+    },
+
+    // --- SOIL IONS EDUCATIONAL IMAGES ---
+    'ion-cation-exchange-capacity': {
+        id: 'ion-cation-exchange-capacity',
+        url: '/images/ion-cluster/cation-exchange-capacity.png',
+        alt: 'Cation Exchange Capacity (CEC) - Soil Fertility Diagram',
+        tags: ['ion', 'soil', 'CEC', 'cation', 'exchange', 'fertility', 'root', 'Ca', 'Mg', 'K', 'plant', 'nutrient'],
+        description: 'Educational diagram explaining Cation Exchange Capacity (CEC) as a gauge for soil fertility. Shows negatively charged conditioner particles holding positively charged cations (Ca²⁺, Mg²⁺, K⁺) and how plant roots exchange hydrogen cations for essential nutrients.',
+        domColors: ['#966b38', '#27ae60', '#3498db'],
+        archetype: 'Science',
+        routes: ['/ion/soil']
+    },
+    'ion-root-exchange-system': {
+        id: 'ion-root-exchange-system',
+        url: '/images/ion-cluster/root-ion-exchange-system.png',
+        alt: 'Root Ion Exchange System - Plant Nutrient Uptake Diagram',
+        tags: ['ion', 'soil', 'root', 'plant', 'nutrient', 'uptake', 'transpiration', 'water', 'clay', 'organic', 'Ca', 'Mg', 'K', 'Na', 'NH4'],
+        description: 'Scientific diagram showing plant root ion exchange with soil, including transpiration, water uptake, and the exchange of H⁺ for Ca²⁺, Mg²⁺, K⁺, Na⁺, and NH₄⁺ between roots and clay/organic matter particles.',
+        domColors: ['#87ceeb', '#966b38', '#27ae60'],
+        archetype: 'Science',
+        routes: ['/ion/soil']
+    },
+
+    // --- VOLCANIC MINERALS EDUCATIONAL IMAGES ---
+    'ion-crystal-structures-volcanic': {
+        id: 'ion-crystal-structures-volcanic',
+        url: '/images/ion-cluster/crystal-structures-volcanic.png',
+        alt: 'Types of Crystal Structure - How Volcanic Crystals Form',
+        tags: ['ion', 'crystal', 'volcanic', 'mineral', 'structure', 'lattice', 'quartz', 'bismuth', 'formation', 'geology'],
+        description: 'Visual guide showing various crystal structures and how volcanic/geological crystals form, including quartz, bismuth, and other mineral formations with their lattice geometries.',
+        domColors: ['#000000', '#e040fb', '#f5a623'],
+        archetype: 'Science',
+        routes: ['/ion/volcanic-minerals']
+    },
+
+    // --- BIOELECTRIC EDUCATIONAL IMAGES ---
+    'ion-action-potential-membrane': {
+        id: 'ion-action-potential-membrane',
+        url: '/images/ion-cluster/action-potential-membrane.png',
+        alt: 'Action Potential and Membrane Potential Diagram',
+        tags: ['ion', 'bioelectric', 'action potential', 'membrane', 'Na', 'K', 'depolarization', 'repolarization', 'nerve', 'cell'],
+        description: 'Scientific diagram showing the five phases of action potential: resting potential (-70mV), depolarization, repolarization, hyperpolarization, and return to resting potential, with Na⁺ and K⁺ ion channel dynamics.',
+        domColors: ['#87ceeb', '#f5a623', '#9b59b6'],
+        archetype: 'Science',
+        routes: ['/ion/bioelectric']
+    },
+    'ion-channels-membrane': {
+        id: 'ion-channels-membrane',
+        url: '/images/ion-cluster/ion-channels-membrane.png',
+        alt: 'Ion Channels and Membrane Transport - Na/K Pump',
+        tags: ['ion', 'bioelectric', 'channel', 'membrane', 'Na', 'K', 'pump', 'transporter', 'ATP', 'cytoplasm', 'extracellular'],
+        description: 'Detailed illustration of ion channel dynamics showing resting potential, depolarization, and hyperpolarization phases with Na⁺/K⁺ channels, transporters, and voltage readings from -70mV to +40mV.',
+        domColors: ['#f5a623', '#87ceeb', '#9b59b6'],
+        archetype: 'Science',
+        routes: ['/ion/bioelectric']
     }
 };
 

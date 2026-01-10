@@ -28,6 +28,7 @@ import { Card } from '@/components/ui/card';
 import { FadeIn, StaggerContainer } from '@/components/animations';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { VideoBackground } from '@/components/SmartVideoEmbed';
 
 // Animated Vortex Spiral Visualization
 function AnimatedVortexSpiral() {
@@ -469,6 +470,7 @@ export default function VortexTechnologiesPage() {
             subtitle="How spiral motion reshapes water behavior"
             heroVariant="cyan"
             heroIcon={RotateCcw}
+            backgroundElement={<VideoBackground keywords={["vortex", "spiral", "hydro"]} overlayOpacity={0.4} />}
             seoTitle="Vortex Technologies – How Spin & Flow Reshape Water"
             seoDescription="Discover how vortex technologies use spiral flow, spin and geometry to clarify, condition and structure water, inspired by rivers, springs and natural motion."
         >

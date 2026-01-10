@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
 import { Droplets, Zap, Layers, Sparkles, FlaskConical, Eye, Beaker, ArrowRight, ArrowDown } from "lucide-react";
+import { VideoBackground, SmartVideoEmbed } from "@/components/SmartVideoEmbed";
 
 /**
  * Zone 1: How Andara Ionic Works
@@ -18,12 +19,11 @@ export default function HowAndaraWorks() {
                 {/* HERO SECTION */}
                 {/* ============================================ */}
                 <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-24 pb-16">
-                    {/* Background */}
-                    <div className="absolute inset-0">
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a1628] to-[#020617]" />
-                        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-[#1aa7ff]/8 blur-[150px]" />
-                        <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] rounded-full bg-[#38ffd1]/5 blur-[120px]" />
-                    </div>
+                    {/* High-Fidelity Video Background */}
+                    <VideoBackground
+                        keywords={["flocculation", "clean", "water", "ionic"]}
+                        overlayOpacity={0.7}
+                    />
 
                     <div className="container relative z-10 px-4 text-center max-w-4xl">
                         <motion.div
@@ -157,9 +157,16 @@ export default function HowAndaraWorks() {
                                     <div className="w-12 h-12 rounded-xl bg-[#63b4ff]/15 flex items-center justify-center flex-shrink-0">
                                         <Droplets className="w-6 h-6 text-[#63b4ff]" />
                                     </div>
-                                    <div>
-                                        <span className="text-xs font-bold text-[#63b4ff] tracking-widest uppercase">Stage 3</span>
-                                        <h3 className="text-xl font-display font-semibold text-white">Flocculation & Settling</h3>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <span className="text-xs font-bold text-[#63b4ff] tracking-widest uppercase">Stage 3</span>
+                                                <h3 className="text-xl font-display font-semibold text-white">Flocculation & Settling</h3>
+                                            </div>
+                                            <div className="w-24 aspect-video rounded-lg overflow-hidden border border-white/10 hidden sm:block">
+                                                <SmartVideoEmbed keywords={["flocculation", "settle", "purify"]} className="w-full h-full object-cover" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <p className="text-white/60 leading-relaxed mb-4">

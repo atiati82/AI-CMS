@@ -5,6 +5,8 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export default function SulfurDetoxTransportPage() {
   useScrollTop();
 
@@ -12,6 +14,12 @@ export default function SulfurDetoxTransportPage() {
     <StandardPageLayout
       title="Sulfur, Transport & Clarification"
       subtitle="How Sulfate Guides Flow"
+      backgroundElement={
+        <VideoBackground
+          videoId="terrain-sulfur-bg"
+          keywords={["sulfur", "detox", "transport", "flow"]}
+        />
+      }
       vibeKeywords={['Flow', 'Transport', 'Clarification']}
       seoTitle="Sulfur, Transport & Clarification Principles – How Sulfate Guides Flow"
       seoDescription="Explore how sulfur and sulfate participate in transport, clarification and terrain support – in water, in nature and in the body’s own flow systems, without medical claims."

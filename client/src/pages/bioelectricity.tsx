@@ -1,751 +1,486 @@
-import React from "react";
-import { motion, MotionConfig } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "wouter";
 import Layout from "@/components/layout";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const fadeUpContainer = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.06,
-    },
-  },
-};
-
-const fadeChild = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0 },
-};
+import { SmartVideoEmbed } from "@/components/SmartVideoEmbed";
 
 export default function BioelectricityPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.95]);
+
   return (
     <Layout>
-      <MotionConfig transition={{ duration: 0.7, ease: "easeOut" }}>
-        <main
-          id="andara-bioelectricity"
-          className="andara-page andara-page--science"
-          aria-label="Bioelectricity – The Invisible Voltage System"
+      <div
+        ref={containerRef}
+        className="andara-page"
+        data-tree="bioelectricity"
+        style={{ backgroundColor: "#020617" }}
+      >
+        {/* --- SCROLL PROGRESS BAR --- */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-[#2cff9a] z-50 origin-left"
+          style={{ scaleX: scrollYProgress }}
+        />
+
+        {/* --- HERO SECTION --- */}
+        <motion.section
+          className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+          style={{ opacity: heroOpacity, scale: heroScale }}
         >
-          {/* HERO – BIOELECTRICITY */}
-          <motion.section
-            id="bioelectricity-hero"
-            className="andara-hero andara-hero--primary"
-            aria-label="Bioelectricity main introduction"
-            initial="hidden"
-            animate="visible"
-            variants={fadeUpContainer}
-          >
-            <div className="andara-hero__inner">
-              <header className="andara-hero__content">
-                <motion.p className="andara-hero__label" variants={fadeChild}>
-                  Science Library · Bioelectric Terrain · Voltage &amp; Regeneration
-                </motion.p>
+          {/* Ambient Background */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#070a12] to-[#020617]" />
+            <div className="absolute top-0 inset-x-0 h-[500px] bg-[#2cff9a]/5 blur-[100px] rounded-full" />
+            {/* Floating Particles Background */}
+            {Array.from({ length: 20 }).map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute rounded-full bg-[#2cff9a]/20"
+                style={{
+                  width: Math.random() * 4 + 1,
+                  height: Math.random() * 4 + 1,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -100],
+                  opacity: [0, 0.5, 0]
+                }}
+                transition={{
+                  duration: Math.random() * 10 + 10,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+            ))}
+          </div>
 
-                <motion.h1 className="andara-hero__headline" variants={fadeChild}>
-                  Bioelectricity: The Invisible Voltage System That Shapes Regeneration, Terrain, and Life
-                </motion.h1>
+          <div className="container relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" as Easing }}
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2cff9a]/10 border border-[#2cff9a]/20 text-[#2cff9a] mb-6">
+                <span className="w-2 h-2 rounded-full bg-[#2cff9a] animate-pulse" />
+                <span className="text-xs font-bold tracking-widest uppercase">Science Library · Bioelectric Terrain</span>
+              </div>
 
-                <motion.p className="andara-hero__subline" variants={fadeChild}>
-                  <span className="andara-text-lead">
-                    Underneath chemistry, hormones, and lab values, every living system runs on a quiet,
-                    continuous flow of <strong>bioelectric charge</strong>.
-                  </span>{" "}
-                  It is the <strong>voltage architecture</strong> that tells cells where they belong, how they repair,
-                  and when to organise into a coherent whole.{" "}
-                  When we talk about terrain, we're really talking about the <strong>quality of this invisible field</strong>.
-                </motion.p>
+              <h1 className="text-5xl md:text-7xl font-display font-medium text-white leading-[1.1] mb-6">
+                Bioelectricity: <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2cff9a] via-[#38ffd1] to-[#2cff9a] bg-[length:200%_auto] animate-gradient">
+                  The Invisible Voltage System
+                </span>
+              </h1>
 
-                <motion.ul className="andara-hero__bullets" variants={fadeUpContainer}>
-                  <motion.li variants={fadeChild}>
-                    <strong>Voltage as a blueprint:</strong> patterns of charge that guide <strong>growth, orientation, and repair</strong>.
-                  </motion.li>
-                  <motion.li variants={fadeChild}>
-                    <strong>Ion currents &amp; proton gradients:</strong> the micro-currents that <strong>feed mitochondria and cell voltage</strong>.
-                  </motion.li>
-                  <motion.li variants={fadeChild}>
-                    <strong>Water &amp; minerals as wiring:</strong> structured water and ionic minerals acting as{" "}
-                    <strong>the living conductor of the bioelectric field</strong>.
-                  </motion.li>
-                </motion.ul>
-              </header>
+              <p className="text-xl md:text-2xl text-white/70 font-light leading-relaxed mb-8 max-w-xl">
+                Underneath chemistry, hormones, and lab values, every living system runs on a quiet,
+                continuous flow of <strong>bioelectric charge</strong>. It is the <strong>voltage architecture</strong> that
+                shapes regeneration and terrain.
+              </p>
 
-              <motion.figure className="andara-hero__media" variants={fadeChild}>
-                <motion.div
-                  className="andara-hero__media-placeholder"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: [1, 1.03, 1] }}
-                  transition={{
-                    duration: 1.2,
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                  }}
+              <div className="flex gap-4">
+                <button
+                  onClick={() => document.getElementById('section-1')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-8 py-4 bg-[#2cff9a] text-[#020617] font-bold rounded-lg hover:bg-[#2cff9a]/90 transition-all shadow-[0_0_20px_rgba(44,255,154,0.3)]"
                 >
-                  <p>
-                    [Hero visual: luminous human silhouette in deep indigo space, surrounded by soft turquoise and gold
-                    field lines. Currents flow along fascia-like lines and meridian-like paths, with hexagonal light
-                    patterns around the heart and brain, hinting at structured water and mineral matrices.]
-                  </p>
+                  Explore the Voltage System
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="relative"
+            >
+              <SmartVideoEmbed
+                keywords={["electric", "voltage", "field", "terrain"]}
+                className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                aspectRatio="video"
+              />
+              <p className="text-center text-white/30 text-xs mt-4 font-mono">
+                Life is not only biochemical – it is also electrical.
+              </p>
+            </motion.div>
+          </div>
+        </motion.section>
+
+
+        {/* --- SECTION 1: WHAT IS BIOELECTRICITY --- */}
+        <section id="section-1" className="section relative z-10 py-24">
+          <div className="container">
+            <motion.header
+              className="max-w-3xl mx-auto text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-5xl font-display text-white mb-6">
+                1. What Is Bioelectricity – <br />in Simple Language?
+              </h2>
+              <p className="text-lg text-white/70 leading-relaxed">
+                Bioelectricity is the <strong>flow of charged particles</strong> – mainly ions and electrons –
+                through <strong>living tissues</strong>. It shows up as <strong>membrane potentials</strong>, <strong>voltage gradients</strong>,
+                and <strong>field patterns</strong> that quietly instruct cells how to behave.
+              </p>
+            </motion.header>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+              {[
+                { title: "The Body as a Living Circuit", desc: "Every cell membrane is a tiny capacitor, storing charge. Tissues link these into circuits and networks: nerves, fascia, collagen matrices, and structured water form pathways for current." },
+                { title: "Voltage as a Hidden Map", desc: "Between tissues, there are voltage gradients – tiny differences in electric potential. These act like navigation beacons, telling cells where to move, where to grow, where to stop." }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="panel facet pad p-8 bg-[#0b1020]/50 border border-white/5 rounded-2xl backdrop-blur-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.2 }}
+                >
+                  <h3 className="text-xl font-display text-[#2cff9a] mb-3">{item.title}</h3>
+                  <p className="text-white/60">{item.desc}</p>
                 </motion.div>
-                <motion.figcaption className="andara-hero__media-caption" variants={fadeChild}>
-                  Life is not only biochemical – it is also electrical. Voltage, ions, and fields form an invisible map
-                  that shapes regeneration and terrain.
-                </motion.figcaption>
-              </motion.figure>
+              ))}
             </div>
-          </motion.section>
+          </div>
+        </section>
 
-          {/* SECTION – WHAT IS BIOELECTRICITY? */}
-          <motion.section
-            id="bioelectricity-what-is-it"
-            className="andara-section andara-section--what-it-is"
-            aria-label="What is bioelectricity"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  What Is Bioelectricity – in Simple Language?
+
+        {/* --- SECTION 2: CELL VOLTAGE & PROTON GRADIENTS --- */}
+        <section className="section bg-[#05060b]/50 border-y border-white/5 relative z-10 py-24">
+          <div className="container">
+            <motion.div
+              className="mb-12"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-5xl font-display text-white mb-6">
+                2. Cell Voltage, Proton Gradients & the Bioelectric Engine
+              </h2>
+              <p className="text-white/60 max-w-2xl text-lg">
+                At the cellular level, bioelectricity shows up as <strong>membrane potential</strong> and
+                <strong> proton gradients</strong>. These determine how much energy, communication, and repair cells can sustain.
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { title: "Membrane Potential – The Cell's Battery", desc: "Each cell maintains a difference in charge between inside and outside – like a tiny charged capacitor. This voltage is shaped by ions (Na⁺, K⁺, Ca²⁺, Cl⁻) and determines the cell's excitability and resilience.", icon: "⚡" },
+                { title: "Proton Gradients – The Inner Turbines", desc: "Inside mitochondria, proton gradients drive the synthesis of ATP – the cell's currency of energy. These electrochemical slopes push protons through nano-turbines, turning electrical potential into biochemical work.", icon: "🔋" },
+                { title: "Tissues as Bioelectric Landscapes", desc: "When you zoom out, clusters of cells form bioelectric landscapes – regions of relative high and low voltage. These landscapes influence how tissues grow, regenerate, and coordinate.", icon: "🌐" }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="panel facet pad p-8 bg-[#0b1020]/50 border border-white/5 rounded-2xl backdrop-blur-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                >
+                  <div className="text-3xl mb-4">{item.icon}</div>
+                  <h3 className="text-xl font-display text-[#38ffd1] mb-3">{item.title}</h3>
+                  <p className="text-white/60 text-sm">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- SECTION 3: WATER & MINERALS AS WIRING --- */}
+        <section className="section relative z-10 py-24">
+          <div className="container">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl md:text-5xl font-display text-white mb-8">
+                  3. Water & Minerals – The Wiring That Carries the Signal
                 </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Bioelectricity is the <strong>flow of charged particles</strong> – mainly ions and electrons –
-                    through <strong>living tissues</strong>.
-                  </span>{" "}
-                  It shows up as <strong>membrane potentials</strong>, <strong>voltage gradients</strong>,
-                  and <strong>field patterns</strong> that quietly instruct cells how to behave, long before symptoms appear.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--02 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">The Body as a Living Circuit</h3>
-                  <p className="andara-grid__text">
-                    Every cell membrane is a tiny <strong>capacitor</strong>, storing charge across a thin lipid layer.{" "}
-                    Tissues link these micro-capacitors into <strong>circuits and networks</strong>:
-                    nerves, fascia, collagen matrices, and structured water form <strong>pathways for current</strong>.
+                <div className="prose prose-invert prose-lg text-white/70">
+                  <p className="mb-6">
+                    Bioelectricity needs <strong>conductors</strong>. In the body, the main conductors are <strong>structured water</strong> and
+                    <strong> ionic minerals</strong>. Together they create a <strong>liquid crystal wiring system</strong>.
                   </p>
-                  <p className="andara-grid__text">
-                    When we talk about a <strong>healthy terrain</strong>, we're talking about a
-                    <strong> well-ordered electrical environment</strong> where signals are clear,
-                    voltages are stable, and flows are coherent.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Voltage as a Hidden Map</h3>
-                  <p className="andara-grid__text">
-                    Between tissues, there are <strong>voltage gradients</strong> – tiny differences in electric potential.{" "}
-                    These gradients act like <strong>navigation beacons</strong>, telling cells where "north" is:
-                    where to move, where to grow, where to stop.
-                  </p>
-                  <p className="andara-grid__text">
-                    It's less like a static blueprint and more like a <strong>dynamic, flowing map</strong> that updates constantly
-                    with <strong>minerals, water, and movement</strong>.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.figure className="andara-figure andara-figure--diagram" variants={fadeChild}>
-                <div className="andara-figure__visual">
-                  <p>
-                    [Infographic idea: a simple diagram showing:
-                    (1) individual cell with membrane potential,
-                    (2) cluster of cells forming a tissue with a voltage gradient arrow,
-                    (3) a larger outline of a body with field lines around it.
-                    Each level labelled "Cell Voltage", "Tissue Gradient", "Whole-Body Field".]
-                  </p>
+                  <ul className="space-y-4 mb-8">
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#38ffd1] mt-1">⬡</span>
+                      <span><strong>Structured Water:</strong> Liquid crystalline layers around proteins and membranes that conduct and store charge.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#f2c76c] mt-1">⬢</span>
+                      <span><strong>Ionic Sulfate Minerals:</strong> Charged building blocks that support conductivity, buffering, and charge separation.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="text-[#9b7bff] mt-1">◎</span>
+                      <span><strong>Living Conductor:</strong> This is not copper cables – it is a dynamic, shape-shifting liquid crystal circuit.</span>
+                    </li>
+                  </ul>
                 </div>
-                <figcaption className="andara-figure__caption">
-                  From micro-capacitors in the cell membrane to whole-body fields – bioelectricity scales up through the
-                  entire terrain.
-                </figcaption>
-              </motion.figure>
-            </div>
-          </motion.section>
-
-          {/* SECTION – CELL VOLTAGE & PROTON GRADIENTS */}
-          <motion.section
-            id="bioelectricity-cell-voltage"
-            className="andara-section andara-section--cell-voltage"
-            aria-label="Cell voltage and proton gradients"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Cell Voltage, Proton Gradients &amp; the Bioelectric Engine
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    At the cellular level, bioelectricity shows up as <strong>membrane potential</strong> and
-                    <strong> proton gradients</strong>.
-                  </span>{" "}
-                  These are not abstract physics ideas – they're the way cells decide how much
-                  <strong> energy, communication, and repair</strong> they can sustain.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--03 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Membrane Potential – The Cell's Battery</h3>
-                  <p className="andara-grid__text">
-                    Each cell maintains a difference in charge between inside and outside – like a tiny
-                    <strong> charged capacitor</strong>.{" "}
-                    This voltage is shaped by ions (Na⁺, K⁺, Ca²⁺, Cl⁻, etc.) and determines the cell's
-                    <strong> excitability, signalling, and resilience</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Proton Gradients – The Inner Turbines</h3>
-                  <p className="andara-grid__text">
-                    Inside mitochondria, <strong>proton gradients</strong> drive the synthesis of ATP – the cell's currency of energy.{" "}
-                    These gradients are <strong>electrochemical slopes</strong> that push protons through nano-turbines, turning
-                    electrical potential into biochemical work.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Tissues as Bioelectric Landscapes</h3>
-                  <p className="andara-grid__text">
-                    When you zoom out, clusters of cells form <strong>bioelectric landscapes</strong> – regions of relative
-                    high and low voltage.{" "}
-                    These landscapes influence how tissues <strong>grow, regenerate, and coordinate</strong>.
-                  </p>
-                </motion.article>
               </motion.div>
-
-              <motion.figure className="andara-figure andara-figure--graph" variants={fadeChild}>
-                <div className="andara-figure__visual">
-                  <p>
-                    [Graph idea: gentle curve showing "Membrane Potential" on the vertical axis vs "Cell State" on the
-                    horizontal axis. Different zones labelled "Undercharged", "Balanced", "Over-excited" to visualise
-                    that both extremes can disturb terrain coherence.]
-                  </p>
-                </div>
-                <figcaption className="andara-figure__caption">
-                  Cell voltage behaves like a tuning range – too low or too chaotic, and communication becomes noisy.
-                </figcaption>
-              </motion.figure>
-            </div>
-          </motion.section>
-
-          {/* SECTION – WATER, MINERALS & THE WIRING OF LIFE */}
-          <motion.section
-            id="bioelectricity-water-minerals"
-            className="andara-section andara-section--water-minerals"
-            aria-label="Water and minerals as bioelectric wiring"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Water &amp; Minerals – The Wiring That Carries the Signal
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Bioelectricity needs <strong>conductors</strong>.
-                  </span>{" "}
-                  In the body, the main conductors are <strong>structured water</strong> and
-                  <strong> ionic minerals</strong>. Together they create a <strong>liquid crystal wiring system</strong> that
-                  conducts charge, stores information, and shapes the field.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--02 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Structured Water – The Liquid Crystal Medium</h3>
-                  <p className="andara-grid__text">
-                    When water forms more ordered, <strong>liquid crystalline layers</strong> around proteins and membranes,
-                    it becomes a better <strong>conductor and memory medium</strong>.{" "}
-                    These interfacial layers can hold charge, respond to light, and behave like a
-                    <strong> dynamic storage buffer</strong> for bioelectric patterns.
-                  </p>
-                  <p className="andara-grid__text">
-                    This is one reason why the <strong>quality and structure of water</strong> in the terrain matters,
-                    not just its purity.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Ionic Sulfate Minerals – The Conductive Code</h3>
-                  <p className="andara-grid__text">
-                    Minerals in <strong>ionic sulfate form</strong> provide charged building blocks that
-                    <strong> support conductivity, buffering, and charge separation</strong>.{" "}
-                    Sulfate bridges, multivalent ions, and trace elements help shape how water
-                    <strong> organises, clarifies, and carries current</strong>.
-                  </p>
-                  <p className="andara-grid__text">
-                    In the Andara universe, these ionic sulfate minerals are the <strong>primordial language</strong> we use to
-                    speak to water and its bioelectric functions.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.figure className="andara-figure andara-figure--wiring" variants={fadeChild}>
-                <div className="andara-figure__visual">
-                  <p>
-                    [Infographic idea: layered illustration:
-                    (1) hexagonal water layers around a protein,
-                    (2) ions (sulfate, magnesium, etc.) interspersed as nodes,
-                    (3) arrows showing current flowing along this hydrated matrix.
-                    Caption labels: "Structured Water", "Ionic Sulfate Minerals", "Charge Flow".]
-                  </p>
-                </div>
-                <figcaption className="andara-figure__caption">
-                  Structured water plus ionic minerals form a living wiring system – not copper cables, but a liquid crystal circuit.
-                </figcaption>
-              </motion.figure>
-            </div>
-          </motion.section>
-
-          {/* SECTION – BIOELECTRIC TERRAIN VS BIOCHEMICAL VIEW */}
-          <motion.section
-            id="bioelectricity-terrain"
-            className="andara-section andara-section--terrain"
-            aria-label="Bioelectric terrain perspective"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Bioelectric Terrain vs. Purely Biochemical Thinking
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Conventional thinking often starts with <strong>molecules and reactions</strong>.
-                  </span>{" "}
-                  The bioelectric terrain view asks: <strong>what field are these molecules moving in?</strong>{" "}
-                  Is the underlying voltage system <strong>coherent, fragmented, or suffocated</strong>?
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--02 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">The Biochemical Lens</h3>
-                  <p className="andara-grid__text">
-                    Focuses on <strong>hormones, enzymes, receptors, nutrients, and pathways</strong>.{" "}
-                    This view is precise and useful, but often <strong>localised</strong> – it sees
-                    reactions in isolation.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">The Bioelectric Terrain Lens</h3>
-                  <p className="andara-grid__text">
-                    Asks: <strong>what is the charge environment these molecules live in?</strong>{" "}
-                    It looks at voltage, gradients, and field coherence, seeing the body more like
-                    a <strong>self-organising electrical ecosystem</strong>.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.div className="andara-highlight-box andara-highlight-box--compare" variants={fadeChild}>
-                <p className="andara-highlight-box__text">
-                  In practice, <strong>both lenses matter</strong>.{" "}
-                  The Andara project chooses to start from the <strong>field-first perspective</strong>:
-                  cleaning and informing water, supporting ionic balance, and honouring the
-                  <strong> bioelectric architecture</strong> beneath the biochemical noise.
-                </p>
-              </motion.div>
-            </div>
-          </motion.section>
-
-          {/* SECTION – USE CASE SCENARIOS */}
-          <motion.section
-            id="bioelectricity-use-cases"
-            className="andara-section andara-section--use-cases"
-            aria-label="Bioelectric perspective – use scenarios"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  How a Bioelectric Perspective Can Be Applied – Without Making Claims
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Looking through a voltage-first lens doesn't mean treating anything – it means
-                    <strong> changing how we organise our decisions</strong>.
-                  </span>{" "}
-                  Below are examples of how people and spaces can <strong>work with bioelectric principles</strong> in a
-                  <strong> non-medical, terrain-focused way</strong>.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--03 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">1. Water Environments</h3>
-                  <p className="andara-grid__text">
-                    Creating daily water that is <strong>clean, structured, and mineral-informed</strong> so the terrain
-                    has a more <strong>coherent medium</strong> to work with.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">2. Spaces &amp; Architecture</h3>
-                  <p className="andara-grid__text">
-                    Designing homes, studios, and retreats around <strong>light, EMF, grounding, and water placement</strong>
-                    to support a <strong>stable field environment</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">3. Practices &amp; Protocols</h3>
-                  <p className="andara-grid__text">
-                    Linking movement, breath, and rest with attention to <strong>hydration quality, mineral intake, and
-                      field exposure</strong>, viewing them as inputs to the <strong>bioelectric terrain</strong>.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.div className="andara-highlight-box andara-highlight-box--disclaimer" variants={fadeChild}>
-                <p className="andara-highlight-box__text">
-                  The ideas described here are <strong>educational and exploratory</strong>.{" "}
-                  They are not medical advice, not a diagnosis, and not a treatment plan.{" "}
-                  They simply offer a <strong>different way to think about terrain, water, and minerals</strong> in daily life.
-                </p>
-              </motion.div>
-            </div>
-          </motion.section>
-
-          {/* SECTION – SIMPLE TIMELINE: FROM VOLTAGE CHAOS TO COHERENCE */}
-          <motion.section
-            id="bioelectricity-coherence-timeline"
-            className="andara-section andara-section--timeline"
-            aria-label="Bioelectric coherence timeline"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  From Noise to Coherence – A Simple Bioelectric Storyboard
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    You can imagine bioelectric health as a journey from <strong>noisy, fragmented signals</strong>
-                    toward <strong>clear, stable patterns</strong>.
-                  </span>{" "}
-                  This storyboard is not a diagnosis – it's a visual metaphor for how terrain can feel when its
-                  <strong> water, minerals, and fields</strong> become more organised.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--timeline andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item andara-grid__item--step" variants={fadeChild}>
-                  <div className="andara-grid__step-number">1</div>
-                  <h3 className="andara-grid__title">Fragmented Signals</h3>
-                  <p className="andara-grid__text">
-                    Water is <strong>chemically burdened</strong>, minerals are <strong>scattered or missing</strong>,
-                    and fields are full of <strong>noise</strong>.{" "}
-                    Bioelectric patterns feel <strong>chaotic and reactive</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item andara-grid__item--step" variants={fadeChild}>
-                  <div className="andara-grid__step-number">2</div>
-                  <h3 className="andara-grid__title">Clearing the Medium</h3>
-                  <p className="andara-grid__text">
-                    Filtration, clarification, and grounding begin.{" "}
-                    Water becomes <strong>clearer</strong>, and the background noise in the field <strong>softens</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item andara-grid__item--step" variants={fadeChild}>
-                  <div className="andara-grid__step-number">3</div>
-                  <h3 className="andara-grid__title">Structured &amp; Informed Water</h3>
-                  <p className="andara-grid__text">
-                    Structured water and <strong>ionic minerals</strong> bring <strong>charge separation,
-                      buffering, and organisation</strong> into the terrain.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item andara-grid__item--step" variants={fadeChild}>
-                  <div className="andara-grid__step-number">4</div>
-                  <h3 className="andara-grid__title">Coherent Bioelectric Field</h3>
-                  <p className="andara-grid__text">
-                    Signals travel with more <strong>clarity</strong>, gradients are <strong>stable</strong>,
-                    and the terrain behaves more like a <strong>coordinated whole</strong> than a collection of parts.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.figure className="andara-figure andara-figure--timeline" variants={fadeChild}>
-                <div className="andara-figure__visual">
-                  <p>
-                    [Timeline visual: 4 panels from left to right:
-                    (1) chaotic waveforms and noisy fields,
-                    (2) water droplet + filter icon,
-                    (3) hexagonal water + ionic nodes,
-                    (4) smooth field lines around a human silhouette.
-                    A gentle glowing line connects them all.]
-                  </p>
-                </div>
-                <figcaption className="andara-figure__caption">
-                  A metaphorical journey: from noisy, chaotic terrain toward a more coherent bioelectric field.
-                </figcaption>
-              </motion.figure>
-            </div>
-          </motion.section>
-
-          {/* SECTION – CROSS-LINK: ANDARA IONIC & BIOELECTRIC VIEW */}
-          <motion.section
-            id="bioelectricity-andara-link"
-            className="andara-section andara-section--product-link"
-            aria-label="Linking Andara Ionic to bioelectric terrain perspective"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Where Andara Ionic Fits Into This Bioelectric Picture
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Andara Ionic does not "treat" anything.
-                  </span>{" "}
-                  Its role in the Andara universe is simple:
-                  <strong> provide a precise, volcanic ionic sulfate mineral code</strong> that helps water become a more
-                  <strong> clear, structured, and conductive medium</strong>.
-                </p>
-              </header>
-
-              <motion.div className="andara-grid andara-grid--02 andara-section__items" variants={fadeUpContainer}>
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Clarifying &amp; Conditioning Water</h3>
-                  <p className="andara-grid__text">
-                    A micro-dose of Andara Ionic, within a defined sulfate band, can <strong>clarify and condition water</strong>,
-                    reorganising impurities and supporting a more <strong>ordered charge environment</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Supporting the Terrain Medium</h3>
-                  <p className="andara-grid__text">
-                    In a bioelectric view, this means tending to the <strong>medium</strong> that carries signals, rather than
-                    chasing each signal separately.{" "}
-                    Clearer, better-organised water is one ingredient in a <strong>more coherent bioelectric terrain</strong>.
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.div className="andara-highlight-box andara-highlight-box--cta" variants={fadeChild}>
-                <p className="andara-highlight-box__text">
-                  To see how Andara Ionic is described as a product – with full disclaimers, dosing examples, and pricing –
-                  visit the <Link href="/shop/andara-ionic-100ml">100&nbsp;ml</Link> or{" "}
-                  <Link href="/shop/andara-ionic-1l">1&nbsp;L</Link> product pages.
-                </p>
-              </motion.div>
-            </div>
-          </motion.section>
-
-          {/* SECTION – FAQ */}
-          <motion.section
-            id="bioelectricity-faq"
-            className="andara-section andara-section--faq"
-            aria-label="Bioelectricity frequently asked questions"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Bioelectric Terrain – Gentle Clarifications
-                </h2>
-                <p className="andara-section__subline">
-                  A few common questions – answered from a <strong>terrain-first, non-medical</strong> viewpoint.
-                </p>
-              </header>
-
-              <motion.div className="andara-faq" variants={fadeUpContainer}>
-                <motion.article className="andara-faq__item" variants={fadeChild}>
-                  <h3 className="andara-faq__question">
-                    Is bioelectricity the same as the nervous system?
-                  </h3>
-                  <p className="andara-faq__answer">
-                    The nervous system is one <strong>expression</strong> of bioelectricity, but not the only one.{" "}
-                    Voltage gradients exist around <strong>wounds, organs, fascia, and entire body regions</strong> – even beyond
-                    classical nerves.{" "}
-                    The terrain perspective looks at all of these <strong>field expressions together</strong>.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-faq__item" variants={fadeChild}>
-                  <h3 className="andara-faq__question">
-                    Does this replace conventional medical care?
-                  </h3>
-                  <p className="andara-faq__answer">
-                    No.{" "}
-                    A bioelectric view is a <strong>complementary map</strong>, not a substitute for care, diagnosis, or treatment.{" "}
-                    It offers <strong>language and models</strong> for understanding the role of water, minerals, and fields
-                    in terrain – not prescriptions.
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-faq__item" variants={fadeChild}>
-                  <h3 className="andara-faq__question">
-                    Can I measure my own bioelectric terrain at home?
-                  </h3>
-                  <p className="andara-faq__answer">
-                    Certain aspects <strong>can be explored</strong> – e.g. tracking pH/ORP/EC of water, experimenting with
-                    grounding and light exposure, or observing responses to environment.{" "}
-                    Other aspects require <strong>specialised equipment or research contexts</strong>.{" "}
-                    The Andara Library focuses on <strong>education, not devices</strong>.
-                  </p>
-                </motion.article>
-              </motion.div>
-            </div>
-          </motion.section>
-
-          {/* SECTION – SCIENCE LIBRARY FOOTER */}
-          <motion.section
-            id="bioelectricity-science-footer"
-            className="andara-section andara-section--library-footer"
-            aria-label="Science Library navigation footer"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <header className="andara-section__header">
-                <h2 className="andara-section__headline">
-                  Continue Exploring the Andara Science Library
-                </h2>
-                <p className="andara-section__subline">
-                  <span className="andara-text-lead">
-                    Bioelectricity is one pillar in a bigger architecture.
-                  </span>{" "}
-                  Water, minerals, crystalline geometry, and terrain all <strong>interlock like a living circuit</strong>.{" "}
-                  Follow whichever thread is calling you next.
-                </p>
-              </header>
 
               <motion.div
-                className="andara-grid andara-grid--04 andara-grid--library-footer andara-section__items"
-                aria-label="Science Library pillars"
-                variants={fadeUpContainer}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="p-8 rounded-3xl bg-gradient-to-br from-[#2cff9a]/10 to-transparent border border-[#2cff9a]/20"
               >
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Water Science</h3>
-                  <p className="andara-grid__text">
-                    Structured water, EZ layers, pH/ORP/EC – the liquid crystal side of the terrain.
+                <div className="text-center">
+                  <div className="text-6xl mb-4">🔬</div>
+                  <h4 className="text-xl font-bold text-white mb-4">The Andara Perspective</h4>
+                  <p className="text-white/60">
+                    In the Andara universe, ionic sulfate minerals are the <strong>primordial language</strong> we use to
+                    speak to water and its bioelectric functions.
                   </p>
-                  <p className="andara-grid__link">
-                    <Link href="/science/water">Go to Water Science →</Link>
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Mineral Science</h3>
-                  <p className="andara-grid__text">
-                    Ocean vs plant vs fulvic vs salt vs mica – and why ionic sulfate minerals are unique.
-                  </p>
-                  <p className="andara-grid__link">
-                    <Link href="/science/minerals">Go to Mineral Science →</Link>
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Crystalline Matrix</h3>
-                  <p className="andara-grid__text">
-                    Geometry, lattices, and the mineral-light matrix behind coherence.
-                  </p>
-                  <p className="andara-grid__link">
-                    <Link href="/science/crystalline-matrix">Go to Crystalline Matrix →</Link>
-                  </p>
-                </motion.article>
-
-                <motion.article className="andara-grid__item" variants={fadeChild}>
-                  <h3 className="andara-grid__title">Terrain &amp; Regeneration</h3>
-                  <p className="andara-grid__text">
-                    How these pillars interact when we look at regeneration as a field phenomenon.
-                  </p>
-                  <p className="andara-grid__link">
-                    <Link href="/science/terrain-regeneration">Go to Terrain &amp; Regeneration →</Link>
-                  </p>
-                </motion.article>
-              </motion.div>
-
-              <motion.div className="andara-highlight-box andara-highlight-box--neural-footer" variants={fadeChild}>
-                <p className="andara-highlight-box__text">
-                  The <strong>Andara Library Engine</strong> links all these pages through
-                  <strong> deep, semantic connections</strong> – so whichever pillar you choose, you can always
-                  find your way back to the full circuit.
-                </p>
+                </div>
               </motion.div>
             </div>
-          </motion.section>
+          </div>
+        </section>
 
-          {/* FINAL CTA */}
-          <motion.section
-            id="bioelectricity-final-cta"
-            className="andara-section andara-section--final-cta"
-            aria-label="Final call to action"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-20%" }}
-            variants={fadeUp}
-          >
-            <div className="andara-section__inner">
-              <div className="andara-final-cta__content">
-                <h2 className="andara-final-cta__headline">
-                  When you change the field, you change the conversation inside the body.
-                </h2>
-                <p className="andara-final-cta__text">
-                  If this way of seeing life <strong>resonates</strong> with you, begin with something simple:
-                  <strong> the water you drink, the minerals you use, and the spaces you create</strong>.{" "}
-                  The bioelectric terrain responds to the <strong>quality of its medium</strong>.
+
+        {/* --- SECTION 4: BIOELECTRIC TERRAIN VS BIOCHEMICAL VIEW --- */}
+        <section className="section bg-gradient-to-b from-[#020617] to-[#070a12] py-24 border-t border-white/5">
+          <div className="container">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-display text-white mb-6">
+                4. Bioelectric Terrain vs. Purely Biochemical Thinking
+              </h2>
+              <p className="text-lg text-white/70">
+                Conventional thinking often starts with <strong>molecules and reactions</strong>.
+                The bioelectric terrain view asks: <strong>what field are these molecules moving in?</strong>
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <div className="panel pad bg-white/5 rounded-xl border border-white/10 p-6">
+                <h4 className="text-xl font-display text-white/50 mb-2">The Biochemical Lens</h4>
+                <p className="text-white/60">
+                  Focuses on <strong>hormones, enzymes, receptors, nutrients, and pathways</strong>.
+                  This view is precise and useful, but often <strong>localised</strong> – it sees reactions in isolation.
                 </p>
-                <div className="andara-final-cta__cta-group">
-                  <Link
-                    href="/shop"
-                    className="andara-final-cta__cta andara-final-cta__cta--primary"
-                  >
-                    Explore Andara Ionic Formats
-                  </Link>
-                  <Link
-                    href="/science"
-                    className="andara-final-cta__cta andara-final-cta__cta--ghost"
-                  >
-                    Or keep exploring the science
-                  </Link>
-                </div>
+              </div>
+              <div className="panel pad bg-white/5 rounded-xl border border-[#2cff9a]/30 p-6">
+                <h4 className="text-xl font-display text-[#2cff9a] mb-2">The Bioelectric Terrain Lens</h4>
+                <p className="text-white/60">
+                  Asks: <strong>what is the charge environment these molecules live in?</strong>
+                  It looks at voltage, gradients, and field coherence, seeing the body as a <strong>self-organising electrical ecosystem</strong>.
+                </p>
               </div>
             </div>
-          </motion.section>
-        </main>
-      </MotionConfig>
+
+            <div className="max-w-3xl mx-auto mt-12">
+              <div className="bg-[#2cff9a]/10 border border-[#2cff9a]/30 p-8 rounded-2xl text-center">
+                <p className="text-xl text-white italic font-light">
+                  "Both lenses matter. The Andara project chooses to start from the <strong>field-first perspective</strong>:
+                  cleaning and informing water, supporting ionic balance, and honouring the bioelectric architecture beneath the biochemical noise."
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- SECTION 5: USE CASE SCENARIOS --- */}
+        <section className="section py-24 relative z-10">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="text-3xl md:text-5xl font-display text-white mb-6">
+                5. How a Bioelectric Perspective Can Be Applied
+              </h2>
+              <p className="text-lg text-white/70">
+                Looking through a voltage-first lens doesn't mean treating anything – it means
+                <strong> changing how we organise our decisions</strong>.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                { title: "Water Environments", desc: "Creating daily water that is clean, structured, and mineral-informed so the terrain has a more coherent medium to work with.", color: "#1aa7ff" },
+                { title: "Spaces & Architecture", desc: "Designing homes, studios, and retreats around light, EMF, grounding, and water placement to support a stable field environment.", color: "#2cff9a" },
+                { title: "Practices & Protocols", desc: "Linking movement, breath, and rest with attention to hydration quality, mineral intake, and field exposure.", color: "#f2c76c" }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="p-6 rounded-xl bg-[#020617] border border-white/10 hover:border-opacity-50 transition-all"
+                  style={{ borderColor: `${item.color}30` }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <h4 className="font-bold mb-2" style={{ color: item.color }}>{item.title}</h4>
+                  <p className="text-white/60 text-sm">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="max-w-3xl mx-auto mt-12">
+              <div className="p-6 border-l-4 border-amber-500 bg-amber-500/5 rounded-r-xl">
+                <p className="text-white/80 text-sm">
+                  <strong>Note:</strong> The ideas described here are <strong>educational and exploratory</strong>.
+                  They are not medical advice, not a diagnosis, and not a treatment plan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- SECTION 6: FROM NOISE TO COHERENCE TIMELINE --- */}
+        <section className="section py-20 bg-[#0f172a] border-y border-white/5">
+          <div className="container text-center max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-display text-white mb-8">
+              6. From Noise to Coherence
+            </h2>
+            <p className="text-xl text-white/80 font-light mb-12">
+              A simple bioelectric storyboard – from <strong>noisy, fragmented signals</strong> toward <strong>clear, stable patterns</strong>.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-left">
+              {[
+                { step: 1, title: "Fragmented Signals", desc: "Water is chemically burdened, minerals are scattered or missing, and fields are full of noise.", color: "#ff6b6b" },
+                { step: 2, title: "Clearing the Medium", desc: "Filtration, clarification, and grounding begin. Water becomes clearer.", color: "#ffd93d" },
+                { step: 3, title: "Structured & Informed Water", desc: "Structured water and ionic minerals bring charge separation, buffering, and organisation.", color: "#38ffd1" },
+                { step: 4, title: "Coherent Bioelectric Field", desc: "Signals travel with clarity, gradients are stable, and the terrain behaves as a coordinated whole.", color: "#2cff9a" }
+              ].map((item) => (
+                <motion.div
+                  key={item.step}
+                  className="p-6 rounded-xl bg-[#020617] border border-white/10"
+                  whileHover={{ y: -5 }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-[#020617] font-bold mb-4"
+                    style={{ backgroundColor: item.color }}
+                  >
+                    {item.step}
+                  </div>
+                  <h4 className="text-white font-bold mb-2">{item.title}</h4>
+                  <p className="text-white/60 text-sm">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- SECTION 7: ANDARA IONIC LINK --- */}
+        <section className="section py-24 relative z-10 text-center">
+          <div className="container max-w-4xl">
+            <h2 className="text-3xl md:text-5xl font-display text-white mb-8">
+              7. Where Andara Ionic Fits Into This Picture
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-12">
+              <div className="panel pad p-8 bg-white/5 rounded-xl border border-white/10">
+                <h3 className="text-xl font-bold text-[#2cff9a] mb-4">Clarifying & Conditioning Water</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  A micro-dose of Andara Ionic, within a defined sulfate band, can <strong>clarify and condition water</strong>,
+                  reorganising impurities and supporting a more <strong>ordered charge environment</strong>.
+                </p>
+              </div>
+              <div className="panel pad p-8 bg-white/5 rounded-xl border border-white/10">
+                <h3 className="text-xl font-bold text-[#38ffd1] mb-4">Supporting the Terrain Medium</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  In a bioelectric view, this means tending to the <strong>medium</strong> that carries signals, rather than
+                  chasing each signal separately. Clearer, better-organised water is one ingredient in a <strong>more coherent bioelectric terrain</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-[#2cff9a]/10 border border-[#2cff9a]/30 p-8 rounded-2xl">
+              <p className="text-lg text-white mb-6">
+                To see how Andara Ionic is described as a product – with full disclaimers, dosing examples, and pricing:
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Link href="/shop/andara-ionic-100ml">
+                  <button className="px-6 py-3 bg-[#2cff9a] text-[#020617] font-bold rounded-lg hover:bg-[#2cff9a]/90 transition-all">
+                    100 ml Product Page
+                  </button>
+                </Link>
+                <Link href="/shop/andara-ionic-1l">
+                  <button className="px-6 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-all border border-white/20">
+                    1 L Product Page
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- FAQ SECTION --- */}
+        <section className="section py-20 bg-[#05060b]/50 border-t border-white/5">
+          <div className="container max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-display text-white mb-12 text-center">
+              Bioelectric Terrain – Gentle Clarifications
+            </h2>
+            <div className="space-y-6">
+              {[
+                { q: "Is bioelectricity the same as the nervous system?", a: "The nervous system is one expression of bioelectricity, but not the only one. Voltage gradients exist around wounds, organs, fascia, and entire body regions – even beyond classical nerves." },
+                { q: "Does this replace conventional medical care?", a: "No. A bioelectric view is a complementary map, not a substitute for care, diagnosis, or treatment. It offers language and models for understanding terrain – not prescriptions." },
+                { q: "Can I measure my own bioelectric terrain at home?", a: "Certain aspects can be explored – e.g. tracking pH/ORP/EC of water, experimenting with grounding and light exposure. Other aspects require specialised equipment or research contexts." }
+              ].map((faq, i) => (
+                <motion.div
+                  key={i}
+                  className="p-6 bg-white/5 rounded-xl border border-white/10"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <h4 className="text-white font-bold mb-2">{faq.q}</h4>
+                  <p className="text-white/60 text-sm">{faq.a}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* --- FOOTER NAVIGATION --- */}
+        <section className="section py-16 bg-[#020617]">
+          <div className="container">
+            <h2 className="text-center text-white/40 font-display text-2xl mb-12">Continue the Journey</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Link href="/science/water">
+                <a className="block p-8 rounded-2xl bg-[#0b1020] border border-white/5 hover:border-[#1aa7ff]/50 transition-all group">
+                  <span className="text-xs font-bold text-[#1aa7ff] uppercase tracking-widest mb-2 block">Related Pillar</span>
+                  <h3 className="text-xl text-white font-display mb-2 group-hover:text-[#1aa7ff] transition-colors">Water Science</h3>
+                  <p className="text-white/50 text-sm">The hidden architecture of water &rarr;</p>
+                </a>
+              </Link>
+              <Link href="/science/mineral-science">
+                <a className="block p-8 rounded-2xl bg-[#0b1020] border border-white/5 hover:border-[#f2c76c]/50 transition-all group">
+                  <span className="text-xs font-bold text-[#f2c76c] uppercase tracking-widest mb-2 block">Next Pillar</span>
+                  <h3 className="text-xl text-white font-display mb-2 group-hover:text-[#f2c76c] transition-colors">Mineral Science</h3>
+                  <p className="text-white/50 text-sm">Ionic codes & elemental pathways &rarr;</p>
+                </a>
+              </Link>
+              <Link href="/science/crystalline-matrix">
+                <a className="block p-8 rounded-2xl bg-[#0b1020] border border-white/5 hover:border-[#9b7bff]/50 transition-all group">
+                  <span className="text-xs font-bold text-[#9b7bff] uppercase tracking-widest mb-2 block">Deep Dive</span>
+                  <h3 className="text-xl text-white font-display mb-2 group-hover:text-[#9b7bff] transition-colors">Crystalline Matrix</h3>
+                  <p className="text-white/50 text-sm">Geometry & fields &rarr;</p>
+                </a>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+      </div>
     </Layout>
   );
 }

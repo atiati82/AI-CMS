@@ -5,7 +5,7 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { SmartVideoEmbed } from "@/components/SmartVideoEmbed";
+import { SmartVideoEmbed, VideoBackground } from "@/components/SmartVideoEmbed";
 
 export default function TrustMineralOriginPage() {
     useScrollTop();
@@ -14,6 +14,7 @@ export default function TrustMineralOriginPage() {
         <StandardPageLayout
             title="Mineral Origin & Geological Story"
             subtitle="The Volcanic Roots of Andara Ionic"
+            backgroundElement={<VideoBackground keywords={["primordial", "volcanic", "earth", "origin", "magma"]} overlayOpacity={0.3} />}
             vibeKeywords={['Primordial', 'Volcanic', 'Trace Elements']}
             seoTitle="Mineral Origin & Geological Story – The Volcanic Roots of Andara Ionic"
             seoDescription="Explore the geological story behind Andara Ionic: from deep-crust volcanic minerals and ionic sulfate formation to modern water clarification. Clear, non-medical, terrain-focused."

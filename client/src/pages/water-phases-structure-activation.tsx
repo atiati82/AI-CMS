@@ -19,11 +19,19 @@ import { SmartImage } from "@/components/ui/SmartImage";
 import { BackgroundLayer } from "@/components/visuals/BackgroundLayer";
 import { OrderChaosComparison } from "@/components/visuals/OrderChaosComparison";
 
+import { VideoBackground } from "@/components/SmartVideoEmbed";
+
 export function HexagonalWaterStructuresPage() {
     return (
         <StandardPageLayout
             title={<>Hexagonal <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-400">Water Structures</span></>}
             subtitle={<>The Grid. The Exclusion Zone. The Treasury.<br />Why nature organizes water into honeycomb geometries.</>}
+            backgroundElement={
+                <VideoBackground
+                    videoId="water-phases-bg"
+                    keywords={["hexagonal", "water", "phases", "structure"]}
+                />
+            }
             heroVariant="emerald"
             heroIcon={Hexagon}
             badges={[{ text: "Structural Geometry", icon: Hexagon }]}

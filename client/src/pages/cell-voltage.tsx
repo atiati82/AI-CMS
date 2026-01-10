@@ -1,5 +1,6 @@
 import React from "react";
 import StandardPageLayout from "@/components/StandardPageLayout";
+import { VideoBackground } from "@/components/SmartVideoEmbed";
 import { FadeIn, StaggerContainer } from "@/components/animations";
 import { CellVoltageScrollAnimation } from "@/components/visuals/CellVoltageScrollAnimation";
 import { Link } from "wouter";
@@ -26,6 +27,7 @@ export default function CellVoltagePage() {
         <StandardPageLayout
             title={<>The Body is a <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-teal-300">Living Battery</span></>}
             subtitle={<>The Battery of Life.<br />Why -25mV is the Tipping Point.</>}
+            backgroundElement={<VideoBackground keywords={["cell", "voltage", "membrane", "electric", "battery"]} overlayOpacity={0.3} />}
 
             heroVariant="blue"
             heroIcon={Zap}

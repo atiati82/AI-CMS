@@ -44,7 +44,7 @@ export type StandardPageProps = {
     seoDescription?: string;
     seoKeywords?: string[]; // Optional manual override
 
-    // Legacy SEO Object Support
+    // New SEO integration (replacing manualProps)
     seo?: {
         title?: string;
         description?: string;
@@ -271,99 +271,102 @@ export default function StandardPageLayout({
     const BadgeIcon = heroIcon || primaryBadge.icon;
 
     return (
-        <Layout className={`andara-cluster--${clusterKey?.toLowerCase().replace(/_/g, '-')}`}>
-            {/* Auto-Injected Schema */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-            />
-            {extraHead}
-            {/* 1. HERO SECTION */}
-            <ScrollProgress />
-            <motion.div
-                key={finalRegistryId}
-                initial={isLiteMode ? { opacity: 1 } : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={isLiteMode ? { duration: 0 } : { duration: 0.5 }}
-            >
-                <HeroGlass
-                    title={title}
-                    subtitle={subtitle}
-                    backgroundImage={heroImage}
-                    registryId={finalRegistryId}
-                    variant={heroVariant}
-                    badgeText={badgeText}
-                    BadgeIcon={BadgeIcon as any}
-                    backgroundElement={backgroundElement}
-                    liteMode={isLiteMode}
+        <Layout>
+            {/* Cluster Theme Class - applied via wrapper div */}
+            <div className={`andara-cluster--${clusterKey?.toLowerCase().replace(/_/g, '-')}`}>
+                {/* Auto-Injected Schema */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+                />
+                {extraHead}
+                {/* 1. HERO SECTION */}
+                <ScrollProgress />
+                <motion.div
+                    key={finalRegistryId}
+                    initial={isLiteMode ? { opacity: 1 } : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={isLiteMode ? { duration: 0 } : { duration: 0.5 }}
                 >
-                    {heroContent}
-                </HeroGlass>
-            </motion.div>
+                    <HeroGlass
+                        title={title}
+                        subtitle={subtitle}
+                        backgroundImage={heroImage}
+                        registryId={finalRegistryId}
+                        variant={heroVariant}
+                        badgeText={badgeText}
+                        BadgeIcon={BadgeIcon as any}
+                        backgroundElement={backgroundElement}
+                        liteMode={isLiteMode}
+                    >
+                        {heroContent}
+                    </HeroGlass>
+                </motion.div>
 
-            {/* 2. INTRO / LEAD */}
-            {/* SPACING: -mt-6 overlap, mt-10 divider */}
-            {intro && (
-                <SectionWrapper className="pt-0 -mt-6 relative z-10">
-                    <FadeIn>
-                        <div className="max-w-3xl mx-auto text-center">
-                            <div className="text-xl md:text-2xl text-slate-200 font-light leading-relaxed">
-                                {intro}
+                {/* 2. INTRO / LEAD */}
+                {/* SPACING: -mt-6 overlap, mt-10 divider */}
+                {intro && (
+                    <SectionWrapper className="pt-0 -mt-6 relative z-10">
+                        <FadeIn>
+                            <div className="max-w-3xl mx-auto text-center">
+                                <div className="text-xl md:text-2xl text-slate-200 font-light leading-relaxed">
+                                    {intro}
+                                </div>
+                                <div className="h-px w-24 bg-gradient-to-r from-transparent to-transparent mx-auto mt-10" style={{ backgroundImage: `linear-gradient(to right, transparent, ${clusterColor}80, transparent)` }} />
                             </div>
-                            <div className="h-px w-24 bg-gradient-to-r from-transparent to-transparent mx-auto mt-10" style={{ backgroundImage: `linear-gradient(to right, transparent, ${clusterColor}80, transparent)` }} />
-                        </div>
-                    </FadeIn>
-                </SectionWrapper>
-            )}
+                        </FadeIn>
+                    </SectionWrapper>
+                )}
 
-            {/* 3. MAIN SECTIONS */}
-            {/* SPACING: mb-8/10, gap-10 */}
-            {sections.map((section) => (
-                <SectionWrapper key={section.id} variant={section.variant}>
-                    <StaggerContainer>
-                        {section.title && (
-                            <div className="mb-8 md:mb-10">
-                                <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4">
-                                    {section.title}
-                                </h2>
-                                <div className="h-0.5 w-12" style={{ backgroundColor: `${clusterColor}4d` }} />
+                {/* 3. MAIN SECTIONS */}
+                {/* SPACING: mb-8/10, gap-10 */}
+                {sections.map((section) => (
+                    <SectionWrapper key={section.id} variant={section.variant}>
+                        <StaggerContainer>
+                            {section.title && (
+                                <div className="mb-8 md:mb-10">
+                                    <h2 className="text-3xl md:text-4xl font-display font-medium text-white mb-4">
+                                        {section.title}
+                                    </h2>
+                                    <div className="h-0.5 w-12" style={{ backgroundColor: `${clusterColor}4d` }} />
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                                <div className="lg:col-span-8">
+                                    <ProseBlock>{section.content}</ProseBlock>
+                                </div>
+
+                                {/* Optional Sidebar Space per section if needed */}
                             </div>
-                        )}
+                        </StaggerContainer>
+                    </SectionWrapper>
+                ))}
 
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                            <div className="lg:col-span-8">
-                                <ProseBlock>{section.content}</ProseBlock>
+                {/* 4. CUSTOM CHILDREN (for flexibility) */}
+                {children}
+
+                {/* 5. RELATED RESOURCES */}
+                {/* SPACING: mb-6 title, gap-6 cards */}
+                {relatedLinks.length > 0 && (
+                    <SectionWrapper variant="dark" className="border-t border-white/5">
+                        <FadeIn>
+                            <h3 className="text-xl font-display text-white mb-6 text-center">Related Resources</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                                {relatedLinks.map(link => (
+                                    <ResourceCard key={link.url} link={link} />
+                                ))}
                             </div>
+                        </FadeIn>
+                    </SectionWrapper>
+                )}
 
-                            {/* Optional Sidebar Space per section if needed */}
-                        </div>
-                    </StaggerContainer>
-                </SectionWrapper>
-            ))}
-
-            {/* 4. CUSTOM CHILDREN (for flexibility) */}
-            {children}
-
-            {/* 5. RELATED RESOURCES */}
-            {/* SPACING: mb-6 title, gap-6 cards */}
-            {relatedLinks.length > 0 && (
-                <SectionWrapper variant="dark" className="border-t border-white/5">
-                    <FadeIn>
-                        <h3 className="text-xl font-display text-white mb-6 text-center">Related Resources</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                            {relatedLinks.map(link => (
-                                <ResourceCard key={link.url} link={link} />
-                            ))}
-                        </div>
-                    </FadeIn>
-                </SectionWrapper>
-            )}
-
-            <SeoCopilotOverlay pageId={registryId} isAdminMode={true} />
+                <SeoCopilotOverlay pageId={registryId} isAdminMode={true} />
+            </div>
         </Layout>
     );
 }
