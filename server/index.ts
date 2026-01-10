@@ -203,7 +203,7 @@ app.use((req, res, next) => {
   // PORT 3000 - HARDWIRED, DO NOT CHANGE
   // This is the ONLY port for both API and client. Do not use 5000, 5001, 5173, etc.
   // ═══════════════════════════════════════════════════════════════════════════
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   httpServer.listen(PORT, "0.0.0.0", () => {
     log(`✓ Andara CMS running on http://localhost:${PORT}`);
